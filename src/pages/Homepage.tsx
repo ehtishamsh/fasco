@@ -1,10 +1,10 @@
-import Navbar from "../components/Navbar";
+import Hero from "@/components/home/Hero";
 
 function Homepage() {
   return (
-    <>
-      <Navbar />
-    </>
+    <div className="max-w-6xl mx-auto">
+      <Hero />
+    </div>
   );
 }
 
