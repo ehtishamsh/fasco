@@ -1,6 +1,3 @@
-import { CiApple } from "react-icons/ci";
-import { SiSamsung } from "react-icons/si";
-
 function Brands() {
   return (
     <div className="py-10 mt-12 max-w-6xl mx-auto">
