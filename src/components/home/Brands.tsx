@@ -1,6 +1,6 @@
 function Brands() {
   return (
-    <div className="py-10 mt-12  max-sm:mt-5 max-w-6xl mx-auto">
+    <div className="py-10 mt-12  max-sm:mt-5 max-w-6xl mx-auto overflow-hidden">
       <div className="flex items-center justify-between">
         <img
           src="/brand-1.png"
