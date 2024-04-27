@@ -1,6 +1,7 @@
 import Brands from "@/components/home/Brands";
-import Deals from "@/components/home/Deals";
+
 import Hero from "@/components/home/Hero";
+import TopProducts from "@/components/home/TopProducts";
 
 function Homepage() {
   return (
@@ -9,7 +10,7 @@ function Homepage() {
         <Hero />
       </div>
       <Brands />
-      <Deals />
+      <TopProducts />
     </>
   );
 }
