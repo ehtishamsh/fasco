@@ -7,11 +7,14 @@ import TopProducts from "@/components/home/TopProducts";
 function Homepage() {
   return (
     <>
-      <div className="max-w-6xl mx-auto">
-        <Hero />
+      <div className="px-4">
+        <div className="max-w-6xl mx-auto">
+          <Hero />
+        </div>
+        <Brands />
       </div>
-      <Brands />
       <ShopGrid />
+
       <TopProducts />
     </>
   );
