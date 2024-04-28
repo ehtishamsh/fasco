@@ -1,4 +1,3 @@
-import React from "react";
 import { Button } from "../ui/button";
 import { Reveal } from "../animation/Reveal";
 
@@ -78,12 +77,14 @@ function ShopGrid() {
                   The ultimate laptop for the modern age.
                 </Reveal>
               </p>
-              <Button
-                className="mt-5 text-xl !p-6 max-sm:text-base max-sm:!p-4"
-                variant={"secondary"}
-              >
-                Shop Now
-              </Button>
+              <Reveal delayTime={1}>
+                <Button
+                  className="mt-5 text-xl !p-6 max-sm:text-base max-sm:!p-4"
+                  variant={"secondary"}
+                >
+                  Shop Now
+                </Button>
+              </Reveal>
             </div>
             <div className="flex justify-center items-center">
               <img src="/mb.png" alt="" className=" max-w-full" />

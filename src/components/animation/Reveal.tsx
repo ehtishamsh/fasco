@@ -6,11 +6,13 @@ export const Reveal = ({
   width = "fit-content",
   center = false,
   delayTime = 0.25,
+  height = "auto",
 }: {
   children: React.ReactNode;
   width?: "fit-content" | "100%";
   center?: boolean;
   delayTime?: number;
+  height?: string;
 }) => {
   const ref = useRef(null);
   const inView = useInView(ref);
@@ -21,8 +23,9 @@ export const Reveal = ({
     }
   }, [inView]);
   return (
-    <div ref={ref} style={{ position: "relative", width }}>
+    <div ref={ref} style={{ position: "relative", width, height }}>
       <motion.div
+        style={{ width: "100%", height: "100%" }}
         variants={{
           hidden: { opacity: 0, y: 75 },
           visible: { opacity: 1, y: 0 },
