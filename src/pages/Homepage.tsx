@@ -11,10 +11,10 @@ function Homepage() {
         <div className="max-w-6xl mx-auto">
           <Hero />
         </div>
+
         <Brands />
       </div>
       <ShopGrid />
-
       <TopProducts />
     </>
   );
