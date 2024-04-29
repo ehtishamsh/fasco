@@ -2,6 +2,7 @@ import Brands from "@/components/home/Brands";
 
 import Hero from "@/components/home/Hero";
 import ShopGrid from "@/components/home/ShopGrid";
+import ShowcaseProductGrid from "@/components/home/ShowcaseProductGrid";
 import TopProducts from "@/components/home/TopProducts";
 
 function Homepage() {
@@ -16,6 +17,7 @@ function Homepage() {
       </div>
       <ShopGrid />
       <TopProducts />
+      <ShowcaseProductGrid />
     </>
   );
 }
