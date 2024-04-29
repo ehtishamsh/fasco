@@ -1,9 +1,10 @@
 import { Button } from "../ui/button";
+import { GridCarousel } from "./GridCarousel";
 
 function ShowcaseProductGrid() {
   return (
     <div className=" mt-28 ">
-      <div className="grid grid-cols-4  max-lg:grid-cols-2  max-sm:grid-cols-1">
+      <div className="grid grid-cols-4  max-lg:grid-cols-2  max-sm:hidden">
         <div className="grid grid-cols-1 bg-white">
           <div className="p-6 max-sm:p-4 flex justify-center items-center">
             <img
@@ -88,6 +89,9 @@ function ShowcaseProductGrid() {
             </Button>
           </div>
         </div>
+      </div>
+      <div className="max-sm:block hidden">
+        <GridCarousel />
       </div>
     </div>
   );
