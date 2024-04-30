@@ -7,6 +7,7 @@ interface Data {
   title: string;
   description: string;
   bg_color: string;
+  heading_color?: string;
 }
 
 const data: Data[] = [
@@ -40,6 +41,7 @@ const data: Data[] = [
     title: "MacBook Pro",
     description:
       "The new 15‑inch MacBook Pro makes room for more of what you love with a spacious Liquid Retina display.",
+    heading_color: "text-white",
     bg_color: "bg-gray-700",
   },
 ];
@@ -61,10 +63,12 @@ function ShowcaseProductGrid() {
                 />
               </div>
               <div className="p-6 max-sm:p-4 flex flex-col gap-4 justify-end">
-                <h1 className="text-3xl max-md:text-xl max-sm:text-lg font-semibold">
+                <h1
+                  className={`text-3xl max-md:text-xl max-sm:text-lg font-semibold ${item.heading_color}`}
+                >
                   {item.title}
                 </h1>
-                <p className="text-sm text-gray-500   line-clamp-3">
+                <p className="text-sm text-gray-500  line-clamp-3">
                   {item.description}
                 </p>
                 <Button variant={"default"} size={"lg"}>

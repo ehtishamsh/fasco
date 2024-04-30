@@ -1,4 +1,5 @@
 import Brands from "@/components/home/Brands";
+import DiscountedProducts from "@/components/home/DiscountedProducts";
 
 import Hero from "@/components/home/Hero";
 import ShopGrid from "@/components/home/ShopGrid";
@@ -18,6 +19,7 @@ function Homepage() {
       <ShopGrid />
       <TopProducts />
       <ShowcaseProductGrid />
+      <DiscountedProducts />
     </>
   );
 }

@@ -25,7 +25,7 @@ function Brands() {
 
   return (
     <Reveal width="100%" delayTime={0.8}>
-      <div className="py-16 mt-12">
+      <div className="py-16 my-12">
         <div className="marquee">
           <ul className="marquee-content" ref={marqueeContentRef}>
             <li>
