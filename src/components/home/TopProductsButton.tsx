@@ -35,6 +35,7 @@ function TopProductsButton({
       <Button
         variant={"ghost"}
         name={item.name}
+        className="max-sm:text-xs max-sm:p-2"
         key={i}
         onClick={() => setActive(item.name)}
       >

@@ -4,6 +4,7 @@ import TopProductsButton from "./TopProductsButton";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ShowcaseProducts from "./ShowcaseProducts";
+import { Reveal } from "../animation/Reveal";
 
 function TopProducts() {
   const [products, setProducts] = useState<any[]>([]);
@@ -31,11 +32,15 @@ function TopProducts() {
   const [checkActive, setCheckActive] = useState("new");
 
   return (
-    <div className="max-w-6xl mt-28 mx-auto">
-      <TopProductsButton active={checkActive} setActive={setCheckActive} />
-      <div className="grid grid-cols-4 gap-4 mt-10 max-sm:grid-cols-2 max-md:grid-cols-3">
-        <ShowcaseProducts products={products} handleclick={handleclick} />
-      </div>
+    <div className="max-w-6xl mt-28 mx-auto px-2">
+      <Reveal delayTime={0.5}>
+        <TopProductsButton active={checkActive} setActive={setCheckActive} />
+      </Reveal>
+      <Reveal delayTime={0.8}>
+        <div className="grid grid-cols-4 gap-4 mt-10 max-sm:grid-cols-2 max-md:grid-cols-3">
+          <ShowcaseProducts products={products} handleclick={handleclick} />
+        </div>
+      </Reveal>
     </div>
   );
 }

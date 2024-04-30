@@ -21,11 +21,11 @@ function ShowcaseProducts({
     return (
       <Link
         to={`/products/${item.id}`}
-        className="grid grid-row-6  border border-border px-4 hover:shadow-lg transition-all duration-300"
+        className="grid grid-row-6  border border-border px-4 max-sm:px-2 hover:shadow-lg transition-all duration-300"
         key={item.id}
       >
-        <div className="flex items-center justify-end py-4">
-          <Button variant={"ghost"}>
+        <div className="flex items-center justify-end py-4 max-sm:py-2">
+          <Button variant={"ghost"} className="max-sm:text-xs max-sm:p-1">
             <HeartIcon className="w-6 h-6 text-muted-foreground" />
           </Button>
         </div>
@@ -37,16 +37,16 @@ function ShowcaseProducts({
           />
         </div>
 
-        <h1 className="text-sm font-semibold text-center line-clamp-3 mt-3 ">
+        <h1 className="text-sm max-sm:text-xs font-semibold text-center line-clamp-3 mt-3 ">
           {item.title}
         </h1>
-        <h2 className="text-2xl font-bold text-center  flex items-end justify-center">
+        <h2 className="text-2xl font-bold text-center max-sm:text-base  flex items-end justify-center">
           ${item.price}
         </h2>
-        <div className="flex justify-center items-end py-4">
+        <div className="flex justify-center items-end py-4 max-sm:py-2">
           <Button
             variant={"default"}
-            className="w-full"
+            className="w-full max-sm:text-xs max-sm:py-1"
             onClick={(e) => handleclick(e)}
           >
             Add to Cart
