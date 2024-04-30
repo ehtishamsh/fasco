@@ -21,7 +21,7 @@ function ShowcaseProducts({
     return (
       <Link
         to={`/products/${item.id}`}
-        className="grid grid-row-6  border border-border px-4"
+        className="grid grid-row-6  border border-border px-4 hover:shadow-lg transition-all duration-300"
         key={item.id}
       >
         <div className="flex items-center justify-end py-4">

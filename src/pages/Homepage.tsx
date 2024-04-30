@@ -2,6 +2,7 @@ import Brands from "@/components/home/Brands";
 import DiscountedProducts from "@/components/home/DiscountedProducts";
 
 import Hero from "@/components/home/Hero";
+import SaleSection from "@/components/home/SaleSection";
 import ShopGrid from "@/components/home/ShopGrid";
 import ShowcaseProductGrid from "@/components/home/ShowcaseProductGrid";
 import TopProducts from "@/components/home/TopProducts";
@@ -20,6 +21,7 @@ function Homepage() {
       <TopProducts />
       <ShowcaseProductGrid />
       <DiscountedProducts />
+      <SaleSection />
     </>
   );
 }

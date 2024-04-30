@@ -72,7 +72,7 @@ function ShopGrid() {
                   MacBook <span className="font-semibold">Air</span>
                 </Reveal>
               </h1>
-              <p className="text-sm text-left px-2 max-sm:px-1 text-gray-400 max-sm:text-xs max-w-96">
+              <p className="text-sm text-left px-2 max-sm:px-1 text-gray-400 max-sm:text-xs max-w-[400px] max-sm:max-w-[250px]">
                 <Reveal delayTime={0.9} width="fit-content">
                   The new 15‑inch MacBook Air makes room for more of what you
                   love with a spacious Liquid Retina display.
