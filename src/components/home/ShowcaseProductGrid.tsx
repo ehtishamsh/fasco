@@ -49,7 +49,7 @@ const data: Data[] = [
 function ShowcaseProductGrid() {
   return (
     <div className="mt-28">
-      <Reveal delayTime={0.5}>
+      <Reveal delayTime={0.5} width="100%">
         <div className="grid grid-cols-4  max-lg:grid-cols-2  max-sm:hidden">
           {data.map((item, index) => {
             return (

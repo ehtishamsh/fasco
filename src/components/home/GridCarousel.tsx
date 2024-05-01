@@ -37,7 +37,7 @@ export function GridCarousel({ data }: { data: Data[] }) {
   }, [api]);
 
   return (
-    <Reveal delayTime={0.5}>
+    <Reveal delayTime={0.5} width="100%">
       <div className="flex justify-center items-center flex-col overflow-hidden">
         <Carousel setApi={setApi} className="w-full max-w-[250px]">
           <CarouselContent>
