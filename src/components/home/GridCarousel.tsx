@@ -9,6 +9,7 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel";
 import { Button } from "../ui/button";
+import { Reveal } from "../animation/Reveal";
 interface Data {
   src: string;
   alt: string;
@@ -36,42 +37,44 @@ export function GridCarousel({ data }: { data: Data[] }) {
   }, [api]);
 
   return (
-    <div className="flex justify-center items-center flex-col overflow-hidden">
-      <Carousel setApi={setApi} className="w-full max-w-[250px]">
-        <CarouselContent>
-          {data.map((item, index) => (
-            <CarouselItem key={index}>
-              <div
-                className={`grid grid-cols-1 rounded-md h-full border border-border ${item.bg_color}`}
-              >
-                <div className="p-6 max-sm:p-4 flex justify-center items-center">
-                  <img
-                    src={item.src}
-                    alt=""
-                    className="max-w-full object-cover max-h-80"
-                  />
+    <Reveal delayTime={0.5}>
+      <div className="flex justify-center items-center flex-col overflow-hidden">
+        <Carousel setApi={setApi} className="w-full max-w-[250px]">
+          <CarouselContent>
+            {data.map((item, index) => (
+              <CarouselItem key={index}>
+                <div
+                  className={`grid grid-cols-1 rounded-md h-full border border-border ${item.bg_color}`}
+                >
+                  <div className="p-6 max-sm:p-4 flex justify-center items-center">
+                    <img
+                      src={item.src}
+                      alt=""
+                      className="max-w-full object-cover max-h-80"
+                    />
+                  </div>
+                  <div className="p-6 max-sm:p-4 flex flex-col gap-4 justify-end">
+                    <h1 className="text-3xl max-md:text-xl max-sm:text-lg font-semibold">
+                      {item.title}
+                    </h1>
+                    <p className="text-sm text-gray-500   line-clamp-3">
+                      {item.description}
+                    </p>
+                    <Button variant={"default"} size={"lg"}>
+                      Shop now
+                    </Button>
+                  </div>
                 </div>
-                <div className="p-6 max-sm:p-4 flex flex-col gap-4 justify-end">
-                  <h1 className="text-3xl max-md:text-xl max-sm:text-lg font-semibold">
-                    {item.title}
-                  </h1>
-                  <p className="text-sm text-gray-500   line-clamp-3">
-                    {item.description}
-                  </p>
-                  <Button variant={"default"} size={"lg"}>
-                    Shop now
-                  </Button>
-                </div>
-              </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel>
-      <div className="py-2 text-center text-sm text-muted-foreground w-full">
-        Slide {current} of {count}
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+        <div className="py-2 text-center text-sm text-muted-foreground w-full">
+          Slide {current} of {count}
+        </div>
       </div>
-    </div>
+    </Reveal>
   );
 }

@@ -1,3 +1,4 @@
+import { Reveal } from "../animation/Reveal";
 import { Button } from "../ui/button";
 import { GridCarousel } from "./GridCarousel";
 
@@ -47,38 +48,40 @@ const data: Data[] = [
 ];
 function ShowcaseProductGrid() {
   return (
-    <div className=" mt-28 ">
-      <div className="grid grid-cols-4  max-lg:grid-cols-2  max-sm:hidden">
-        {data.map((item, index) => {
-          return (
-            <div
-              key={index}
-              className={`grid grid-cols-1 rounded-md h-full border border-border ${item.bg_color}`}
-            >
-              <div className="p-6 max-sm:p-4 flex justify-center items-center">
-                <img
-                  src={item.src}
-                  alt=""
-                  className="max-w-full object-cover max-h-80"
-                />
+    <div className="mt-28">
+      <Reveal delayTime={0.5}>
+        <div className="grid grid-cols-4  max-lg:grid-cols-2  max-sm:hidden">
+          {data.map((item, index) => {
+            return (
+              <div
+                key={index}
+                className={`grid grid-cols-1 rounded-md h-full border border-border ${item.bg_color}`}
+              >
+                <div className="p-6 max-sm:p-4 flex justify-center items-center">
+                  <img
+                    src={item.src}
+                    alt=""
+                    className="max-w-full object-cover max-h-80"
+                  />
+                </div>
+                <div className="p-6 max-sm:p-4 flex flex-col gap-4 justify-end">
+                  <h1
+                    className={`text-3xl max-md:text-xl max-sm:text-lg font-semibold ${item.heading_color}`}
+                  >
+                    {item.title}
+                  </h1>
+                  <p className="text-sm text-gray-500  line-clamp-3">
+                    {item.description}
+                  </p>
+                  <Button variant={"default"} size={"lg"}>
+                    Shop now
+                  </Button>
+                </div>
               </div>
-              <div className="p-6 max-sm:p-4 flex flex-col gap-4 justify-end">
-                <h1
-                  className={`text-3xl max-md:text-xl max-sm:text-lg font-semibold ${item.heading_color}`}
-                >
-                  {item.title}
-                </h1>
-                <p className="text-sm text-gray-500  line-clamp-3">
-                  {item.description}
-                </p>
-                <Button variant={"default"} size={"lg"}>
-                  Shop now
-                </Button>
-              </div>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      </Reveal>
       <div className="max-sm:block hidden">
         <GridCarousel data={data} />
       </div>
