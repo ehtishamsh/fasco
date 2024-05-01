@@ -32,7 +32,7 @@ function TopProducts() {
   const [checkActive, setCheckActive] = useState("new");
 
   return (
-    <div className="max-w-6xl mt-28 mx-auto px-2">
+    <div className="max-w-6xl mt-28 mx-auto px-2 max-md:mt-16 max-sm:mt-10">
       <Reveal delayTime={0.5}>
         <TopProductsButton active={checkActive} setActive={setCheckActive} />
       </Reveal>

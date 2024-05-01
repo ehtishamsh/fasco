@@ -30,7 +30,7 @@ function DiscountedProducts() {
     e.preventDefault();
   };
   return (
-    <div className="max-w-6xl  mx-auto mt-28 px-2">
+    <div className="max-w-6xl  mx-auto mt-28 max-md:mt-14 max-sm:mt-10 px-2">
       <Reveal delayTime={0.5}>
         <Button variant={"secondary"}>
           <span className={`transition-all duration-300 `}>
