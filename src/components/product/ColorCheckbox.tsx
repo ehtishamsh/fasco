@@ -21,7 +21,9 @@ const ColorCheckbox = ({
           key={color}
           type="button"
           className={`w-8 h-8 rounded-full focus:outline-none transition-all duration-200 ${color} ${
-            color === selectedColor ? "bg-opacity-100" : "bg-opacity-50"
+            color === selectedColor
+              ? "bg-opacity-100 border-2 border-foreground"
+              : "bg-opacity-50"
           }`}
           onClick={() => handleClick(color)}
         />
