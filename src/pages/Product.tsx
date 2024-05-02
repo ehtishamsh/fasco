@@ -1,5 +1,6 @@
 import { BreadCrum } from "@/components/BreadCrum";
 import ColorCheckbox from "@/components/product/ColorCheckbox";
+import DetailsGrid from "@/components/product/DetailsGrid";
 import SelectSize from "@/components/product/SelectSize";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -27,10 +28,11 @@ function Product() {
       setData({});
     };
   }, []);
+
   const sizes = ["128GB", "256GB", "512GB", "1TB"];
   const [onChange, setOnChange] = useState("");
   const [selectSize, setSelectSize] = useState(sizes[0]);
-  console.log(onChange);
+  console.log(data);
 
   return (
     <div className="max-w-6xl mx-auto">
@@ -66,6 +68,10 @@ function Product() {
                 setSelectedSize={setSelectSize}
               />
             </div>
+            <DetailsGrid />
+            <p className="text-gray-700/80 mt-6 text-sm leading-relaxed">
+              {data?.description}, {data?.description}, {data?.description}
+            </p>
           </div>
         </div>
       </div>
