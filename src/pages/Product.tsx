@@ -1,5 +1,6 @@
 import { BreadCrum } from "@/components/BreadCrum";
 import ColorCheckbox from "@/components/product/ColorCheckbox";
+import SelectSize from "@/components/product/SelectSize";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
@@ -26,7 +27,9 @@ function Product() {
       setData({});
     };
   }, []);
+  const sizes = ["128GB", "256GB", "512GB", "1TB"];
   const [onChange, setOnChange] = useState("");
+  const [selectSize, setSelectSize] = useState(sizes[0]);
   console.log(onChange);
 
   return (
@@ -44,16 +47,24 @@ function Product() {
             <img src={data?.thumbnail} alt="" className="max-w-full" />
           </div>
           <div>
-            <h1 className="text-4xl font-bold mb-5">{data?.title}</h1>
-            <p className="text-3xl mb-5">${data?.price}</p>
-            <div className="flex items-center">
+            <h1 className="text-4xl font-bold mb-6">{data?.title}</h1>
+            <p className="text-3xl mb-6">${data?.price}</p>
+            {/* Select color */}
+            <div className="flex items-center mb-6">
               <p className="text-sm mr-4">Select color:</p>
-              <div className="flex items-center">
-                <ColorCheckbox
-                  colors={["bg-red-500", "bg-green-500", "bg-blue-500"]}
-                  onChange={setOnChange}
-                />
-              </div>
+
+              <ColorCheckbox
+                colors={["bg-red-500", "bg-green-500", "bg-blue-500"]}
+                onChange={setOnChange}
+              />
+            </div>
+            {/* Select variation or size, if any */}
+            <div className="flex items-center justify-between gap-5">
+              <SelectSize
+                sizes={sizes}
+                selectedSize={selectSize}
+                setSelectedSize={setSelectSize}
+              />
             </div>
           </div>
         </div>
