@@ -20,7 +20,7 @@ function ShowcaseProducts({
   const createElement = products?.map((item) => {
     return (
       <Link
-        to={`/products/${item.id}`}
+        to={`/${item.category}/${item.id}`}
         className="grid grid-row-6  border border-border px-4 max-sm:px-2 hover:shadow-lg transition-all duration-300"
         key={item.id}
       >
