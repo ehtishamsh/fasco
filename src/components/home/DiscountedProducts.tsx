@@ -8,13 +8,15 @@ function DiscountedProducts() {
   useEffect(() => {
     const fetehData = async () => {
       try {
-        const getres = await fetch("https://fakestoreapi.com/products", {
+        const getres = await fetch("https://dummyjson.com/products", {
           method: "GET",
         });
         const res = await getres.json();
-        const removetenProducts = res.filter((item: any, i: number) => {
-          return i >= 12;
-        });
+        const removetenProducts = res?.products.filter(
+          (item: any, i: number) => {
+            return i >= 12;
+          }
+        );
         setProducts(removetenProducts);
       } catch (error) {
         console.log(error);

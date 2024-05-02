@@ -11,11 +11,11 @@ function TopProducts() {
   useEffect(() => {
     const fetehData = async () => {
       try {
-        const getres = await fetch("https://fakestoreapi.com/products", {
+        const getres = await fetch("https://dummyjson.com/products", {
           method: "GET",
         });
         const res = await getres.json();
-        setProducts(res);
+        setProducts(res.products);
       } catch (error) {
         console.log(error);
       }

@@ -7,7 +7,7 @@ interface Data {
   id: string;
   title: string;
   price: string;
-  image: string;
+  thumbnail: string;
   category: string;
 }
 function ShowcaseProducts({
@@ -18,9 +18,10 @@ function ShowcaseProducts({
   handleclick: Function;
 }) {
   const createElement = products?.map((item) => {
+    const category = item?.category.replace(" ", "").replace("'", "");
     return (
       <Link
-        to={`/${item.category}/${item.id}`}
+        to={`/${category}/${item.id}`}
         className="grid grid-row-6  border border-border px-4 max-sm:px-2 hover:shadow-lg transition-all duration-300"
         key={item.id}
       >
@@ -31,7 +32,7 @@ function ShowcaseProducts({
         </div>
         <div className="px-2 overflow-hidden flex items-center justify-center ">
           <img
-            src={item.image}
+            src={item.thumbnail}
             alt=""
             className="max-h-[180px] max-sm:max-h-[120px]"
           />
