@@ -38,7 +38,7 @@ function Product() {
   console.log(data);
 
   return (
-    <div className="max-w-6xl mx-auto pb-20">
+    <div className="max-w-6xl mx-auto pb-20 px-4">
       <div className="mb-10">
         <BreadCrum
           cat={data?.category}
@@ -47,13 +47,17 @@ function Product() {
         />
       </div>
       <div className="mt-20">
-        <div className="grid grid-cols-2 gap-8">
+        <div className="grid grid-cols-2 gap-8 max-md:gap-6 max-sm:gap-3 max-md:grid-cols-1">
           <div>
             <img src={data?.thumbnail} alt="" className="max-w-full" />
           </div>
           <div>
-            <h1 className="text-4xl font-bold mb-6">{data?.title}</h1>
-            <p className="text-3xl mb-6">${data?.price}</p>
+            <h1 className="text-4xl font-bold mb-6 max-md:text-2xl max-sm:text-xl">
+              {data?.title}
+            </h1>
+            <p className="text-3xl mb-6  max-md:text-xl max-sm:text-lg">
+              ${data?.price}
+            </p>
             {/* Select color */}
             <div className="flex items-center mb-6">
               <p className="text-sm mr-4">Select color:</p>
@@ -64,7 +68,7 @@ function Product() {
               />
             </div>
             {/* Select variation or size, if any */}
-            <div className="flex items-center justify-between gap-5">
+            <div className="flex items-center justify-between gap-5  max-sm:gap-3">
               <SelectSize
                 sizes={sizes}
                 selectedSize={selectSize}
@@ -75,7 +79,7 @@ function Product() {
             <p className="text-gray-700/80 mt-6 text-sm leading-relaxed  line-clamp-3">
               {data?.description}, {data?.description}, {data?.description}
             </p>
-            <div className=" grid grid-cols-2 gap-5 mt-6">
+            <div className=" grid grid-cols-2   max-sm:gap-3 gap-5 mt-6">
               <Button
                 variant={"outline"}
                 className="border border-foreground py-7"

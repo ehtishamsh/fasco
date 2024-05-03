@@ -26,11 +26,14 @@ const data = [
 function DeliverySection() {
   const mapData = data.map((item) => {
     return (
-      <div className="flex  w-full gap-4" key={item.id}>
-        <span className=" flex justify-center py-4 px-5 rounded-lg items-center bg-gray-200/50 col-span-1">
+      <div
+        className="flex max-sm:flex-col w-full gap-4 max-sm:justify-center max-sm:items-center"
+        key={item.id}
+      >
+        <span className=" flex justify-center py-4 px-5 max-sm:py-4 max-sm:px-5 max-sm:w-full rounded-lg items-center bg-gray-200/50 col-span-1">
           {item.icon}
         </span>
-        <div className="flex flex-col text-sm  justify-center gap-1">
+        <div className="flex flex-col text-sm max-sm:text-xs  justify-center gap-1 w-full">
           <p className="text-gray-500">{item.title}</p>
           <p>{item.text}</p>
         </div>

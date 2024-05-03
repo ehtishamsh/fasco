@@ -7,32 +7,46 @@ import { PiBatteryVerticalHighBold } from "react-icons/pi";
 
 const data = [
   {
-    Icon: <BsPhoneFill size={24} className="text-gray-800/75" />,
+    Icon: (
+      <BsPhoneFill size={24} className="text-gray-800/75 max-sm:text-base" />
+    ),
     label: "Screen Size",
     value: '6.5"',
   },
   {
-    Icon: <BsCpu size={24} className="text-gray-800/75" />,
+    Icon: <BsCpu size={24} className="text-gray-800/75 max-sm:text-base" />,
     label: "CPU",
     value: "A16 Bionic",
   },
   {
-    Icon: <GoCpu size={24} className="text-gray-800/75" />,
+    Icon: <GoCpu size={24} className="text-gray-800/75 max-sm:text-base" />,
     label: "Cores",
     value: "6",
   },
   {
-    Icon: <IoMdCamera size={24} className="text-gray-800/75" />,
+    Icon: (
+      <IoMdCamera size={24} className="text-gray-800/75 max-sm:text-base" />
+    ),
     label: "Main Camera",
     value: "48MP",
   },
   {
-    Icon: <IoMdReverseCamera size={24} className="text-gray-800/75" />,
+    Icon: (
+      <IoMdReverseCamera
+        size={24}
+        className="text-gray-800/75 max-sm:text-base"
+      />
+    ),
     label: "Front Camera",
     value: "12MP",
   },
   {
-    Icon: <PiBatteryVerticalHighBold size={24} className="text-gray-800/75" />,
+    Icon: (
+      <PiBatteryVerticalHighBold
+        size={24}
+        className="text-gray-800/75 max-sm:text-base"
+      />
+    ),
     label: "Battery",
     value: "5000mAh",
   },
@@ -41,7 +55,7 @@ function TopDetailsGrid() {
   // Data array containing icon components and corresponding data
 
   return (
-    <div className="grid grid-cols-3 gap-4 mt-6">
+    <div className="grid grid-cols-3 max-sm:grid-cols-2 max-sm:gap-3 gap-4 mt-6">
       {/* Mapping over the data array to render each item */}
       {data.map((item, index) => (
         <div
@@ -52,7 +66,7 @@ function TopDetailsGrid() {
             {/* Dynamically rendering the icon component */}
             {item.Icon}
           </span>
-          <div className="flex flex-col text-sm">
+          <div className="flex flex-col text-sm  max-md:text-xs">
             <span className="text-gray-400">{item.label}</span>
             <span>{item.value}</span>
           </div>
