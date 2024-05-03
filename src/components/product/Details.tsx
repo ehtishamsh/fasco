@@ -2,7 +2,7 @@ import React from "react";
 
 function Details() {
   return (
-    <div className="max-w-6xl mx-auto px-8 bg-background py-10">
+    <div className="max-w-6xl mx-auto px-8 bg-background">
       <h1 className="text-2xl font-semibold mb-8">Details</h1>
       <p className="text-gray-400 text-sm tracking-wide mb-8">
         Just as a book is judged by its cover, the first thing you notice when

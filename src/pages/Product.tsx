@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import DeliverySection from "@/components/product/DeliverySection";
 import TopDetailsGrid from "@/components/product/TopDetailsGrid";
 import Details from "@/components/product/Details";
+import ProductReview from "@/components/product/ProductReview";
 
 function Product() {
   const path = useParams();
@@ -106,6 +107,9 @@ function Product() {
       </div>
       <div className="mt-20 bg-gray-100 py-20">
         <Details />
+      </div>
+      <div className="mt-20 py-10">
+        <ProductReview />
       </div>
     </div>
   );
