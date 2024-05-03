@@ -2,6 +2,8 @@ import { FaStar } from "react-icons/fa6";
 
 import React from "react";
 import { Progress } from "../ui/progress";
+import { Input } from "../ui/input";
+import Reviews from "./Reviews";
 
 function ProductReview() {
   return (
@@ -52,6 +54,14 @@ function ProductReview() {
           </div>
         </div>
       </div>
+      <div className="w-full mt-8 max-sm:mt-6">
+        <Input
+          type="text"
+          placeholder="Leave a review"
+          className="w-full py-7 max-sm:py-4"
+        />
+      </div>
+      <Reviews />
     </div>
   );
 }
