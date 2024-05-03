@@ -37,7 +37,7 @@ const data = [
     value: "5000mAh",
   },
 ];
-function DetailsGrid() {
+function TopDetailsGrid() {
   // Data array containing icon components and corresponding data
 
   return (
@@ -62,4 +62,4 @@ function DetailsGrid() {
   );
 }
 
-export default DetailsGrid;
+export default TopDetailsGrid;

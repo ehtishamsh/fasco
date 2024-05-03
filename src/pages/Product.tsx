@@ -1,13 +1,12 @@
 import { BreadCrum } from "@/components/BreadCrum";
 import ColorCheckbox from "@/components/product/ColorCheckbox";
-import DetailsGrid from "@/components/product/DetailsGrid";
 import SelectSize from "@/components/product/SelectSize";
 import { Button } from "@/components/ui/button";
 import React, { useState, useEffect } from "react";
 
 import { useParams } from "react-router-dom";
-import { CiDeliveryTruck } from "react-icons/ci";
 import DeliverySection from "@/components/product/DeliverySection";
+import TopDetailsGrid from "@/components/product/TopDetailsGrid";
 
 function Product() {
   const path = useParams();
@@ -72,7 +71,7 @@ function Product() {
                 setSelectedSize={setSelectSize}
               />
             </div>
-            <DetailsGrid />
+            <TopDetailsGrid />
             <p className="text-gray-700/80 mt-6 text-sm leading-relaxed  line-clamp-3">
               {data?.description}, {data?.description}, {data?.description}
             </p>
