@@ -23,7 +23,7 @@ function SelectSize({
             key={i}
             onClick={() => handleClick(item)}
             variant={selectedSize === item ? "default" : "outline"}
-            className="w-full py-6"
+            className="w-full py-6 max-sm:py-2"
           >
             {item}
           </Button>

@@ -5,7 +5,7 @@ import { Progress } from "../ui/progress";
 
 function ProductReview() {
   return (
-    <div className="max-w-6xl mx-auto px-8 bg-background py-10 ">
+    <div className="max-w-6xl mx-auto px-8  max-sm:px-4 bg-background py-10 ">
       <h1 className="text-2xl font-semibold mb-8">Reviews</h1>
       <div className="grid grid-cols-3 max-md:grid-cols-1 gap-20 w-full">
         <div className="col-span-1 w-full rounded-lg p-5 bg-gray-100 flex justify-center flex-col max-md:flex-row max-sm:flex-col items-center gap-4">
@@ -26,12 +26,12 @@ function ProductReview() {
           </div>
         </div>
         <div className="col-span-2 max-md:col-span-1 flex justify-between">
-          <div className="flex flex-col justify-between h-full min-w-[150px]">
-            <h2 className="font-semibold">Excellent</h2>
-            <h2 className="font-semibold">Good</h2>
-            <h2 className="font-semibold">Average</h2>
-            <h2 className="font-semibold">Below Average</h2>
-            <h2 className="font-semibold">Poor</h2>
+          <div className="flex flex-col justify-between h-full min-w-[150px] max-sm:w-fit">
+            <h2 className="font-semibold max-sm:text-sm">Excellent</h2>
+            <h2 className="font-semibold max-sm:text-sm">Good</h2>
+            <h2 className="font-semibold max-sm:text-sm">Average</h2>
+            <h2 className="font-semibold max-sm:text-sm">Below Average</h2>
+            <h2 className="font-semibold max-sm:text-sm">Poor</h2>
           </div>
           <div className="flex flex-col justify-between h-full w-full">
             <p className="mt-2">
