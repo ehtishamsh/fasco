@@ -2,8 +2,12 @@ import { BreadCrum } from "@/components/BreadCrum";
 import ColorCheckbox from "@/components/product/ColorCheckbox";
 import DetailsGrid from "@/components/product/DetailsGrid";
 import SelectSize from "@/components/product/SelectSize";
+import { Button } from "@/components/ui/button";
 import React, { useState, useEffect } from "react";
+
 import { useParams } from "react-router-dom";
+import { CiDeliveryTruck } from "react-icons/ci";
+import DeliverySection from "@/components/product/DeliverySection";
 
 function Product() {
   const path = useParams();
@@ -35,7 +39,7 @@ function Product() {
   console.log(data);
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="max-w-6xl mx-auto pb-20">
       <div className="mb-10">
         <BreadCrum
           cat={data?.category}
@@ -69,9 +73,28 @@ function Product() {
               />
             </div>
             <DetailsGrid />
-            <p className="text-gray-700/80 mt-6 text-sm leading-relaxed">
+            <p className="text-gray-700/80 mt-6 text-sm leading-relaxed  line-clamp-3">
               {data?.description}, {data?.description}, {data?.description}
             </p>
+            <div className=" grid grid-cols-2 gap-5 mt-6">
+              <Button
+                variant={"outline"}
+                className="border border-foreground py-7"
+                size={"lg"}
+              >
+                Add to Wishlist
+              </Button>
+              <Button
+                variant={"default"}
+                className="border border-foreground py-7"
+                size={"lg"}
+              >
+                Add to Cart
+              </Button>
+            </div>
+            <div className="mt-6 grid grid-cols-3 gap-5">
+              <DeliverySection />
+            </div>
           </div>
         </div>
       </div>
