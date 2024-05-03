@@ -51,8 +51,12 @@ function Product() {
         </div>
         <div className="mt-20 max-md:mt-16 max-sm:mt-7">
           <div className="grid grid-cols-2 gap-8 max-md:gap-6 max-sm:gap-2 max-md:grid-cols-1">
-            <div>
-              <img src={data?.thumbnail} alt="" className="max-w-full" />
+            <div className="flex justify-center">
+              <img
+                src={data?.thumbnail}
+                alt=""
+                className="max-w-full h-full  max-h-[800px] border border-border"
+              />
             </div>
             <div>
               <h1 className="text-4xl font-bold mb-6 max-sm:mb-2 max-md:text-2xl max-sm:text-lg">
