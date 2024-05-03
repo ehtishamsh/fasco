@@ -27,7 +27,7 @@ function DeliverySection() {
   const mapData = data.map((item) => {
     return (
       <div
-        className="flex max-sm:flex-col w-full gap-4 max-sm:justify-center max-sm:items-center"
+        className="flex max-sm:flex-col  gap-4 max-sm:justify-center max-sm:items-center"
         key={item.id}
       >
         <span className=" flex justify-center py-4 px-5 max-sm:py-4 max-sm:px-5 max-sm:w-full rounded-lg items-center bg-gray-200/50 col-span-1">

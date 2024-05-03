@@ -98,7 +98,7 @@ function Product() {
                   Add to Cart
                 </Button>
               </div>
-              <div className="mt-6 grid grid-cols-3 gap-5">
+              <div className="mt-6 flex flex-wrap  justify-evenly items-center gap-5">
                 <DeliverySection />
               </div>
             </div>
