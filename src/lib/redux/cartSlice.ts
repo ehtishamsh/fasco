@@ -1,10 +1,9 @@
-import { Product } from "./types"; // Import Product interface
 import { createSlice } from "@reduxjs/toolkit";
+import { Product } from "./types";
 
 interface CartState {
-  items: Product[]; // Array of cart items
+  items: Product[];
 }
-
 const initialState: CartState = {
   items: [],
 };
@@ -13,26 +12,19 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addToCart(state, action: { payload: Product }) {
-      const existingItem = state.items.find(
-        (item) => item.id === action.payload.id
-      );
-      if (existingItem) {
-        existingItem.quantity++; // Increment quantity for existing item
-      } else {
-        state.items.push({ ...action.payload, quantity: 1 }); // Add new item with quantity 1
-      }
-    },
-    removeFromCart(state, action: { payload: string }) {
-      const itemIndex = state.items.findIndex(
-        (item) => item.id === action.payload
-      );
-      if (itemIndex !== -1) {
-        state.items.splice(itemIndex, 1); // Remove item from cart
-      }
+    add(state, action: { payload: Product }) {
+      // const checkifExist = state.items.filter(
+      //   (item) => item.id === action.payload.id
+      // );
+      // if (!checkifExist) {
+      state.items.push({ ...action.payload, quantity: 1 });
+      // } else
+      //   state.items.map((item) => {
+      //     return { ...item, quantity: item.quantity && item.quantity + 1 };
+      //   });
     },
   },
 });
 
 export default cartSlice.reducer;
-export const { addToCart, removeFromCart } = cartSlice.actions;
+export const { add } = cartSlice.actions;

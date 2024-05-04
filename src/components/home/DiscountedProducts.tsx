@@ -28,9 +28,6 @@ function DiscountedProducts() {
     };
   }, []);
 
-  const handleclick = (e: any) => {
-    e.preventDefault();
-  };
   return (
     <div className="max-w-6xl  mx-auto mt-28 max-md:mt-14 max-sm:mt-10 px-2">
       <Reveal delayTime={0.5}>
@@ -42,7 +39,7 @@ function DiscountedProducts() {
       </Reveal>
       <Reveal delayTime={0.8}>
         <div className="grid grid-cols-4 gap-4 mt-10 max-sm:grid-cols-2 max-md:grid-cols-3">
-          <ShowcaseProducts products={products} handleclick={handleclick} />
+          <ShowcaseProducts products={products} />
         </div>
       </Reveal>
     </div>

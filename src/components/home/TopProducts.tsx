@@ -26,9 +26,6 @@ function TopProducts() {
     };
   }, []);
 
-  const handleclick = (e: any) => {
-    e.preventDefault();
-  };
   const [checkActive, setCheckActive] = useState("new");
 
   return (
@@ -38,7 +35,7 @@ function TopProducts() {
       </Reveal>
       <Reveal delayTime={0.8}>
         <div className="grid grid-cols-4 gap-4 mt-10 max-sm:grid-cols-2 max-md:grid-cols-3">
-          <ShowcaseProducts products={products} handleclick={handleclick} />
+          <ShowcaseProducts products={products} />
         </div>
       </Reveal>
     </div>

@@ -1,8 +1,8 @@
 export interface Product {
-  id: string;
+  id: number;
   title: string;
   price: string;
   thumbnail: string;
   category: string;
-  quantity: number; // Add quantity property for cart items
+  quantity?: number; // Add quantity property for cart items
 }

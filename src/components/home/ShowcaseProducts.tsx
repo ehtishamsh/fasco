@@ -2,21 +2,23 @@ import { HeartIcon } from "@radix-ui/react-icons";
 import React from "react";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { add } from "../../lib/redux/cartSlice";
+import { Product as Data } from "@/lib/redux/types";
 
-interface Data {
-  id: string;
-  title: string;
-  price: string;
-  thumbnail: string;
-  category: string;
-}
-function ShowcaseProducts({
-  products,
-  handleclick,
-}: {
-  products: Data[];
-  handleclick: Function;
-}) {
+function ShowcaseProducts({ products }: { products: Data[] }) {
+  const cartItems = useSelector((state: any) => state?.cart?.items);
+  const dispatch = useDispatch();
+  function handleClick(e: React.MouseEvent<HTMLButtonElement>, id: number) {
+    e.preventDefault();
+    const filterProduct = products.filter((item) => item.id === id);
+
+    if (filterProduct) {
+      dispatch(add(filterProduct[0]));
+    }
+  }
+  console.log(cartItems);
+
   const createElement = products?.map((item) => {
     const category = item?.category.replace(" ", "").replace("'", "");
     return (
@@ -48,7 +50,7 @@ function ShowcaseProducts({
           <Button
             variant={"default"}
             className="w-full max-sm:text-xs max-sm:py-1"
-            onClick={(e) => handleclick(e)}
+            onClick={(e) => handleClick(e, item.id)}
           >
             Add to Cart
           </Button>
