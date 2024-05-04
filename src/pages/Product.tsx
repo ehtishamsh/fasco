@@ -9,6 +9,7 @@ import DeliverySection from "@/components/product/DeliverySection";
 import TopDetailsGrid from "@/components/product/TopDetailsGrid";
 import Details from "@/components/product/Details";
 import ProductReview from "@/components/product/ProductReview";
+import Recommended from "@/components/product/Recommended";
 
 function Product() {
   const path = useParams();
@@ -55,7 +56,7 @@ function Product() {
               <img
                 src={data?.thumbnail}
                 alt=""
-                className="max-w-full h-full  max-h-[800px] border border-border"
+                className=" max-h-[800px] object-contain border border-border"
               />
             </div>
             <div>
@@ -114,6 +115,9 @@ function Product() {
       </div>
       <div className="mt-20 max-md:mt-16 max-sm:mt-0 py-10 max-sm:py-6 ">
         <ProductReview />
+      </div>
+      <div className="mt-8 max-md:mt-6 max-sm:mt-0 py-10 max-sm:py-6 ">
+        <Recommended />
       </div>
     </div>
   );
