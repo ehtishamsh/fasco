@@ -80,7 +80,7 @@ function Navbar() {
             </Button>
           </div>
         </nav>
-        {openCart && <Cart openCart={openCart} setOpenCart={setOpenCart} />}
+        <Cart openCart={openCart} setOpenCart={setOpenCart} />
       </div>
     </header>
   );
