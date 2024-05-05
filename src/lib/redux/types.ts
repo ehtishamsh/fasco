@@ -6,3 +6,8 @@ export interface Product {
   category: string;
   quantity?: number; // Add quantity property for cart items
 }
+export type CartState = {
+  cart: {
+    items: Product[];
+  };
+};

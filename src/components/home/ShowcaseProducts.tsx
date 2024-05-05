@@ -5,15 +5,22 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { add } from "../../lib/redux/cartSlice";
 import { Product as Data } from "@/lib/redux/types";
+import { useToast } from "../ui/use-toast";
 
 function ShowcaseProducts({ products }: { products: Data[] }) {
   const dispatch = useDispatch();
+  const { toast } = useToast();
   function handleClick(e: React.MouseEvent<HTMLButtonElement>, id: number) {
     e.preventDefault();
     const filterProduct = products.filter((item) => item.id === id);
 
     if (filterProduct) {
       dispatch(add(filterProduct[0]));
+      toast({
+        title: "Product Added",
+        description: "Product added to cart",
+        variant: "success",
+      });
     }
   }
 
