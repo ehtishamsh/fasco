@@ -1,20 +1,31 @@
 import { HeartIcon } from "@radix-ui/react-icons";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { add } from "../../lib/redux/cartSlice";
-import { Product as Data } from "@/lib/redux/types";
+import { CartState, Product as Data, Product } from "@/lib/redux/types";
 import { useToast } from "../ui/use-toast";
 
 function ShowcaseProducts({ products }: { products: Data[] }) {
   const dispatch = useDispatch();
+  const items = useSelector<CartState, Product[]>((state) => state.cart.items);
+  const [data, setData] = useState<Product[]>(items);
+  useEffect(() => {
+    setData(items);
+  }, [data, items]);
   const { toast } = useToast();
   function handleClick(e: React.MouseEvent<HTMLButtonElement>, id: number) {
     e.preventDefault();
+    const checkifexits = items.findIndex((i) => i.id === id);
     const filterProduct = products.filter((item) => item.id === id);
-
-    if (filterProduct) {
+    if (checkifexits !== -1) {
+      toast({
+        title: "Prodcuct Already in cart",
+        description: "Quantity increased",
+        variant: "success",
+      });
+    } else if (filterProduct) {
       dispatch(add(filterProduct[0]));
       toast({
         title: "Product Added",
