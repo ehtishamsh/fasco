@@ -3,15 +3,12 @@ import { BiX } from "react-icons/bi";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 import { Link } from "react-router-dom";
-import { Product } from "@/lib/redux/types";
+import { CartState, Product } from "@/lib/redux/types";
 import { useDispatch, useSelector } from "react-redux";
 import { remove } from "@/lib/redux/cartSlice";
 import { motion } from "framer-motion";
-type CartState = {
-  cart: {
-    items: Product[];
-  };
-};
+import { useToast } from "./ui/use-toast";
+
 function Cart({
   setOpenCart,
   openCart,
@@ -24,9 +21,18 @@ function Cart({
   );
   const [data, setData] = React.useState<Product[]>(cartItems);
   const dispatch = useDispatch();
+  const { toast } = useToast();
   useEffect(() => {
     setData(cartItems);
   }, [data, cartItems]);
+  function handleRemove(item: Product) {
+    dispatch(remove(item));
+    toast({
+      title: "Product removed",
+      description: "Product removed from cart",
+      variant: "destructive",
+    });
+  }
   const mapData = data?.map((item, i) => {
     return (
       <div key={i}>
@@ -51,7 +57,7 @@ function Cart({
               <Button
                 variant={"ghost"}
                 size={"icon"}
-                onClick={() => dispatch(remove(item))}
+                onClick={() => handleRemove(item)}
               >
                 <BiX className="text-3xl text-gray-500" />
               </Button>
@@ -73,13 +79,13 @@ function Cart({
         },
       }}
       exit={{ opacity: 0, display: "none" }}
-      transition={{ duration: 0.4 }}
+      transition={{ duration: 0.3 }}
       className="absolute w-full backdrop-brightness-50 overflow-hidden backdrop-blur-sm h-svh  top-0 right-0 left-0 bottom-0 z-50"
     >
       <div className="w-full h-full flex justify-end">
         <motion.div
           animate={{ x: openCart ? "0%" : "100%" }}
-          transition={{ duration: 0.4, type: "tween" }}
+          transition={{ duration: 0.3, type: "tween" }}
           className="max-w-[30%] w-full bg-background h-full"
         >
           <div className="p-4 flex justify-center items-center relative w-full">

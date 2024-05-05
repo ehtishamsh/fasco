@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Product } from "./types";
-
 interface CartState {
   items: Product[];
 }
