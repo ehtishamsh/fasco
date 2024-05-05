@@ -11,7 +11,7 @@ function Recommended() {
         const removetenProducts = res?.products.filter(
           (product: Data, i: number) => i < 4
         );
-        console.log(removetenProducts);
+
         setData(removetenProducts);
       } catch (error) {
         console.log(error);

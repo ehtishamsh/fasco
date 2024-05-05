@@ -7,7 +7,6 @@ import { add } from "../../lib/redux/cartSlice";
 import { Product as Data } from "@/lib/redux/types";
 
 function ShowcaseProducts({ products }: { products: Data[] }) {
-  const cartItems = useSelector((state: any) => state?.cart?.items);
   const dispatch = useDispatch();
   function handleClick(e: React.MouseEvent<HTMLButtonElement>, id: number) {
     e.preventDefault();
@@ -17,7 +16,6 @@ function ShowcaseProducts({ products }: { products: Data[] }) {
       dispatch(add(filterProduct[0]));
     }
   }
-  console.log(cartItems);
 
   const createElement = products?.map((item) => {
     const category = item?.category.replace(" ", "").replace("'", "");

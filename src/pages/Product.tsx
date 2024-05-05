@@ -38,7 +38,6 @@ function Product() {
   const sizes = ["128GB", "256GB", "512GB", "1TB"];
   const [onChange, setOnChange] = useState("");
   const [selectSize, setSelectSize] = useState(sizes[0]);
-  console.log(data);
 
   return (
     <div>

@@ -11,10 +11,8 @@ function SelectSize({
   setSelectedSize: React.Dispatch<React.SetStateAction<string>>;
 }) {
   const handleClick = (size: any) => {
-    console.log(size);
     setSelectedSize(size);
   };
-  console.log(selectedSize);
   return (
     <>
       {sizes.map((item, i) => {
