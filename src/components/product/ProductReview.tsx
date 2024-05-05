@@ -1,6 +1,5 @@
 import { FaStar } from "react-icons/fa6";
 
-import React from "react";
 import { Progress } from "../ui/progress";
 import { Input } from "../ui/input";
 import Reviews from "./Reviews";

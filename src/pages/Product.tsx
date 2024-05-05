@@ -2,7 +2,7 @@ import { BreadCrum } from "@/components/BreadCrum";
 import ColorCheckbox from "@/components/product/ColorCheckbox";
 import SelectSize from "@/components/product/SelectSize";
 import { Button } from "@/components/ui/button";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import { useParams } from "react-router-dom";
 import DeliverySection from "@/components/product/DeliverySection";
@@ -36,8 +36,10 @@ function Product() {
   }, []);
 
   const sizes = ["128GB", "256GB", "512GB", "1TB"];
-  const [onChange, setOnChange] = useState("");
+
   const [selectSize, setSelectSize] = useState(sizes[0]);
+  // @ts-ignore
+  const [onChange, setOnChange] = useState("");
 
   return (
     <div>

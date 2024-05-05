@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import ShowcaseProducts from "../home/ShowcaseProducts";
 import { Product as Data } from "@/lib/redux/types";
 function Recommended() {
@@ -9,6 +9,7 @@ function Recommended() {
         const req = await fetch("https://dummyjson.com/products");
         const res = await req.json();
         const removetenProducts = res?.products.filter(
+          //@ts-ignore
           (product: Data, i: number) => i < 4
         );
 

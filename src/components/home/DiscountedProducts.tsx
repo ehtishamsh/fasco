@@ -13,6 +13,7 @@ function DiscountedProducts() {
         });
         const res = await getres.json();
         const removetenProducts = res?.products.filter(
+          //@ts-ignore
           (item: any, i: number) => {
             return i >= 12;
           }

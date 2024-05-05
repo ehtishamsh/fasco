@@ -1,4 +1,3 @@
-import React from "react";
 import { GoVerified } from "react-icons/go";
 import { PiWarehouseLight } from "react-icons/pi";
 import { CiDeliveryTruck } from "react-icons/ci";
