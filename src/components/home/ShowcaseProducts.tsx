@@ -14,12 +14,14 @@ function ShowcaseProducts({ products }: { products: Data[] }) {
   useEffect(() => {
     setData(items);
   }, [data, items]);
+  console.log(items);
   const { toast } = useToast();
   function handleClick(e: React.MouseEvent<HTMLButtonElement>, id: number) {
     e.preventDefault();
     const checkifexits = items.findIndex((i) => i.id === id);
     const filterProduct = products.filter((item) => item.id === id);
     if (checkifexits !== -1) {
+      dispatch(add(filterProduct[0]));
       toast({
         title: "Prodcuct Already in cart",
         description: "Quantity increased",
