@@ -1,4 +1,4 @@
-import { add, qty, remove } from "@/lib/redux/cartSlice";
+import { qty, remove } from "@/lib/redux/cartSlice";
 import { CartState, Product } from "@/lib/redux/types";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
 import { BiMinus, BiPlus, BiX } from "react-icons/bi";
 import { Separator } from "../ui/separator";
-import { PlusIcon } from "@radix-ui/react-icons";
 
 function MainCart() {
   const dispatch = useDispatch();
