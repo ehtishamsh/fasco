@@ -14,7 +14,6 @@ function ShowcaseProducts({ products }: { products: Data[] }) {
   useEffect(() => {
     setData(items);
   }, [data, items]);
-  console.log(items);
   const { toast } = useToast();
   function handleClick(e: React.MouseEvent<HTMLButtonElement>, id: number) {
     e.preventDefault();
