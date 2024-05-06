@@ -21,7 +21,7 @@ function App() {
                 <Route element={<Homepage />} path="/" />
                 <Route element={<Product />} path="/:category/:id" />
                 <Route element={<Homepage />} />
-                <Route element={<ShoppingCart />} path="/shopping" />
+                <Route element={<ShoppingCart />} path="/cart" />
               </Route>
             </Routes>
           </Router>
