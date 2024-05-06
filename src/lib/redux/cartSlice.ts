@@ -6,6 +6,10 @@ interface CartState {
 const initialState: CartState = {
   items: [],
 };
+interface getName {
+  name: string;
+  product: Product;
+}
 
 const cartSlice = createSlice({
   name: "cart",
@@ -33,8 +37,24 @@ const cartSlice = createSlice({
         state.items.splice(checkifExist, 1);
       }
     },
+    qty(state, action: { payload: getName }) {
+      const checkifExist = state.items.findIndex((item) => {
+        return item.id === action.payload.product.id;
+      });
+      if (checkifExist !== -1) {
+        if (action.payload.name === "plus") {
+          state.items[checkifExist].quantity =
+            (action.payload.product.quantity || 0) + 1;
+        } else if (action.payload.name === "minus") {
+          if ((state.items[checkifExist].quantity || 1) > 1) {
+            state.items[checkifExist].quantity =
+              (action.payload.product.quantity || 0) - 1;
+          }
+        }
+      }
+    },
   },
 });
 
 export default cartSlice.reducer;
-export const { add, remove } = cartSlice.actions;
+export const { add, remove, qty } = cartSlice.actions;
