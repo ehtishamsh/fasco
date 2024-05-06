@@ -2,10 +2,12 @@ import { NavLink, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 
-import { BsStar, BsSearch, BsPerson, BsBag } from "react-icons/bs";
+import { BsSearch, BsPerson, BsBag } from "react-icons/bs";
 import Cart from "./Cart";
 import { CartState, Product } from "@/lib/redux/types";
 import { useSelector } from "react-redux";
+import { Input } from "./ui/input";
+import { HeartIcon } from "@radix-ui/react-icons";
 
 function Navbar() {
   const [openCart, setOpenCart] = useState(false);
@@ -22,71 +24,78 @@ function Navbar() {
   };
   return (
     <header className=" fixed top-0 left-0 z-10 bg-white shadow-md w-full">
-      <div className="px-4 py-8 relative">
-        <nav className="max-w-6xl mx-auto  grid grid-cols-3  items-center justify-between">
+      <div className="px-4 py-4 relative">
+        <nav className="max-w-6xl mx-auto  grid grid-cols-6 gap-7 max-md:gap-2 items-center justify-between">
           <Link to="/" className="flex items-center justify-start">
             <img src="/logo.png" alt="" className="max-w-32" />
           </Link>
-          <div className="flex justify-center items-center gap-5 text-base">
+          <div className="col-span-2 flex items-center relative">
+            <Input type="text" className="py-5 " placeholder="Search" />
+            <Button
+              variant={"outline"}
+              size={"icon"}
+              className="border-none absolute right-1 py-1"
+            >
+              <BsSearch size={18} className=" text-gray-400" />
+            </Button>
+          </div>
+          <div className="flex  w-full justify-evenly items-center gap-3 max-md:gap-1 max-md:text-sm text-base col-span-2">
             <NavLink
               to={"/"}
               className={({ isActive }: { isActive: boolean }) =>
-                isActive ? "underline underline-offset-8" : ""
+                isActive ? "text-black" : "text-gray-400"
               }
             >
               Home
             </NavLink>
             <NavLink
-              to={"/shop"}
+              to={"/about"}
               className={({ isActive }: { isActive: boolean }) =>
-                isActive ? "underline underline-offset-8" : ""
+                isActive ? "text-black" : "text-gray-400"
               }
             >
-              Shop
+              About
             </NavLink>
             <NavLink
-              to={"/products"}
+              to={"/contact"}
               className={({ isActive }: { isActive: boolean }) =>
-                isActive ? "underline underline-offset-8" : ""
+                isActive ? "text-black" : "text-gray-400"
               }
             >
-              Products
+              Contact Us
             </NavLink>
             <NavLink
-              to={"/pages"}
+              to={"/blog"}
               className={({ isActive }: { isActive: boolean }) =>
-                isActive ? "underline underline-offset-8" : ""
+                isActive ? "text-black" : "text-gray-400"
               }
             >
-              Pages
+              Blog
             </NavLink>
           </div>
-          <div className="flex justify-end items-center gap-1 text-base">
+          <div className="flex justify-end items-center gap-[2px] text-base max-lg:text-sm">
             <Button
               variant="ghost"
-              className="px-2  flex justify-center items-center"
+              size={"icon"}
+              className="flex justify-center items-center"
             >
-              <BsSearch size={20} />
+              <HeartIcon className="w-6 h-6  max-lg:w-5 max-lg:h-5 max-md:w-4 max-md:h-4 max-sm:w-3 max-sm:h-3" />
             </Button>
             <Button
               variant="ghost"
-              className="px-2 flex justify-center items-center"
+              size={"icon"}
+              className="flex justify-center items-center"
             >
-              <BsPerson size={24} />
-            </Button>
-            <Button
-              variant="ghost"
-              className="px-2 flex justify-center items-center"
-            >
-              <BsStar size={20} />
+              <BsPerson className="text-2xl max-lg:text-xl  max-md:text-lg" />
             </Button>
 
             <Button
               onClick={handleCart}
               variant="ghost"
-              className="px-2 relative flex justify-center items-center"
+              size={"icon"}
+              className="relative flex justify-center items-center"
             >
-              <BsBag size={20} />
+              <BsBag className="text-xl  max-lg:text-lg max-md:text-base" />
               {count > 0 && (
                 <span className="absolute  top-0 -right-[3px] bg-red-500 text-white rounded-full w-4 h-4  text-xs flex justify-center items-center">
                   {count}
