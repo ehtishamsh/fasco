@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BiX } from "react-icons/bi";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { CartState, Product } from "@/lib/redux/types";
 import { useDispatch, useSelector } from "react-redux";
 import { remove } from "@/lib/redux/cartSlice";
@@ -21,6 +21,11 @@ function Cart({
   );
   const [data, setData] = useState<Product[]>(cartItems);
   const dispatch = useDispatch();
+  const location = useLocation();
+
+  useEffect(() => {
+    setOpenCart(false);
+  }, [location.pathname]);
   const { toast } = useToast();
   const [total, setTotal] = useState(0);
   useEffect(() => {
