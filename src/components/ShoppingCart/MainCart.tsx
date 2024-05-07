@@ -113,7 +113,7 @@ function MainCart() {
     dispatch(remove(item));
   }
   return (
-    <div className="grid grid-cols-9 gap-3 min-h-[500px] mb-10">
+    <div className="grid grid-cols-9 max-md:grid-cols-1 gap-3 min-h-[500px] mb-10">
       <div className="col-span-5">
         <h1 className="text-xl font-semibold">Shopping Cart</h1>
         <div className="flex flex-col gap-7 mt-10">{mapData}</div>
