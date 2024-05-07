@@ -2,18 +2,21 @@ import { qty, remove } from "@/lib/redux/cartSlice";
 import { CartState, Product } from "@/lib/redux/types";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { BiMinus, BiPlus, BiX } from "react-icons/bi";
 import { Separator } from "../ui/separator";
+import { Input } from "../ui/input";
 
 function MainCart() {
   const dispatch = useDispatch();
   const [checkqty, setCheckQty] = useState(1);
+  const [total, setTotal] = useState(0);
   const items = useSelector<CartState, Product[]>(
     (state) => state?.cart?.items
   );
   const [data, setData] = React.useState<Product[]>(items);
+  const navigate = useNavigate();
   const handleCheckQty = (
     e: React.MouseEvent<HTMLButtonElement>,
     item: Product
@@ -34,6 +37,14 @@ function MainCart() {
   };
   useEffect(() => {
     setData(items);
+    const getTotal = () => {
+      return items.map((i) => {
+        return Number(i.price) * (i.quantity || 1);
+      });
+    };
+    setTotal(() => {
+      return getTotal().reduce((a, b) => a + b, 0);
+    });
   }, [data, items, checkqty]);
   const mapData = data?.map((item, i) => {
     return (
@@ -47,7 +58,7 @@ function MainCart() {
               <p className="text-xs text-gray-500">{item.brand}</p>
               <Link
                 to={`/${item.category}/${item.id}`}
-                className="text-sm font-semibold line-clamp-1"
+                className="text-sm font-semibold line-clamp-2"
               >
                 {item.quantity || 1} x {item.title}
               </Link>
@@ -102,12 +113,62 @@ function MainCart() {
     dispatch(remove(item));
   }
   return (
-    <div className="grid grid-cols-8 gap-3 min-h-[500px] mb-10">
+    <div className="grid grid-cols-9 gap-3 min-h-[500px] mb-10">
       <div className="col-span-5">
         <h1 className="text-xl font-semibold">Shopping Cart</h1>
         <div className="flex flex-col gap-7 mt-10">{mapData}</div>
       </div>
-      <div className="col-span-3 border border-border rounded-lg">lkjkhjh</div>
+      <div className="col-span-4 border border-border rounded-lg p-12">
+        <h1 className="text-xl font-semibold mb-6">Order Summary</h1>
+        <span className="text-xs text-muted-foreground">
+          Discount code / Promo code
+        </span>
+        <Input type="text" placeholder="Code" className="mb-6 py-6" />
+        <span className="text-xs text-muted-foreground">
+          Your Bonus Card Number
+        </span>
+        <div className="relative">
+          <Input
+            type="text"
+            placeholder="Enter card number"
+            className="mb-6 py-6"
+          />
+          <Button
+            variant={"outline"}
+            size={"sm"}
+            className="absolute right-3 top-[9px] border border-muted-foreground"
+          >
+            Apply
+          </Button>
+        </div>
+        <div className="my-7">
+          <div className="flex justify-between items-center">
+            <h4 className="text-sm font-semibold">Subtotal</h4>
+            <span className="text-sm font-semibold">${total}</span>
+          </div>
+          <div className="flex justify-between items-center mt-4">
+            <h4 className="text-sm text-muted-foreground">Estimated Tax</h4>
+            <span className="text-sm font-semibold">$50</span>
+          </div>
+          <div className="flex justify-between items-center">
+            <h4 className="text-sm text-muted-foreground">
+              Estimated Shipping & Handling
+            </h4>
+            <span className="text-sm font-semibold">$29</span>
+          </div>
+          <div className="flex justify-between items-center mt-4">
+            <h4 className="text-sm font-semibold">Total</h4>
+            <span className="text-sm font-semibold">${total + 79}</span>
+          </div>
+        </div>
+        <Button
+          className="w-full"
+          size={"lg"}
+          onClick={() => navigate("/checkout")}
+        >
+          Checkout
+        </Button>
+      </div>
     </div>
   );
 }
