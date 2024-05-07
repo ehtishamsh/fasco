@@ -49,11 +49,11 @@ function MainCart() {
   const mapData = data?.map((item, i) => {
     return (
       <div key={i}>
-        <div className="grid grid-cols-7 gap-4 p-2 rounded-md mb-5   transition-all duration-300">
+        <div className="grid grid-cols-7 gap-4 p-2 max-md:grid-rows-2 rounded-md mb-5   transition-all duration-300">
           <div className="flex justify-center items-center">
             <img src={item.thumbnail} alt="" className="max-h-[120px]" />
           </div>
-          <div className="flex col-span-2 items-center justify-start">
+          <div className="flex col-span-2 max-md:col-span-6 items-center justify-start">
             <div>
               <p className="text-xs text-gray-500">{item.brand}</p>
               <Link
@@ -65,7 +65,7 @@ function MainCart() {
             </div>
           </div>
 
-          <div className="flex col-span-2 justify-center items-center gap-1">
+          <div className="flex col-span-2 max-md:col-span-3 justify-center items-center gap-1">
             <Button
               size={"sm"}
               variant={"ghost"}
@@ -89,12 +89,12 @@ function MainCart() {
               <BiPlus className="text-xl" />
             </Button>
           </div>
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center max-md:col-span-2">
             <p className="text-sm text-yellow-600 font-semibold ">
               ${(item.quantity || 1) * Number(item.price)}
             </p>
           </div>
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center max-md:col-span-2">
             <Button
               variant={"ghost"}
               size={"icon"}
