@@ -19,7 +19,7 @@ function Steps({ stepData }: { stepData: Steps[] }) {
   }, [data]);
 
   return (
-    <div className="mt-6 flex justify-between">
+    <div className="mt-6 flex justify-between mb-48">
       <div className="flex justify-center items-center">
         <span
           className={` h-8 w-8 ${

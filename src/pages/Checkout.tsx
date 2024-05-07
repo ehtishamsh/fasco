@@ -1,3 +1,4 @@
+import Address from "@/components/checkout/Address";
 import Steps from "@/components/checkout/Steps";
 import React, { useEffect } from "react";
 
@@ -29,7 +30,12 @@ function Checkout() {
     setStep(stepsArr);
   }, [step]);
   return (
-    <div className="max-w-6xl mx-auto">{step && <Steps stepData={step} />}</div>
+    <div className="max-w-6xl mx-auto">
+      {step && <Steps stepData={step} />}
+      <div>
+        <Address />
+      </div>
+    </div>
   );
 }
 
