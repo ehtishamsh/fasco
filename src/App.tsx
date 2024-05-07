@@ -8,6 +8,7 @@ import { store } from "./lib/redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 import Loader from "./components/Loader";
+import Checkout from "./pages/Checkout";
 
 function App() {
   let persistor = persistStore(store);
@@ -22,6 +23,7 @@ function App() {
                 <Route element={<Product />} path="/:category/:id" />
                 <Route element={<Homepage />} />
                 <Route element={<ShoppingCart />} path="/cart" />
+                <Route element={<Checkout />} path="/checkout" />
               </Route>
             </Routes>
           </Router>
