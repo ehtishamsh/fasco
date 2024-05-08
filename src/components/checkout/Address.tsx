@@ -1,21 +1,18 @@
 import { BiEdit, BiPlus, BiX } from "react-icons/bi";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
-import { useNavigate } from "react-router-dom";
 import { StepData } from "@/lib/redux/types";
+import ButtonNextBack from "./ButtonNextBack";
 
 function Address({
-  step,
   setStep,
   currentStep,
   setCurrentStep,
 }: {
-  step: StepData[];
   currentStep: number;
   setStep: React.Dispatch<React.SetStateAction<StepData[]>>;
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
 }) {
-  const navigate = useNavigate();
   const handleNext = () => {
     if (currentStep === 1) {
       setStep((prev) => {
@@ -112,21 +109,7 @@ function Address({
           <h1 className="text-sm mt-2">Add new address</h1>
         </div>
       </div>
-      <div className="flex justify-end items-center  py-10">
-        <div className="w-[500px] flex items-center gap-5">
-          <Button
-            variant={"outline"}
-            size={"lg"}
-            onClick={() => navigate(-1)}
-            className="py-6 w-full"
-          >
-            Back
-          </Button>
-          <Button size={"lg"} className="py-6 w-full" onClick={handleNext}>
-            Next
-          </Button>
-        </div>
-      </div>
+      <ButtonNextBack handleNext={handleNext} />
     </div>
   );
 }

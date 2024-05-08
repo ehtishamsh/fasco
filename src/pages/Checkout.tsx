@@ -1,4 +1,5 @@
 import Address from "@/components/checkout/Address";
+import Shipping from "@/components/checkout/Shipping";
 import Steps from "@/components/checkout/Steps";
 import React, { useEffect, useState } from "react";
 
@@ -34,14 +35,14 @@ function Checkout() {
     <div className="max-w-6xl mx-auto px-4">
       {step && <Steps stepData={step} currentStep={currentStep} />}
       <div>
-        {currentStep === 1 && (
+        {currentStep === 2 && (
           <Address
-            step={step}
             setStep={setStep}
             currentStep={currentStep}
             setCurrentStep={setCurrentStep}
           />
         )}
+        {currentStep === 1 && <Shipping />}
       </div>
     </div>
   );
