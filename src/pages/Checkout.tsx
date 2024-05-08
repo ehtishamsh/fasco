@@ -30,7 +30,7 @@ function Checkout() {
     setStep(stepsArr);
   }, [step]);
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="max-w-6xl mx-auto px-4">
       {step && <Steps stepData={step} />}
       <div>
         <Address />
