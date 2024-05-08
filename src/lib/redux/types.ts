@@ -13,3 +13,8 @@ export type CartState = {
     items: Product[];
   };
 };
+export type StepData = {
+  step: number;
+  name: string;
+  active: boolean;
+};

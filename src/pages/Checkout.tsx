@@ -1,6 +1,6 @@
 import Address from "@/components/checkout/Address";
 import Steps from "@/components/checkout/Steps";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 type StepData = {
   step: number;
@@ -26,14 +26,22 @@ const stepsArr: StepData[] = [
 ];
 function Checkout() {
   const [step, setStep] = React.useState<StepData[]>([]);
+  const [currentStep, setCurrentStep] = useState(1);
   useEffect(() => {
     setStep(stepsArr);
-  }, [step]);
+  }, [step, currentStep]);
   return (
     <div className="max-w-6xl mx-auto px-4">
-      {step && <Steps stepData={step} />}
+      {step && <Steps stepData={step} currentStep={currentStep} />}
       <div>
-        <Address />
+        {currentStep === 1 && (
+          <Address
+            step={step}
+            setStep={setStep}
+            currentStep={currentStep}
+            setCurrentStep={setCurrentStep}
+          />
+        )}
       </div>
     </div>
   );

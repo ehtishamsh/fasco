@@ -8,14 +8,16 @@ type Steps = {
   name: string;
   active: boolean;
 };
-function Steps({ stepData }: { stepData: Steps[] }) {
+function Steps({
+  stepData,
+  currentStep,
+}: {
+  stepData: Steps[];
+  currentStep: number;
+}) {
   const [data, setData] = useState<Steps[]>([]);
-
-  const [currentStep, setCurrentStep] = useState(1);
   useEffect(() => {
     setData(stepData);
-    const checkStep = stepData?.filter((item) => item.active === true);
-    setCurrentStep(checkStep?.[0]?.step || 1);
   }, [data]);
 
   return (

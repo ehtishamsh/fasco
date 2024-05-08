@@ -1,8 +1,38 @@
 import { BiEdit, BiPlus, BiX } from "react-icons/bi";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
+import { useNavigate } from "react-router-dom";
+import { StepData } from "@/lib/redux/types";
 
-function Address() {
+function Address({
+  step,
+  setStep,
+  currentStep,
+  setCurrentStep,
+}: {
+  step: StepData[];
+  currentStep: number;
+  setStep: React.Dispatch<React.SetStateAction<StepData[]>>;
+  setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
+}) {
+  const navigate = useNavigate();
+  const handleNext = () => {
+    if (currentStep === 1) {
+      setStep((prev) => {
+        return prev.map((item) => {
+          if (item.step === 1) {
+            return { ...item, active: false };
+          }
+          if (item.step === 2) {
+            return { ...item, active: true };
+          }
+          return item;
+        });
+      });
+      setCurrentStep(2);
+    }
+  };
+
   return (
     <div>
       <h1 className="text-xl font-semibold">Select Address</h1>
@@ -84,10 +114,15 @@ function Address() {
       </div>
       <div className="flex justify-end items-center  py-10">
         <div className="w-[500px] flex items-center gap-5">
-          <Button variant={"outline"} size={"lg"} className="py-6 w-full">
+          <Button
+            variant={"outline"}
+            size={"lg"}
+            onClick={() => navigate(-1)}
+            className="py-6 w-full"
+          >
             Back
           </Button>
-          <Button size={"lg"} className="py-6 w-full">
+          <Button size={"lg"} className="py-6 w-full" onClick={handleNext}>
             Next
           </Button>
         </div>
