@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import ButtonNextBack from "./ButtonNextBack";
-import { Checkbox } from "../ui/checkbox";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface Data {
   free: boolean;
@@ -19,19 +18,15 @@ function Shipping() {
   });
 
   // Function to handle checkbox changes
-  const handleCheck = (name: keyof Data) => {
-    // Create a new object with all checkboxes set to false
-    const newCheckedState: Data = {
-      free: false,
-      standard: false,
-      express: false,
-    };
-
-    // Set the clicked checkbox to true
-    newCheckedState[name] = true;
-
-    // Update the state
-    setChecked(newCheckedState);
+  const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const name = e.target.name;
+    if (name === "free") {
+      setChecked({ free: true, standard: false, express: false });
+    } else if (name === "standard") {
+      setChecked({ free: false, standard: true, express: false });
+    } else if (name === "express") {
+      setChecked({ free: false, standard: false, express: true });
+    }
   };
 
   return (
@@ -46,9 +41,10 @@ function Shipping() {
           >
             <input
               type="checkbox"
-              className="rounded-full"
-              onChange={() => handleCheck("free")}
+              className="custom-checkbox "
+              onChange={(e) => handleCheck(e)}
               checked={checked.free}
+              name="free"
             />
             <h1 className="font-semibold text-sm">Free</h1>
             <p className="text-sm">Regular shipment</p>
@@ -63,10 +59,12 @@ function Shipping() {
               !checked.standard ? "text-gray-400" : ""
             }`}
           >
-            <Checkbox
-              className="rounded-full"
-              onChange={() => handleCheck("standard")}
+            <input
+              type="checkbox"
+              className="custom-checkbox "
+              onChange={(e) => handleCheck(e)}
               checked={checked.standard}
+              name="standard"
             />
             <h1 className="font-semibold text-sm">$8.50</h1>
             <p className="text-sm">Get your delivery as soon as possible</p>
@@ -81,10 +79,12 @@ function Shipping() {
               !checked.express ? "text-gray-400" : ""
             }`}
           >
-            <Checkbox
-              className="rounded-full"
-              onChange={() => handleCheck("express")}
+            <input
+              type="checkbox"
+              className="custom-checkbox "
+              onChange={(e) => handleCheck(e)}
               checked={checked.express}
+              name="express"
             />
             <h1 className="font-semibold text-sm">Schedule</h1>
             <p className="text-sm">
