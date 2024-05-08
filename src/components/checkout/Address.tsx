@@ -1,7 +1,6 @@
 import { BiEdit, BiPlus, BiX } from "react-icons/bi";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
-import { Separator } from "../ui/separator";
 
 function Address() {
   return (
