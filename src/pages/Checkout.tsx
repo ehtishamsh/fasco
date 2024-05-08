@@ -35,14 +35,14 @@ function Checkout() {
     <div className="max-w-6xl mx-auto px-4">
       {step && <Steps stepData={step} currentStep={currentStep} />}
       <div>
-        {currentStep === 2 && (
+        {currentStep === 1 && (
           <Address
             setStep={setStep}
             currentStep={currentStep}
             setCurrentStep={setCurrentStep}
           />
         )}
-        {currentStep === 1 && <Shipping />}
+        {currentStep === 2 && <Shipping />}
       </div>
     </div>
   );
