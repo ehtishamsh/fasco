@@ -1,6 +1,7 @@
 import { BiEdit, BiPlus, BiX } from "react-icons/bi";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
+import { Separator } from "../ui/separator";
 
 function Address() {
   return (
@@ -9,7 +10,7 @@ function Address() {
       <div className="grid grid-cols-1 gap-9 mt-10">
         <div className="flex gap-4 bg-gray-200/70 p-6 rounded-lg">
           <div className="flex justify-center">
-            <Checkbox className="rounded-full mt-[5px]" />
+            <Checkbox className="rounded-full mt-[5px] " />
           </div>
           <div className="w-full">
             <div className="flex items-center gap-3 mb-4">
@@ -80,6 +81,16 @@ function Address() {
             <BiPlus size={24} />
           </Button>
           <h1 className="text-sm mt-2">Add new address</h1>
+        </div>
+      </div>
+      <div className="flex justify-end items-center  py-10">
+        <div className="w-[500px] flex items-center gap-5">
+          <Button variant={"outline"} size={"lg"} className="py-6 w-full">
+            Back
+          </Button>
+          <Button size={"lg"} className="py-6 w-full">
+            Next
+          </Button>
         </div>
       </div>
     </div>
