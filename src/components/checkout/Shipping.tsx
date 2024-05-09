@@ -54,66 +54,79 @@ function Shipping({
   return (
     <div>
       <h1 className="text-xl font-semibold">Select Shipping</h1>
-      <div className="grid grid-cols-1 gap-9 mt-10">
-        <div className="flex justify-between items-center gap-4 border border-muted-foreground p-6 rounded-lg">
-          <div
-            className={`flex items-center gap-3 ${
-              !checked.free ? "text-gray-400" : ""
+      <div className="grid grid-cols-1 gap-9 mt-10 max-sm:gap-4">
+        <div
+          className={`items-center grid grid-cols-12 gap-4 h-fit border max-sm:gap-2 border-muted-foreground p-4 max-sm:p-3 rounded-lg ${
+            !checked.free ? "text-gray-400" : ""
+          }`}
+        >
+          <input
+            type="checkbox"
+            className="custom-checkbox max-sm:w-5 max-sm:h-5 max-sm:col-span-12"
+            onChange={(e) => handleCheck(e)}
+            checked={checked.free}
+            name="free"
+          />
+          <h1 className="font-semibold text-sm max-sm:text-xs max-sm:col-span-12">
+            Free
+          </h1>
+          <p className="text-sm max-sm:text-xs col-span-8">Regular shipment</p>
+          <p
+            className={`text-sm max-sm:text-xs col-span-2 max-sm:col-span-4 ${
+              checked.free ? "" : "text-gray-400"
             }`}
           >
-            <input
-              type="checkbox"
-              className="custom-checkbox "
-              onChange={(e) => handleCheck(e)}
-              checked={checked.free}
-              name="free"
-            />
-            <h1 className="font-semibold text-sm">Free</h1>
-            <p className="text-sm">Regular shipment</p>
-          </div>
-          <p className={`text-sm ${checked.free ? "" : "text-gray-400"}`}>
             17 Oct, 2023
           </p>
         </div>
-        <div className="flex justify-between items-center gap-4 border border-muted-foreground p-6 rounded-lg">
-          <div
-            className={`flex items-center gap-3 ${
-              !checked.standard ? "text-gray-400" : ""
+
+        <div
+          className={`items-center grid grid-cols-12 gap-4 h-fit border max-sm:gap-2 border-muted-foreground p-4 max-sm:p-3 rounded-lg ${
+            !checked.standard ? "text-gray-400" : ""
+          }`}
+        >
+          <input
+            type="checkbox"
+            className="custom-checkbox max-sm:w-5 max-sm:h-5 max-sm:col-span-12"
+            onChange={(e) => handleCheck(e)}
+            checked={checked.standard}
+            name="standard"
+          />
+          <h1 className="font-semibold text-sm max-sm:text-xs max-sm:col-span-12">
+            $8.50
+          </h1>
+          <p className="text-sm max-sm:text-xs col-span-8">Standard shipment</p>
+          <p
+            className={`text-sm max-sm:text-xs col-span-2 max-sm:col-span-4 ${
+              checked.standard ? "" : "text-gray-400"
             }`}
           >
-            <input
-              type="checkbox"
-              className="custom-checkbox "
-              onChange={(e) => handleCheck(e)}
-              checked={checked.standard}
-              name="standard"
-            />
-            <h1 className="font-semibold text-sm">$8.50</h1>
-            <p className="text-sm">Get your delivery as soon as possible</p>
-          </div>
-          <p className={`text-sm ${checked.standard ? "" : "text-gray-400"}`}>
             17 Oct, 2023
           </p>
         </div>
-        <div className="flex justify-between items-center gap-4 border border-muted-foreground p-6 rounded-lg">
-          <div
-            className={`flex items-center gap-3 ${
-              !checked.express ? "text-gray-400" : ""
+        <div
+          className={`items-center grid grid-cols-12 gap-4 h-fit border max-sm:gap-2 border-muted-foreground p-4 max-sm:p-3 rounded-lg ${
+            !checked.express ? "text-gray-400" : ""
+          }`}
+        >
+          <input
+            type="checkbox"
+            className="custom-checkbox max-sm:w-5 max-sm:h-5 max-sm:col-span-12"
+            onChange={(e) => handleCheck(e)}
+            checked={checked.express}
+            name="express"
+          />
+          <h1 className="font-semibold text-sm max-sm:text-xs max-sm:col-span-12">
+            Schedule
+          </h1>
+          <p className="text-sm max-sm:text-xs col-span-8">
+            Select the date you want to ship.
+          </p>
+          <p
+            className={`text-sm max-sm:text-xs col-span-2 max-sm:col-span-4 ${
+              checked.free ? "" : "text-gray-400"
             }`}
           >
-            <input
-              type="checkbox"
-              className="custom-checkbox "
-              onChange={(e) => handleCheck(e)}
-              checked={checked.express}
-              name="express"
-            />
-            <h1 className="font-semibold text-sm">Schedule</h1>
-            <p className="text-sm">
-              Pick a date when you want to get your delivery
-            </p>
-          </div>
-          <p className={`text-sm ${checked.express ? "" : "text-gray-400"}`}>
             17 Oct, 2023
           </p>
         </div>
