@@ -45,18 +45,18 @@ function Payment({
   }, [data, products]);
   const prdItems = products?.map((item) => {
     return (
-      <div className="grid grid-cols-7 gap-4 items-center bg-gray-100/80 rounded-lg p-4">
+      <div className="grid grid-cols-7 gap-4  max-sm:gap-2  max-sm:p-2 items-center bg-gray-100/80 rounded-lg p-4">
         <img
           src={item?.thumbnail}
           alt={item.title}
-          className="max-h-[90px] object-cover w-full rounded-lg border border-border"
+          className="max-h-[90px] object-cover max-sm:col-span-7 max-sm:max-h-[100px] w-full rounded-lg border border-border"
         />
-        <div className="text-sm  col-span-4">
+        <div className="text-sm max-sm:text-xs col-span-4 max-sm:col-span-5">
           <span className="text-xs text-gray-400">{item.brand}</span>
           <p className=" font-semibold">{item?.title}</p>
         </div>
-        <p className="text-sm">Qty: {item?.quantity}</p>
-        <p className="text-sm font-semibold">
+        <p className="text-sm max-sm:text-xs">Qty: {item?.quantity}</p>
+        <p className="text-sm max-sm:text-xs font-semibold">
           ${(Number(item?.price) || 1) * (item?.quantity || 1)}
         </p>
       </div>
@@ -64,19 +64,21 @@ function Payment({
   });
   const date = new Date().toLocaleDateString("en-US");
   return (
-    <div className="border border-border p-8 rounded-md">
-      <h1 className="text-xl font-semibold">Summary</h1>
-      <div className="grid grid-cols-1 gap-4 mt-10">
-        <div className="grid grid-cols-1 gap-4">{prdItems}</div>
+    <div className="border border-border p-8 rounded-md max-sm:p-2">
+      <h1 className="text-xl font-semibold max-sm:text-base">Summary</h1>
+      <div className="grid grid-cols-1 gap-4 mt-10 max-sm:mt-5 max-sm:gap-2">
+        <div className="grid grid-cols-1 gap-4  max-sm:gap-2">{prdItems}</div>
       </div>
-      <div className="mt-14">
+      <div className="mt-14 max-sm:mt-6">
         <h1 className="text-sm font-semibold">Address</h1>
-        <p className="mt-4">1131 Dusty Townline, Jacksonville, TX 40322</p>
+        <p className="mt-4 max-sm:text-sm">
+          1131 Dusty Townline, Jacksonville, TX 40322
+        </p>
         <Separator className="my-4" />
       </div>
-      <div className="mt-14">
+      <div className="mt-14  max-sm:mt-6">
         <h1 className="text-sm font-semibold">Shipment Method</h1>
-        <p className="mt-4">
+        <p className="mt-4 max-sm:text-sm">
           {ship === "free"
             ? "Free"
             : ship === "standard"
@@ -87,20 +89,22 @@ function Payment({
         </p>
         <Separator className="my-4" />
       </div>
-      <div className="mt-14">
+      <div className="mt-14 max-sm:mt-6">
         <div className="flex justify-between items-center">
-          <h1 className="text-sm font-semibold">Subtotal</h1>
-          <h1 className="text-sm font-semibold">${total}</h1>
+          <h1 className="text-sm max-sm:text-xs font-semibold">Subtotal</h1>
+          <h1 className="text-sm max-sm:text-xs font-semibold">${total}</h1>
         </div>
         <div className="flex justify-between items-center mt-4">
-          <h4 className="text-sm text-muted-foreground">Estimated Tax</h4>
-          <span className="text-sm font-semibold">$50</span>
+          <h4 className="text-sm max-sm:text-xs text-muted-foreground">
+            Estimated Tax
+          </h4>
+          <span className="text-sm max-sm:text-xs font-semibold">$50</span>
         </div>
         <div className="flex justify-between items-center mt-2">
-          <h4 className="text-sm text-muted-foreground">
+          <h4 className="text-sm max-sm:text-xs text-muted-foreground">
             Estimated Shipping & Handling
           </h4>
-          <span className="text-sm font-semibold">
+          <span className="text-sm max-sm:text-xs font-semibold">
             {ship === "free"
               ? "Free"
               : ship === "standard"
@@ -111,8 +115,8 @@ function Payment({
           </span>
         </div>
         <div className="flex justify-between items-center mt-4">
-          <h4 className="text-lg font-semibold">Total</h4>
-          <span className="text-lg font-semibold">
+          <h4 className="text-lg font-semibold max-sm:text-sm">Total</h4>
+          <span className="text-lg font-semibold max-sm:text-sm">
             $
             {total +
               50 +
