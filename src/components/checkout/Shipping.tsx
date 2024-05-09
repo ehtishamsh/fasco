@@ -20,6 +20,7 @@ function Shipping({
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
 }) {
   const handleNext = () => {
+    setCurrentStep(3);
     if (currentStep === 1) {
       setStep((prev) => {
         return prev.map((item) => {
@@ -32,16 +33,13 @@ function Shipping({
           if (item.step === 3) {
             return { ...item, active: true };
           }
+
           return item;
         });
       });
-      setCurrentStep(2);
     }
   };
 
-  // State to manage the checked status of checkboxes
-
-  // Function to handle checkbox changes
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name;
     if (name === "free") {
