@@ -21,15 +21,15 @@ function Steps({
   }, [data]);
 
   return (
-    <div className="mt-6 flex justify-between mb-24">
+    <div className="mt-6 max-sm:mt-4 flex justify-between mb-24 max-sm:mb-12">
       <div className="flex justify-center items-center">
         <span
-          className={` h-8 w-8 ${
+          className={` h-8 w-8 max-sm:w-6 max-sm:h-6 ${
             currentStep === 1 ? "bg-foreground" : "bg-gray-200"
           } rounded-full flex justify-center items-center`}
         >
           <FaMapMarkerAlt
-            className={`text-xl ${
+            className={`text-xl max-sm:text-sm ${
               currentStep === 1 ? "text-background" : "text-gray-400"
             }`}
           />
@@ -39,18 +39,18 @@ function Steps({
             currentStep === 1 ? "text-foreground" : "text-gray-400"
           }`}
         >
-          <p className="text-sm">Step 1</p>
-          <p className="text-base font-semibold">Address</p>
+          <p className="text-sm max-sm:text-xs">Step 1</p>
+          <p className="text-base max-sm:text-sm font-semibold">Address</p>
         </div>
       </div>
       <div className="flex justify-center items-center">
         <span
-          className={` h-8 w-8 ${
+          className={` h-8 w-8 max-sm:w-6 max-sm:h-6 ${
             currentStep === 2 ? "bg-foreground" : "bg-gray-200"
           } rounded-full flex justify-center items-center`}
         >
           <FaShippingFast
-            className={`text-xl ${
+            className={`text-xl max-sm:text-sm ${
               currentStep === 2 ? "text-background" : "text-gray-400"
             }`}
           />
@@ -60,18 +60,18 @@ function Steps({
             currentStep === 2 ? "text-foreground" : "text-gray-400"
           }`}
         >
-          <p className="text-sm">Step 2</p>
-          <p className="text-base font-semibold">Shipping</p>
+          <p className="text-sm max-sm:text-xs">Step 2</p>
+          <p className="text-base max-sm:text-sm font-semibold">Shipping</p>
         </div>
       </div>
       <div className="flex justify-center items-center">
         <span
-          className={` h-8 w-8 ${
+          className={` h-8 w-8 max-sm:w-6 max-sm:h-6 ${
             currentStep === 3 ? "bg-foreground" : "bg-gray-200"
           } rounded-full flex justify-center items-center`}
         >
           <FaCreditCard
-            className={`text-xl ${
+            className={`text-xl max-sm:text-sm ${
               currentStep === 3 ? "text-background" : "text-gray-400"
             }`}
           />
@@ -81,8 +81,8 @@ function Steps({
             currentStep === 3 ? "text-foreground" : "text-gray-400"
           }`}
         >
-          <p className="text-sm">Step 3</p>
-          <p className="text-base font-semibold">Payment</p>
+          <p className="text-sm max-sm:text-xs">Step 3</p>
+          <p className="text-base max-sm:text-sm font-semibold">Payment</p>
         </div>
       </div>
     </div>
