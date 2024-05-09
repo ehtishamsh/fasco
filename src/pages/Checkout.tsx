@@ -39,7 +39,7 @@ function Checkout() {
   });
   const [step, setStep] = React.useState<StepData[]>([]);
   const [currentStep, setCurrentStep] = useState(1);
-  console.log(step, currentStep);
+
   useEffect(() => {
     setStep(stepsArr);
   }, [step, currentStep]);

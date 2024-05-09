@@ -72,13 +72,13 @@ function Steps({
         >
           <FaCreditCard
             className={`text-xl ${
-              currentStep === 3 ? "text-foreground" : "text-gray-400"
+              currentStep === 3 ? "text-background" : "text-gray-400"
             }`}
           />
         </span>
         <div
           className={`ml-2 ${
-            currentStep === 3 ? "text-background" : "text-gray-400"
+            currentStep === 3 ? "text-foreground" : "text-gray-400"
           }`}
         >
           <p className="text-sm">Step 3</p>

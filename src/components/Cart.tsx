@@ -121,7 +121,7 @@ function Cart({
               </div>
               <div className="absolute bottom-0  left-0 right-0 px-5 py-5 bg-white">
                 <div className="flex justify-between items-center">
-                  <h1 className="text-base font-semibold">Subtotal</h1>{" "}
+                  <h1 className="text-base font-semibold">Subtotal</h1>
                   <h1 className="text-base font-semibold">${total}</h1>
                 </div>
                 <Separator />
