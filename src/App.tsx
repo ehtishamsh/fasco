@@ -21,8 +21,8 @@ function App() {
             <Routes>
               <Route element={<Layout />} path="/">
                 <Route element={<Homepage />} path="/" />
-                <Route element={<Product />} path="/:category/:id" />
-                <Route element={<FilterPage />} path="/filter" />
+                <Route element={<Product />} path="/:category/:brand/:title" />
+                <Route element={<FilterPage />} path="/:category" />
                 <Route element={<Homepage />} />
                 <Route element={<ShoppingCart />} path="/cart" />
                 <Route element={<Checkout />} path="/checkout" />

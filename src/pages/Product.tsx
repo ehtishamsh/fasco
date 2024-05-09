@@ -13,18 +13,28 @@ import Recommended from "@/components/product/Recommended";
 
 function Product() {
   const path = useParams();
-  const [data, setData] = useState<any>();
+  console.log(path);
+  const [data, setData] = useState<any>({});
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const request = await fetch(
-          "https://dummyjson.com/products/" + path.id,
-          {
-            method: "GET",
-          }
-        );
+        const request = await fetch("https://dummyjson.com/products/", {
+          method: "GET",
+        });
         const response = await request.json();
-        setData(response);
+
+        const filterProduct = response?.products.filter((item: any) => {
+          return (
+            item.title
+              .replace("-", " ")
+              .replace(/\s{2,}/g, "-")
+              .replace(/\s/g, "-")
+              .replace(".", "")
+              .toLowerCase() === path?.title
+          );
+        });
+
+        setData(filterProduct[0]);
       } catch (error) {
         console.log(error);
       }

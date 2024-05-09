@@ -1,7 +1,20 @@
-import React from "react";
+import { BreadCrum } from "@/components/BreadCrum";
+import Filter from "@/components/filter/Filter";
+import { useParams } from "react-router-dom";
 
 function FilterPage() {
-  return <div>FilterPage</div>;
+  const path = useParams();
+  console.log(path);
+  return (
+    <div className="px-4">
+      <div className="max-w-8xl mx-auto">
+        <BreadCrum cat={path.category} />
+        <div className="mt-10">
+          <Filter />
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default FilterPage;
