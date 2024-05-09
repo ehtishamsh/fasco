@@ -53,8 +53,10 @@ function Shipping({
 
   return (
     <div>
-      <h1 className="text-xl font-semibold">Select Shipping</h1>
-      <div className="grid grid-cols-1 gap-9 mt-10 max-sm:gap-4">
+      <h1 className="text-xl font-semibold max-sm:text-base">
+        Select Shipping
+      </h1>
+      <div className="grid grid-cols-1 gap-9 mt-10 max-sm:mt-6 max-sm:gap-4">
         <div
           className={`items-center grid grid-cols-12 gap-4 h-fit border max-sm:gap-2 border-muted-foreground p-4 max-sm:p-3 rounded-lg ${
             !checked.free ? "text-gray-400" : ""
