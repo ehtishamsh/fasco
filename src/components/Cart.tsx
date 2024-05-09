@@ -47,6 +47,17 @@ function Cart({
     });
   }
   const mapData = data?.map((item, i) => {
+    const category = item?.category.replace(" ", "").replace("'", "");
+    const title = item?.title
+      .replace("-", " ")
+      .replace(/\s{2,}/g, "-")
+      .replace(/\s/g, "-")
+      .replace(".", "");
+    const brand = item?.brand
+      .replace("-", " ")
+      .replace(/\s{2,}/g, "-")
+      .replace(/\s/g, "-")
+      .replace(".", "");
     return (
       <div key={i}>
         <div className="grid grid-cols-4 gap-4 p-2 rounded-md mb-5 bg-gray-100  transition-all duration-300">
@@ -57,7 +68,7 @@ function Cart({
             <div>
               <p className="text-sm text-gray-500">{item.brand}</p>
               <Link
-                to={`${item.category}/${item.id}`}
+                to={`/${category.toLowerCase()}/${brand.toLowerCase()}/${title.toLowerCase()}`}
                 className="text-base font-semibold line-clamp-1"
               >
                 {item.quantity || 1} x {item.title}

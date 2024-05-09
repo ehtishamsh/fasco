@@ -5,7 +5,7 @@ export interface Product {
   thumbnail: string;
   category: string;
   description: string;
-  brand?: string;
+  brand: string;
   quantity?: number; // Add quantity property for cart items
 }
 export type CartState = {

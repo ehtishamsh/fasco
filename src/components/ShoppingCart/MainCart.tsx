@@ -47,6 +47,17 @@ function MainCart() {
     });
   }, [data, items, checkqty]);
   const mapData = data?.map((item, i) => {
+    const category = item?.category.replace(" ", "").replace("'", "");
+    const title = item?.title
+      .replace("-", " ")
+      .replace(/\s{2,}/g, "-")
+      .replace(/\s/g, "-")
+      .replace(".", "");
+    const brand = item?.brand
+      .replace("-", " ")
+      .replace(/\s{2,}/g, "-")
+      .replace(/\s/g, "-")
+      .replace(".", "");
     return (
       <div key={i}>
         <div className="grid grid-cols-7 gap-4 p-2 max-md:grid-rows-2 rounded-md mb-5   transition-all duration-300">
@@ -57,7 +68,7 @@ function MainCart() {
             <div>
               <p className="text-xs text-gray-500">{item.brand}</p>
               <Link
-                to={`/${item.category}/${item.id}`}
+                to={`/${category.toLowerCase()}/${brand.toLowerCase()}/${title.toLowerCase()}`}
                 className="text-sm font-semibold line-clamp-2"
               >
                 {item.quantity || 1} x {item.title}

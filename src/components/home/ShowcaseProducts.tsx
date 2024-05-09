@@ -38,9 +38,19 @@ function ShowcaseProducts({ products }: { products: Data[] }) {
 
   const createElement = products?.map((item) => {
     const category = item?.category.replace(" ", "").replace("'", "");
+    const title = item?.title
+      .replace("-", " ")
+      .replace(/\s{2,}/g, "-")
+      .replace(/\s/g, "-")
+      .replace(".", "");
+    const brand = item?.brand
+      .replace("-", " ")
+      .replace(/\s{2,}/g, "-")
+      .replace(/\s/g, "-")
+      .replace(".", "");
     return (
       <Link
-        to={`/${category}/${item.id}`}
+        to={`/${category.toLowerCase()}/${brand.toLowerCase()}/${title.toLowerCase()}`}
         className="grid grid-row-6  border border-border px-4 max-sm:px-2 hover:shadow-lg transition-all duration-300"
         key={item.id}
       >
