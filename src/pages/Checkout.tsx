@@ -39,6 +39,7 @@ function Checkout() {
   });
   const [step, setStep] = React.useState<StepData[]>([]);
   const [currentStep, setCurrentStep] = useState(1);
+  console.log(step, currentStep);
   useEffect(() => {
     setStep(stepsArr);
   }, [step, currentStep]);
@@ -46,7 +47,7 @@ function Checkout() {
     <div className="max-w-6xl mx-auto px-4">
       {step && <Steps stepData={step} currentStep={currentStep} />}
       <div>
-        {currentStep === 3 && (
+        {currentStep === 1 && (
           <Address
             setStep={setStep}
             currentStep={currentStep}
@@ -62,7 +63,9 @@ function Checkout() {
             setCurrentStep={setCurrentStep}
           />
         )}
-        {currentStep === 1 && <Payment />}
+        {currentStep === 3 && (
+          <Payment checked={checked} setChecked={setChecked} />
+        )}
       </div>
     </div>
   );
