@@ -118,7 +118,7 @@ function MainCart() {
         <h1 className="text-xl font-semibold">Shopping Cart</h1>
         <div className="flex flex-col gap-7 mt-10">{mapData}</div>
       </div>
-      <div className="col-span-4 border border-border rounded-lg p-12">
+      <div className="col-span-4 border border-border rounded-lg p-12 max-sm:p-4">
         <h1 className="text-xl font-semibold mb-6">Order Summary</h1>
         <span className="text-xs text-muted-foreground">
           Discount code / Promo code
