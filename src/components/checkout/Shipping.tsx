@@ -1,21 +1,45 @@
-import { useNavigate } from "react-router-dom";
 import ButtonNextBack from "./ButtonNextBack";
-import { useState } from "react";
+import { StepData } from "@/lib/redux/types";
 
 interface Data {
   free: boolean;
   standard: boolean;
   express: boolean;
 }
-function Shipping() {
-  const navigate = useNavigate();
+function Shipping({
+  checked,
+  setChecked,
+  setStep,
+  currentStep,
+  setCurrentStep,
+}: {
+  checked: Data;
+  setChecked: React.Dispatch<React.SetStateAction<Data>>;
+  currentStep: number;
+  setStep: React.Dispatch<React.SetStateAction<StepData[]>>;
+  setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
+}) {
+  const handleNext = () => {
+    if (currentStep === 1) {
+      setStep((prev) => {
+        return prev.map((item) => {
+          if (item.step === 1) {
+            return { ...item, active: false };
+          }
+          if (item.step === 2) {
+            return { ...item, active: false };
+          }
+          if (item.step === 3) {
+            return { ...item, active: true };
+          }
+          return item;
+        });
+      });
+      setCurrentStep(2);
+    }
+  };
 
   // State to manage the checked status of checkboxes
-  const [checked, setChecked] = useState<Data>({
-    free: false,
-    standard: false,
-    express: false,
-  });
 
   // Function to handle checkbox changes
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,7 +120,7 @@ function Shipping() {
           </p>
         </div>
       </div>
-      <ButtonNextBack handleNext={() => navigate("/payment")} />
+      <ButtonNextBack handleNext={handleNext} />
     </div>
   );
 }

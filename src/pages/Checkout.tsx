@@ -1,4 +1,5 @@
 import Address from "@/components/checkout/Address";
+import Payment from "@/components/checkout/Payment";
 import Shipping from "@/components/checkout/Shipping";
 import Steps from "@/components/checkout/Steps";
 import React, { useEffect, useState } from "react";
@@ -25,7 +26,17 @@ const stepsArr: StepData[] = [
     name: "Payment",
   },
 ];
+interface Data {
+  free: boolean;
+  standard: boolean;
+  express: boolean;
+}
 function Checkout() {
+  const [checked, setChecked] = useState<Data>({
+    free: false,
+    standard: false,
+    express: false,
+  });
   const [step, setStep] = React.useState<StepData[]>([]);
   const [currentStep, setCurrentStep] = useState(1);
   useEffect(() => {
@@ -35,14 +46,23 @@ function Checkout() {
     <div className="max-w-6xl mx-auto px-4">
       {step && <Steps stepData={step} currentStep={currentStep} />}
       <div>
-        {currentStep === 1 && (
+        {currentStep === 3 && (
           <Address
             setStep={setStep}
             currentStep={currentStep}
             setCurrentStep={setCurrentStep}
           />
         )}
-        {currentStep === 2 && <Shipping />}
+        {currentStep === 2 && (
+          <Shipping
+            checked={checked}
+            setChecked={setChecked}
+            setStep={setStep}
+            currentStep={currentStep}
+            setCurrentStep={setCurrentStep}
+          />
+        )}
+        {currentStep === 1 && <Payment />}
       </div>
     </div>
   );
