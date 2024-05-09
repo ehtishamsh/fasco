@@ -9,6 +9,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 import Loader from "./components/Loader";
 import Checkout from "./pages/Checkout";
+import FilterPage from "./pages/FilterPage";
 
 function App() {
   let persistor = persistStore(store);
@@ -21,6 +22,7 @@ function App() {
               <Route element={<Layout />} path="/">
                 <Route element={<Homepage />} path="/" />
                 <Route element={<Product />} path="/:category/:id" />
+                <Route element={<FilterPage />} path="/filter" />
                 <Route element={<Homepage />} />
                 <Route element={<ShoppingCart />} path="/cart" />
                 <Route element={<Checkout />} path="/checkout" />
