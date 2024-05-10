@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 
 function FilterPage() {
   const path = useParams();
-  console.log(path);
+
   return (
     <div className="px-4">
       <div className="max-w-7xl mx-auto">

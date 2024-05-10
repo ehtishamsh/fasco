@@ -1,22 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { Separator } from "../ui/separator";
-import { IoIosArrowUp } from "react-icons/io";
-import { IoIosArrowDown } from "react-icons/io";
-import { motion } from "framer-motion";
-import List from "./List";
+import { useEffect, useState } from "react";
+import CollapsibleSection from "./CollapsibleSection";
 
 interface Data {
   category: string[];
   brand: string[];
   price: number[];
 }
+
 function Sidebar() {
-  const [isOpen, setIsOpen] = useState({
-    brand: false,
-    category: false,
-    price: false,
-  });
   const [data, setData] = useState<Data>();
+  const [selectedBrand, setSelectedBrand] = useState<string[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -63,54 +57,20 @@ function Sidebar() {
       setData({} as Data);
     };
   }, []);
-
   return (
-    <div className="flex flex-col p-2">
-      <div className="relative">
-        <div
-          className=" cursor-pointer"
-          onClick={() => setIsOpen({ ...isOpen, category: !isOpen.category })}
-        >
-          <div className="flex justify-between items-center pb-2">
-            <p className="font-semibold">Category</p>
-            <p>{isOpen.category ? <IoIosArrowDown /> : <IoIosArrowUp />}</p>
-          </div>
-          <Separator className="bg-gray-400" />
-        </div>
-        <motion.div
-          initial={{ height: 0 }}
-          animate={{ height: isOpen.category ? "auto" : 0 }}
-          transition={{ duration: 0.6, ease: "easeInOut" }}
-          className="overflow-hidden transition duration-300"
-        >
-          <motion.div className="flex flex-col mt-3 text-sm transition-all duration-300">
-            <List data={data?.category} />
-          </motion.div>
-        </motion.div>
-      </div>
-      {/* Brand */}
-      <div className="relative">
-        <div
-          className=" cursor-pointer"
-          onClick={() => setIsOpen({ ...isOpen, brand: !isOpen.brand })}
-        >
-          <div className="flex justify-between items-center pb-2">
-            <p className="font-semibold">Brand</p>
-            <p>{isOpen.brand ? <IoIosArrowDown /> : <IoIosArrowUp />}</p>
-          </div>
-          <Separator className="bg-gray-400" />
-        </div>
-        <motion.div
-          initial={{ height: 0 }}
-          animate={{ height: isOpen.brand ? "auto" : 0 }}
-          transition={{ duration: 0.3, ease: "easeInOut", delay: 0.3 }}
-          className="overflow-hidden transition duration-300"
-        >
-          <motion.div className="flex flex-col mt-3 text-sm transition-all duration-300">
-            <List data={data?.brand} />
-          </motion.div>
-        </motion.div>
-      </div>
+    <div className="flex flex-col p-2 gap-2">
+      <CollapsibleSection
+        selected={selectedBrand}
+        setSelected={setSelectedBrand}
+        title="Category"
+        data={data?.category || []}
+      />
+      <CollapsibleSection
+        selected={selectedCategory}
+        setSelected={setSelectedCategory}
+        title="Brand"
+        data={data?.brand || []}
+      />
     </div>
   );
 }
