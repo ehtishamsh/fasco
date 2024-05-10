@@ -13,7 +13,6 @@ import Recommended from "@/components/product/Recommended";
 
 function Product() {
   const path = useParams();
-  console.log(path);
   const [data, setData] = useState<any>({});
   useEffect(() => {
     const fetchData = async () => {

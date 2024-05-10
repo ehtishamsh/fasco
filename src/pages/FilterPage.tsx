@@ -7,7 +7,7 @@ function FilterPage() {
   console.log(path);
   return (
     <div className="px-4">
-      <div className="max-w-8xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         <BreadCrum cat={path.category} />
         <div className="mt-10">
           <Filter />
