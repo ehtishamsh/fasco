@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react";
 
 function List({
   data,
-  selected,
   setSelected,
 }: {
   data: string[] | undefined;
-  selected: string[];
+  selected?: string[];
   setSelected: React.Dispatch<React.SetStateAction<string[]>>;
 }) {
   const [value, setValue] = useState<string[]>(data || []);

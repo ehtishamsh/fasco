@@ -7,12 +7,10 @@ import List from "./List";
 const CollapsibleSection = ({
   title,
   data,
-  selected,
   setSelected,
 }: {
   title: string;
   data: string[];
-  selected: string[];
   setSelected: React.Dispatch<React.SetStateAction<string[]>>;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,7 +31,7 @@ const CollapsibleSection = ({
         className="overflow-hidden transition duration-300"
       >
         <motion.div className="flex flex-col mt-3 text-sm transition-all duration-300">
-          <List data={data} selected={selected} setSelected={setSelected} />
+          <List data={data} setSelected={setSelected} />
         </motion.div>
       </motion.div>
     </div>

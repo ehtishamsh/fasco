@@ -57,16 +57,15 @@ function Sidebar() {
       setData({} as Data);
     };
   }, []);
+
   return (
     <div className="flex flex-col p-2 gap-2">
       <CollapsibleSection
-        selected={selectedBrand}
         setSelected={setSelectedBrand}
         title="Category"
         data={data?.category || []}
       />
       <CollapsibleSection
-        selected={selectedCategory}
         setSelected={setSelectedCategory}
         title="Brand"
         data={data?.brand || []}
