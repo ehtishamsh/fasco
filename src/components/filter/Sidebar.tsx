@@ -18,27 +18,15 @@ function Sidebar() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
-    if (!params.category) {
-      const newSearchParams = new URLSearchParams();
-      if (selectedBrand.length > 0) {
-        newSearchParams.append("brand", selectedBrand.join(" "));
-      }
-      if (batteryCapacity.length > 0) {
-        newSearchParams.append("batteryCapacity", batteryCapacity.join(" "));
-      }
-      window.history.pushState(null, "", `?${newSearchParams.toString()}`);
-      setSearchParams(newSearchParams);
-    } else {
-      const newSearchParams = new URLSearchParams();
-      if (selectedBrand.length > 0) {
-        newSearchParams.append("brand", selectedBrand.join(" "));
-      }
-      if (batteryCapacity.length > 0) {
-        newSearchParams.append("batteryCapacity", batteryCapacity.join(" "));
-      }
-      window.history.pushState(null, "", `?${newSearchParams.toString()}`);
-      setSearchParams(newSearchParams);
+    const newSearchParams = new URLSearchParams();
+    if (selectedBrand.length > 0) {
+      newSearchParams.append("brand", selectedBrand.join(" "));
     }
+    if (batteryCapacity.length > 0) {
+      newSearchParams.append("batteryCapacity", batteryCapacity.join(" "));
+    }
+    window.history.pushState(null, "", `?${newSearchParams.toString()}`);
+    setSearchParams(newSearchParams);
   }, [
     selectedBrand,
     selectedCategory,
@@ -65,10 +53,12 @@ function Sidebar() {
         });
       });
     }
-    setBatteryCapacity(battryArr);
-    setSelectedBrand(brandArr);
+    if (battryArr.length > 0 || brandArr.length > 0) {
+      setBatteryCapacity(battryArr);
+      setSelectedBrand(brandArr);
+    }
   }, [searchParams]);
-  console.log(batteryCapacity, selectedBrand);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
