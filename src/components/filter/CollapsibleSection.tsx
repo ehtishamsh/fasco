@@ -19,10 +19,10 @@ const CollapsibleSection = ({
     <div className="relative">
       <div className="cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
         <div className="flex justify-between items-center pb-2">
-          <p className="font-semibold">{title}</p>
+          <p className="font-semibold text-sm">{title}</p>
           <p>{isOpen ? <IoIosArrowDown /> : <IoIosArrowUp />}</p>
         </div>
-        <Separator className="bg-gray-400" />
+        <Separator className="bg-gray-200 py-[0.3px]" />
       </div>
       <motion.div
         initial={{ height: 0 }}
