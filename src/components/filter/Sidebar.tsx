@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import CollapsibleSection from "./CollapsibleSection";
+import { useParams, useSearchParams } from "react-router-dom";
 
 interface Data {
   category: string[];
@@ -13,7 +14,61 @@ function Sidebar() {
   const [selectedBrand, setSelectedBrand] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
   const [batteryCapacity, setBatteryCapacity] = useState<string[]>([]);
+  const params = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
+  useEffect(() => {
+    if (!params.category) {
+      const newSearchParams = new URLSearchParams();
+      if (selectedBrand.length > 0) {
+        newSearchParams.append("brand", selectedBrand.join(" "));
+      }
+      if (batteryCapacity.length > 0) {
+        newSearchParams.append("batteryCapacity", batteryCapacity.join(" "));
+      }
+      window.history.pushState(null, "", `?${newSearchParams.toString()}`);
+      setSearchParams(newSearchParams);
+    } else {
+      const newSearchParams = new URLSearchParams();
+      if (selectedBrand.length > 0) {
+        newSearchParams.append("brand", selectedBrand.join(" "));
+      }
+      if (batteryCapacity.length > 0) {
+        newSearchParams.append("batteryCapacity", batteryCapacity.join(" "));
+      }
+      window.history.pushState(null, "", `?${newSearchParams.toString()}`);
+      setSearchParams(newSearchParams);
+    }
+  }, [
+    selectedBrand,
+    selectedCategory,
+    batteryCapacity,
+    params.category,
+    setSearchParams,
+  ]);
+
+  useEffect(() => {
+    let battryArr: string[] = [];
+
+    let brandArr: string[] = [];
+    if (searchParams.get("batteryCapacity")) {
+      searchParams.getAll("batteryCapacity").forEach((item) => {
+        item.split(" ").forEach((item) => {
+          battryArr.push(item);
+        });
+      });
+    }
+    if (searchParams.get("brand")) {
+      searchParams.getAll("brand").forEach((item) => {
+        item.split(" ").forEach((item) => {
+          brandArr.push(item);
+        });
+      });
+    }
+    setBatteryCapacity(battryArr);
+    setSelectedBrand(brandArr);
+  }, [searchParams]);
+  console.log(batteryCapacity, selectedBrand);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -81,18 +136,18 @@ function Sidebar() {
   return (
     <div className="flex flex-col p-2 gap-2">
       <CollapsibleSection
-        setSelected={setSelectedBrand}
+        setSelected={setSelectedCategory}
         title="Category"
         data={data?.category || []}
       />
       <CollapsibleSection
-        setSelected={setSelectedCategory}
+        setSelected={setSelectedBrand}
         title="Brand"
         data={data?.brand || []}
       />
       <CollapsibleSection
         setSelected={setBatteryCapacity}
-        title="Brand"
+        title="Battery Capacity"
         data={data?.batteryCapacity || []}
       />
     </div>
