@@ -6,6 +6,10 @@ interface Data {
   category: string[];
   brand: string[];
   batteryCapacity: string[];
+  screenSize: string[];
+  screenType: string[]; // Add screenType
+  ram: string[]; // Add RAM
+  color: string[]; // Add color
   price: number[];
 }
 
@@ -14,6 +18,10 @@ function Sidebar() {
   const [selectedBrand, setSelectedBrand] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
   const [batteryCapacity, setBatteryCapacity] = useState<string[]>([]);
+  const [screenSize, setScreenSize] = useState<string[]>([]);
+  const [screenType, setScreenType] = useState<string[]>([]); // State for screen type
+  const [ram, setRAM] = useState<string[]>([]); // State for RAM
+  const [color, setColor] = useState<string[]>([]); // State for color
   const params = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -22,8 +30,20 @@ function Sidebar() {
     if (selectedBrand.length > 0) {
       newSearchParams.append("brand", selectedBrand.join(" "));
     }
+    if (screenSize.length > 0) {
+      newSearchParams.append("screenSize", screenSize.join(" "));
+    }
     if (batteryCapacity.length > 0) {
       newSearchParams.append("batteryCapacity", batteryCapacity.join(" "));
+    }
+    if (screenType.length > 0) {
+      newSearchParams.append("screenType", screenType.join(" "));
+    }
+    if (ram.length > 0) {
+      newSearchParams.append("ram", ram.join(" "));
+    }
+    if (color.length > 0) {
+      newSearchParams.append("color", color.join(" "));
     }
     window.history.pushState(null, "", `?${newSearchParams.toString()}`);
     setSearchParams(newSearchParams);
@@ -32,30 +52,73 @@ function Sidebar() {
     selectedCategory,
     batteryCapacity,
     params.category,
+    screenSize,
+    screenType,
+    ram,
+    color,
     setSearchParams,
   ]);
 
   useEffect(() => {
     let battryArr: string[] = [];
-
+    let sizeArr: string[] = [];
     let brandArr: string[] = [];
+    let screenTypeArr: string[] = [];
+    let ramArr: string[] = [];
+    let colorArr: string[] = [];
+
     if (searchParams.get("batteryCapacity")) {
       searchParams.getAll("batteryCapacity").forEach((item) => {
         item.split(" ").forEach((item) => {
           battryArr.push(item);
         });
       });
-    }
-    if (searchParams.get("brand")) {
+    } else if (searchParams.get("brand")) {
       searchParams.getAll("brand").forEach((item) => {
         item.split(" ").forEach((item) => {
           brandArr.push(item);
         });
       });
+    } else if (searchParams.get("screenSize")) {
+      searchParams.getAll("screenSize").forEach((item) => {
+        item.split(" ").forEach((item) => {
+          sizeArr.push(item);
+        });
+      });
+    } else if (searchParams.get("screenType")) {
+      searchParams.getAll("screenType").forEach((item) => {
+        item.split(" ").forEach((item) => {
+          screenTypeArr.push(item);
+        });
+      });
+    } else if (searchParams.get("ram")) {
+      searchParams.getAll("ram").forEach((item) => {
+        item.split(" ").forEach((item) => {
+          ramArr.push(item);
+        });
+      });
+    } else if (searchParams.get("color")) {
+      searchParams.getAll("color").forEach((item) => {
+        item.split(" ").forEach((item) => {
+          colorArr.push(item);
+        });
+      });
     }
-    if (battryArr.length > 0 || brandArr.length > 0) {
+
+    if (
+      battryArr.length > 0 ||
+      brandArr.length > 0 ||
+      sizeArr.length > 0 ||
+      screenTypeArr.length > 0 ||
+      ramArr.length > 0 ||
+      colorArr.length > 0
+    ) {
       setBatteryCapacity(battryArr);
       setSelectedBrand(brandArr);
+      setScreenSize(sizeArr);
+      setScreenType(screenTypeArr);
+      setRAM(ramArr);
+      setColor(colorArr);
     }
   }, [searchParams]);
 
@@ -108,6 +171,15 @@ function Sidebar() {
                 "9000mAh",
                 "10000mAh",
               ],
+              screenSize: ["4.5", "5.5", "6.5", "7.5", "8.5"],
+              screenType: ["LCD", "OLED", "AMOLED"], // Sample screen types
+              ram: ["4GB", "8GB", "16GB"], // Sample RAM options
+              color: ["Black", "White", "Silver", "Gold"], // Sample color options
+            };
+          });
+          setData((prev: any) => {
+            return {
+              ...prev,
             };
           });
         } catch (error) {
@@ -139,6 +211,26 @@ function Sidebar() {
         setSelected={setBatteryCapacity}
         title="Battery Capacity"
         data={data?.batteryCapacity || []}
+      />
+      <CollapsibleSection
+        setSelected={setScreenSize}
+        title="Screen Size"
+        data={data?.screenSize || []}
+      />
+      <CollapsibleSection
+        setSelected={setScreenType}
+        title="Screen Type"
+        data={data?.screenType || []}
+      />
+      <CollapsibleSection
+        setSelected={setRAM}
+        title="RAM"
+        data={data?.ram || []}
+      />
+      <CollapsibleSection
+        setSelected={setColor}
+        title="Color"
+        data={data?.color || []}
       />
     </div>
   );
