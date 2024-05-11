@@ -4,6 +4,7 @@ import CollapsibleSection from "./CollapsibleSection";
 interface Data {
   category: string[];
   brand: string[];
+  batteryCapacity: string[];
   price: number[];
 }
 
@@ -11,6 +12,8 @@ function Sidebar() {
   const [data, setData] = useState<Data>();
   const [selectedBrand, setSelectedBrand] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
+  const [batteryCapacity, setBatteryCapacity] = useState<string[]>([]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -45,6 +48,23 @@ function Sidebar() {
           setData((prev: any) => {
             return { ...prev, brand: getBrandsUnique };
           });
+          setData((prev: any) => {
+            return {
+              ...prev,
+              batteryCapacity: [
+                "1000mAh",
+                "2000mAh",
+                "3000mAh",
+                "4000mAh",
+                "5000mAh",
+                "6000mAh",
+                "7000mAh",
+                "8000mAh",
+                "9000mAh",
+                "10000mAh",
+              ],
+            };
+          });
         } catch (error) {
           console.log(error);
         }
@@ -69,6 +89,11 @@ function Sidebar() {
         setSelected={setSelectedCategory}
         title="Brand"
         data={data?.brand || []}
+      />
+      <CollapsibleSection
+        setSelected={setBatteryCapacity}
+        title="Brand"
+        data={data?.batteryCapacity || []}
       />
     </div>
   );
