@@ -2,20 +2,14 @@ import { useEffect, useState } from "react";
 import CollapsibleSection from "./CollapsibleSection";
 import { useParams, useSearchParams } from "react-router-dom";
 import Color from "./Color";
+import { motion } from "framer-motion";
 
 interface Data {
-  category: string[];
-  brand: string[];
-  batteryCapacity: string[];
-  screenSize: string[];
-  screenType: string[]; // Add screenType
-  ram: string[]; // Add RAM
-  color: string[]; // Add color
-  price: number[];
+  [key: string]: string[];
 }
 
 function Sidebar() {
-  const [data, setData] = useState<Data>();
+  const [data, setData] = useState<Data | null>(null);
   const [selectedBrand, setSelectedBrand] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
   const [batteryCapacity, setBatteryCapacity] = useState<string[]>([]);
@@ -23,6 +17,7 @@ function Sidebar() {
   const [screenType, setScreenType] = useState<string[]>([]); // State for screen type
   const [ram, setRAM] = useState<string[]>([]); // State for RAM
   const [color, setColor] = useState<string[]>([]); // State for color
+  const [price, setPrice] = useState<string[]>([]);
   const params = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -46,6 +41,9 @@ function Sidebar() {
     if (color.length > 0) {
       newSearchParams.append("color", color.join(" "));
     }
+    if (price.length > 0) {
+      newSearchParams.append("price", price.join(" "));
+    }
     window.history.pushState(null, "", `?${newSearchParams.toString()}`);
     setSearchParams(newSearchParams);
   }, [
@@ -55,6 +53,7 @@ function Sidebar() {
     params.category,
     screenSize,
     screenType,
+    price,
     ram,
     color,
 
@@ -68,6 +67,7 @@ function Sidebar() {
     let screenTypeArr: string[] = [];
     let ramArr: string[] = [];
     let colorArr: string[] = [];
+    let priceArr: string[] = [];
 
     if (searchParams.get("batteryCapacity")) {
       searchParams.getAll("batteryCapacity").forEach((item) => {
@@ -111,7 +111,22 @@ function Sidebar() {
         });
       });
     }
-    console.log(battryArr, brandArr, sizeArr, screenTypeArr, ramArr, colorArr);
+    if (searchParams.get("price")) {
+      searchParams.getAll("price").forEach((item) => {
+        item.split(" ").forEach((item) => {
+          priceArr.push(item);
+        });
+      });
+    }
+    console.log(
+      battryArr,
+      brandArr,
+      sizeArr,
+      screenTypeArr,
+      ramArr,
+      colorArr,
+      price
+    );
 
     if (
       battryArr.length > 0 ||
@@ -119,7 +134,8 @@ function Sidebar() {
       sizeArr.length > 0 ||
       screenTypeArr.length > 0 ||
       ramArr.length > 0 ||
-      colorArr.length > 0
+      colorArr.length > 0 ||
+      priceArr.length > 0
     ) {
       setBatteryCapacity(battryArr);
       setSelectedBrand(brandArr);
@@ -127,6 +143,7 @@ function Sidebar() {
       setScreenType(screenTypeArr);
       setRAM(ramArr);
       setColor(colorArr);
+      setPrice(priceArr);
     }
   }, [searchParams]);
 
@@ -183,6 +200,17 @@ function Sidebar() {
               screenType: ["LCD", "OLED", "AMOLED"], // Sample screen types
               ram: ["4GB", "8GB", "16GB"], // Sample RAM options
               color: ["black", "red", "gray", "blue"], // Sample color options
+              price: [
+                "10000",
+                "15000",
+                "20000",
+                "25000",
+                "30000",
+                "35000",
+                "40000",
+                "45000",
+                "50000",
+              ],
             };
           });
           setData((prev: any) => {
@@ -202,15 +230,20 @@ function Sidebar() {
       setData({} as Data);
     };
   }, []);
-  console.log(color);
 
   return (
-    <div className="flex flex-col p-2 gap-2">
-      <CollapsibleSection
-        setSelected={setSelectedCategory}
-        title="Category"
-        data={data?.category || []}
-      />
+    <motion.div
+      initial={{ width: 0 }}
+      animate={{ width: "100%" }}
+      className="flex flex-col p-2 gap-2 "
+    >
+      {!params.category && (
+        <CollapsibleSection
+          setSelected={setSelectedCategory}
+          title="Category"
+          data={data?.category || []}
+        />
+      )}
       <CollapsibleSection
         setSelected={setSelectedBrand}
         title="Brand"
@@ -236,6 +269,11 @@ function Sidebar() {
         title="RAM"
         data={data?.ram || []}
       />
+      <CollapsibleSection
+        setSelected={setPrice}
+        title="Price"
+        data={data?.price || []}
+      />
       <div>
         <p className="font-semibold text-sm">Color</p>
         <div className="flex flex-wrap gap-2 mt-2">
@@ -244,7 +282,7 @@ function Sidebar() {
           ))}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
