@@ -7,6 +7,7 @@ export interface Product {
   description: string;
   brand: string;
   quantity?: number; // Add quantity property for cart items
+  rating: number;
 }
 export type CartState = {
   cart: {
