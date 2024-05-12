@@ -8,16 +8,43 @@ interface Data {
   [key: string]: string[];
 }
 
-function Sidebar() {
+function Sidebar({
+  selectedBrand,
+  screenSize,
+  batteryCapacity,
+  screenType,
+  ram,
+  color,
+  price,
+  selectedCategory,
+  setSelectedCategory,
+  setSelectedBrand,
+  setBatteryCapacity,
+  setScreenSize,
+  setScreenType,
+  setRAM,
+  setColor,
+  setPrice,
+}: {
+  selectedBrand: string[];
+  setSelectedBrand: React.Dispatch<React.SetStateAction<string[]>>;
+  screenSize: string[];
+  setScreenSize: React.Dispatch<React.SetStateAction<string[]>>;
+  batteryCapacity: string[];
+  setBatteryCapacity: React.Dispatch<React.SetStateAction<string[]>>;
+  screenType: string[];
+  setScreenType: React.Dispatch<React.SetStateAction<string[]>>;
+  ram: string[];
+  setRAM: React.Dispatch<React.SetStateAction<string[]>>;
+  color: string[];
+  setColor: React.Dispatch<React.SetStateAction<string[]>>;
+  price: string[];
+  setPrice: React.Dispatch<React.SetStateAction<string[]>>;
+  selectedCategory: string[];
+  setSelectedCategory: React.Dispatch<React.SetStateAction<string[]>>;
+}) {
   const [data, setData] = useState<Data | null>(null);
-  const [selectedBrand, setSelectedBrand] = useState<string[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
-  const [batteryCapacity, setBatteryCapacity] = useState<string[]>([]);
-  const [screenSize, setScreenSize] = useState<string[]>([]);
-  const [screenType, setScreenType] = useState<string[]>([]); // State for screen type
-  const [ram, setRAM] = useState<string[]>([]); // State for RAM
-  const [color, setColor] = useState<string[]>([]); // State for color
-  const [price, setPrice] = useState<string[]>([]);
+
   const params = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
 
