@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import CollapsibleSection from "./CollapsibleSection";
 import { useParams, useSearchParams } from "react-router-dom";
+import Color from "./Color";
 
 interface Data {
   category: string[];
@@ -56,6 +57,7 @@ function Sidebar() {
     screenType,
     ram,
     color,
+
     setSearchParams,
   ]);
 
@@ -73,37 +75,43 @@ function Sidebar() {
           battryArr.push(item);
         });
       });
-    } else if (searchParams.get("brand")) {
+    }
+    if (searchParams.get("brand")) {
       searchParams.getAll("brand").forEach((item) => {
         item.split(" ").forEach((item) => {
           brandArr.push(item);
         });
       });
-    } else if (searchParams.get("screenSize")) {
+    }
+    if (searchParams.get("screenSize")) {
       searchParams.getAll("screenSize").forEach((item) => {
         item.split(" ").forEach((item) => {
           sizeArr.push(item);
         });
       });
-    } else if (searchParams.get("screenType")) {
+    }
+    if (searchParams.get("screenType")) {
       searchParams.getAll("screenType").forEach((item) => {
         item.split(" ").forEach((item) => {
           screenTypeArr.push(item);
         });
       });
-    } else if (searchParams.get("ram")) {
+    }
+    if (searchParams.get("ram")) {
       searchParams.getAll("ram").forEach((item) => {
         item.split(" ").forEach((item) => {
           ramArr.push(item);
         });
       });
-    } else if (searchParams.get("color")) {
+    }
+    if (searchParams.get("color")) {
       searchParams.getAll("color").forEach((item) => {
         item.split(" ").forEach((item) => {
           colorArr.push(item);
         });
       });
     }
+    console.log(battryArr, brandArr, sizeArr, screenTypeArr, ramArr, colorArr);
 
     if (
       battryArr.length > 0 ||
@@ -174,7 +182,7 @@ function Sidebar() {
               screenSize: ["4.5", "5.5", "6.5", "7.5", "8.5"],
               screenType: ["LCD", "OLED", "AMOLED"], // Sample screen types
               ram: ["4GB", "8GB", "16GB"], // Sample RAM options
-              color: ["Black", "White", "Silver", "Gold"], // Sample color options
+              color: ["black", "red", "gray", "blue"], // Sample color options
             };
           });
           setData((prev: any) => {
@@ -194,6 +202,7 @@ function Sidebar() {
       setData({} as Data);
     };
   }, []);
+  console.log(color);
 
   return (
     <div className="flex flex-col p-2 gap-2">
@@ -227,11 +236,14 @@ function Sidebar() {
         title="RAM"
         data={data?.ram || []}
       />
-      <CollapsibleSection
-        setSelected={setColor}
-        title="Color"
-        data={data?.color || []}
-      />
+      <div>
+        <p className="font-semibold text-sm">Color</p>
+        <div className="flex flex-wrap gap-2 mt-2">
+          {data?.color?.map((item) => (
+            <Color key={item} color={item} setColor={setColor} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
