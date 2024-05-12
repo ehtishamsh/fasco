@@ -9,16 +9,20 @@ import { useToast } from "../ui/use-toast";
 
 function ShowcaseProducts({ products }: { products: Data[] }) {
   const dispatch = useDispatch();
+  const [productData, setProductData] = useState<Data[]>(products);
   const items = useSelector<CartState, Product[]>((state) => state.cart.items);
   const [data, setData] = useState<Product[]>(items);
   useEffect(() => {
     setData(items);
   }, [data, items]);
+  useEffect(() => {
+    setProductData(products);
+  }, [products]);
   const { toast } = useToast();
   function handleClick(e: React.MouseEvent<HTMLButtonElement>, id: number) {
     e.preventDefault();
     const checkifexits = items.findIndex((i) => i.id === id);
-    const filterProduct = products.filter((item) => item.id === id);
+    const filterProduct = productData.filter((item) => item.id === id);
     if (checkifexits !== -1) {
       dispatch(add(filterProduct[0]));
       toast({
@@ -36,7 +40,7 @@ function ShowcaseProducts({ products }: { products: Data[] }) {
     }
   }
 
-  const createElement = products?.map((item) => {
+  const createElement = productData?.map((item) => {
     const category = item?.category.replace(" ", "").replace("'", "");
     const title = item?.title
       .replace("-", " ")
