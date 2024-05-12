@@ -1,14 +1,7 @@
 import { Product } from "@/lib/redux/types";
 import ShowcaseProducts from "../home/ShowcaseProducts";
-import {
-  Select,
-  SelectTrigger,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectValue,
-} from "../ui/select";
 import { useEffect, useState } from "react";
+import SelectBy from "./SelectBy";
 
 function Content({
   batteryCapacity,
@@ -70,19 +63,7 @@ function Content({
           Selected Products:
           <span className="text-black font-semibold text-base"> 144</span>
         </p>
-        <Select value={select} onValueChange={setSelect}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Best match" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem value="best">Best match</SelectItem>
-              <SelectItem value="rating">By rating</SelectItem>
-              <SelectItem value="price">Price</SelectItem>
-              <SelectItem value="top">Top Selling</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+        <SelectBy select={select} setSelect={setSelect} />
       </div>
       <div className="mt-10 grid grid-cols-3 gap-3">
         <ShowcaseProducts products={products} />
