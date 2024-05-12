@@ -19,7 +19,6 @@ function Color({
       }
     });
   };
-  console.log(color, selectedColor);
   return (
     <>
       <button
