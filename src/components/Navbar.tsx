@@ -2,12 +2,13 @@ import { NavLink, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 
-import { BsSearch, BsPerson, BsBag } from "react-icons/bs";
+import { BsSearch, BsBag } from "react-icons/bs";
 import Cart from "./Cart";
 import { CartState, Product } from "@/lib/redux/types";
 import { useSelector } from "react-redux";
 import { Input } from "./ui/input";
 import { HeartIcon } from "@radix-ui/react-icons";
+import { NavProfileDropdown } from "./NavProfileDropdown";
 
 function Navbar() {
   const [openCart, setOpenCart] = useState(false);
@@ -81,13 +82,7 @@ function Navbar() {
             >
               <HeartIcon className="w-6 h-6  max-lg:w-5 max-lg:h-5 max-md:w-4 max-md:h-4 max-sm:w-3 max-sm:h-3" />
             </Button>
-            <Button
-              variant="ghost"
-              size={"icon"}
-              className="flex justify-center items-center"
-            >
-              <BsPerson className="text-2xl max-lg:text-xl  max-md:text-lg" />
-            </Button>
+            <NavProfileDropdown />
 
             <Button
               onClick={handleCart}
