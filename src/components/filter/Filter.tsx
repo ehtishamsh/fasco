@@ -1,59 +1,42 @@
 import { useState } from "react";
 import Content from "./Content";
 import Sidebar from "./Sidebar";
+interface Data {
+  batteryCapacity: string[];
+  price: string[];
+  ram: string[];
+  screenSize: string[];
+  screenType: string[];
+  brands: string[];
+  color: string[];
+}
 
 function Filter() {
-  const [selectedBrand, setSelectedBrand] = useState<string[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
-  const [batteryCapacity, setBatteryCapacity] = useState<string[]>([]);
-  const [screenSize, setScreenSize] = useState<string[]>([]);
-  const [screenType, setScreenType] = useState<string[]>([]); // State for screen type
-  const [ram, setRAM] = useState<string[]>([]); // State for RAM
-  const [color, setColor] = useState<string[]>([]); // State for color
-  const [price, setPrice] = useState<string[]>([]);
-  console.log(
-    selectedBrand,
-    selectedCategory,
-    batteryCapacity,
-    screenSize,
-    screenType,
-    ram,
-    color,
-    price
-  );
+  const [allFilters, setAllFilters] = useState<Data>({
+    batteryCapacity: [],
+    price: [],
+    ram: [],
+    screenSize: [],
+    screenType: [],
+    brands: [],
+    color: [],
+  });
   return (
     <div className="grid grid-cols-8 gap-8 mt-28 ">
       <div className="col-span-2">
         <div className="">
-          <Sidebar
-            batteryCapacity={batteryCapacity}
-            color={color}
-            ram={ram}
-            screenSize={screenSize}
-            screenType={screenType}
-            setBatteryCapacity={setBatteryCapacity}
-            setColor={setColor}
-            setRAM={setRAM}
-            setScreenSize={setScreenSize}
-            setScreenType={setScreenType}
-            setSelectedBrand={setSelectedBrand}
-            setSelectedCategory={setSelectedCategory}
-            selectedBrand={selectedBrand}
-            selectedCategory={selectedCategory}
-            setPrice={setPrice}
-            price={price}
-          />
+          <Sidebar allFilters={allFilters} setAllFilters={setAllFilters} />
         </div>
       </div>
       <div className="col-span-6">
         <Content
-          batteryCapacity={batteryCapacity}
-          price={price}
-          ram={ram}
-          screenSize={screenSize}
-          screenType={screenType}
-          brands={selectedBrand}
-          color={color}
+          batteryCapacity={allFilters.batteryCapacity}
+          price={allFilters.price}
+          ram={allFilters.ram}
+          screenSize={allFilters.screenSize}
+          screenType={allFilters.screenType}
+          brands={allFilters.brands}
+          color={allFilters.color}
         />
       </div>
     </div>

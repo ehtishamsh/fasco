@@ -8,68 +8,78 @@ interface Data {
   [key: string]: string[];
 }
 
-function Sidebar({
-  selectedBrand,
-  screenSize,
-  batteryCapacity,
-  screenType,
-  ram,
-  color,
-  price,
-  selectedCategory,
-  setSelectedCategory,
-  setSelectedBrand,
-  setBatteryCapacity,
-  setScreenSize,
-  setScreenType,
-  setRAM,
-  setColor,
-  setPrice,
-}: {
-  selectedBrand: string[];
-  setSelectedBrand: React.Dispatch<React.SetStateAction<string[]>>;
-  screenSize: string[];
-  setScreenSize: React.Dispatch<React.SetStateAction<string[]>>;
+interface AllFilters {
   batteryCapacity: string[];
-  setBatteryCapacity: React.Dispatch<React.SetStateAction<string[]>>;
-  screenType: string[];
-  setScreenType: React.Dispatch<React.SetStateAction<string[]>>;
-  ram: string[];
-  setRAM: React.Dispatch<React.SetStateAction<string[]>>;
-  color: string[];
-  setColor: React.Dispatch<React.SetStateAction<string[]>>;
   price: string[];
-  setPrice: React.Dispatch<React.SetStateAction<string[]>>;
-  selectedCategory: string[];
-  setSelectedCategory: React.Dispatch<React.SetStateAction<string[]>>;
+  ram: string[];
+  screenSize: string[];
+  screenType: string[];
+  brands: string[];
+  color: string[];
+}
+function Sidebar({
+  allFilters,
+  setAllFilters,
+}: {
+  allFilters: AllFilters;
+  setAllFilters: React.Dispatch<React.SetStateAction<AllFilters>>;
 }) {
+  const [selectedBrand, setSelectedBrand] = useState<string[]>([]);
+  const [screenSize, setScreenSize] = useState<string[]>([]);
+  const [batteryCapacity, setBatteryCapacity] = useState<string[]>([]);
+  const [screenType, setScreenType] = useState<string[]>([]);
+  const [ram, setRAM] = useState<string[]>([]);
+  const [color, setColor] = useState<string[]>([]);
+  const [price, setPrice] = useState<string[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
   const [data, setData] = useState<Data | null>(null);
-
+  useEffect(() => {
+    setAllFilters({
+      brands: selectedBrand,
+      screenSize: screenSize,
+      batteryCapacity: batteryCapacity,
+      screenType: screenType,
+      ram: ram,
+      color: color,
+      price: price,
+    });
+  }, [
+    batteryCapacity,
+    color,
+    price,
+    ram,
+    screenType,
+    screenSize,
+    selectedBrand,
+  ]);
   const params = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     const newSearchParams = new URLSearchParams();
     if (selectedBrand.length > 0) {
-      newSearchParams.append("brand", selectedBrand.join(" "));
+      newSearchParams.append("brand", selectedBrand.join(" ").toLowerCase());
     }
     if (screenSize.length > 0) {
-      newSearchParams.append("screenSize", screenSize.join(" "));
+      newSearchParams.append("screenSize", screenSize.join(" ").toLowerCase());
     }
     if (batteryCapacity.length > 0) {
-      newSearchParams.append("batteryCapacity", batteryCapacity.join(" "));
+      newSearchParams.append(
+        "batteryCapacity",
+        batteryCapacity.join(" ").toLowerCase()
+      );
     }
     if (screenType.length > 0) {
-      newSearchParams.append("screenType", screenType.join(" "));
+      newSearchParams.append("screenType", screenType.join(" ").toLowerCase());
     }
     if (ram.length > 0) {
-      newSearchParams.append("ram", ram.join(" "));
+      newSearchParams.append("ram", ram.join(" ").toLowerCase());
     }
     if (color.length > 0) {
-      newSearchParams.append("color", color.join(" "));
+      newSearchParams.append("color", color.join(" ").toLowerCase());
     }
     if (price.length > 0) {
-      newSearchParams.append("price", price.join(" "));
+      newSearchParams.append("price", price.join(" ").toLowerCase());
     }
     window.history.pushState(null, "", `?${newSearchParams.toString()}`);
     setSearchParams(newSearchParams);
@@ -145,15 +155,6 @@ function Sidebar({
         });
       });
     }
-    console.log(
-      battryArr,
-      brandArr,
-      sizeArr,
-      screenTypeArr,
-      ramArr,
-      colorArr,
-      price
-    );
 
     if (
       battryArr.length > 0 ||
@@ -266,37 +267,44 @@ function Sidebar({
     >
       {!params.category && (
         <CollapsibleSection
+          select={selectedCategory}
           setSelected={setSelectedCategory}
           title="Category"
           data={data?.category || []}
         />
       )}
       <CollapsibleSection
+        select={selectedBrand}
         setSelected={setSelectedBrand}
         title="Brand"
         data={data?.brand || []}
       />
       <CollapsibleSection
+        select={batteryCapacity}
         setSelected={setBatteryCapacity}
         title="Battery Capacity"
         data={data?.batteryCapacity || []}
       />
       <CollapsibleSection
+        select={screenSize}
         setSelected={setScreenSize}
         title="Screen Size"
         data={data?.screenSize || []}
       />
       <CollapsibleSection
+        select={screenType}
         setSelected={setScreenType}
         title="Screen Type"
         data={data?.screenType || []}
       />
       <CollapsibleSection
+        select={ram}
         setSelected={setRAM}
         title="RAM"
         data={data?.ram || []}
       />
       <CollapsibleSection
+        select={price}
         setSelected={setPrice}
         title="Price"
         data={data?.price || []}
