@@ -41,7 +41,7 @@ export function BreadCrum({
             <BreadcrumbSeparator />
             <BreadcrumbItem>
               <BreadcrumbLink>
-                <Link to={`/${cat}/${brand.toLowerCase()}`}>{brand}</Link>
+                <Link to={`/${cat}?brand=${brand.toLowerCase()}`}>{brand}</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
           </>
