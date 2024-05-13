@@ -25,7 +25,7 @@ function Filter() {
     <div className="grid grid-cols-8 gap-8 mt-28 ">
       <div className="col-span-2">
         <div className="">
-          <Sidebar allFilters={allFilters} setAllFilters={setAllFilters} />
+          <Sidebar setAllFilters={setAllFilters} />
         </div>
       </div>
       <div className="col-span-6">

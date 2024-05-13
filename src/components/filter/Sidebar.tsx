@@ -18,10 +18,8 @@ interface AllFilters {
   color: string[];
 }
 function Sidebar({
-  allFilters,
   setAllFilters,
 }: {
-  allFilters: AllFilters;
   setAllFilters: React.Dispatch<React.SetStateAction<AllFilters>>;
 }) {
   const [selectedBrand, setSelectedBrand] = useState<string[]>([]);
