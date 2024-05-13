@@ -8,13 +8,15 @@ const CollapsibleSection = ({
   title,
   data,
   setSelected,
+  select,
 }: {
   title: string;
   data: string[];
   setSelected: React.Dispatch<React.SetStateAction<string[]>>;
+  select: string[];
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-
+  console.log(select);
   return (
     <div className="relative">
       <div className="cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
@@ -31,7 +33,7 @@ const CollapsibleSection = ({
         className="overflow-hidden transition duration-300"
       >
         <motion.div className="flex flex-col mt-3 text-sm transition-all duration-300">
-          <List data={data} setSelected={setSelected} />
+          <List data={data} setSelected={setSelected} selected={select} />
         </motion.div>
       </motion.div>
     </div>

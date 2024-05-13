@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 function List({
   data,
   setSelected,
+  selected,
 }: {
   data: string[] | undefined;
   selected?: string[];
@@ -13,16 +14,22 @@ function List({
   useEffect(() => {
     setValue(data || []);
   }, [data]);
+
   const checkSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const itemName = e.target.value.toLowerCase(); // Convert to lowercase
     setSelected((prev) => {
-      const filter = prev.filter((item) => item !== e.target.name);
       if (e.target.checked) {
-        return [...filter, e.target.value];
+        return [...prev, itemName]; // Add item to selected array
+      } else {
+        return prev.filter((item) => item !== itemName); // Remove item from selected array
       }
-      return filter;
     });
   };
+
   const mapCate = value?.map((item) => {
+    const itemName = item.toLowerCase(); // Convert to lowercase
+    const checked = selected?.includes(itemName);
+    console.log(checked);
     return (
       <div
         className="flex items-center mb-2 transition-all duration-200 hover:bg-gray-200/70 rounded-md"
@@ -35,11 +42,13 @@ function List({
           id={item}
           name={item}
           onChange={(e) => checkSelect(e)}
+          checked={checked || false}
         />
         <p className="ml-2">{item}</p>
       </div>
     );
   });
+
   return <>{mapCate}</>;
 }
 

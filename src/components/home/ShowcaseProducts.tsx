@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { add } from "../../lib/redux/cartSlice";
 import { CartState, Product as Data, Product } from "@/lib/redux/types";
 import { useToast } from "../ui/use-toast";
+import { FaStar } from "react-icons/fa6";
 
 function ShowcaseProducts({ products }: { products: Data[] }) {
   const dispatch = useDispatch();
@@ -63,20 +64,113 @@ function ShowcaseProducts({ products }: { products: Data[] }) {
             <HeartIcon className="w-6 h-6 text-muted-foreground" />
           </Button>
         </div>
-        <div className="px-2 overflow-hidden flex items-center justify-center ">
+        <div className="px-2 overflow-hidden flex items-center justify-center h-[180px]  ">
           <img
             src={item.thumbnail}
             alt=""
-            className="max-h-[180px] max-sm:max-h-[120px]"
+            className=" object-cover max-sm:max-h-[120px]"
           />
         </div>
 
         <h1 className="text-sm max-sm:text-xs font-semibold text-center line-clamp-3 mt-3 ">
           {item.title}
         </h1>
-        <h2 className="text-2xl font-bold text-center max-sm:text-base  flex items-end justify-center">
+        <h2 className="text-xl font-semibold text-center max-sm:text-base  flex items-end justify-center">
           ${item.price}
         </h2>
+        <div className="flex justify-center gap-2 mt-4 items-center">
+          {item.rating > 1 && item.rating < 2 ? (
+            <>
+              <span>
+                <FaStar className="w-3 h-3 text-yellow-400/80" />
+              </span>
+              <span>
+                <FaStar className="w-3 h-3 text-gray-400/80" />
+              </span>
+              <span>
+                <FaStar className="w-3 h-3 text-gray-400/80" />
+              </span>
+              <span>
+                <FaStar className="w-3 h-3 text-gray-400/80" />
+              </span>
+              <span>
+                <FaStar className="w-3 h-3 text-gray-400/80" />
+              </span>
+            </>
+          ) : item.rating > 2 && item.rating < 3 ? (
+            <>
+              <span>
+                <FaStar className="w-3 h-3 text-yellow-400/80" />
+              </span>
+              <span>
+                <FaStar className="w-3 h-3 text-yellow-400/80" />
+              </span>
+              <span>
+                <FaStar className="w-3 h-3 text-gray-400/80" />
+              </span>
+              <span>
+                <FaStar className="w-3 h-3 text-gray-400/80" />
+              </span>
+              <span>
+                <FaStar className="w-3 h-3 text-gray-400/80" />
+              </span>
+            </>
+          ) : item.rating > 3 && item.rating < 4 ? (
+            <>
+              <span>
+                <FaStar className="w-3 h-3 text-yellow-400/80" />
+              </span>
+              <span>
+                <FaStar className="w-3 h-3 text-yellow-400/80" />
+              </span>
+              <span>
+                <FaStar className="w-3 h-3 text-yellow-400/80" />
+              </span>
+              <span>
+                <FaStar className="w-3 h-3 text-gray-400/80" />
+              </span>
+              <span>
+                <FaStar className="w-3 h-3 text-gray-400/80" />
+              </span>
+            </>
+          ) : item.rating > 4 && item.rating < 5 ? (
+            <>
+              <span>
+                <FaStar className="w-3 h-3 text-yellow-400/80" />
+              </span>
+              <span>
+                <FaStar className="w-3 h-3 text-yellow-400/80" />
+              </span>
+              <span>
+                <FaStar className="w-3 h-3 text-yellow-400/80" />
+              </span>
+              <span>
+                <FaStar className="w-3 h-3 text-yellow-400/80" />
+              </span>
+              <span>
+                <FaStar className="w-3 h-3 text-gray-400/80" />
+              </span>
+            </>
+          ) : item.rating === 5 ? (
+            <>
+              <span>
+                <FaStar className="w-3 h-3 text-yellow-400/80" />
+              </span>
+              <span>
+                <FaStar className="w-3 h-3 text-yellow-400/80" />
+              </span>
+              <span>
+                <FaStar className="w-3 h-3 text-yellow-400/80" />
+              </span>
+              <span>
+                <FaStar className="w-3 h-3 text-yellow-400/80" />
+              </span>
+              <span>
+                <FaStar className="w-3 h-3 text-yellow-400/80" />
+              </span>
+            </>
+          ) : null}
+        </div>
         <div className="flex justify-center items-end py-4 max-sm:py-2">
           <Button
             variant={"default"}

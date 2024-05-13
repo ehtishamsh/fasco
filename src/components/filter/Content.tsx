@@ -30,7 +30,7 @@ function Content({
         const res = await req.json();
         const filterProducts = res?.products.filter((product: Product) => {
           if (brands.length > 0) {
-            return brands.includes(product.brand);
+            return brands.includes(product.brand.toLowerCase());
           } else if (price.length > 0) {
             return price.includes(product.price);
           }
@@ -38,6 +38,16 @@ function Content({
         });
 
         setProducts(filterProducts.length > 0 ? filterProducts : res.products);
+        if (select === "price") {
+          setProducts((prev) =>
+            prev.sort((a, b) => Number(a.price) - Number(b.price))
+          );
+        }
+        if (select === "rating") {
+          setProducts((prev) =>
+            prev.sort((a, b) => Number(b.rating) - Number(a.rating))
+          );
+        }
       } catch (error) {
         console.log(error);
       }
@@ -46,16 +56,17 @@ function Content({
     return () => {
       setProducts([]);
     };
-  }, [brands, price, ram, screenSize, screenType, batteryCapacity, color]);
-  useEffect(() => {
-    if (select === "price") {
-      setProducts((prev) =>
-        prev.sort((a, b) => Number(a.price) - Number(b.price))
-      );
-    } else if (select === "rating") {
-      setProducts((prev) => prev.sort((a, b) => a.rating - b.rating));
-    }
-  }, [select, products]);
+  }, [
+    brands,
+    price,
+    ram,
+    screenSize,
+    screenType,
+    batteryCapacity,
+    color,
+    select,
+    setProducts,
+  ]);
   return (
     <div className="px-2">
       <div className="flex justify-between">
