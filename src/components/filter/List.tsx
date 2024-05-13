@@ -29,7 +29,6 @@ function List({
   const mapCate = value?.map((item) => {
     const itemName = item.toLowerCase(); // Convert to lowercase
     const checked = selected?.includes(itemName);
-    console.log(checked);
     return (
       <div
         className="flex items-center mb-2 transition-all duration-200 hover:bg-gray-200/70 rounded-md"

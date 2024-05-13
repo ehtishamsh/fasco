@@ -16,7 +16,6 @@ const CollapsibleSection = ({
   select: string[];
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  console.log(select);
   return (
     <div className="relative">
       <div className="cursor-pointer" onClick={() => setIsOpen(!isOpen)}>

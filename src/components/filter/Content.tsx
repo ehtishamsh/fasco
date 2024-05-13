@@ -2,7 +2,15 @@ import { Product } from "@/lib/redux/types";
 import ShowcaseProducts from "../home/ShowcaseProducts";
 import { useEffect, useState } from "react";
 import SelectBy from "./SelectBy";
-
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 function Content({
   batteryCapacity,
   price,
@@ -67,6 +75,7 @@ function Content({
     select,
     setProducts,
   ]);
+  console.log(Math.ceil(products.length / 5));
   return (
     <div className="px-2">
       <div className="flex justify-between">
@@ -78,6 +87,24 @@ function Content({
       </div>
       <div className="mt-10 grid grid-cols-3 gap-3">
         <ShowcaseProducts products={products} />
+        <div className="col-span-3">
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious href="#" />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">1</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationNext href="#" />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
       </div>
     </div>
   );
