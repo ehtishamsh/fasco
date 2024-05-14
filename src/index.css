@@ -182,3 +182,16 @@ img {
   background-color: #ffed00;
   border-color: #908925;
 }
+
+::-webkit-scrollbar {
+  width: 7px; /* Adjust the scrollbar width */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333333; /* Change the scrollbar thumb color */
+  border-radius: 5px; /* Add rounded corners to the thumb */
+}
+
+::-webkit-scrollbar-track {
+  background: #eee;
+}

@@ -262,7 +262,7 @@ function Sidebar({
   }, []);
 
   return (
-    <div className={``}>
+    <div className={`max-md:max-h-[80svh] max-md:overflow-y-auto`}>
       <div className="hidden max-md:block">
         <div className="flex items-center">
           <Button variant={"ghost"} onClick={() => setOpen(false)}>
@@ -271,7 +271,7 @@ function Sidebar({
           <h1 className="text-xl font-semibold">Filter</h1>
         </div>
       </div>
-      <div className="">
+      <div className="max-md:px-6">
         <motion.div className={`flex flex-col p-2 gap-2 w-full bg-white`}>
           {!params.category && (
             <CollapsibleSection

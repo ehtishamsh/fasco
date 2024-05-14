@@ -29,7 +29,7 @@ const CollapsibleSection = ({
         initial={{ height: 0 }}
         animate={{ height: isOpen ? "auto" : 0 }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        className="overflow-hidden transition duration-300"
+        className="overflow-y-auto transition duration-300 scrollBar max-h-[300px] max-md:max-h-[160px]"
       >
         <motion.div className="flex flex-col mt-3 text-sm transition-all duration-300">
           <List data={data} setSelected={setSelected} selected={select} />
