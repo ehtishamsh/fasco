@@ -16,7 +16,7 @@ function SelectBy({
   return (
     <>
       <Select value={select} onValueChange={setSelect}>
-        <SelectTrigger className="w-[180px]">
+        <SelectTrigger className="w-[180px] max-md:w-full">
           <SelectValue placeholder="Best match" />
         </SelectTrigger>
         <SelectContent>

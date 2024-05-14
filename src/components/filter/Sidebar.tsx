@@ -3,6 +3,8 @@ import CollapsibleSection from "./CollapsibleSection";
 import { useParams, useSearchParams } from "react-router-dom";
 import Color from "./Color";
 import { motion } from "framer-motion";
+import { Button } from "../ui/button";
+import { FaChevronLeft } from "react-icons/fa";
 
 interface Data {
   [key: string]: string[];
@@ -19,8 +21,10 @@ interface AllFilters {
 }
 function Sidebar({
   setAllFilters,
+  setOpen,
 }: {
   setAllFilters: React.Dispatch<React.SetStateAction<AllFilters>>;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [selectedBrand, setSelectedBrand] = useState<string[]>([]);
   const [screenSize, setScreenSize] = useState<string[]>([]);
@@ -258,64 +262,72 @@ function Sidebar({
   }, []);
 
   return (
-    <motion.div
-      initial={{ width: 0 }}
-      animate={{ width: "100%" }}
-      className="flex flex-col p-2 gap-2 "
-    >
-      {!params.category && (
-        <CollapsibleSection
-          select={selectedCategory}
-          setSelected={setSelectedCategory}
-          title="Category"
-          data={data?.category || []}
-        />
-      )}
-      <CollapsibleSection
-        select={selectedBrand}
-        setSelected={setSelectedBrand}
-        title="Brand"
-        data={data?.brand || []}
-      />
-      <CollapsibleSection
-        select={batteryCapacity}
-        setSelected={setBatteryCapacity}
-        title="Battery Capacity"
-        data={data?.batteryCapacity || []}
-      />
-      <CollapsibleSection
-        select={screenSize}
-        setSelected={setScreenSize}
-        title="Screen Size"
-        data={data?.screenSize || []}
-      />
-      <CollapsibleSection
-        select={screenType}
-        setSelected={setScreenType}
-        title="Screen Type"
-        data={data?.screenType || []}
-      />
-      <CollapsibleSection
-        select={ram}
-        setSelected={setRAM}
-        title="RAM"
-        data={data?.ram || []}
-      />
-      <CollapsibleSection
-        select={price}
-        setSelected={setPrice}
-        title="Price"
-        data={data?.price || []}
-      />
-      <div>
-        <p className="font-semibold text-sm">Color</p>
-        <div className="flex flex-wrap gap-2 mt-2">
-          {data?.color?.map((item) => (
-            <Color key={item} color={item} setColor={setColor} />
-          ))}
+    <div className={``}>
+      <div className="hidden max-md:block">
+        <div className="flex items-center">
+          <Button variant={"ghost"} onClick={() => setOpen(false)}>
+            <FaChevronLeft className="text-base" />
+          </Button>
+          <h1 className="text-xl font-semibold">Filter</h1>
         </div>
       </div>
-    </motion.div>
+      <div className="">
+        <motion.div className={`flex flex-col p-2 gap-2 w-full bg-white`}>
+          {!params.category && (
+            <CollapsibleSection
+              select={selectedCategory}
+              setSelected={setSelectedCategory}
+              title="Category"
+              data={data?.category || []}
+            />
+          )}
+          <CollapsibleSection
+            select={selectedBrand}
+            setSelected={setSelectedBrand}
+            title="Brand"
+            data={data?.brand || []}
+          />
+          <CollapsibleSection
+            select={batteryCapacity}
+            setSelected={setBatteryCapacity}
+            title="Battery Capacity"
+            data={data?.batteryCapacity || []}
+          />
+          <CollapsibleSection
+            select={screenSize}
+            setSelected={setScreenSize}
+            title="Screen Size"
+            data={data?.screenSize || []}
+          />
+          <CollapsibleSection
+            select={screenType}
+            setSelected={setScreenType}
+            title="Screen Type"
+            data={data?.screenType || []}
+          />
+          <CollapsibleSection
+            select={ram}
+            setSelected={setRAM}
+            title="RAM"
+            data={data?.ram || []}
+          />
+          <CollapsibleSection
+            select={price}
+            setSelected={setPrice}
+            title="Price"
+            data={data?.price || []}
+          />
+          <div>
+            <p className="font-semibold text-sm">Color</p>
+            <div className="flex flex-wrap gap-2 mt-2">
+              {data?.color?.map((item) => (
+                <Color key={item} color={item} setColor={setColor} />
+              ))}
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </div>
   );
 }
 
