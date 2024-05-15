@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { Separator } from "../ui/separator";
 import List from "./List";
-
 const CollapsibleSection = ({
   title,
   data,
@@ -16,6 +15,8 @@ const CollapsibleSection = ({
   select: string[];
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [search, setSearch] = useState<string>("");
+
   return (
     <div className="relative">
       <div className="cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
@@ -31,7 +32,7 @@ const CollapsibleSection = ({
         transition={{ duration: 0.3, ease: "easeInOut" }}
         className="overflow-y-auto transition duration-300 scrollBar max-h-[300px] max-md:max-h-[160px]"
       >
-        <motion.div className="flex flex-col mt-3 text-sm transition-all duration-300">
+        <motion.div className="flex flex-col mt-3 text-sm transition-all duration-300 pr-3 pl-2">
           <List data={data} setSelected={setSelected} selected={select} />
         </motion.div>
       </motion.div>
