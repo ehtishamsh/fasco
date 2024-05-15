@@ -1,4 +1,5 @@
 import Brands from "@/components/home/Brands";
+import Category from "@/components/home/Category";
 import DiscountedProducts from "@/components/home/DiscountedProducts";
 
 import Hero from "@/components/home/Hero";
@@ -18,6 +19,7 @@ function Homepage() {
         <Brands />
       </div>
       <ShopGrid />
+      <Category />
       <TopProducts />
       <ShowcaseProductGrid />
       <DiscountedProducts />
