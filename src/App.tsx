@@ -10,6 +10,8 @@ import { persistStore } from "redux-persist";
 import Loader from "./components/Loader";
 import Checkout from "./pages/Checkout";
 import FilterPage from "./pages/FilterPage";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminLayout from "./components/admin/AdminLayout";
 
 function App() {
   let persistor = persistStore(store);
@@ -26,6 +28,9 @@ function App() {
                 <Route element={<Homepage />} />
                 <Route element={<ShoppingCart />} path="/cart" />
                 <Route element={<Checkout />} path="/checkout" />
+              </Route>
+              <Route element={<AdminLayout />} path="/">
+                <Route element={<AdminDashboard />} path="/admin" />
               </Route>
             </Routes>
           </Router>
