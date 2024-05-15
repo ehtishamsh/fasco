@@ -1,55 +1,58 @@
-import React from "react";
 import { Link } from "react-router-dom";
-import { IoPhonePortraitOutline } from "react-icons/io5";
-import { BsSmartwatch } from "react-icons/bs";
+import { IoCameraOutline, IoPhonePortraitOutline } from "react-icons/io5";
+import { BsController, BsSmartwatch } from "react-icons/bs";
+import { IoLaptopOutline } from "react-icons/io5";
+import { CiHeadphones } from "react-icons/ci";
 
 function Category() {
   return (
     <div className="max-w-6xl mx-auto">
-      <div className="mt-10 max-sm:mt-5 px-2 py-7">
-        <h1 className="text-xl font-semibold">Browse By Category</h1>
-        <div className="grid grid-cols-6 gap-5 mt-12">
+      <div className="mt-10 max-sm:mt-5 px-2 py-7 max-sm:py-5">
+        <h1 className="text-xl font-semibold max-sm:text-base">
+          Browse By Category
+        </h1>
+        <div className="grid grid-cols-6 gap-5 mt-12 max-md:grid-cols-3 max-sm:grid-cols-2">
           <Link
             to={"/smartphones"}
-            className="flex justify-center items-center flex-col gap-3 bg-gray-100 rounded-md text-black py-8 px-2"
+            className="flex justify-center items-center flex-col gap-4 bg-gray-100 rounded-md text-black py-6 px-2 max-sm:py-3"
           >
-            <IoPhonePortraitOutline size={40} />
+            <IoPhonePortraitOutline className="text-4xl max-md:text-3xl max-sm:text-2xl" />
             <p className="font-semibold text-sm">Smartphones</p>
           </Link>
           <Link
             to={"/smartwatches"}
-            className="flex justify-center items-center flex-col gap-3 bg-gray-100 rounded-md text-black py-8 px-2"
+            className="flex justify-center items-center flex-col gap-4 bg-gray-100 rounded-md text-black py-6 px-2 max-sm:py-3"
           >
-            <BsSmartwatch size={40} />
+            <BsSmartwatch className="text-4xl max-md:text-3xl max-sm:text-2xl" />
             <p className="font-semibold text-sm">Smart Watches</p>
           </Link>
           <Link
-            to={"/smartphones"}
-            className="flex justify-center items-center flex-col gap-3 bg-gray-100 rounded-md text-black py-8 px-2"
+            to={"/gaming"}
+            className="flex justify-center items-center flex-col gap-4 bg-gray-100 rounded-md text-black py-6 px-2 max-sm:py-3"
           >
-            <IoPhonePortraitOutline size={40} />
-            <p className="font-semibold text-sm">Smartphones</p>
+            <BsController className="text-4xl max-md:text-3xl max-sm:text-2xl" />
+            <p className="font-semibold text-sm">Gaming</p>
           </Link>
           <Link
-            to={"/smartphones"}
-            className="flex justify-center items-center flex-col gap-3 bg-gray-100 rounded-md text-black py-8 px-2"
+            to={"/cameras"}
+            className="flex justify-center items-center flex-col gap-4 bg-gray-100 rounded-md text-black py-6 px-2 max-sm:py-3"
           >
-            <IoPhonePortraitOutline size={40} />
-            <p className="font-semibold text-sm">Smartphones</p>
+            <IoCameraOutline className="text-4xl max-md:text-3xl max-sm:text-2xl" />
+            <p className="font-semibold text-sm">Cameras</p>
           </Link>
           <Link
-            to={"/smartphones"}
-            className="flex justify-center items-center flex-col gap-3 bg-gray-100 rounded-md text-black py-8 px-2"
+            to={"/laptops"}
+            className="flex justify-center items-center flex-col gap-4 bg-gray-100 rounded-md text-black py-6 px-2 max-sm:py-3"
           >
-            <IoPhonePortraitOutline size={40} />
-            <p className="font-semibold text-sm">Smartphones</p>
+            <IoLaptopOutline className="text-4xl max-md:text-3xl max-sm:text-2xl" />
+            <p className="font-semibold text-sm">Laptops</p>
           </Link>
           <Link
-            to={"/smartphones"}
-            className="flex justify-center items-center flex-col gap-3 bg-gray-100 rounded-md text-black py-8 px-2"
+            to={"/headphones"}
+            className="flex justify-center items-center flex-col gap-4 bg-gray-100 rounded-md text-black py-6 px-2 max-sm:py-3"
           >
-            <IoPhonePortraitOutline size={40} />
-            <p className="font-semibold text-sm">Smartphones</p>
+            <CiHeadphones className="text-4xl max-md:text-3xl max-sm:text-2xl" />
+            <p className="font-semibold text-sm">Headphones</p>
           </Link>
         </div>
       </div>
