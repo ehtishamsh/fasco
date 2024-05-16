@@ -12,6 +12,7 @@ import Checkout from "./pages/Checkout";
 import FilterPage from "./pages/FilterPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminLayout from "./components/admin/AdminLayout";
+import ManageProducts from "./components/admin/products/ManageProducts";
 
 function App() {
   let persistor = persistStore(store);
@@ -31,6 +32,7 @@ function App() {
               </Route>
               <Route element={<AdminLayout />} path="/">
                 <Route element={<AdminDashboard />} path="/admin" />
+                <Route element={<ManageProducts />} path="/admin/products" />
               </Route>
             </Routes>
           </Router>
