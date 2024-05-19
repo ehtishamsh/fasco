@@ -195,3 +195,11 @@ img {
 ::-webkit-scrollbar-track {
   background: #eee;
 }
+
+.bg-custom-gradient {
+  transition: all 0.7s ease; /* Transition property, duration, and timing function */
+}
+
+.bg-custom-gradient:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
