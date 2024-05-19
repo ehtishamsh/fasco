@@ -13,6 +13,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { Button } from "../ui/button";
+import { useParams } from "react-router-dom";
 function Content({
   batteryCapacity,
   price,
@@ -36,11 +37,17 @@ function Content({
 }) {
   const [products, setProducts] = useState<Product[]>([]);
   const [select, setSelect] = useState<string>("");
+  const params = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const req = await fetch("https://dummyjson.com/products");
+        const req = await fetch(
+          `https://dummyjson.com/products${
+            params.category ? `/category/${params.category}` : ""
+          }`
+        );
+
         const res = await req.json();
         const filterProducts = res?.products.filter((product: Product) => {
           if (brands.length > 0) {
