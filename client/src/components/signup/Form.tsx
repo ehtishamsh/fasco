@@ -4,6 +4,7 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
 import { Reveal } from "../animation/Reveal";
+import { Link } from "react-router-dom";
 function Form() {
   return (
     <Reveal width="100%">
@@ -13,7 +14,7 @@ function Form() {
             <div className="overflow-hidden rounded-md  border border-border">
               <Lottie
                 animationData={BG}
-                className=" h-full left-0  w-full"
+                className=" h-full  w-full"
                 loop
                 autoplay
               />
@@ -65,9 +66,9 @@ function Form() {
                     className=""
                     placeholder="Enter your Password"
                   />
-                  <div className="mt-6">
+                  <div className="mt-4">
                     <Label
-                      className=" max-sm:mt-4 text-gray-400 font-normal text-sm"
+                      className="  text-gray-400 font-normal text-sm"
                       htmlFor="repassword"
                     >
                       Re-enter Password:
@@ -79,7 +80,13 @@ function Form() {
                       placeholder="Re-enter your Password"
                     />
                   </div>
-                  <Button className="mt-6 max-sm:mt-4 w-full">Sign in</Button>
+                  <Button className="mt-6 max-sm:mt-4 w-full">Sign up</Button>
+                  <p className="text-sm mt-4 text-center text-gray-400">
+                    Already have an account?{" "}
+                    <Link to={"/signin"} className="underline">
+                      Sign in
+                    </Link>
+                  </p>
                 </form>
               </div>
             </div>

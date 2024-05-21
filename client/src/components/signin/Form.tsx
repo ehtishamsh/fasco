@@ -4,6 +4,7 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
 import { Reveal } from "../animation/Reveal";
+import { Link } from "react-router-dom";
 function Form() {
   return (
     <Reveal width="100%">
@@ -54,6 +55,12 @@ function Form() {
                     placeholder="Enter your Password"
                   />
                   <Button className="mt-6 max-sm:mt-4 w-full">Sign in</Button>
+                  <p className="text-sm mt-4 text-center text-gray-400">
+                    Don't have an account?{" "}
+                    <Link to={"/signup"} className="underline">
+                      Sign up
+                    </Link>
+                  </p>
                 </form>
               </div>
             </div>
