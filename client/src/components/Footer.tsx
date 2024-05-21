@@ -24,13 +24,13 @@ function Footer() {
                 Information
               </h1>
               <div className="text-base max-sm:text-sm text-gray-300 flex flex-col gap-4 max-sm:justify-center max-sm:items-center">
-                <Link to="/">Home</Link>
+                <Link to="#">Home</Link>
 
-                <Link to="/">Shop</Link>
+                <Link to="#">Shop</Link>
 
-                <Link to="/">About Us</Link>
+                <Link to="#">About Us</Link>
 
-                <Link to="/">Our's Blog</Link>
+                <Link to="#">Our's Blog</Link>
               </div>
             </div>
             <div className="flex flex-col  h-full justify-start items-start  max-sm:justify-center max-sm:items-center">
@@ -38,13 +38,13 @@ function Footer() {
                 Information
               </h1>
               <div className="text-base max-sm:text-sm text-gray-300 flex flex-col gap-4 max-sm:justify-center max-sm:items-center">
-                <Link to="/">Home</Link>
+                <Link to="#">Home</Link>
 
-                <Link to="/">Shop</Link>
+                <Link to="#">Shop</Link>
 
-                <Link to="/">About Us</Link>
+                <Link to="#">About Us</Link>
 
-                <Link to="/">Our's Blog</Link>
+                <Link to="#">Our's Blog</Link>
               </div>
             </div>
           </div>
