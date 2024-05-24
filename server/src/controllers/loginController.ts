@@ -1,13 +1,21 @@
 import { Request, Response } from "express";
 import { findUserByEmail } from "../services/User";
-export async function loginController(req: Request, res: Response) {
+import { generateToken } from "../utils/passport";
+export const loginController = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+
   try {
-    const findUser = await findUserByEmail(req.body.email);
-    if (!findUser) {
-      res.status(404).send("User not found");
+    const user = await findUserByEmail(email);
+    if (!user) {
+      return res.status(400).json({ message: "User not found" });
     }
-    res.json(findUser);
+
+    if (user.password !== password) {
+      return res.status(400).json({ message: "Invalid email or password" });
+    }
+    const token = generateToken(user);
+    res.json({ message: "Login successful", token });
   } catch (error) {
-    console.log(error);
+    res.status(400).json({ message: "Error logging in", error });
   }
-}
+};

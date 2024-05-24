@@ -6,7 +6,7 @@ import { findUniqueUserById } from "../services/User"; // Import your Prisma Use
 const secretKey = process.env.SECRET_KEY;
 const options: StrategyOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: secretKey || "secret", // Change this to your JWT secret key
+  secretOrKey: secretKey || "secret",
 };
 
 passport.use(
@@ -37,14 +37,16 @@ export const generateToken = (user: User): string => {
   const payload = {
     id: user.id,
     email: user.email,
-    // Add other user data if needed
+    name: user.name,
   };
 
-  return jwt.sign(payload, "your_secret_key", { expiresIn: "1h" }); // Change this to your JWT secret key and expiration time
+  return jwt.sign(payload, process.env.SECRET_KEY || "secret", {
+    expiresIn: "1h",
+  });
 };
 
-export const authenticateUser = (req, res, next) => {
-  passport.authenticate("jwt", { session: false }, (error, user) => {
+export const authenticateUser = (req: any, res: any, next: any) => {
+  passport.authenticate("jwt", { session: false }, (error: any, user: any) => {
     if (error) {
       return res.status(401).json({ message: "Unauthorized" });
     }
