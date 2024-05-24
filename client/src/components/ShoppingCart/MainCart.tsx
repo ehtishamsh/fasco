@@ -2,13 +2,14 @@ import { qty, remove } from "@/lib/redux/cartSlice";
 import { CartState, Product } from "@/lib/redux/types";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
 import { BiMinus, BiPlus, BiX } from "react-icons/bi";
 import { Separator } from "../ui/separator";
 import { Input } from "../ui/input";
 
 function MainCart() {
+  const checktoken = localStorage.getItem("token");
   const dispatch = useDispatch();
   const [checkqty, setCheckQty] = useState(1);
   const [total, setTotal] = useState(0);
@@ -16,7 +17,6 @@ function MainCart() {
     (state) => state?.cart?.items
   );
   const [data, setData] = React.useState<Product[]>(items);
-  const navigate = useNavigate();
   const handleCheckQty = (
     e: React.MouseEvent<HTMLButtonElement>,
     item: Product
@@ -172,13 +172,19 @@ function MainCart() {
             <span className="text-sm font-semibold">${total + 79}</span>
           </div>
         </div>
-        <Button
-          className="w-full"
-          size={"lg"}
-          onClick={() => navigate("/checkout")}
-        >
-          Checkout
-        </Button>
+        {checktoken ? (
+          <Link to="/checkout" className="w-full">
+            <Button className="w-full" size={"lg"}>
+              Checkout
+            </Button>
+          </Link>
+        ) : (
+          <Link to="/signin" className="w-full">
+            <Button className="w-full" size={"lg"}>
+              Sign in to checkout
+            </Button>
+          </Link>
+        )}
       </div>
     </div>
   );

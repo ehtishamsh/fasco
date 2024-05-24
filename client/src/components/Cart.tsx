@@ -16,6 +16,7 @@ function Cart({
   setOpenCart: React.Dispatch<React.SetStateAction<boolean>>;
   openCart: boolean;
 }) {
+  const checktoken = localStorage.getItem("token");
   const cartItems = useSelector<CartState, Product[]>(
     (state) => state?.cart?.items
   );
@@ -142,11 +143,19 @@ function Cart({
                       View Cart
                     </Button>
                   </Link>
-                  <Link to="/checkout" className="w-full">
-                    <Button className="w-full" size={"lg"}>
-                      Checkout
-                    </Button>
-                  </Link>
+                  {checktoken ? (
+                    <Link to="/checkout" className="w-full">
+                      <Button className="w-full" size={"lg"}>
+                        Checkout
+                      </Button>
+                    </Link>
+                  ) : (
+                    <Link to="/signin" className="w-full">
+                      <Button className="w-full" size={"lg"}>
+                        Sign in to checkout
+                      </Button>
+                    </Link>
+                  )}
                 </div>
               </div>
             </>
