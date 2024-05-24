@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Homepage from "./pages/Homepage";
 import Layout from "./Layout";
 import Product from "./pages/Product";
@@ -28,14 +33,16 @@ function App() {
               <Route element={<Layout />} path="/">
                 <Route element={<Homepage />} path="/" />
                 <Route element={<Product />} path="/:category/:brand?/:title" />
-                <Route element={<FilterPage />} path="/:category" />
+                <Route element={<FilterPage />} path="/filter/:category" />
                 <Route element={<Homepage />} />
                 <Route element={<ShoppingCart />} path="/cart" />
-                <Route element={<Checkout />} path="/checkout" />
+                {checktoken && (
+                  <Route element={<Checkout />} path="/checkout" />
+                )}
                 <Route element={<SignIn />} path="/signin" />
                 <Route element={<Signup />} path="/signup" />
+                <Route path="*" element={<Navigate to="/" replace />} />
               </Route>
-
               <Route element={<AdminLayout />} path="/">
                 <Route element={<AdminDashboard />} path="/admin" />
                 <Route element={<ManageProducts />} path="/admin/products" />
