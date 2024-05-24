@@ -5,7 +5,39 @@ import { Label } from "../ui/label";
 import { Button } from "../ui/button";
 import { Reveal } from "../animation/Reveal";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 function Form() {
+  const [details, setDetails] = useState<{ email: string; password: string }>({
+    email: "",
+    password: "",
+  });
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const { email, password } = details;
+    if (email === "") {
+      alert("Please enter email");
+    } else if (password === "") {
+      alert("Please enter password");
+    } else if (email && password) {
+      alert("Login successful");
+    }
+    const res = await fetch(`http://localhost:4000/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
+    const data = await res.json();
+    if (data.token) {
+      localStorage.setItem("token", data.token);
+      window.location.href = "/";
+    } else {
+      console.error("Login failed");
+    }
+    console.log(data);
+    setDetails({ email: "", password: "" });
+  };
   return (
     <Reveal width="100%">
       <div className=" overflow-hidden  mb-20 max-sm:mb-10 bg-center">
@@ -27,7 +59,7 @@ function Form() {
                   Sign in to your account
                 </p>
                 <form
-                  action=""
+                  onSubmit={onSubmit}
                   className="w-full px-28 max-sm:px-10 max-md:px-16  mt-8 max-sm:mt-6"
                 >
                   <Label
@@ -39,6 +71,10 @@ function Form() {
                   <Input
                     type="text"
                     id="email"
+                    value={details.email}
+                    onChange={(e) => {
+                      setDetails({ ...details, email: e.target.value });
+                    }}
                     className="mb-4"
                     placeholder="Enter your Email"
                   />
@@ -51,6 +87,10 @@ function Form() {
                   <Input
                     type="password"
                     id="password"
+                    value={details.password}
+                    onChange={(e) => {
+                      setDetails({ ...details, password: e.target.value });
+                    }}
                     className=""
                     placeholder="Enter your Password"
                   />
