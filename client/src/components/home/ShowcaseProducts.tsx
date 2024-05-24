@@ -10,7 +10,7 @@ import { FaStar } from "react-icons/fa6";
 
 function ShowcaseProducts({ products }: { products: Data[] }) {
   const dispatch = useDispatch();
-  const [productData, setProductData] = useState<Data[]>(products);
+  const [productData, setProductData] = useState<Data[]>(products || []);
   const items = useSelector<CartState, Product[]>((state) => state.cart.items);
   const [data, setData] = useState<Product[]>(items);
   useEffect(() => {
@@ -42,20 +42,30 @@ function ShowcaseProducts({ products }: { products: Data[] }) {
   }
 
   const createElement = productData?.map((item) => {
-    const category = item?.category.replace(" ", "").replace("'", "");
-    const title = item?.title
-      .replace("-", " ")
-      .replace(/\s{2,}/g, "-")
-      .replace(/\s/g, "-")
-      .replace(".", "");
-    const brand = item?.brand
-      .replace("-", " ")
-      .replace(/\s{2,}/g, "-")
-      .replace(/\s/g, "-")
-      .replace(".", "");
+    const category =
+      (item?.category && item?.category.replace(" ", "").replace("'", "")) ||
+      "";
+    const title =
+      (item &&
+        item?.title
+          .replace("-", " ")
+          .replace(/\s{2,}/g, "-")
+          .replace(/\s/g, "-")
+          .replace(".", "")) ||
+      "";
+    const brand =
+      (item.brand &&
+        item?.brand
+          .replace("-", " ")
+          .replace(/\s{2,}/g, "-")
+          .replace(/\s/g, "-")
+          .replace(".", "")) ||
+      "";
     return (
       <Link
-        to={`/${category.toLowerCase()}/${brand.toLowerCase()}/${title.toLowerCase()}`}
+        to={`/${category && category.toLowerCase()}${
+          brand && "/" + brand?.toLowerCase()
+        }${title && "/" + title.toLowerCase()}`}
         className="grid grid-row-6  border border-border px-4 max-sm:px-2 hover:shadow-lg transition-all duration-300"
         key={item.id}
       >

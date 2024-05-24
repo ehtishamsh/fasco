@@ -17,6 +17,7 @@ import SignIn from "./pages/SignIn";
 import Signup from "./pages/Signup";
 
 function App() {
+  const checktoken = localStorage.getItem("token");
   let persistor = persistStore(store);
   return (
     <>
@@ -26,7 +27,7 @@ function App() {
             <Routes>
               <Route element={<Layout />} path="/">
                 <Route element={<Homepage />} path="/" />
-                <Route element={<Product />} path="/:category/:brand/:title" />
+                <Route element={<Product />} path="/:category/:brand?/:title" />
                 <Route element={<FilterPage />} path="/:category" />
                 <Route element={<Homepage />} />
                 <Route element={<ShoppingCart />} path="/cart" />
@@ -34,6 +35,7 @@ function App() {
                 <Route element={<SignIn />} path="/signin" />
                 <Route element={<Signup />} path="/signup" />
               </Route>
+
               <Route element={<AdminLayout />} path="/">
                 <Route element={<AdminDashboard />} path="/admin" />
                 <Route element={<ManageProducts />} path="/admin/products" />

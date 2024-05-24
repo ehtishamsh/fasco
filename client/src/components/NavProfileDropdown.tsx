@@ -31,7 +31,7 @@ export function NavProfileDropdown() {
         <DropdownMenuGroup>
           <DropdownMenuItem
             className=" cursor-pointer"
-            onClick={() => (window.location.href = "/sign-in")}
+            onClick={() => (window.location.href = "/signin")}
           >
             Sign in
             <DropdownMenuShortcut>
@@ -41,7 +41,7 @@ export function NavProfileDropdown() {
           <DropdownMenuSeparator />
           <DropdownMenuItem
             className=" cursor-pointer"
-            onClick={() => (window.location.href = "/sign-up")}
+            onClick={() => (window.location.href = "/signup")}
           >
             Sign up
             <DropdownMenuShortcut>
