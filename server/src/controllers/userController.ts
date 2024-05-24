@@ -12,9 +12,3 @@ export const getUsers = async (req: Request, res: Response) => {
     console.log("error", error);
   }
 };
-
-export const createUser = async (req: Request, res: Response) => {
-  const { email, name } = req.body;
-  const user = await userService.createUser(email, name);
-  res.json(user);
-};
