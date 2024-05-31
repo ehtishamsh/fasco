@@ -7,6 +7,7 @@ import { add } from "../../lib/redux/cartSlice";
 import { CartState, Product as Data, Product } from "@/lib/redux/types";
 import { useToast } from "../ui/use-toast";
 import { FaStar } from "react-icons/fa6";
+import { addwishlist } from "@/lib/redux/Wishlist";
 
 function ShowcaseProducts({ products }: { products: Data[] }) {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ function ShowcaseProducts({ products }: { products: Data[] }) {
     setProductData(products);
   }, [products]);
   const { toast } = useToast();
+
   function handleClick(e: React.MouseEvent<HTMLButtonElement>, id: number) {
     e.preventDefault();
     const checkifexits = items.findIndex((i) => i.id === id);
@@ -70,7 +72,19 @@ function ShowcaseProducts({ products }: { products: Data[] }) {
         key={item.id}
       >
         <div className="flex items-center justify-end py-4 max-sm:py-2">
-          <Button variant={"ghost"} className="max-sm:text-xs max-sm:p-1">
+          <Button
+            variant={"ghost"}
+            className="max-sm:text-xs max-sm:p-1"
+            onClick={(e: any) => {
+              e.preventDefault();
+              dispatch(addwishlist(item));
+              toast({
+                title: "Product Added",
+                description: "Product added to wishlist",
+                variant: "success",
+              });
+            }}
+          >
             <HeartIcon className="w-6 h-6 text-muted-foreground" />
           </Button>
         </div>
