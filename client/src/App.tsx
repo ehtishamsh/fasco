@@ -20,6 +20,7 @@ import AdminLayout from "./components/admin/AdminLayout";
 import ManageProducts from "./components/admin/products/ManageProducts";
 import SignIn from "./pages/SignIn";
 import Signup from "./pages/Signup";
+import WishlistPage from "./pages/WishlistPage";
 
 function App() {
   const checktoken = localStorage.getItem("token");
@@ -36,6 +37,7 @@ function App() {
                 <Route element={<FilterPage />} path="/filter/:category" />
                 <Route element={<Homepage />} />
                 <Route element={<ShoppingCart />} path="/cart" />
+                <Route element={<WishlistPage />} path="/wishlist" />
                 {checktoken && (
                   <Route element={<Checkout />} path="/checkout" />
                 )}
