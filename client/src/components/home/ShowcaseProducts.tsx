@@ -8,6 +8,7 @@ import { CartState, Product as Data, Product } from "@/lib/redux/types";
 import { useToast } from "../ui/use-toast";
 import { FaStar } from "react-icons/fa6";
 import { addwishlist } from "@/lib/redux/Wishlist";
+import { FormatText } from "../FormatText";
 
 function ShowcaseProducts({ products }: { products: Data[] }) {
   const dispatch = useDispatch();
@@ -44,30 +45,18 @@ function ShowcaseProducts({ products }: { products: Data[] }) {
   }
 
   const createElement = productData?.map((item) => {
-    const category =
-      (item?.category && item?.category.replace(" ", "").replace("'", "")) ||
-      "";
-    const title =
-      (item &&
-        item?.title
-          .replace("-", " ")
-          .replace(/\s{2,}/g, "-")
-          .replace(/\s/g, "-")
-          .replace(".", "")) ||
-      "";
-    const brand =
-      (item.brand &&
-        item?.brand
-          .replace("-", " ")
-          .replace(/\s{2,}/g, "-")
-          .replace(/\s/g, "-")
-          .replace(".", "")) ||
-      "";
     return (
       <Link
-        to={`/${category && category.toLowerCase()}${
-          brand && "/" + brand?.toLowerCase()
-        }${title && "/" + title.toLowerCase()}`}
+        to={`/${
+          item.category &&
+          FormatText({ category: item.category, toLowerCase: true })
+        }${
+          item.brand &&
+          "/" + FormatText({ title: item.brand, toLowerCase: true })
+        }${
+          item.title &&
+          "/" + FormatText({ title: item.title, toLowerCase: true })
+        }`}
         className="grid grid-row-6  border border-border px-4 max-sm:px-2 hover:shadow-lg transition-all duration-300"
         key={item.id}
       >
