@@ -14,6 +14,12 @@ export type CartState = {
     items: Product[];
   };
 };
+
+export type WishlistState = {
+  wishlist: {
+    items: Product[];
+  };
+};
 export type StepData = {
   step: number;
   name: string;
