@@ -1,18 +1,92 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BreadCrum } from "../BreadCrum";
 import { Product, WishlistState } from "@/lib/redux/types";
 import { Button } from "../ui/button";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { FormatText } from "../FormatText";
+import { BiX } from "react-icons/bi";
+import { BsEye } from "react-icons/bs";
+import { removewishlist } from "@/lib/redux/Wishlist";
 
 function Wishlist() {
   const wishlistData = useSelector<WishlistState, Product[]>(
     (state) => state?.wishlist.items
   );
+  const dispatch = useDispatch();
+  const [data, setData] = useState<Product[]>(wishlistData);
+  useEffect(() => {
+    setData(wishlistData);
+  }, [wishlistData]);
+  const mapProducts = data?.map((item) => {
+    return (
+      <div className="p-3 grid grid-cols-7 border border-border rounded-md">
+        <img src={item.thumbnail} alt="" className="h-24 w-24 object-cover" />
+        <div className="col-span-3 flex flex-col justify-center">
+          <p className="text-xs text-gray-500">{item.brand}</p>
+          <Link
+            to={`/${
+              item.category &&
+              FormatText({ category: item.category, toLowerCase: true })
+            }${
+              item.brand &&
+              "/" + FormatText({ title: item.brand, toLowerCase: true })
+            }${
+              item.title &&
+              "/" + FormatText({ title: item.title, toLowerCase: true })
+            }`}
+            className="text-sm font-semibold line-clamp-2"
+          >
+            {item.title}
+          </Link>
+        </div>
+        <div className="flex justify-center items-center">
+          <p className="text-sm text-yellow-600 font-semibold ">
+            ${Number(item.price)}
+          </p>
+        </div>
+
+        <div className="flex justify-center items-center">
+          <Link
+            to={`/${
+              item.category &&
+              FormatText({ category: item.category, toLowerCase: true })
+            }${
+              item.brand &&
+              "/" + FormatText({ title: item.brand, toLowerCase: true })
+            }${
+              item.title &&
+              "/" + FormatText({ title: item.title, toLowerCase: true })
+            }`}
+            className="rounded-full bg-yellow-300 hover:bg-yellow-400 p-1.5"
+          >
+            <BsEye className="text-2xl text-yellow-800" />
+          </Link>
+        </div>
+        <div className="flex justify-center items-center">
+          <Button
+            onClick={() => dispatch(removewishlist(item))}
+            variant={"ghost"}
+            size={"icon"}
+            className="rounded-full bg-yellow-300 hover:bg-yellow-400"
+          >
+            <BiX className="text-2xl text-yellow-800" />
+          </Button>
+        </div>
+      </div>
+    );
+  });
   return (
     <div className="max-w-6xl mx-auto px-3">
       <BreadCrum />
       <div className="mt-10 max-sm:mt-5">
-        {wishlistData.length > 0 ? (
-          <h1>{wishlistData.length}</h1>
+        {data.length > 0 ? (
+          <div>
+            <h1 className="text-3xl font-semibold text-center mb-10">
+              My Wishlist
+            </h1>
+            <div className="grid grid-cols-1 gap-7">{mapProducts}</div>
+          </div>
         ) : (
           <div className="flex justify-center w-full h-fit flex-col items-center mb-36">
             <img
