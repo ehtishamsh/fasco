@@ -24,7 +24,7 @@ function Navbar() {
     setOpenCart(!openCart);
   };
   return (
-    <header className=" fixed top-0 left-0 z-10 bg-white shadow-md w-full">
+    <header className=" fixed top-0 left-0 z-[9999] bg-white shadow-md w-full">
       <div className="px-4 py-4 relative">
         <nav className="max-w-6xl mx-auto  grid grid-cols-6 gap-7 max-md:gap-2 items-center justify-between">
           <Link to="/" className="flex items-center justify-start">
