@@ -13,6 +13,7 @@ function Wishlist() {
   const wishlistData = useSelector<WishlistState, Product[]>(
     (state) => state?.wishlist.items
   );
+
   const dispatch = useDispatch();
   const [data, setData] = useState<Product[]>(wishlistData);
   useEffect(() => {
@@ -20,8 +21,16 @@ function Wishlist() {
   }, [wishlistData]);
   const mapProducts = data?.map((item) => {
     return (
-      <div className="p-3 grid grid-cols-7 border border-border rounded-md">
-        <img src={item.thumbnail} alt="" className="h-24 w-24 object-cover" />
+      <div
+        className={`p-3 ${
+          item?.stock && item?.stock > 0 ? "" : "opacity-50 grayscale"
+        } grid grid-cols-7 border border-border rounded-md`}
+      >
+        <img
+          src={item.thumbnail}
+          alt={item.title}
+          className="h-24 w-24 object-cover"
+        />
         <div className="col-span-3 flex flex-col justify-center">
           <p className="text-xs text-gray-500">{item.brand}</p>
           <Link
@@ -97,7 +106,11 @@ function Wishlist() {
             <h1 className="text-3xl text-gray-400 font-semibold mt-8 text-center w-full max-sm:text-xl mb-4 max-sm:mb-2">
               Your Wishlist is Empty!
             </h1>
-            <Button variant={"default"} size={"lg"}>
+            <Button
+              variant={"default"}
+              size={"lg"}
+              onClick={() => (window.location.href = "/")}
+            >
               Shop Now
             </Button>
           </div>
