@@ -14,7 +14,15 @@ export const loginController = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "Invalid email or password" });
     }
     const token = generateToken(user);
-    res.json({ message: "Login successful", token });
+
+    res.json({
+      message: "Login successful",
+      token,
+      user: {
+        username: user.name,
+        email: user.email,
+      },
+    });
   } catch (error) {
     res.status(400).json({ message: "Error logging in", error });
   }
