@@ -1,9 +1,9 @@
 import { DashboardIcon } from "@radix-ui/react-icons";
 import { Notebook, Tags, User2Icon } from "lucide-react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function Sidebar() {
-  const path = useParams();
+  const { pathname } = useLocation();
   return (
     <nav className="relative h-screen border-r pt-16 lg:block w-72  max-md:hidden">
       <div className="space-y-4 py-4">
@@ -16,7 +16,7 @@ function Sidebar() {
               <Link to={"/admin"} className="mt-5">
                 <span
                   className={`group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground ${
-                    path.admin === "/admin" ? "bg-accent" : ""
+                    pathname === "/admin" ? "bg-accent" : ""
                   } transparent`}
                 >
                   <DashboardIcon className="mr-2 h-4 w-4" />
@@ -26,7 +26,7 @@ function Sidebar() {
               <Link to={"/admin/tags"} className="mt-5">
                 <span
                   className={`group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground ${
-                    path.tags === "/admin/tags" ? "bg-accent" : ""
+                    pathname === "/admin/tags" ? "bg-accent" : ""
                   } transparent`}
                 >
                   <Tags className="mr-2 h-4 w-4" />
@@ -36,7 +36,7 @@ function Sidebar() {
               <Link to={"/admin/users"} className="mt-5">
                 <span
                   className={`group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground ${
-                    path.users === "/admin/users" ? "bg-accent" : ""
+                    pathname === "/admin/users" ? "bg-accent" : ""
                   } transparent`}
                 >
                   <User2Icon className="mr-2 h-4 w-4" />
@@ -46,7 +46,7 @@ function Sidebar() {
               <Link to={"/admin/blogs"} className="mt-5">
                 <span
                   className={`group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground ${
-                    path.blogs === "/admin/blogs" ? "bg-accent" : ""
+                    pathname === "/admin/blogs" ? "bg-accent" : ""
                   } transparent`}
                 >
                   <Notebook className="mr-2 h-4 w-4" />
