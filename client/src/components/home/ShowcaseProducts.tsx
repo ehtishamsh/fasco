@@ -25,6 +25,7 @@ function ShowcaseProducts({ products }: { products: Data[] }) {
 
   function handleClick(e: React.MouseEvent<HTMLButtonElement>, id: number) {
     e.preventDefault();
+    e.stopPropagation();
     const checkifexits = items.findIndex((i) => i.id === id);
     const filterProduct = productData.filter((item) => item.id === id);
     if (checkifexits !== -1) {
@@ -67,6 +68,7 @@ function ShowcaseProducts({ products }: { products: Data[] }) {
             item.title &&
             "/" + FormatText({ title: item.title, toLowerCase: true })
           }`}
+          reloadDocument
           className={`grid grid-row-6 ${
             item?.stock && item?.stock > 0 ? "" : "opacity-50 bg-gray-200"
           }  border border-border px-4  max-sm:px-2 hover:shadow-lg transition-all duration-300`}
