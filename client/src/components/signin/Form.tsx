@@ -6,6 +6,8 @@ import { Button } from "../ui/button";
 import { Reveal } from "../animation/Reveal";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { toast } from "../ui/use-toast";
+
 function Form() {
   const [details, setDetails] = useState<{ email: string; password: string }>({
     email: "",
@@ -31,7 +33,15 @@ function Form() {
     const data = await res.json();
     if (data.token) {
       localStorage.setItem("token", data.token);
-      window.location.href = "/";
+      localStorage.setItem("user", JSON.stringify(data.user));
+      setTimeout(() => {
+        toast({
+          description: "Login successful",
+          title: "Login successful",
+          variant: "success",
+        });
+        window.location.href = "/";
+      }, 2000);
     } else {
       console.error("Login failed");
     }
