@@ -13,41 +13,7 @@ function Form() {
     email: "",
     password: "",
   });
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const { email, password } = details;
-    if (email === "") {
-      alert("Please enter email");
-    } else if (password === "") {
-      alert("Please enter password");
-    } else if (email && password) {
-      alert("Login successful");
-    }
-    const res = await fetch(`http://localhost:4000/auth/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    });
-    const data = await res.json();
-    if (data.token) {
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
-      setTimeout(() => {
-        toast({
-          description: "Login successful",
-          title: "Login successful",
-          variant: "success",
-        });
-        window.location.href = "/";
-      }, 2000);
-    } else {
-      console.error("Login failed");
-    }
-    console.log(data);
-    setDetails({ email: "", password: "" });
-  };
+
   return (
     <Reveal width="100%">
       <div className=" overflow-hidden  mb-20 max-sm:mb-10 bg-center">
@@ -68,10 +34,7 @@ function Form() {
                 <p className="text-sm mt-2 text-gray-400">
                   Sign in to your account
                 </p>
-                <form
-                  onSubmit={onSubmit}
-                  className="w-full px-28 max-sm:px-10 max-md:px-16  mt-8 max-sm:mt-6"
-                >
+                <form className="w-full px-28 max-sm:px-10 max-md:px-16  mt-8 max-sm:mt-6">
                   <Label
                     className="mt-6 max-sm:mt-4 text-gray-400 font-normal text-sm"
                     htmlFor="email"
