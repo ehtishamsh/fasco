@@ -1,18 +1,16 @@
 import express from "express";
 import userRoutes from "./routes/userRoutes";
 import errorHandler from "./middleware/errorHandler";
-import passport from "passport";
+import bodyParser from "body-parser";
 
 // Express
 const app = express();
 
 // Cors
 const cors = require("cors");
-
-app.use(express.json());
+app.use(bodyParser.json());
 app.use(cors());
 
-app.use(passport.initialize());
 // Routes
 app.use("/", userRoutes);
 
