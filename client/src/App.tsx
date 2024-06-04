@@ -24,6 +24,7 @@ import SigninPage from "./pages/SigninPage";
 
 function App() {
   const checktoken = localStorage.getItem("token");
+  const checkuser = JSON.parse(localStorage.getItem("user") || "{}");
   let persistor = persistStore(store);
   return (
     <>
@@ -41,14 +42,20 @@ function App() {
                 {checktoken && (
                   <Route element={<Checkout />} path="/checkout" />
                 )}
-                <Route element={<SigninPage />} path="/signin" />
-                <Route element={<SignupPage />} path="/signup" />
+                {!checktoken && !checkuser && (
+                  <>
+                    <Route element={<SigninPage />} path="/signin" />
+                    <Route element={<SignupPage />} path="/signup" />
+                  </>
+                )}
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Route>
-              <Route element={<AdminLayout />} path="/">
-                <Route element={<AdminDashboard />} path="/admin" />
-                <Route element={<ManageProducts />} path="/admin/products" />
-              </Route>
+              {checktoken && checkuser.role === "admin" && (
+                <Route element={<AdminLayout />} path="/">
+                  <Route element={<AdminDashboard />} path="/admin" />
+                  <Route element={<ManageProducts />} path="/admin/products" />
+                </Route>
+              )}
             </Routes>
           </Router>
         </PersistGate>
