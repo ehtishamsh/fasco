@@ -3,6 +3,14 @@ import Sidebar from "./Sidebar";
 import AdminNavbar from "./AdminNavbar";
 
 function AdminLayout() {
+  const checkAdmin = JSON.parse(localStorage.getItem("user") || "{}");
+  const token = localStorage.getItem("token");
+  if (!token) {
+    window.location.href = "/signin";
+  }
+  if (checkAdmin.role !== "admin") {
+    window.location.href = "/";
+  }
   return (
     <>
       <AdminNavbar />

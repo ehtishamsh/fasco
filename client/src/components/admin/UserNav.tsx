@@ -1,19 +1,26 @@
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
+  DropdownMenuItem,
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuSeparator,
+  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import SignOut from "../signout/SignOut";
+
+import { GoSignOut } from "react-icons/go";
 
 export default function UserNav() {
   const getToken = localStorage.getItem("token");
   if (getToken) {
     const getUserData = JSON.parse(localStorage.getItem("user") || "{}");
     const session = { user: getUserData };
-    console.log(session);
+    const handleSignOut = () => {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      window.location.href = "/";
+    };
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -36,7 +43,12 @@ export default function UserNav() {
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <SignOut />
+          <DropdownMenuItem className=" cursor-pointer" onClick={handleSignOut}>
+            Sign out
+            <DropdownMenuShortcut>
+              <GoSignOut />
+            </DropdownMenuShortcut>
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     );
