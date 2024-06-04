@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import { motion } from "framer-motion";
 import { DashboardIcon, HamburgerMenuIcon } from "@radix-ui/react-icons";
-import { Notebook, Tags, User2Icon, X } from "lucide-react";
+import { X } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 const links = [
   {
