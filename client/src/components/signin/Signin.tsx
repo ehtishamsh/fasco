@@ -57,6 +57,9 @@ function Signin() {
           description: "User logged in successfully",
           variant: "success",
         });
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 2000);
       }
     } catch (error) {
       console.log(error);
