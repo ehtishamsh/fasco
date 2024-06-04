@@ -9,9 +9,9 @@ export interface User {
   updatedAt: Date;
 }
 
-export async function findUniqueUserById(id: string): Promise<User | null> {
+export async function findUniqueUserById(email: string): Promise<User | null> {
   return prisma?.user?.findUnique({
-    where: { id: id },
+    where: { email: email },
   });
 }
 
