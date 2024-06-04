@@ -18,9 +18,9 @@ import FilterPage from "./pages/FilterPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminLayout from "./components/admin/AdminLayout";
 import ManageProducts from "./components/admin/products/ManageProducts";
-import SignIn from "./pages/SignIn";
-import Signup from "./pages/Signup";
 import WishlistPage from "./pages/WishlistPage";
+import SignupPage from "./pages/SignupPage";
+import SigninPage from "./pages/SigninPage";
 
 function App() {
   const checktoken = localStorage.getItem("token");
@@ -41,8 +41,8 @@ function App() {
                 {checktoken && (
                   <Route element={<Checkout />} path="/checkout" />
                 )}
-                <Route element={<SignIn />} path="/signin" />
-                <Route element={<Signup />} path="/signup" />
+                <Route element={<SigninPage />} path="/signin" />
+                <Route element={<SignupPage />} path="/signup" />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Route>
               <Route element={<AdminLayout />} path="/">
