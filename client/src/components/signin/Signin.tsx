@@ -87,9 +87,9 @@ function Signin() {
             <div className="border border-border ">
               <div className="flex  flex-col items-center justify-center h-full p-8 max-md:p-6 max-sm:p-4">
                 <img src="/logo.png" className="max-w-[100px]" alt="" />
-                <h1 className="text-2xl mt-6 max-sm:mt-4">Sign up</h1>
+                <h1 className="text-2xl mt-6 max-sm:mt-4">Sign in</h1>
                 <p className="text-sm mt-2 text-gray-400 mb-4">
-                  Create your account to get started.
+                  Sign in to your account.
                 </p>
                 <Form {...form}>
                   <form
