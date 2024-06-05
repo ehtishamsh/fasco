@@ -87,7 +87,7 @@ function Wishlist() {
   });
   return (
     <div className="max-w-6xl mx-auto px-3">
-      <BreadCrum />
+      <BreadCrum cat="wishlist" />
       <div className="mt-10 max-sm:mt-5">
         {data.length > 0 ? (
           <div>
