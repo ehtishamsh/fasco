@@ -29,6 +29,7 @@ export async function register(req: Request, res: Response) {
       res.status(400).send("User already exists");
     }
     const hashedpassword = await bcrypt.hash(password, 10);
+
     const user = await prisma?.user?.create({
       data: {
         name: username,
@@ -38,9 +39,10 @@ export async function register(req: Request, res: Response) {
       },
     });
 
+    const removedPassword = { ...user, password: undefined };
     res.json({
       message: "user created successfully",
-      user: user,
+      user: removedPassword,
       status: 200,
     });
   } catch (error) {
