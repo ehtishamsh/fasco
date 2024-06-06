@@ -17,10 +17,11 @@ import Checkout from "./pages/Checkout";
 import FilterPage from "./pages/FilterPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminLayout from "./components/admin/AdminLayout";
-import ManageProducts from "./components/admin/products/ManageProducts";
 import WishlistPage from "./pages/WishlistPage";
 import SignupPage from "./pages/SignupPage";
 import SigninPage from "./pages/SigninPage";
+import Products from "./pages/admin/Products";
+import NewProduct from "./pages/admin/new/NewProduct";
 
 function App() {
   const checktoken = localStorage.getItem("token");
@@ -53,7 +54,8 @@ function App() {
               {checktoken && checkuser.role === "admin" && (
                 <Route element={<AdminLayout />} path="/">
                   <Route element={<AdminDashboard />} path="/admin" />
-                  <Route element={<ManageProducts />} path="/admin/products" />
+                  <Route element={<Products />} path="/admin/products" />
+                  <Route element={<NewProduct />} path="/admin/products/new" />
                 </Route>
               )}
             </Routes>
