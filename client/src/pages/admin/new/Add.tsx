@@ -1,6 +1,6 @@
 import AddProduct from "@/components/admin/products/new/AddProduct";
 
-function NewProduct() {
+function Add() {
   return (
     <>
       <AddProduct />
@@ -8,4 +8,4 @@ function NewProduct() {
   );
 }
 
-export default NewProduct;
+export default Add;
