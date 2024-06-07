@@ -15,10 +15,19 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, Eye, MoreHorizontal, Trash } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { Product } from "@/lib/redux/types";
 // You can use a Zod schema here if you want.
 
-export const columns: ColumnDef<Product>[] = [
+interface Data {
+  image: string;
+  title: string;
+  category: string;
+  price: number;
+  stock: number;
+  description: string;
+  id: string;
+  brand: string;
+}
+export const columns: ColumnDef<Data>[] = [
   {
     accessorKey: "image",
     header: "Cover",
@@ -26,7 +35,7 @@ export const columns: ColumnDef<Product>[] = [
       const product = row.original;
       return (
         <img
-          src={product.thumbnail}
+          src={product.image}
           className="max-w-40 max-sm:max-w-20 border border-border rounded-lg"
           alt="cover image"
         />
@@ -101,35 +110,7 @@ export const columns: ColumnDef<Product>[] = [
     cell: function Cell({ row }) {
       const product = row.original;
       const [open, setOpen] = useState(false);
-      const onDelete = async () => {
-        try {
-          const response = await fetch("https://dummyjson.com/products", {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ id: product.id }),
-          });
-
-          if (response.ok) {
-            setOpen(false);
-            toast({
-              title: "product deleted",
-              description: "product deleted successfully",
-            });
-          } else {
-            throw new Error("Failed to delete product");
-          }
-        } catch (error) {
-          console.error(error);
-          setOpen(false);
-          toast({
-            title: "Error",
-            description: "Something went wrong",
-            variant: "destructive",
-          });
-        }
-      };
+      const onDelete = async () => {};
       return (
         <>
           <Dialog open={open} onOpenChange={setOpen}>
