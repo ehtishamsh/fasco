@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import AdminNavbar from "./AdminNavbar";
+import { Toaster } from "../ui/toaster";
 
 function AdminLayout() {
   const checkAdmin = JSON.parse(localStorage.getItem("user") || "{}");
@@ -19,6 +20,7 @@ function AdminLayout() {
         <div className="w-full pt-16">
           <Outlet />
         </div>
+        <Toaster />
       </main>
     </>
   );
