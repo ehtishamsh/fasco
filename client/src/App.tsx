@@ -23,6 +23,7 @@ import SigninPage from "./pages/SigninPage";
 import Products from "./pages/admin/Products";
 import Add from "./pages/admin/new/Add";
 import AddCate from "./components/admin/category/new/AddCate";
+import Categories from "./pages/admin/Categories";
 
 function App() {
   const checktoken = localStorage.getItem("token");
@@ -56,7 +57,9 @@ function App() {
                 <Route element={<AdminLayout />} path="/">
                   <Route element={<AdminDashboard />} path="/admin" />
                   <Route element={<Products />} path="/admin/products" />
+                  <Route element={<Products />} path="/admin/products/:id" />
                   <Route element={<Add />} path="/admin/products/new" />
+                  <Route element={<Categories />} path="/admin/categories" />
                   <Route element={<AddCate />} path="/admin/categories/new" />
                 </Route>
               )}
