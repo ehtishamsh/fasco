@@ -9,14 +9,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { toast } from "@/components/ui/use-toast";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, Eye, MoreHorizontal, Trash } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-// You can use a Zod schema here if you want.
-
 interface Data {
   image: string;
   title: string;
