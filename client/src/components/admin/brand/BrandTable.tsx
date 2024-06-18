@@ -8,11 +8,10 @@ export interface Brand {
 }
 export default function BrandTable() {
   const [getData, setData] = useState<Brand[]>();
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const req = await fetch("http://localhost:4000/api/categories");
+        const req = await fetch("http://localhost:4000/api/brands");
         const res = await req.json();
         setData(res.brands);
       } catch (error) {
