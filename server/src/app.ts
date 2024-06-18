@@ -1,6 +1,7 @@
 import express from "express";
 import errorHandler from "./middleware/errorHandler";
 import userRoutes from "./routes/userRoutes";
+import brandRoutes from "./routes/brandRoutes";
 import categoryRoute from "./routes/categoryRoute";
 import bodyParser from "body-parser";
 
@@ -14,7 +15,8 @@ app.use(cors());
 
 // Routes
 app.use("/", userRoutes);
-app.use("/", categoryRoute);
+app.use("/api", categoryRoute);
+app.use("/api", brandRoutes);
 // ERROR HANDLER
 app.use(errorHandler);
 
