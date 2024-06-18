@@ -39,12 +39,23 @@ interface Option {
 function AddProduct() {
   const [selectCategory, setSelectCategory] = useState<Option | undefined>();
   const [categories, setCategories] = useState<Option[]>([]);
+  const [selectBrand, setSelectBrand] = useState<Option | undefined>();
+  const [brands, setBrands] = useState<Option[]>([]);
+  // const [imgUrl, setImgUrl] = useState<string>("");
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const req = await fetch("http://localhost:4000/api/categories");
         const res = await req.json();
         setCategories(res.categories);
+      } catch (error) {
+        console.log(error);
+      }
+      try {
+        const req = await fetch("http://localhost:4000/api/brands");
+        const res = await req.json();
+        setBrands(res.brands);
       } catch (error) {
         console.log(error);
       }
@@ -103,6 +114,8 @@ function AddProduct() {
               )}
             />
             <DropdownMenuSeparator />
+
+            <DropdownMenuSeparator />
             <FormField
               control={form.control}
               name="Price"
@@ -144,6 +157,13 @@ function AddProduct() {
               selectedOptions={selectCategory}
               setSelectedOptions={setSelectCategory}
               name="Category"
+            />
+            <DropdownMenuSeparator />
+            <Select
+              options={brands}
+              selectedOptions={selectBrand}
+              setSelectedOptions={setSelectBrand}
+              name="Brand"
             />
             <DropdownMenuSeparator />
             <FormField
