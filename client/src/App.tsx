@@ -24,6 +24,8 @@ import Products from "./pages/admin/Products";
 import Add from "./pages/admin/new/Add";
 import AddCate from "./components/admin/category/new/AddCate";
 import Categories from "./pages/admin/Categories";
+import Brands from "./pages/admin/Brands";
+import AddBrand from "./components/admin/brand/new/AddBrand";
 
 function App() {
   const checktoken = localStorage.getItem("token");
@@ -61,6 +63,8 @@ function App() {
                   <Route element={<Add />} path="/admin/products/new" />
                   <Route element={<Categories />} path="/admin/categories" />
                   <Route element={<AddCate />} path="/admin/categories/new" />
+                  <Route element={<Brands />} path="/admin/brands" />
+                  <Route element={<AddBrand />} path="/admin/brands/new" />
                 </Route>
               )}
             </Routes>
