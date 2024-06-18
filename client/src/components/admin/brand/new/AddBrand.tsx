@@ -35,7 +35,7 @@ function AddBrand() {
     };
     const fetchData = async () => {
       try {
-        const req = await fetch("http://localhost:4000/api/brand", {
+        const req = await fetch("http://localhost:4000/api/brands/new", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -50,6 +50,10 @@ function AddBrand() {
             description: "Brand added successfully",
             variant: "success",
           });
+          setTimeout(() => {
+            form.reset();
+            window.location.href = "/admin/brands";
+          }, 2000);
         }
       } catch (error) {
         console.log(error);
@@ -67,7 +71,7 @@ function AddBrand() {
     <div className="mt-10 px-10">
       <div className=" flex flex-col gap-5 ">
         <div className="flex flex-col gap-2">
-          <BreadCrumbAdmin paths={["Admin", "Categories"]} end={"Add"} />
+          <BreadCrumbAdmin paths={["Admin", "Brands"]} end={"Add"} />
           <h1 className="text-3xl font-bold tracking-tight">Add Brand</h1>
           <span className="text-sm text-muted-foreground">
             Add a new Brand.
