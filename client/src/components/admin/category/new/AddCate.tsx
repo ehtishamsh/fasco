@@ -35,7 +35,7 @@ function AddCate() {
     };
     const fetchData = async () => {
       try {
-        const req = await fetch("http://localhost:4000/api/category", {
+        const req = await fetch("http://localhost:4000/api/categories/new", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -50,6 +50,10 @@ function AddCate() {
             description: "Category added successfully",
             variant: "success",
           });
+          setTimeout(() => {
+            form.reset();
+            window.location.href = "/admin/categories";
+          }, 2000);
         }
       } catch (error) {
         console.log(error);
