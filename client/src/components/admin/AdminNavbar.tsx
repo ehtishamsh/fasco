@@ -8,7 +8,9 @@ function AdminNavbar() {
       <nav className="h-16 flex items-center justify-between px-4">
         <div className="flex gap-2 justify-center items-center">
           <MobileNav />
-          <Link to={"/admin"}>THE BLOG</Link>
+          <Link to={"/admin"}>
+            <img src="/logo.png" alt="" className="max-w-[100px]" />
+          </Link>
         </div>
 
         <div className="flex items-center gap-2">
