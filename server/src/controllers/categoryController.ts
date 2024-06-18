@@ -1,5 +1,12 @@
 import { Request, Response } from "express";
 import { All, Create, One } from "../services/Category";
+import { z } from "zod";
+const formSchema = z.object({
+  name: z
+    .string()
+    .min(1, "Category Name is required")
+    .max(40, "Category Name is too long"),
+});
 export async function getAllCategories(req: Request, res: Response) {
   try {
     const categories = await All();
@@ -18,7 +25,7 @@ export async function getAllCategories(req: Request, res: Response) {
 }
 export async function createCategory(req: Request, res: Response) {
   try {
-    const { name } = req.body;
+    const { name } = formSchema.parse(req.body);
     const category = await One(name);
     if (category) {
       res.status(400).send("Category already exists");

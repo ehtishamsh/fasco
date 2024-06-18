@@ -4,7 +4,7 @@ import {
   createCategory,
 } from "../controllers/categoryController";
 const router = Router();
-router.get("/api/categories", getAllCategories);
-router.post("/api/category", createCategory);
+router.get("/categories", getAllCategories);
+router.post("/categories/new", createCategory);
 
 export default router;
