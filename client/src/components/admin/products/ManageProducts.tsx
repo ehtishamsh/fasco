@@ -1,8 +1,8 @@
-import { BreadCrum } from "@/components/BreadCrum";
 import { DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import ProductsTable from "./ProductsTable";
 import { Link } from "react-router-dom";
 import { Plus } from "lucide-react";
+import { BreadCrumbAdmin } from "../BreadCrumAdmin";
 
 function ManageProducts() {
   const session = JSON.parse(localStorage.getItem("user") || "{}");
@@ -16,12 +16,12 @@ function ManageProducts() {
   return (
     <div className="px-2 max-w-6xl">
       <div className="mt-8 px-5 max-sm:px-0 flex flex-col gap-5 w-full">
-        <BreadCrum cat="admin" brand="products" />
+        <BreadCrumbAdmin paths={["Admin"]} end={"Products"} />
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-2">
-            <h1 className="text-3xl font-bold tracking-tight">User Blogs</h1>
+            <h1 className="text-3xl font-bold tracking-tight">Products</h1>
             <span className="text-sm text-muted-foreground">
-              Manage the user blogs.
+              Manage the Products.
             </span>
           </div>
           <Link
