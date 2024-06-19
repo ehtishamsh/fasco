@@ -31,12 +31,12 @@ model Product {
   stock Int
   brand        Brand @relation(fields: [brandId], references: [id])
   category     Category @relation(fields: [categoryId], references: [id])
-  variant      Variant  @relation(fields: [variantId], references: [id])
+  variant      Variant?  @relation(fields: [variantId], references: [id])
   color        Color @relation(fields: [colorId], references: [id])
   colorId      String
   brandId      String
   categoryId   String
-  variantId    String
+  variantId    String?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   screenSize   String
