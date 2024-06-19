@@ -14,6 +14,9 @@ import { Input } from "@/components/ui/input";
 import { DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import Select from "../../Select";
 import { useEffect, useState } from "react";
+import ImageUpload from "../../ImageUpload";
+import { Label } from "@/components/ui/label";
+import ProductVariants from "../../ProductVariants";
 
 const formSchema = z.object({
   ProductName: z
@@ -21,7 +24,7 @@ const formSchema = z.object({
     .min(1, "Product Name is required")
     .max(40, "Product Name is too long"),
   Price: z.string().min(1, "Price is required"),
-  Stock: z.string().min(1, "Stock is required"),
+  Stock: z.number().min(1, "Stock is required"),
   Description: z.string().min(1, "Description is required"),
   screenSize: z.string().min(1, "Screen Size is required"),
   cpu: z.string().min(1, "Cpu is required"),
@@ -41,7 +44,7 @@ function AddProduct() {
   const [categories, setCategories] = useState<Option[]>([]);
   const [selectBrand, setSelectBrand] = useState<Option | undefined>();
   const [brands, setBrands] = useState<Option[]>([]);
-  // const [imgUrl, setImgUrl] = useState<string>("");
+  const [imgUrl, setImgUrl] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -67,7 +70,7 @@ function AddProduct() {
     defaultValues: {
       ProductName: "",
       Price: "",
-      Stock: "",
+      Stock: 0,
       Description: "",
       screenSize: "",
       cpu: "",
@@ -77,10 +80,8 @@ function AddProduct() {
       battery: "",
     },
   });
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-  }
-
+  async function onSubmit(values: z.infer<typeof formSchema>) {}
+  console.log(imgUrl);
   return (
     <div className="mt-10 px-10">
       <div className=" flex flex-col gap-5 ">
@@ -114,7 +115,8 @@ function AddProduct() {
               )}
             />
             <DropdownMenuSeparator />
-
+            <Label>Upload Product Image</Label>
+            <ImageUpload filePath={imgUrl} setFilePath={setImgUrl} />
             <DropdownMenuSeparator />
             <FormField
               control={form.control}
@@ -151,6 +153,9 @@ function AddProduct() {
                 </FormItem>
               )}
             />
+            <DropdownMenuSeparator />
+            <Label>Product Variants(Optional)</Label>
+            <ProductVariants />
             <DropdownMenuSeparator />
             <Select
               options={categories}
@@ -292,7 +297,8 @@ function AddProduct() {
                 </FormItem>
               )}
             />
-            <Button variant="default" className="w-full mt-6">
+
+            <Button variant="default" type="submit" className="w-full mt-6">
               Add
             </Button>
           </form>
