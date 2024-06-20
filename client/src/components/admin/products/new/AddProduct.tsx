@@ -13,10 +13,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import Select from "../../Select";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ImageUpload from "../../ImageUpload";
 import { Label } from "@/components/ui/label";
 import ProductVariants from "../../ProductVariants";
+import ProductColor from "../../Color";
+import { toast } from "@/components/ui/use-toast";
 
 const formSchema = z.object({
   ProductName: z
@@ -24,10 +26,11 @@ const formSchema = z.object({
     .min(1, "Product Name is required")
     .max(40, "Product Name is too long"),
   Price: z.string().min(1, "Price is required"),
-  Stock: z.number().min(1, "Stock is required"),
+  Stock: z.coerce.number().min(1, "Stock is required"),
   Description: z.string().min(1, "Description is required"),
   screenSize: z.string().min(1, "Screen Size is required"),
   cpu: z.string().min(1, "Cpu is required"),
+  ram: z.string().min(1, "RAM is required"),
   cores: z.string().min(1, "Cores is required"),
   mainCamera: z.string().min(1, "Main Camera is required"),
   frontCamera: z.string().optional(),
@@ -38,36 +41,46 @@ interface Option {
   id: string;
   name: string;
 }
+interface Variant {
+  id: number;
+  name: string;
+  price: number;
+}
+interface Color {
+  id: number;
+  name: string;
+}
 
 function AddProduct() {
   const [selectCategory, setSelectCategory] = useState<Option | undefined>();
   const [categories, setCategories] = useState<Option[]>([]);
   const [selectBrand, setSelectBrand] = useState<Option | undefined>();
   const [brands, setBrands] = useState<Option[]>([]);
+  const [variants, setVariants] = useState<Variant[]>([]);
   const [imgUrl, setImgUrl] = useState<string>("");
+  const [colors, setColors] = useState<Color[]>([]);
+
+  const fetchData = async () => {
+    try {
+      const [categoriesRes, brandsRes] = await Promise.all([
+        fetch("http://localhost:4000/api/categories"),
+        fetch("http://localhost:4000/api/brands"),
+      ]);
+      const categoriesData = await categoriesRes.json();
+      const brandsData = await brandsRes.json();
+      setCategories(categoriesData.categories);
+      setBrands(brandsData.brands);
+    } catch (error) {
+      console.error("Failed to fetch data:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const req = await fetch("http://localhost:4000/api/categories");
-        const res = await req.json();
-        setCategories(res.categories);
-      } catch (error) {
-        console.log(error);
-      }
-      try {
-        const req = await fetch("http://localhost:4000/api/brands");
-        const res = await req.json();
-        setBrands(res.brands);
-      } catch (error) {
-        console.log(error);
-      }
-    };
     fetchData();
   }, []);
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
+
+  const defaultValues = useMemo(
+    () => ({
       ProductName: "",
       Price: "",
       Stock: 0,
@@ -78,12 +91,62 @@ function AddProduct() {
       mainCamera: "",
       frontCamera: "",
       battery: "",
-    },
+      ram: "",
+    }),
+    []
+  );
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues,
   });
-  async function onSubmit(values: z.infer<typeof formSchema>) {}
-  console.log(imgUrl);
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const newProduct = {
+      title: values.ProductName,
+      price: values.Price,
+      stock: values.Stock,
+      description: values.Description,
+      categoryId: selectCategory?.id,
+      brandId: selectBrand?.id,
+      variants,
+      cover: imgUrl,
+      screenSize: values.screenSize,
+      cpu: values.cpu,
+      cores: values.cores,
+      mainCamera: values.mainCamera,
+      frontCamera: values.frontCamera,
+      battery: values.battery,
+      ram: values.ram,
+      colors,
+    };
+    try {
+      const res = await fetch("http://localhost:4000/api/products/new", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newProduct),
+      });
+
+      const data = await res.json();
+      if (data) {
+        toast({
+          title: "Product Added",
+          description: "Product added successfully",
+          variant: "success",
+        });
+        setTimeout(() => {
+          form.reset();
+          window.location.href = "/admin/products";
+        }, 2000);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
-    <div className="mt-10 px-10">
+    <div className="my-10 px-10">
       <div className=" flex flex-col gap-5 ">
         <div className="flex flex-col gap-2">
           <h1 className="text-3xl font-bold tracking-tight">Add Product</h1>
@@ -155,7 +218,10 @@ function AddProduct() {
             />
             <DropdownMenuSeparator />
             <Label>Product Variants(Optional)</Label>
-            <ProductVariants />
+            <ProductVariants variants={variants} setVariants={setVariants} />
+            <DropdownMenuSeparator />
+            <Label>Product Color</Label>
+            <ProductColor color={colors} setcolor={setColors} />
             <DropdownMenuSeparator />
             <Select
               options={categories}
@@ -267,10 +333,28 @@ function AddProduct() {
               name="frontCamera"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Front Camera</FormLabel>
+                  <FormLabel>Front Camera(Optional)</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Product Front Camera..."
+                      {...field}
+                      className="w-full"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <DropdownMenuSeparator />
+            <FormField
+              control={form.control}
+              name="ram"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Ram</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Product Ram..."
                       {...field}
                       className="w-full"
                     />
