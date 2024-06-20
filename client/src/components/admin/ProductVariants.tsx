@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 
@@ -7,8 +7,13 @@ interface Variant {
   name: string;
   price: number;
 }
-const ProductVariants = () => {
-  const [variants, setVariants] = useState<Variant[]>([]);
+const ProductVariants = ({
+  variants,
+  setVariants,
+}: {
+  variants: Variant[];
+  setVariants: React.Dispatch<React.SetStateAction<Variant[]>>;
+}) => {
   const [newVariantName, setNewVariantName] = useState<string>("");
   const [newVariantPrice, setNewVariantPrice] = useState<string>("");
 
