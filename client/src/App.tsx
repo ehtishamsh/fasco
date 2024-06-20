@@ -30,6 +30,7 @@ import AddBrand from "./components/admin/brand/new/AddBrand";
 function App() {
   const checktoken = localStorage.getItem("token");
   const checkuser = JSON.parse(localStorage.getItem("user") || "{}");
+
   let persistor = persistStore(store);
   return (
     <>
@@ -47,12 +48,13 @@ function App() {
                 {checktoken && (
                   <Route element={<Checkout />} path="/checkout" />
                 )}
-                {!checktoken && !checkuser && (
+                {!checktoken && (
                   <>
-                    <Route element={<SigninPage />} path="/signin" />
-                    <Route element={<SignupPage />} path="/signup" />
+                    <Route path="/signin" element={<SigninPage />} />
+                    <Route path="/signup" element={<SignupPage />} />
                   </>
                 )}
+
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Route>
               {checktoken && checkuser.role === "admin" && (

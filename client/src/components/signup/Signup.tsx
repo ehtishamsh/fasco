@@ -88,7 +88,7 @@ function Signup() {
 
   return (
     <Reveal width="100%">
-      <div className=" overflow-hidden  mb-20 max-sm:mb-10 bg-center">
+      <div className=" overflow-hidden  mb-20 max-sm:mb-10 bg-center px-5">
         <div className="max-w-6xl mx-auto">
           <div className="w-full h-full grid grid-cols-2 max-md:grid-cols-1">
             <div className="overflow-hidden rounded-md  border border-border">
