@@ -96,7 +96,7 @@ function ImageUpload({
             <img
               src={`http://localhost:4000${filePath}`}
               alt="Uploaded"
-              className="max-w-full h-auto border border-gray-300 rounded-lg"
+              className="w-full max-h-96 object-cover border border-gray-300 rounded-lg"
             />
             <Button
               type="button"
