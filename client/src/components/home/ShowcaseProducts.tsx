@@ -1,12 +1,10 @@
 import { HeartIcon } from "@radix-ui/react-icons";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { add } from "../../lib/redux/cartSlice";
 import { CartState, Product as Data, Product } from "@/lib/redux/types";
 import { useToast } from "../ui/use-toast";
-import { FaStar } from "react-icons/fa6";
 import { addwishlist } from "@/lib/redux/Wishlist";
 import { FormatText } from "../FormatText";
 
@@ -22,28 +20,6 @@ function ShowcaseProducts({ products }: { products: Data[] }) {
     setProductData(products);
   }, [products]);
   const { toast } = useToast();
-
-  function handleClick(e: React.MouseEvent<HTMLButtonElement>, id: number) {
-    e.preventDefault();
-    e.stopPropagation();
-    const checkifexits = items.findIndex((i) => i.id === id);
-    const filterProduct = productData.filter((item) => item.id === id);
-    if (checkifexits !== -1) {
-      dispatch(add(filterProduct[0]));
-      toast({
-        title: "Prodcuct Already in cart",
-        description: "Quantity increased",
-        variant: "success",
-      });
-    } else if (filterProduct) {
-      dispatch(add(filterProduct[0]));
-      toast({
-        title: "Product Added",
-        description: "Product added to cart",
-        variant: "success",
-      });
-    }
-  }
 
   const createElement = productData?.map((item) => {
     return (
@@ -91,122 +67,33 @@ function ShowcaseProducts({ products }: { products: Data[] }) {
               <HeartIcon className="w-6 h-6 text-muted-foreground" />
             </Button>
           </div>
-          <div className="px-2 overflow-hidden flex items-center justify-center h-[180px]  ">
+          <div className="px-2 overflow-hidden flex items-center justify-center  ">
             <img
-              src={item.thumbnail}
+              src={`http://localhost:4000${item.cover}`}
               alt=""
-              className=" object-cover max-sm:max-h-[120px]"
+              className=" object-cover h-[270px] max-sm:max-h-[120px]"
             />
           </div>
 
           <h1 className="text-sm max-sm:text-xs font-semibold text-center line-clamp-3 mt-3 ">
             {item.title}
           </h1>
-          <h2 className="text-xl font-semibold text-center max-sm:text-base  flex items-end justify-center">
+          <div className="flex justify-center items-center gap-1">
+            {item.colors?.map((item, index) => {
+              return (
+                <span
+                  className="w-4 h-4 rounded-full border border-muted-foreground"
+                  style={{ backgroundColor: item.name }}
+                  key={index}
+                >
+                  &nbsp;
+                </span>
+              );
+            })}
+          </div>
+          <h2 className="text-xl font-semibold text-center max-sm:text-base  flex items-end justify-center pb-4">
             ${item.price}
           </h2>
-          <div className="flex justify-center gap-2 mt-4 items-center">
-            {item.rating > 1 && item.rating < 2 ? (
-              <>
-                <span>
-                  <FaStar className="w-3 h-3 text-yellow-400/80" />
-                </span>
-                <span>
-                  <FaStar className="w-3 h-3 text-gray-400/80" />
-                </span>
-                <span>
-                  <FaStar className="w-3 h-3 text-gray-400/80" />
-                </span>
-                <span>
-                  <FaStar className="w-3 h-3 text-gray-400/80" />
-                </span>
-                <span>
-                  <FaStar className="w-3 h-3 text-gray-400/80" />
-                </span>
-              </>
-            ) : item.rating > 2 && item.rating < 3 ? (
-              <>
-                <span>
-                  <FaStar className="w-3 h-3 text-yellow-400/80" />
-                </span>
-                <span>
-                  <FaStar className="w-3 h-3 text-yellow-400/80" />
-                </span>
-                <span>
-                  <FaStar className="w-3 h-3 text-gray-400/80" />
-                </span>
-                <span>
-                  <FaStar className="w-3 h-3 text-gray-400/80" />
-                </span>
-                <span>
-                  <FaStar className="w-3 h-3 text-gray-400/80" />
-                </span>
-              </>
-            ) : item.rating > 3 && item.rating < 4 ? (
-              <>
-                <span>
-                  <FaStar className="w-3 h-3 text-yellow-400/80" />
-                </span>
-                <span>
-                  <FaStar className="w-3 h-3 text-yellow-400/80" />
-                </span>
-                <span>
-                  <FaStar className="w-3 h-3 text-yellow-400/80" />
-                </span>
-                <span>
-                  <FaStar className="w-3 h-3 text-gray-400/80" />
-                </span>
-                <span>
-                  <FaStar className="w-3 h-3 text-gray-400/80" />
-                </span>
-              </>
-            ) : item.rating > 4 && item.rating < 5 ? (
-              <>
-                <span>
-                  <FaStar className="w-3 h-3 text-yellow-400/80" />
-                </span>
-                <span>
-                  <FaStar className="w-3 h-3 text-yellow-400/80" />
-                </span>
-                <span>
-                  <FaStar className="w-3 h-3 text-yellow-400/80" />
-                </span>
-                <span>
-                  <FaStar className="w-3 h-3 text-yellow-400/80" />
-                </span>
-                <span>
-                  <FaStar className="w-3 h-3 text-gray-400/80" />
-                </span>
-              </>
-            ) : item.rating === 5 ? (
-              <>
-                <span>
-                  <FaStar className="w-3 h-3 text-yellow-400/80" />
-                </span>
-                <span>
-                  <FaStar className="w-3 h-3 text-yellow-400/80" />
-                </span>
-                <span>
-                  <FaStar className="w-3 h-3 text-yellow-400/80" />
-                </span>
-                <span>
-                  <FaStar className="w-3 h-3 text-yellow-400/80" />
-                </span>
-                <span>
-                  <FaStar className="w-3 h-3 text-yellow-400/80" />
-                </span>
-              </>
-            ) : null}
-          </div>
-          <div className="flex justify-center items-end py-4 max-sm:py-2">
-            <Button
-              variant={"default"}
-              className="w-full max-sm:text-xs max-sm:py-1"
-              onClick={(e) => handleClick(e, item.id)}
-            >
-              Add to Cart
-            </Button>
-          </div>
         </Link>
       </div>
     );
