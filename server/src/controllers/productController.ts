@@ -60,8 +60,6 @@ export const getAllProducts = async (req: Request, res: Response) => {
         };
       })
     );
-
-    console.log(productsWithDetails);
     res.status(200).json({
       products: productsWithDetails,
       message: "Products fetched successfully",
@@ -122,7 +120,7 @@ export const createProduct = async (req: Request, res: Response) => {
 
     const checkifexist = await FindOne(title);
     if (checkifexist) {
-      res.status(400).send("Product already exists");
+      return res.status(400).send("Product already exists");
     }
 
     const newProduct = await prisma?.product?.create({
@@ -145,56 +143,93 @@ export const createProduct = async (req: Request, res: Response) => {
     });
 
     if (!newProduct) {
-      res.status(500).send("Failed to create product");
+      return res.status(500).send("Failed to create product");
     }
+
     let variantIds: string[] = [];
     if (variants.length > 0) {
-      const newVariants = Promise.all(
+      const newVariants = await Promise.all(
         variants.map(async (variant) => {
-          const newVariant = await prisma?.variant?.create({
-            data: {
-              price: String(variant.price),
-              productId: newProduct.id,
-              variant: variant.name,
-            },
-          });
+          try {
+            const existingVariant = await prisma?.variant?.findFirst({
+              where: {
+                variant: variant.name,
+                productId: newProduct.id,
+              },
+            });
 
-          if (newVariant) {
-            variantIds.push(newVariant.id);
+            if (existingVariant) {
+              variantIds.push(existingVariant.id);
+              return existingVariant;
+            }
+
+            const newVariant = await prisma?.variant?.create({
+              data: {
+                price: String(variant.price),
+                productId: newProduct.id,
+                variant: variant.name,
+              },
+            });
+
+            if (newVariant) {
+              variantIds.push(newVariant.id);
+            }
+
+            return newVariant;
+          } catch (error) {
+            console.error(`Failed to create variant: ${variant.name}`, error);
+            throw new Error(`Failed to create variant: ${variant.name}`);
           }
-
-          return newVariant;
         })
       );
 
       if (!newVariants) {
-        res.status(500).send("Failed to create variants");
+        return res.status(500).send("Failed to create variants");
       }
     }
 
     let colorIds: string[] = [];
     if (colors.length > 0) {
-      const newColors = Promise.all(
+      const newColors = await Promise.all(
         colors.map(async (color) => {
-          const newColor = await prisma?.color?.create({
-            data: {
-              productId: newProduct.id,
-              color: color.name,
-            },
-          });
+          try {
+            const existingColor = await prisma?.color?.findFirst({
+              where: {
+                color: color.name,
+                productId: newProduct.id,
+              },
+            });
 
-          if (newColor) {
-            colorIds.push(newColor.id);
+            if (existingColor) {
+              colorIds.push(existingColor.id);
+              return existingColor;
+            }
+
+            const newColor = await prisma?.color?.create({
+              data: {
+                productId: newProduct.id,
+                color: color.name,
+              },
+            });
+
+            if (newColor) {
+              colorIds.push(newColor.id);
+            }
+
+            return newColor;
+          } catch (error) {
+            console.error(`Failed to create color: ${color.name}`, error);
+            throw new Error(`Failed to create color: ${color.name}`);
           }
-
-          return newColor;
         })
       );
+
       if (!newColors) {
-        res.status(500).send("Failed to create colors");
+        return res.status(500).send("Failed to create colors");
       }
     }
-    res.json({
+
+    return res.json({
       newProduct,
       variantIds,
       colorIds,
@@ -202,7 +237,73 @@ export const createProduct = async (req: Request, res: Response) => {
       message: "Product created successfully",
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).send(error);
+    console.error(error);
+    return res.status(500).send(error);
   }
 };
+
+export async function getProduct(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+
+    const getProduct = await prisma?.product.findFirst({
+      where: {
+        slug: id,
+      },
+    });
+
+    if (!getProduct) {
+      return res.status(404).send("Product not found"); // Use return to exit the function
+    }
+    const [productsVariants, productsColors] = await Promise.all([
+      prisma.variant.findMany(),
+      prisma.color.findMany(),
+    ]);
+    const getCateName = await prisma.category.findUnique({
+      where: {
+        id: getProduct?.categoryId,
+      },
+      select: {
+        name: true,
+      },
+    });
+
+    const getBrandName = await prisma.brand.findUnique({
+      where: {
+        id: getProduct?.brandId,
+      },
+      select: {
+        name: true,
+      },
+    });
+
+    const variants = productsVariants
+      .filter((variant) => variant?.productId === getProduct?.id)
+      .map((variant) => ({
+        name: variant.variant,
+        price: variant.price,
+      }));
+
+    const colors = productsColors
+      .filter((color) => color?.productId === getProduct?.id)
+      .map((color) => ({
+        name: color.color,
+      }));
+    const product = {
+      ...getProduct,
+      category: getCateName?.name,
+      brand: getBrandName?.name,
+      variants,
+      colors,
+    };
+
+    return res.json({
+      product,
+      status: 200,
+      message: "Product fetched successfully",
+    }); // Use return to exit the function
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send(error); // Use return to exit the function
+  }
+}
