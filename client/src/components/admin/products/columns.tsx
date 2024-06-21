@@ -45,7 +45,7 @@ export const columns: ColumnDef<Data>[] = [
       return (
         <img
           src={`http://localhost:4000${product?.cover}`}
-          className="max-w-40 max-sm:max-w-20 border border-border rounded-lg"
+          className="max-w-20 max-sm:max-w-20 border border-border rounded-lg"
           alt="cover image"
         />
       );
@@ -100,7 +100,7 @@ export const columns: ColumnDef<Data>[] = [
 
     cell: function Cell({ row }) {
       const product = row.original;
-      return <p className="line-clamp-1 max-sm:text-xs">{product?.price}</p>;
+      return <p className="line-clamp-1 max-sm:text-xs">${product?.price}</p>;
     },
   },
   {
@@ -120,9 +120,35 @@ export const columns: ColumnDef<Data>[] = [
       const product = row.original;
       return (
         <p className="line-clamp-1 max-sm:text-xs flex flex-col gap-1 justify-center items-center">
-          {product?.variants
-            ?.map((variant) => `(${variant.name},${"$" + variant.price})`)
-            .join(", ")}
+          {product?.variants.map((item: any) => {
+            return (
+              <span>
+                ({item.name}, ${item.price})
+              </span>
+            );
+          })}
+        </p>
+      );
+    },
+  },
+  {
+    accessorKey: "colors",
+    header: "Colors",
+
+    cell: function Cell({ row }) {
+      const product = row.original;
+      return (
+        <p className="line-clamp-1 max-sm:text-xs flex flex-col gap-1 justify-center items-center">
+          {product.colors.map((item: any) => {
+            return (
+              <span
+                className={`w-4 h-4 rounded-full border border-muted-foreground`}
+                style={{ backgroundColor: item.name }}
+              >
+                &nbsp;
+              </span>
+            );
+          })}
         </p>
       );
     },
