@@ -19,6 +19,7 @@ import { Label } from "@/components/ui/label";
 import ProductVariants from "../../ProductVariants";
 import ProductColor from "../../Color";
 import { toast } from "@/components/ui/use-toast";
+import { BreadCrumbAdmin } from "../../BreadCrumAdmin";
 
 const formSchema = z.object({
   ProductName: z
@@ -145,10 +146,12 @@ function AddProduct() {
       console.log(error);
     }
   };
+
   return (
     <div className="my-10 px-10">
       <div className=" flex flex-col gap-5 ">
         <div className="flex flex-col gap-2">
+          <BreadCrumbAdmin paths={["Admin", "Products"]} end={"Add"} />
           <h1 className="text-3xl font-bold tracking-tight">Add Product</h1>
           <span className="text-sm text-muted-foreground">
             Add a new Product.
