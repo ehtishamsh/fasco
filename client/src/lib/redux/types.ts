@@ -1,14 +1,32 @@
 export interface Product {
-  id: number;
+  id: string;
   title: string;
   price: string;
-  thumbnail: string;
-  category: string;
+  stock: number;
+  variants: [
+    {
+      name: string;
+      price: string;
+    }
+  ];
+  colors: [
+    {
+      name: string;
+    }
+  ];
+
   description: string;
+  category: string;
   brand: string;
-  quantity?: number; // Add quantity property for cart items
-  rating: number;
-  stock?: number;
+  cover: string;
+  screenSize: string;
+  cpu: string;
+  cores: string;
+  mainCamera: string;
+  frontCamera?: string;
+  battery: string;
+  ram: string;
+  quantity?: number;
 }
 export type CartState = {
   cart: {
