@@ -8,7 +8,7 @@ function TopProducts() {
   useEffect(() => {
     const fetehData = async () => {
       try {
-        const getres = await fetch("https://dummyjson.com/products", {
+        const getres = await fetch("http://localhost:4000/api/products", {
           method: "GET",
         });
         const res = await getres.json();

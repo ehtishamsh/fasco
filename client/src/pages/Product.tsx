@@ -10,37 +10,30 @@ import TopDetailsGrid from "@/components/product/TopDetailsGrid";
 import Details from "@/components/product/Details";
 import ProductReview from "@/components/product/ProductReview";
 import Recommended from "@/components/product/Recommended";
+import { Product as Data } from "@/lib/redux/types";
 
 function Product() {
-  const path = useParams();
-  const [data, setData] = useState<any>({});
+  const [data, setData] = useState<Data>();
+  const { title } = useParams();
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const request = await fetch("https://dummyjson.com/products/", {
-          method: "GET",
-        });
+        const request = await fetch(
+          `http://localhost:4000/api/products/${title}`,
+          {
+            method: "GET",
+          }
+        );
         const response = await request.json();
-
-        const filterProduct = response?.products.filter((item: any) => {
-          return (
-            item.title
-              .replace("-", " ")
-              .replace(/\s{2,}/g, "-")
-              .replace(/\s/g, "-")
-              .replace(".", "")
-              .toLowerCase() === path?.title
-          );
-        });
-
-        setData(filterProduct[0]);
+        console.log(response);
+        setData(response.product);
       } catch (error) {
         console.log(error);
       }
     };
     fetchData();
     return () => {
-      setData({});
+      setData({} as Data);
     };
   }, []);
 
@@ -54,17 +47,19 @@ function Product() {
     <div>
       <div className="max-w-6xl mx-auto pb-20 px-4 max-md:pb-16 max-sm:pb-0">
         <div className="mb-10">
-          <BreadCrum
-            cat={data?.category}
-            brand={data?.brand}
-            productName={data?.title}
-          />
+          {data && (
+            <BreadCrum
+              cat={data?.category}
+              brand={data?.brand}
+              productName={data?.title}
+            />
+          )}
         </div>
         <div className="mt-20 max-md:mt-16 max-sm:mt-7">
           <div className="grid grid-cols-2 gap-8 max-md:gap-6 max-sm:gap-2 max-md:grid-cols-1">
             <div className="flex justify-center">
               <img
-                src={data?.thumbnail}
+                src={`http://localhost:4000${data?.cover}`}
                 alt=""
                 className=" max-h-[800px] object-contain border border-border"
               />
