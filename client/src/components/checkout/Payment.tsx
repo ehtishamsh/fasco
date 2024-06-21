@@ -47,7 +47,7 @@ function Payment({
     return (
       <div className="grid grid-cols-7 gap-4  max-sm:gap-2  max-sm:p-2 items-center bg-gray-100/80 rounded-lg p-4">
         <img
-          src={item?.thumbnail}
+          src={`http://localhost:4000${item?.cover}`}
           alt={item.title}
           className="max-h-[90px] object-cover max-sm:col-span-7 max-sm:max-h-[100px] w-full rounded-lg border border-border"
         />
