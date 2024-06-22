@@ -5,12 +5,14 @@ export interface Product {
   stock: number;
   variants: [
     {
+      id: string;
       name: string;
       price: string;
     }
   ];
   colors: [
     {
+      id: string;
       name: string;
     }
   ];
@@ -27,6 +29,16 @@ export interface Product {
   battery: string;
   ram: string;
   quantity?: number;
+  slug: string;
+  selectedVariant?: {
+    id: string;
+    name: string;
+    price: string;
+  };
+  selectedColor?: {
+    id: string;
+    name: string;
+  };
 }
 export type CartState = {
   cart: {
