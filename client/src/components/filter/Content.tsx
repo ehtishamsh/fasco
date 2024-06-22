@@ -64,11 +64,11 @@ function Content({
             prev.sort((a, b) => Number(a.price) - Number(b.price))
           );
         }
-        if (select === "rating") {
-          setProducts((prev) =>
-            prev.sort((a, b) => Number(b.rating) - Number(a.rating))
-          );
-        }
+        // if (select === "rating") {
+        //   setProducts((prev) =>
+        //     prev.sort((a, b) => Number(b.rating) - Number(a.rating))
+        //   );
+        // }
       } catch (error) {
         console.log(error);
       }
