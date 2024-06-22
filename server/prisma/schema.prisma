@@ -21,6 +21,7 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   role String @default("customer")
+   reviews Review[]
 }
 model Variant {
   id         String   @id @default(uuid())
@@ -53,6 +54,7 @@ model Product {
   ram          String
   frontCamera  String?
   battery      String
+  reviews     Review[]
 }
 
 model Color {
@@ -74,4 +76,15 @@ model Category {
   id String @id @default(uuid())
   name String @unique
   products Product[]
+}
+
+
+model Review {
+  id        String    @id @default(uuid())
+  rating    Int
+  comment   String?
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  product   Product  @relation(fields: [productId], references: [id])
+  productId String
 }
