@@ -1,29 +1,34 @@
 import React from "react";
 import { Button } from "../ui/button";
 
+interface Size {
+  id: string;
+  name: string;
+  price: string;
+}
 function SelectSize({
   sizes,
   selectedSize,
   setSelectedSize,
 }: {
-  sizes: string[];
-  selectedSize: string;
-  setSelectedSize: React.Dispatch<React.SetStateAction<string>>;
+  sizes: Size[];
+  selectedSize: Size;
+  setSelectedSize: React.Dispatch<React.SetStateAction<Size>>;
 }) {
   const handleClick = (size: any) => {
     setSelectedSize(size);
   };
   return (
     <>
-      {sizes.map((item, i) => {
+      {sizes.map((item) => {
         return (
           <Button
-            key={i}
+            key={item.id}
             onClick={() => handleClick(item)}
-            variant={selectedSize === item ? "default" : "outline"}
+            variant={selectedSize.name === item.name ? "default" : "outline"}
             className="w-full py-6 max-sm:py-2"
           >
-            {item}
+            {item.name} : ${item.price}
           </Button>
         );
       })}
