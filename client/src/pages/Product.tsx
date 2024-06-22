@@ -11,9 +11,23 @@ import Details from "@/components/product/Details";
 import ProductReview from "@/components/product/ProductReview";
 import Recommended from "@/components/product/Recommended";
 import { Product as Data } from "@/lib/redux/types";
+import { useDispatch } from "react-redux";
+import { add } from "@/lib/redux/cartSlice";
 
+interface Variant {
+  id: string;
+  name: string;
+  price: string;
+}
+interface Color {
+  id: string;
+  name: string;
+}
 function Product() {
   const [data, setData] = useState<Data>();
+  const [variant, setVariant] = useState<Variant[]>();
+  const dispatch = useDispatch();
+  const [color, setColor] = useState<Color[]>([]);
   const { title } = useParams();
   useEffect(() => {
     const fetchData = async () => {
@@ -25,8 +39,12 @@ function Product() {
           }
         );
         const response = await request.json();
-        console.log(response);
+
         setData(response.product);
+        setVariant(response.product.variants);
+        setSelectSize(response.product.variants[0]);
+        setColor(response.product.colors);
+        setOnChange(response.product.colors[0]);
       } catch (error) {
         console.log(error);
       }
@@ -36,13 +54,19 @@ function Product() {
       setData({} as Data);
     };
   }, []);
-
-  const sizes = ["128GB", "256GB", "512GB", "1TB"];
-
-  const [selectSize, setSelectSize] = useState(sizes[0]);
+  const [selectSize, setSelectSize] = useState<Variant>();
   // @ts-ignore
-  const [onChange, setOnChange] = useState("");
+  const [onChange, setOnChange] = useState<Color>();
+  const handleClick = () => {
+    const productNew: Data = {
+      ...(data as Data),
+      selectedVariant: selectSize,
+      selectedColor: onChange,
+      quantity: 1,
+    };
 
+    dispatch(add(productNew));
+  };
   return (
     <div>
       <div className="max-w-6xl mx-auto pb-20 px-4 max-md:pb-16 max-sm:pb-0">
@@ -61,7 +85,7 @@ function Product() {
               <img
                 src={`http://localhost:4000${data?.cover}`}
                 alt=""
-                className=" max-h-[800px] object-contain border border-border"
+                className=" max-h-[800px] max-sm:h-[400px] object-contain border border-border"
               />
             </div>
             <div>
@@ -69,26 +93,28 @@ function Product() {
                 {data?.title}
               </h1>
               <p className="text-3xl mb-6 max-sm:mb-2  max-md:text-xl max-sm:text-lg">
-                ${data?.price}
+                $
+                {Number(data?.price?.replace(",", "")) +
+                  Number(selectSize?.price)}
               </p>
               {/* Select color */}
               <div className="flex items-center mb-6 max-sm:mb-2">
                 <p className="text-sm mr-4">Select color:</p>
-
-                <ColorCheckbox
-                  colors={["bg-red-500", "bg-green-500", "bg-blue-500"]}
-                  onChange={setOnChange}
-                />
+                {color && color.length > 0 && (
+                  <ColorCheckbox colors={color} onChange={setOnChange as any} />
+                )}
               </div>
               {/* Select variation or size, if any */}
               <div className="flex items-center max-sm:justify-evenly max-sm:flex-wrap gap-5  max-sm:gap-2 ">
-                <SelectSize
-                  sizes={sizes}
-                  selectedSize={selectSize}
-                  setSelectedSize={setSelectSize}
-                />
+                {variant && variant.length > 0 && selectSize && (
+                  <SelectSize
+                    sizes={variant}
+                    selectedSize={selectSize}
+                    setSelectedSize={setSelectSize as any}
+                  />
+                )}
               </div>
-              <TopDetailsGrid />
+              {data && <TopDetailsGrid data={data} />}
               <p className="text-gray-700/80 mt-6 text-sm leading-relaxed  line-clamp-3">
                 {data?.description}, {data?.description}, {data?.description}
               </p>
@@ -104,6 +130,7 @@ function Product() {
                   variant={"default"}
                   className="border border-foreground py-7"
                   size={"lg"}
+                  onClick={handleClick}
                 >
                   Add to Cart
                 </Button>
@@ -116,7 +143,7 @@ function Product() {
         </div>
       </div>
       <div className="mt-20 max-md:mt-16 max-sm:mt-7 bg-gray-100 max-sm:bg-inherit py-20 max-md:py-16 max-sm:py-2">
-        <Details />
+        {data && <Details data={data} />}
       </div>
       <div className="mt-20 max-md:mt-16 max-sm:mt-0 py-10 max-sm:py-6 ">
         <ProductReview />
