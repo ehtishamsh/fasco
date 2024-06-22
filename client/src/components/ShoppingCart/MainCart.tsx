@@ -39,7 +39,10 @@ function MainCart() {
     setData(items);
     const getTotal = () => {
       return items.map((i) => {
-        return Number(i.price) * (i.quantity || 1);
+        return (
+          (Number(i.price) + Number(i.selectedVariant?.price)) *
+          (i.quantity || 1)
+        );
       });
     };
     setTotal(() => {
@@ -47,17 +50,9 @@ function MainCart() {
     });
   }, [data, items, checkqty]);
   const mapData = data?.map((item, i) => {
-    const category = item?.category.replace(" ", "").replace("'", "");
-    const title = item?.title
-      .replace("-", " ")
-      .replace(/\s{2,}/g, "-")
-      .replace(/\s/g, "-")
-      .replace(".", "");
-    const brand = item?.brand
-      .replace("-", " ")
-      .replace(/\s{2,}/g, "-")
-      .replace(/\s/g, "-")
-      .replace(".", "");
+    const category = item?.category.replace(" ", "-");
+    const title = item?.title.replace(" ", "-").replace(" ", "-");
+    const brand = item.brand.toLowerCase().replace(" ", "-");
     return (
       <div key={i}>
         <div className="grid grid-cols-7 gap-4 p-2 max-md:grid-rows-2 rounded-md mb-5   transition-all duration-300">
@@ -72,11 +67,22 @@ function MainCart() {
             <div>
               <p className="text-xs text-gray-500">{item.brand}</p>
               <Link
-                to={`/${category.toLowerCase()}/${brand.toLowerCase()}/${title.toLowerCase()}`}
+                to={`/${category.toLowerCase()}/${brand}/${title.toLowerCase()}`}
                 className="text-sm font-semibold line-clamp-2"
               >
                 {item.quantity || 1} x {item.title}
               </Link>
+
+              <span
+                className="rounded-full w-3 h-3 inline-block"
+                style={{ backgroundColor: item.selectedColor?.name }}
+              >
+                &nbsp;
+              </span>
+
+              <p className="text-xs text-gray-500 mt-0">
+                {item.selectedVariant?.name} + ${item.selectedVariant?.price}
+              </p>
             </div>
           </div>
 
@@ -105,9 +111,7 @@ function MainCart() {
             </Button>
           </div>
           <div className="flex justify-center items-center max-md:col-span-2">
-            <p className="text-sm text-yellow-600 font-semibold ">
-              ${(item.quantity || 1) * Number(item.price)}
-            </p>
+            <p className="text-sm text-yellow-600 font-semibold ">${total}</p>
           </div>
           <div className="flex justify-center items-center max-md:col-span-2">
             <Button

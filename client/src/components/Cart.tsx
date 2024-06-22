@@ -35,7 +35,11 @@ function Cart({
     setTotal(() => {
       let sum = 0;
       cartItems.forEach((item) => {
-        sum += Number(item.price) * (item?.quantity || 1);
+        const itemPrice = Number(item.price);
+        const variantPrice = Number(item.selectedVariant?.price || 0);
+        const itemQuantity = item.quantity || 1;
+
+        sum += (itemPrice + variantPrice) * itemQuantity;
       });
       return sum;
     });
@@ -77,6 +81,17 @@ function Cart({
               >
                 {item.quantity || 1} x {item.title}
               </Link>
+              <p className="text-sm text-gray-500">
+                {item.selectedVariant?.name}
+              </p>
+              <p className="text-sm text-gray-500">
+                <span
+                  className="rounded-full w-3 h-3 inline-block"
+                  style={{ backgroundColor: item.selectedColor?.name }}
+                >
+                  &nbsp;
+                </span>
+              </p>
               <p className="text-sm text-yellow-600 font-semibold mt-3">
                 ${item.price}
               </p>
@@ -137,7 +152,9 @@ function Cart({
               <div className="absolute bottom-0  left-0 right-0 px-5 py-5 bg-white">
                 <div className="flex justify-between items-center">
                   <h1 className="text-base font-semibold">Subtotal</h1>
-                  <h1 className="text-base font-semibold">${total}</h1>
+                  <h1 className="text-base font-semibold">
+                    ${total + Number()}
+                  </h1>
                 </div>
                 <Separator />
                 <div className="flex justify-center items-center flex-col gap-4 mt-4">
