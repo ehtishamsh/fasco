@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 
+interface Color {
+  id: string;
+  name: string;
+}
 const ColorCheckbox = ({
   colors,
   onChange,
 }: {
-  colors: string[];
-  onChange: React.Dispatch<React.SetStateAction<string>>;
+  colors: Color[];
+  onChange: React.Dispatch<React.SetStateAction<Color>>;
 }) => {
   const [selectedColor, setSelectedColor] = useState(colors[0]);
 
@@ -16,15 +20,16 @@ const ColorCheckbox = ({
 
   return (
     <div className="flex space-x-2">
-      {colors.map((color) => (
+      {colors.map((color, index) => (
         <button
-          key={color}
+          key={index}
           type="button"
-          className={`w-8 h-8 rounded-full focus:outline-none transition-all duration-200 ${color} ${
-            color === selectedColor
+          className={`w-8 h-8 rounded-full focus:outline-none transition-all duration-200  ${
+            color.name === selectedColor.name
               ? "bg-opacity-100 border-2 border-foreground"
               : "bg-opacity-50"
           }`}
+          style={{ backgroundColor: color.name }}
           onClick={() => handleClick(color)}
         />
       ))}
