@@ -1,38 +1,32 @@
 import React, { useState } from "react";
 
-function Color({
-  color,
-  setColor,
-}: {
+interface ColorProps {
   color: string;
   setColor: React.Dispatch<React.SetStateAction<string[]>>;
-}) {
-  const [selectedColor, setSelectedColor] = useState(color[0]);
-  const handleClick = (color: any) => {
-    setSelectedColor(color);
-    setColor((prev) => {
-      const filter = prev.filter((item) => item !== color);
-      if (prev.includes(color)) {
-        return filter;
+}
+
+const Color: React.FC<ColorProps> = ({ color, setColor }) => {
+  const [selected, setSelected] = useState<string[]>([]);
+  const handleClick = () => {
+    setColor((prevColors) => {
+      if (prevColors.includes(color)) {
+        return prevColors.filter((c) => c !== color);
       } else {
-        return [...filter, color];
+        setSelected([...selected, color]);
+        return [...prevColors, color];
       }
     });
   };
+
   return (
-    <>
-      <button
-        key={color}
-        type="button"
-        className={`w-6 h-6 rounded-full focus:outline-none transition-all duration-200 border-2 border-foreground `}
-        style={{
-          backgroundColor: color,
-          opacity: color === selectedColor ? 1 : 0.5,
-        }}
-        onClick={() => handleClick(color)}
-      />
-    </>
+    <div
+      className={`w-6 h-6 rounded-full cursor-pointer border border-gray-300 ${
+        selected.includes(color) ? "border-blue-500" : "opacity-50"
+      }`}
+      style={{ backgroundColor: color }}
+      onClick={handleClick}
+    />
   );
-}
+};
 
 export default Color;
