@@ -13,6 +13,7 @@ function Category() {
         </h1>
         <div className="grid grid-cols-6 gap-5 mt-12 max-md:grid-cols-3 max-sm:grid-cols-2">
           <Link
+            reloadDocument
             to={"/smartphones"}
             className="flex justify-center  items-center flex-col gap-4 bg-gray-100 transition-all duration-300 hover:scale-105  hover:shadow-md  rounded-md text-black py-6 px-2 max-sm:py-3"
           >
@@ -21,6 +22,7 @@ function Category() {
           </Link>
 
           <Link
+            reloadDocument
             to={"/smartwatches"}
             className="flex justify-center  items-center flex-col gap-4 bg-gray-100 transition-all duration-300 hover:scale-105  hover:shadow-md  rounded-md text-black py-6 px-2 max-sm:py-3"
           >
@@ -29,6 +31,7 @@ function Category() {
           </Link>
 
           <Link
+            reloadDocument
             to={"/gaming"}
             className="flex justify-center  items-center flex-col gap-4 bg-gray-100 transition-all duration-300 hover:scale-105  hover:shadow-md  rounded-md text-black py-6 px-2 max-sm:py-3"
           >
@@ -37,6 +40,7 @@ function Category() {
           </Link>
 
           <Link
+            reloadDocument
             to={"/cameras"}
             className="flex justify-center  items-center flex-col gap-4 bg-gray-100 transition-all duration-300 hover:scale-105  hover:shadow-md  rounded-md text-black py-6 px-2 max-sm:py-3"
           >
@@ -44,6 +48,7 @@ function Category() {
             <p className="font-semibold text-sm">Cameras</p>
           </Link>
           <Link
+            reloadDocument
             to={"/laptops"}
             className="flex justify-center  items-center flex-col gap-4 bg-gray-100 transition-all duration-300 hover:scale-105  hover:shadow-md  rounded-md text-black py-6 px-2 max-sm:py-3"
           >
@@ -52,6 +57,7 @@ function Category() {
           </Link>
 
           <Link
+            reloadDocument
             to={"/headphones"}
             className="flex justify-center  items-center flex-col gap-4 bg-gray-100 transition-all duration-300 hover:scale-105  hover:shadow-md  rounded-md text-black py-6 px-2 max-sm:py-3"
           >
