@@ -7,7 +7,6 @@ interface Data {
   price: string[];
   ram: string[];
   screenSize: string[];
-  screenType: string[];
   brands: string[];
   color: string[];
 }
@@ -19,7 +18,6 @@ function Filter() {
     price: [],
     ram: [],
     screenSize: [],
-    screenType: [],
     brands: [],
     color: [],
   });
@@ -43,7 +41,6 @@ function Filter() {
           price={allFilters.price}
           ram={allFilters.ram}
           screenSize={allFilters.screenSize}
-          screenType={allFilters.screenType}
           brands={allFilters.brands}
           color={allFilters.color}
         />
