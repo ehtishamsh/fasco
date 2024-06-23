@@ -1,6 +1,6 @@
 import { Product } from "@/lib/redux/types";
 import ShowcaseProducts from "../home/ShowcaseProducts";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { CiFilter } from "react-icons/ci";
 import SelectBy from "./SelectBy";
 import {
@@ -19,7 +19,6 @@ function Content({
   price,
   ram,
   screenSize,
-  screenType,
   brands,
   color,
   open,
@@ -31,70 +30,110 @@ function Content({
   price: string[];
   ram: string[];
   screenSize: string[];
-  screenType: string[];
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [select, setSelect] = useState<string>("");
   const params = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const req = await fetch(
-          `https://dummyjson.com/products${
-            params.category ? `/category/${params.category}` : ""
-          }`
-        );
-
-        const res = await req.json();
-        const filterProducts = res?.products.filter((product: Product) => {
-          if (brands.length > 0) {
-            return brands.includes(product.brand.toLowerCase());
-          } else if (price.length > 0) {
-            return price.includes(product.price);
-          }
-          return { ...product };
-        });
-
-        setProducts(filterProducts.length > 0 ? filterProducts : res.products);
-        if (select === "price") {
-          setProducts((prev) =>
-            prev.sort((a, b) => Number(a.price) - Number(b.price))
-          );
-        }
-        // if (select === "rating") {
-        //   setProducts((prev) =>
-        //     prev.sort((a, b) => Number(b.rating) - Number(a.rating))
-        //   );
-        // }
+        const response = await fetch("http://localhost:4000/api/products");
+        const data = await response.json();
+        setAllProducts(data.products);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
+
     fetchData();
-    return () => {
-      setProducts([]);
-    };
+  }, []);
+
+  useEffect(() => {
+    let products = allProducts;
+
+    // Filter products by category
+    products = products.filter(
+      (product) => product.category.toLowerCase() === params.category
+    );
+
+    // Apply additional filters
+    if (brands.length > 0) {
+      products = products.filter((product) =>
+        brands.includes(product.brand.toLowerCase())
+      );
+    }
+
+    if (batteryCapacity.length > 0) {
+      products = products.filter((product) =>
+        batteryCapacity.includes(product.battery)
+      );
+    }
+
+    if (color.length > 0) {
+      const filteredProducts = products.filter((product) => {
+        return product.colors.some((productCol) => {
+          return color.some(
+            (col) => productCol.name.toLowerCase() === col.toLowerCase()
+          );
+        });
+      });
+
+      products = filteredProducts;
+    }
+
+    if (price.length > 0) {
+      const convertAllNumber = price.map(Number);
+      const findMin = Math.min(...convertAllNumber);
+      products = products.filter((product) => Number(product.price) >= findMin);
+    }
+
+    if (ram.length > 0) {
+      const minRam = Math.min(
+        ...ram.map((r) => parseInt(r.replace("gb", ""), 10))
+      );
+      products = products.filter(
+        (product) => parseInt(product.ram.replace("gb", ""), 10) >= minRam
+      );
+    }
+
+    if (screenSize.length > 0) {
+      products = products.filter((product) =>
+        screenSize.includes(product.screenSize)
+      );
+    }
+
+    setFilteredProducts(products);
   }, [
+    allProducts,
     brands,
     price,
     ram,
     screenSize,
-    screenType,
     batteryCapacity,
     color,
-    select,
-    setProducts,
+    params.category,
   ]);
+
+  const sortedProducts = useMemo(() => {
+    if (select === "price") {
+      return [...filteredProducts].sort(
+        (a, b) => parseFloat(b.price) - parseFloat(a.price)
+      );
+    }
+    return filteredProducts;
+  }, [filteredProducts, select]);
+
   return (
     <div className="px-2 max-md:px-0">
       <div className="flex justify-between items-center max-md:grid max-md:grid-cols-2 max-md:gap-5">
         <p className="text-gray-400 text-sm max-md:col-span-2 max-md:order-1 ">
-          Selected Products :{" "}
+          Selected Products :
           <span className="text-black font-semibold text-base">
-            {products.length}
+            {sortedProducts.length}
           </span>
         </p>
         <div className=" hidden max-md:block">
@@ -114,7 +153,7 @@ function Content({
         <SelectBy select={select} setSelect={setSelect} />
       </div>
       <div className="mt-10 grid grid-cols-3 gap-3 max-md:grid-cols-2">
-        <ShowcaseProducts products={products} />
+        <ShowcaseProducts products={sortedProducts} />
         <div className="col-span-3 max-md:col-span-2">
           <Pagination>
             <PaginationContent>
