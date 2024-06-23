@@ -82,7 +82,7 @@ function Cart({
                 {item.quantity || 1} x {item.title}
               </Link>
               <p className="text-sm text-gray-500">
-                {item.selectedVariant?.name}
+                {item.selectedVariant?.name} + ${item?.selectedVariant?.price}
               </p>
               <p className="text-sm text-gray-500">
                 <span
@@ -93,7 +93,7 @@ function Cart({
                 </span>
               </p>
               <p className="text-sm text-yellow-600 font-semibold mt-3">
-                ${item.price}
+                ${item.price} + ${item.selectedVariant?.price}
               </p>
             </div>
             <div className="">
@@ -164,13 +164,13 @@ function Cart({
                     </Button>
                   </Link>
                   {checktoken ? (
-                    <Link to="/checkout" className="w-full">
+                    <Link to="/checkout" className="w-full" reloadDocument>
                       <Button className="w-full" size={"lg"}>
                         Checkout
                       </Button>
                     </Link>
                   ) : (
-                    <Link to="/signin" className="w-full">
+                    <Link to="/signin" className="w-full" reloadDocument>
                       <Button className="w-full" size={"lg"}>
                         Sign in to checkout
                       </Button>
