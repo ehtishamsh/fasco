@@ -3,17 +3,18 @@ import { motion } from "framer-motion";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { Separator } from "../ui/separator";
 import List from "./List";
+interface CollapsibleSectionProps {
+  title: string;
+  data: string[];
+  setSelected: React.Dispatch<React.SetStateAction<string[]>>;
+  select: string[];
+}
 const CollapsibleSection = ({
   title,
   data,
   setSelected,
   select,
-}: {
-  title: string;
-  data: string[];
-  setSelected: React.Dispatch<React.SetStateAction<string[]>>;
-  select: string[];
-}) => {
+}: CollapsibleSectionProps) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="relative">
