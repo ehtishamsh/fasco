@@ -1,18 +1,15 @@
 import { useEffect, useState } from "react";
 import CollapsibleSection from "./CollapsibleSection";
 import { useSearchParams } from "react-router-dom";
-import Color from "./Color";
 import { motion } from "framer-motion";
 import { Button } from "../ui/button";
 import { FaChevronLeft } from "react-icons/fa";
-import { Product } from "@/lib/redux/types";
 
 interface Data {
   brands?: string[];
   batteryCapacity?: string[];
   screenSize?: string[];
   ram?: string[];
-  color?: string[];
   price?: string[];
 }
 
@@ -21,7 +18,6 @@ interface AllFilters {
   screenSize: string[];
   batteryCapacity: string[];
   ram: string[];
-  color: string[];
   price: string[];
 }
 
@@ -35,78 +31,11 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
   const [screenSize, setScreenSize] = useState<string[]>([]);
   const [batteryCapacity, setBatteryCapacity] = useState<string[]>([]);
   const [ram, setRAM] = useState<string[]>([]);
-  const [color, setColor] = useState<string[]>([]);
   const [price, setPrice] = useState<string[]>([]);
   const [data, setData] = useState<Data>({});
   const [searchParams, setSearchParams] = useSearchParams();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://localhost:4000/api/products");
-        const data = await response.json();
-
-        if (data) {
-          const getColors = data.products.map((product: Product) =>
-            product.colors.map((i) => i.name)
-          );
-          const getNames = [...getColors.flat()];
-          const getNamesUnique = [...new Set(getNames)];
-
-          setData((prev) => {
-            return { ...prev, color: getNamesUnique };
-          });
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, []);
-  useEffect(() => {
-    const newSearchParams = new URLSearchParams();
-
-    if (selectedBrand.length > 0)
-      newSearchParams.set("brand", selectedBrand.join(" ").toLowerCase());
-    if (screenSize.length > 0)
-      newSearchParams.set("screenSize", screenSize.join(" ").toLowerCase());
-    if (batteryCapacity.length > 0)
-      newSearchParams.set(
-        "batteryCapacity",
-        batteryCapacity.join(" ").toLowerCase()
-      );
-
-    if (ram.length > 0) newSearchParams.set("ram", ram.join(" ").toLowerCase());
-    if (color.length > 0)
-      newSearchParams.set("color", color.join(" ").toLowerCase());
-    if (price.length > 0)
-      newSearchParams.set("price", price.join(" ").toLowerCase());
-
-    window.history.pushState(null, "", `?${newSearchParams.toString()}`);
-    setSearchParams(newSearchParams);
-
-    setAllFilters({
-      brands: selectedBrand,
-      screenSize,
-      batteryCapacity,
-
-      ram,
-      color,
-      price,
-    });
-  }, [
-    selectedBrand,
-    screenSize,
-    batteryCapacity,
-
-    ram,
-    color,
-    price,
-    setSearchParams,
-    setAllFilters,
-  ]);
-
+  // Fetch initial data (brands, capacities, etc.)
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -129,9 +58,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
             "10000mAh",
           ],
           screenSize: ["4.5", "5.5", "6.5", "7.5", "8.5"],
-
           ram: ["4GB", "6GB", "8GB", "12GB", "14GB", "16GB"],
-
           price: [
             "100",
             "200",
@@ -151,33 +78,59 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
       }
     };
 
-    fetchData();
-
-    return () => {
-      setData({});
-    };
+    // Fetch data only if it hasn't been fetched before
+    if (!data.brands) {
+      fetchData();
+    }
   }, []);
 
+  // Parse URL parameters to initialize filter states
   useEffect(() => {
     const filterParams = (param: string) =>
       searchParams.getAll(param).flatMap((p) => p.split(" "));
-
-    const batteryCapacity = filterParams("batteryCapacity");
-    const brand = filterParams("brand");
-    const screenSize = filterParams("screenSize");
-
-    const ram = filterParams("ram");
-    const color = filterParams("color");
-    const price = filterParams("price");
-
-    setBatteryCapacity(batteryCapacity);
-    setSelectedBrand(brand);
-    setScreenSize(screenSize);
-
-    setRAM(ram);
-    setColor(color);
-    setPrice(price);
+    if (searchParams.get("brand")) {
+      setSelectedBrand(filterParams("brand"));
+    }
+    if (searchParams.get("screenSize")) {
+      setScreenSize(filterParams("screenSize"));
+    }
+    if (searchParams.get("batteryCapacity")) {
+      setBatteryCapacity(filterParams("batteryCapacity"));
+    }
+    if (searchParams.get("ram")) {
+      setRAM(filterParams("ram"));
+    }
+    if (searchParams.get("price")) {
+      setPrice(filterParams("price"));
+    }
   }, [searchParams]);
+  useEffect(() => {
+    const newSearchParams = new URLSearchParams();
+
+    if (selectedBrand.length > 0)
+      newSearchParams.set("brand", selectedBrand.join(" ").toLowerCase());
+    if (screenSize.length > 0)
+      newSearchParams.set("screenSize", screenSize.join(" ").toLowerCase());
+    if (batteryCapacity.length > 0)
+      newSearchParams.set(
+        "batteryCapacity",
+        batteryCapacity.join(" ").toLowerCase()
+      );
+    if (ram.length > 0) newSearchParams.set("ram", ram.join(" ").toLowerCase());
+    if (price.length > 0)
+      newSearchParams.set("price", price.join(" ").toLowerCase());
+
+    window.history.pushState(null, "", `?${newSearchParams.toString()}`);
+    setSearchParams(newSearchParams);
+
+    setAllFilters({
+      brands: selectedBrand,
+      screenSize,
+      batteryCapacity,
+      ram,
+      price,
+    });
+  }, [selectedBrand, screenSize, batteryCapacity, ram, price]);
 
   return (
     <div className={`max-md:max-h-[80svh] max-md:overflow-y-auto`}>
@@ -226,14 +179,6 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
               />
             </>
           )}
-          <div>
-            <p className="font-semibold text-sm">Color</p>
-            <div className="flex flex-wrap gap-2 mt-2">
-              {data?.color?.map((item) => (
-                <Color key={item} color={item} setColor={setColor} />
-              ))}
-            </div>
-          </div>
         </motion.div>
       </div>
     </div>

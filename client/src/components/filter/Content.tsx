@@ -20,13 +20,12 @@ function Content({
   ram,
   screenSize,
   brands,
-  color,
   open,
   setOpen,
 }: {
   brands: string[];
   batteryCapacity: string[];
-  color: string[];
+
   price: string[];
   ram: string[];
   screenSize: string[];
@@ -73,18 +72,6 @@ function Content({
       );
     }
 
-    if (color.length > 0) {
-      const filteredProducts = products.filter((product) => {
-        return product.colors.some((productCol) => {
-          return color.some(
-            (col) => productCol.name.toLowerCase() === col.toLowerCase()
-          );
-        });
-      });
-
-      products = filteredProducts;
-    }
-
     if (price.length > 0) {
       const convertAllNumber = price.map(Number);
       const findMin = Math.min(...convertAllNumber);
@@ -114,7 +101,6 @@ function Content({
     ram,
     screenSize,
     batteryCapacity,
-    color,
     params.category,
   ]);
 

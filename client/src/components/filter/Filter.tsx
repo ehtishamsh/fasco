@@ -8,7 +8,6 @@ interface Data {
   ram: string[];
   screenSize: string[];
   brands: string[];
-  color: string[];
 }
 
 function Filter() {
@@ -19,7 +18,6 @@ function Filter() {
     ram: [],
     screenSize: [],
     brands: [],
-    color: [],
   });
 
   return (
@@ -42,7 +40,6 @@ function Filter() {
           ram={allFilters.ram}
           screenSize={allFilters.screenSize}
           brands={allFilters.brands}
-          color={allFilters.color}
         />
       </div>
     </div>
