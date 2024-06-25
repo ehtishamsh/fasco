@@ -12,6 +12,7 @@ interface Data {
 
 function Filter() {
   const [open, setOpen] = useState<boolean>(false);
+  const [loaded, setLoaded] = useState<boolean>(false);
   const [allFilters, setAllFilters] = useState<Data>({
     batteryCapacity: [],
     price: [],
@@ -33,6 +34,8 @@ function Filter() {
       </motion.div>
       <div className="col-span-6 max-md:col-span-8">
         <Content
+          loading={loaded}
+          setLoading={setLoaded}
           setOpen={setOpen}
           open={open}
           batteryCapacity={allFilters.batteryCapacity}
