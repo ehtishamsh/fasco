@@ -1,4 +1,3 @@
-import { BreadCrum } from "@/components/BreadCrum";
 import ColorCheckbox from "@/components/product/ColorCheckbox";
 import SelectSize from "@/components/product/SelectSize";
 import { Button } from "@/components/ui/button";
@@ -13,6 +12,9 @@ import Recommended from "@/components/product/Recommended";
 import { Product as Data } from "@/lib/redux/types";
 import { useDispatch } from "react-redux";
 import { add } from "@/lib/redux/cartSlice";
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
+import { BreadCrum } from "@/components/BreadCrum";
 
 interface Variant {
   id: string;
@@ -25,10 +27,12 @@ interface Color {
 }
 function Product() {
   const [data, setData] = useState<Data>();
+
   const [variant, setVariant] = useState<Variant[]>();
   const dispatch = useDispatch();
   const [color, setColor] = useState<Color[]>([]);
   const { title } = useParams();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -67,11 +71,12 @@ function Product() {
 
     dispatch(add(productNew));
   };
+
   return (
     <div>
       <div className="max-w-6xl mx-auto pb-20 px-4 max-md:pb-16 max-sm:pb-0">
         <div className="mb-10">
-          {data && (
+          {data?.category && data?.brand && (
             <BreadCrum
               cat={data?.category}
               brand={data?.brand}
@@ -81,12 +86,14 @@ function Product() {
         </div>
         <div className="mt-20 max-md:mt-16 max-sm:mt-7">
           <div className="grid grid-cols-2 gap-8 max-md:gap-6 max-sm:gap-2 max-md:grid-cols-1">
-            <div className="flex justify-center">
-              <img
-                src={`http://localhost:4000${data?.cover}`}
-                alt=""
-                className=" max-h-[800px] max-sm:h-[400px] object-contain border border-border"
-              />
+            <div className="flex justify-center cursor-pointer border-2 items-center border-border p-20 max-md:p-4 max-sm:p-3">
+              <Zoom>
+                <img
+                  src={`http://localhost:4000${data?.cover}`}
+                  alt={data?.title}
+                  className=" object-cover max-h-[600px] max-md:max-h-[400px] max-sm:max-h-[300px]"
+                />
+              </Zoom>
             </div>
             <div>
               <h1 className="text-4xl font-bold mb-6 max-sm:mb-2 max-md:text-2xl max-sm:text-lg">
