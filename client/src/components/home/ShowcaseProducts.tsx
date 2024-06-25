@@ -47,13 +47,13 @@ function ShowcaseProducts({ products }: { products: Data[] }) {
           reloadDocument
           className={`grid grid-row-6 ${
             item?.stock && item?.stock > 0 ? "" : "opacity-50 bg-gray-200"
-          }  border border-border px-4 h-full   max-sm:px-2 hover:shadow-lg transition-all duration-300`}
+          }  border border-border px-4 h-full   max-sm:px-2 hover:shadow-lg transition-all bg-yellow-100 duration-300`}
           key={item.id}
         >
           <div className="flex items-center justify-end py-4 max-sm:py-2">
             <Button
               variant={"ghost"}
-              className="max-sm:text-xs max-sm:p-1"
+              className="max-sm:text-xs max-sm:p-1 !bg-transparent"
               onClick={(e: any) => {
                 e.preventDefault();
                 dispatch(addwishlist(item));
@@ -64,21 +64,21 @@ function ShowcaseProducts({ products }: { products: Data[] }) {
                 });
               }}
             >
-              <HeartIcon className="w-6 h-6 text-muted-foreground" />
+              <HeartIcon className="w-6 h-6 text-muted-foreground hover:text-red-500" />
             </Button>
           </div>
-          <div className="px-2 overflow-hidden flex items-center justify-center  ">
+          <div className="px-2 flex items-center justify-center  ">
             <img
               src={`http://localhost:4000${item.cover}`}
               alt=""
-              className=" object-cover h-[270px] max-sm:max-h-[120px]"
+              className=" hover:scale-110 object-cover max-h-[200px]  max-sm:max-h-[120px] transition-all duration-300"
             />
           </div>
 
-          <h1 className="text-sm max-sm:text-xs font-semibold text-center line-clamp-3 mt-3 ">
+          <h1 className="text-sm max-sm:text-xs font-semibold text-center line-clamp-3 mt-2">
             {item.title}
           </h1>
-          <div className="flex justify-center items-center gap-1">
+          <div className="flex justify-center items-center gap-1 mt-2">
             {item.colors?.map((item, index) => {
               return (
                 <span
@@ -91,7 +91,7 @@ function ShowcaseProducts({ products }: { products: Data[] }) {
               );
             })}
           </div>
-          <h2 className="text-xl font-semibold text-center max-sm:text-base  flex items-end justify-center pb-4">
+          <h2 className="text-xl font-semibold text-center max-sm:text-base  flex items-end justify-center pb-4 mt-2">
             ${item.price}
           </h2>
         </Link>
