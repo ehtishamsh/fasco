@@ -4,6 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "../ui/button";
 import { FaChevronLeft } from "react-icons/fa";
+import Loading from "../ui/Loading";
 
 interface Data {
   brands?: string[];
@@ -33,16 +34,20 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
   const [ram, setRAM] = useState<string[]>([]);
   const [price, setPrice] = useState<string[]>([]);
   const [data, setData] = useState<Data>({});
+  const [loading, setLoading] = useState<boolean>(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Fetch initial data (brands, capacities, etc.)
   useEffect(() => {
+    setLoading(true);
     const fetchData = async () => {
       try {
         const brandResponse = await fetch("http://localhost:4000/api/brands");
         const brandData = await brandResponse.json();
         const brands = brandData.brands.map((brand: any) => brand.name);
-
+        if (brandData) {
+          setLoading(false);
+        }
         setData({
           brands,
           batteryCapacity: [
@@ -144,7 +149,9 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
       </div>
       <div className="max-md:px-6">
         <motion.div className={`flex flex-col p-2 gap-2 w-full bg-white`}>
-          {data?.brands && (
+          {loading ? (
+            <Loading />
+          ) : (
             <>
               <CollapsibleSection
                 select={selectedBrand}
