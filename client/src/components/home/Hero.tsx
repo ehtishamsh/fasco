@@ -1,17 +1,21 @@
+import { Link } from "react-router-dom";
 import { Reveal } from "../animation/Reveal";
 import { Button } from "../ui/button";
 
 function Hero() {
   return (
     <div className="grid grid-cols-3 max-sm:grid-cols-1  gap-8 max-sm:gap-3 h-[78vh] max-md:h-[100svh]">
-      <div className="rounded-lg overflow-hidden max-sm:h-full transition-all duration-300 ">
+      <Link
+        to={"/smartphones/samsung/samsung-galaxy-s23-ultra"}
+        className="rounded-lg overflow-hidden max-sm:h-full transition-all duration-300 "
+      >
         <Reveal height="100%" width="100%" delayTime={0.4}>
           <img
             src="/hero-right.png"
             className="h-full w-full rounded-lg transition-all duration-300 max-md:object-cover "
           />
         </Reveal>
-      </div>
+      </Link>
       <div className="grid grid-cols-1 grid-rows-8 gap-4 max-sm:gap-3">
         <div className="row-span-2  rounded-lg">
           <Reveal height="100%" delayTime={0.6}>
@@ -46,14 +50,17 @@ function Hero() {
           </Reveal>
         </div>
       </div>
-      <div className=" rounded-lg overflow-hidden transition-all duration-300  max-sm:h-full ">
+      <Link
+        to={"/smartphones/apple/apple-iphone-14-pro-max"}
+        className=" rounded-lg overflow-hidden transition-all duration-300  max-sm:h-full "
+      >
         <Reveal height="100%" width="100%" delayTime={0.4}>
           <img
             src="/hero-left.png"
             className="h-full w-full rounded-lg transition-all duration-300 max-md:object-cover max-sm:object-cover "
           />
         </Reveal>
-      </div>
+      </Link>
     </div>
   );
 }
