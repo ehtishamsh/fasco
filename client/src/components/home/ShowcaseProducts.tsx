@@ -47,7 +47,7 @@ function ShowcaseProducts({ products }: { products: Data[] }) {
           reloadDocument
           className={`grid grid-row-6 ${
             item?.stock && item?.stock > 0 ? "" : "opacity-50 bg-gray-200"
-          }  border border-border px-4 h-full   max-sm:px-2 hover:shadow-lg transition-all bg-yellow-100 duration-300`}
+          }  border border-border px-4 h-full   max-sm:px-2 hover:shadow-lg transition-all hover:bg-yellow-50 duration-300`}
           key={item.id}
         >
           <div className="flex items-center justify-end py-4 max-sm:py-2">

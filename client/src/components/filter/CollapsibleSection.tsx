@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { Separator } from "../ui/separator";
@@ -16,9 +16,18 @@ const CollapsibleSection = ({
   select,
 }: CollapsibleSectionProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  useEffect(() => {
+    if (select.length > 0) {
+      setIsOpen(true);
+    }
+    return () => {};
+  }, [select]);
+  const open = () => {
+    setIsOpen(!isOpen);
+  };
   return (
     <div className="relative">
-      <div className="cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
+      <div className="cursor-pointer" onClick={open}>
         <div className="flex justify-between items-center pb-2">
           <p className="font-semibold text-sm">{title}</p>
           <p>{isOpen ? <IoIosArrowDown /> : <IoIosArrowUp />}</p>
