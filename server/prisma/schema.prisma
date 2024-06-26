@@ -22,6 +22,20 @@ model User {
   updatedAt DateTime @updatedAt
   role String @default("customer")
    reviews Review[]
+   address Address[]
+}
+model Address {
+  id            String   @id @default(uuid())
+  addressLine1  String
+  addressLine2  String?
+  city          String
+  state         String
+  postalCode    String
+  country       String
+  userId        String
+  user    User  @relation(fields: [userId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 model Variant {
   id         String   @id @default(uuid())
