@@ -7,7 +7,7 @@ function Layout() {
   return (
     <>
       <Navbar />
-      <div className="mt-40 max-sm:mt-30">
+      <div className="mt-28 max-sm:mt-24">
         <Outlet />
       </div>
       <Toaster />
