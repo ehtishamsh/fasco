@@ -26,6 +26,8 @@ import AddCate from "./components/admin/category/new/AddCate";
 import Categories from "./pages/admin/Categories";
 import Brands from "./pages/admin/Brands";
 import AddBrand from "./components/admin/brand/new/AddBrand";
+import Dashboard from "./components/user/Dashboard";
+import UserDashboardPage from "./pages/user/UserDashboardPage";
 
 function App() {
   const checktoken = localStorage.getItem("token");
@@ -53,6 +55,11 @@ function App() {
                     <Route path="/signin" element={<SigninPage />} />
                     <Route path="/signup" element={<SignupPage />} />
                   </>
+                )}
+                {checktoken && (
+                  <Route element={<Dashboard />} path="/">
+                    <Route element={<UserDashboardPage />} path="/dashboard" />
+                  </Route>
                 )}
 
                 <Route path="*" element={<Navigate to="/" replace />} />
