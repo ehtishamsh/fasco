@@ -1,5 +1,10 @@
 import { Product } from "@/lib/redux/types";
 
+interface Variant {
+  id: string;
+  name: string;
+  price: string;
+}
 function Details({ data }: { data: Product }) {
   return (
     <div className="max-w-6xl mx-auto px-8 py-4 max-sm:px-4  bg-background">
@@ -31,6 +36,10 @@ function Details({ data }: { data: Product }) {
         <div className="flex w-full justify-between items-center text-sm border-b border-gray-300 mb-6 pb-2">
           <h2>Battery</h2>
           <p>{data.battery}mAh</p>
+        </div>
+        <div className="flex w-full justify-between items-center text-sm border-b border-gray-300 mb-6 pb-2">
+          <h2>Storage</h2>
+          <p>{data.variants.map((item: Variant) => item.name).join(", ")}</p>
         </div>
       </div>
       <h1 className="text-2xl font-semibold mb-8">Camera</h1>
