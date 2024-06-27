@@ -16,7 +16,7 @@ function TopDetailsGrid({ data }: { data: Product }) {
             className="text-gray-800/75 max-sm:text-base"
           />
         </span>
-        <div className="flex flex-col text-sm max-md:text-xs">
+        <div className="flex flex-col text-xs">
           <span className="text-gray-400">Screen Size</span>
           <span>{data.screenSize}"</span>
         </div>
@@ -26,7 +26,7 @@ function TopDetailsGrid({ data }: { data: Product }) {
         <span>
           <BsCpu size={24} className="text-gray-800/75 max-sm:text-base" />
         </span>
-        <div className="flex flex-col text-sm max-md:text-xs">
+        <div className="flex flex-col text-xs">
           <span className="text-gray-400">CPU</span>
           <span>{data.cpu}</span>
         </div>
@@ -36,7 +36,7 @@ function TopDetailsGrid({ data }: { data: Product }) {
         <span>
           <GoCpu size={24} className="text-gray-800/75 max-sm:text-base" />
         </span>
-        <div className="flex flex-col text-sm max-md:text-xs">
+        <div className="flex flex-col text-xs max-md:text-xs">
           <span className="text-gray-400">Cores</span>
           <span>{data.cores}</span>
         </div>
@@ -46,7 +46,7 @@ function TopDetailsGrid({ data }: { data: Product }) {
         <span>
           <IoMdCamera size={24} className="text-gray-800/75 max-sm:text-base" />
         </span>
-        <div className="flex flex-col text-sm max-md:text-xs">
+        <div className="flex flex-col text-xs max-md:text-xs">
           <span className="text-gray-400">Main Camera</span>
           <span>{data.mainCamera}</span>
         </div>
@@ -59,7 +59,7 @@ function TopDetailsGrid({ data }: { data: Product }) {
             className="text-gray-800/75 max-sm:text-base"
           />
         </span>
-        <div className="flex flex-col text-sm max-md:text-xs">
+        <div className="flex flex-col text-xs max-md:text-xs">
           <span className="text-gray-400">Front Camera</span>
           <span>{data.frontCamera}</span>
         </div>
@@ -72,7 +72,7 @@ function TopDetailsGrid({ data }: { data: Product }) {
             className="text-gray-800/75 max-sm:text-base"
           />
         </span>
-        <div className="flex flex-col text-sm max-md:text-xs">
+        <div className="flex flex-col text-xs max-md:text-xs">
           <span className="text-gray-400">Battery</span>
           <span>{data.battery}</span>
         </div>
