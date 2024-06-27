@@ -17,8 +17,11 @@ import {
 } from "@/components/ui/form";
 import { toast } from "../ui/use-toast";
 const FormSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+  firstname: z.string().min(2, {
+    message: "First name must be at least 2 characters.",
+  }),
+  lastname: z.string().min(2, {
+    message: "Last name must be at least 2 characters.",
   }),
   email: z
     .string()
@@ -37,7 +40,8 @@ function Signup() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      username: "",
+      firstname: "",
+      lastname: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -60,12 +64,13 @@ function Signup() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: data.username,
+          firstname: data.firstname,
+          lastname: data.lastname,
           email: data.email,
           password: data.password,
         }),
       });
-
+      console.log(response);
       if (response.ok) {
         toast({
           title: "Success",
@@ -94,7 +99,7 @@ function Signup() {
             <div className="overflow-hidden rounded-md  border border-border">
               <Lottie
                 animationData={BG}
-                className=" h-full  w-full"
+                className=" h-full w-full object-cover"
                 loop
                 autoplay
               />
@@ -113,19 +118,36 @@ function Signup() {
                   >
                     <FormField
                       control={form.control}
-                      name="username"
+                      name="firstname"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Username</FormLabel>
+                          <FormLabel>First Name</FormLabel>
                           <FormControl>
                             <Input
-                              placeholder="Enter your username"
+                              placeholder="Enter your first name"
                               {...field}
                             />
                           </FormControl>
                           <FormDescription>
                             This is your public display name.
                           </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="lastname"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Last Name</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Enter your last name"
+                              {...field}
+                            />
+                          </FormControl>
+
                           <FormMessage />
                         </FormItem>
                       )}
