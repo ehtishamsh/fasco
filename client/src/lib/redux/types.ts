@@ -56,3 +56,12 @@ export type StepData = {
   name: string;
   active: boolean;
 };
+
+export interface User {
+  id: string;
+  email: string;
+  firstname: string;
+  lastname: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
