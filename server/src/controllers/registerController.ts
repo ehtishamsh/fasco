@@ -4,8 +4,11 @@ import { Request, Response } from "express";
 import { z } from "zod";
 
 const FormSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+  firstname: z.string().min(2, {
+    message: "First name must be at least 2 characters.",
+  }),
+  lastname: z.string().min(2, {
+    message: "Last name must be at least 2 characters.",
   }),
   email: z
     .string()
@@ -18,21 +21,25 @@ const FormSchema = z.object({
 });
 export async function register(req: Request, res: Response) {
   try {
-    const { username, email, password } = FormSchema.parse(req.body);
+    const { firstname, lastname, email, password } = FormSchema.parse(req.body);
 
-    const checkifexits = await prisma?.user?.findFirst({
-      where: {
-        email: email,
-      },
+    if (!prisma) {
+      throw new Error("Prisma client is not initialized");
+    }
+
+    const checkifexits = await prisma.user.findFirst({
+      where: { email: email },
     });
     if (checkifexits) {
       res.status(400).send("User already exists");
+      return;
     }
-    const hashedpassword = await bcrypt.hash(password, 10);
 
-    const user = await prisma?.user?.create({
+    const hashedpassword = await bcrypt.hash(password, 10);
+    const user = await prisma.user.create({
       data: {
-        name: username,
+        firstname: firstname,
+        lastname: lastname,
         email: email,
         password: hashedpassword,
         role: "customer",
@@ -46,6 +53,7 @@ export async function register(req: Request, res: Response) {
       status: 200,
     });
   } catch (error) {
+    console.error("Error during registration:", error);
     res.status(500).send(error);
   }
 }

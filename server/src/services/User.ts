@@ -3,7 +3,8 @@ import prisma from "../utils/db";
 export interface User {
   id: string;
   email: string;
-  name: string;
+  firstname: string;
+  lastname: string;
   password: string;
   createdAt: Date;
   updatedAt: Date;
