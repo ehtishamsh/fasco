@@ -33,6 +33,9 @@ model Address {
   state         String
   postalCode    String
   country       String
+  default       Boolean @default(false)
+  shipping      Boolean @default(false)
+  billing       Boolean @default(false)
   userId        String
   user    User  @relation(fields: [userId], references: [id])
   createdAt     DateTime @default(now())
