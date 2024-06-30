@@ -15,7 +15,7 @@ function Dashboard() {
     <>
       <main className="flex overflow-hidden">
         <Sidebar />
-        <div className="w-full pt-4 px-5  max-sm:px-2">
+        <div className="w-full  px-5  max-sm:px-2  mb-20 pt-10">
           <Outlet />
         </div>
         <Toaster />
