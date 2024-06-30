@@ -65,3 +65,17 @@ export interface User {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface Address {
+  firstname: string;
+  lastname: string;
+  addressLine1: string;
+  addressLine2?: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
+  default: boolean;
+  shipping: boolean;
+  billing: boolean;
+}
