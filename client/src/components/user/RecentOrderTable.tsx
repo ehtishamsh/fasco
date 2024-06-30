@@ -114,7 +114,7 @@ export function RecentOrderTable() {
             <TableCell className="text-right">
               <Link
                 to={"/order/" + item.orderNo}
-                className="bg-blue-200 py-1 px-2 max-sm:px-1  max-sm:text-xs text-sm rounded-xl text-blue-900"
+                className="bg-yellow-200 py-1 px-2 max-sm:px-1  max-sm:text-xs text-sm rounded-xl text-yellow-900"
               >
                 Manage
               </Link>
