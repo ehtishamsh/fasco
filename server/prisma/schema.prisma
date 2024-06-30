@@ -27,6 +27,8 @@ model User {
 }
 model Address {
   id            String   @id @default(uuid())
+  firstname     String
+  lastname     String
   addressLine1  String
   addressLine2  String?
   city          String
