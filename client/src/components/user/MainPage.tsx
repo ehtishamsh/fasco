@@ -1,11 +1,13 @@
 import { User } from "@/lib/redux/types";
 import { Link } from "react-router-dom";
 import { RecentOrderTable } from "./RecentOrderTable";
+import { BreadCrumbAdmin } from "../admin/BreadCrumAdmin";
 
 function MainPage() {
   const user: User = JSON.parse(localStorage.getItem("user") || "{}");
   return (
     <div className="w-full">
+      <BreadCrumbAdmin paths={["Dashboard"]} end={"Manage"} />
       <div className="bg-accent rounded-lg w-fit p-1 mt-6">
         <h1 className="text-base max-sm:text-xs rounded-lg font-semibold tracking-tight text-foreground bg-background py-1 px-3">
           Manage My Account
