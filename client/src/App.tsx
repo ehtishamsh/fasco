@@ -28,6 +28,8 @@ import Brands from "./pages/admin/Brands";
 import AddBrand from "./components/admin/brand/new/AddBrand";
 import Dashboard from "./components/user/Dashboard";
 import UserDashboardPage from "./pages/user/UserDashboardPage";
+import OrdersPage from "./pages/user/OrdersPage";
+import AddressBookPage from "./pages/user/AddressBookPage";
 
 function App() {
   const checktoken = localStorage.getItem("token");
@@ -59,6 +61,8 @@ function App() {
                 {checktoken && (
                   <Route element={<Dashboard />} path="/">
                     <Route element={<UserDashboardPage />} path="/dashboard" />
+                    <Route element={<OrdersPage />} path="/orders" />
+                    <Route element={<AddressBookPage />} path="/address" />
                   </Route>
                 )}
 
