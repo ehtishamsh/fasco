@@ -62,11 +62,14 @@ export interface User {
   email: string;
   firstname: string;
   lastname: string;
+  birthday?: Date;
+  gender?: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
 export interface Address {
+  id: string;
   firstname: string;
   lastname: string;
   addressLine1: string;
