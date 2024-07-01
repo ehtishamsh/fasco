@@ -1,10 +1,36 @@
-import { User } from "@/lib/redux/types";
+import { Address, User } from "@/lib/redux/types";
 import { Link } from "react-router-dom";
 import { RecentOrderTable } from "./RecentOrderTable";
 import { BreadCrumbAdmin } from "../admin/BreadCrumAdmin";
+import { useEffect, useState } from "react";
+import AddressCard from "./AddressCard";
 
 function MainPage() {
   const user: User = JSON.parse(localStorage.getItem("user") || "{}");
+  const [address, setAddress] = useState<Address[]>([]);
+  useEffect(() => {
+    if (!user) {
+      window.location.href = "/signin";
+    }
+    const fetchData = async () => {
+      try {
+        const req = await fetch(
+          `http://localhost:4000/api/address/user/${user.id}`
+        );
+        const res = await req.json();
+
+        if (res) {
+          setAddress(res.address);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+    return () => {
+      setAddress([]);
+    };
+  }, []);
   return (
     <div className="w-full">
       <BreadCrumbAdmin paths={["Dashboard"]} end={"Manage"} />
@@ -29,42 +55,7 @@ function MainPage() {
           </div>
         </div>
         <div className="col-span-2 max-sm:col-span-1 max-sm:grid-cols-1 grid grid-cols-2 border border-gray-300/85 rounded-lg ">
-          <div className="flex flex-col gap-3 p-4 max-sm:p-2 max-sm:justify-center border-r border-gray-300/85 max-sm:border-b">
-            <h1 className="text-sm">
-              Address Book<span className="text-gray-400 text-sm"> | </span>
-              <Link to={"/profile"} className="text-yellow-600">
-                Edit
-              </Link>
-            </h1>
-            <span className="text-gray-400 text-xs">
-              DEFAULT DELIVERY ADDRESS
-            </span>
-            <div className="mt-2">
-              <h1 className="text-sm mb-2 font-semibold">
-                {user.firstname} {user.lastname}
-              </h1>
-              <div className="text-xs flex flex-col gap-2">
-                <span>123, High Street, Cambridge, CB2 1TN</span>
-                <span>Cambridge - CB2 1TN - UK</span>
-                <span>(+44 123 456 789)</span>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col gap-3 p-4 max-sm:p-2 max-sm:justify-center">
-            <span className="text-gray-400 text-xs mt-[30px] max-sm:mt-0">
-              DEFAULT BILLING ADDRESS
-            </span>
-            <div className="mt-2 max-sm:mt-0">
-              <h1 className="text-sm mb-2 font-semibold">
-                {user.firstname} {user.lastname}
-              </h1>
-              <div className="text-xs flex flex-col gap-2">
-                <span>123, High Street, Cambridge, CB2 1TN</span>
-                <span>Cambridge - CB2 1TN - UK</span>
-                <span>(+44 123 456 789)</span>
-              </div>
-            </div>
-          </div>
+          {address && <AddressCard address={address} />}
         </div>
       </div>
       <div className="mt-6 border border-gray-300/85 rounded-lg p-4">
