@@ -30,6 +30,7 @@ import Dashboard from "./components/user/Dashboard";
 import UserDashboardPage from "./pages/user/UserDashboardPage";
 import OrdersPage from "./pages/user/OrdersPage";
 import AddressBookPage from "./pages/user/AddressBookPage";
+import ProfilePage from "./pages/user/ProfilePage";
 
 function App() {
   const checktoken = localStorage.getItem("token");
@@ -63,6 +64,7 @@ function App() {
                     <Route element={<UserDashboardPage />} path="/dashboard" />
                     <Route element={<OrdersPage />} path="/orders" />
                     <Route element={<AddressBookPage />} path="/address" />
+                    <Route element={<ProfilePage />} path="/profile" />
                   </Route>
                 )}
 
