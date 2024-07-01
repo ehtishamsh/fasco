@@ -20,10 +20,10 @@ import {
   DialogFooter,
   DialogTrigger,
 } from "../ui/dialog";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Separator } from "../ui/separator";
 import { toast } from "../ui/use-toast";
-import { User } from "@/lib/redux/types";
+import { Address, User } from "@/lib/redux/types";
 
 const formSchema = z.object({
   firstname: z.string().min(1, {
@@ -56,6 +56,7 @@ export function AddModal() {
     billing: false,
     shipping: false,
   });
+  const [existingAddress, setExistingAddress] = useState<Address[]>([]);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -70,8 +71,40 @@ export function AddModal() {
     },
   });
 
+  useEffect(() => {
+    const user: User = JSON.parse(localStorage.getItem("user") || "{}");
+    if (user) {
+      const fetchData = async () => {
+        try {
+          const req = await fetch(
+            `http://localhost:4000/api/address/user/${user.id}`
+          );
+          const res = await req.json();
+          if (res) {
+            setExistingAddress(res.address);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchData();
+    }
+
+    return () => {};
+  }, []);
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const user: User = JSON.parse(localStorage.getItem("user") || "{}");
+    //Check if address already exists and its default
+    const addressExists = existingAddress.find((address) => address.default);
+    if (addressExists) {
+      toast({
+        title: "Error",
+        description: "Default address already exists",
+        variant: "destructive",
+      });
+      return null;
+    }
 
     const newAddress = {
       firstname: values.firstname,
