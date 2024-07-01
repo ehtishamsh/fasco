@@ -43,7 +43,7 @@ function AddCate() {
           body: JSON.stringify(newCategory),
         });
         const res = await req.json();
-        console.log(res);
+
         if (res) {
           toast({
             title: "Category Added",

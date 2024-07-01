@@ -16,7 +16,6 @@ function MobileNav() {
   const [open, setOpen] = useState<boolean>(false);
   const [leave, setLeave] = useState<boolean>(false);
   const { path } = useParams();
-  console.log(path);
 
   const mapLink = links.map((link, index) => {
     return (

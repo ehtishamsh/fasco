@@ -43,7 +43,7 @@ function AddBrand() {
           body: JSON.stringify(newBrand),
         });
         const res = await req.json();
-        console.log(res);
+
         if (res) {
           toast({
             title: "Brand Added",

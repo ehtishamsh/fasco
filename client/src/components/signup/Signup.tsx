@@ -70,7 +70,7 @@ function Signup() {
           password: data.password,
         }),
       });
-      console.log(response);
+     
       if (response.ok) {
         toast({
           title: "Success",
