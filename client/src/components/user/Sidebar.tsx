@@ -4,6 +4,7 @@ import { GoChecklist } from "react-icons/go";
 import NavLinkItem from "../admin/NavlinkItem";
 import { FaAddressBook } from "react-icons/fa";
 import { User } from "@/lib/redux/types";
+import { Link } from "react-router-dom";
 
 function Sidebar() {
   const userData: User = JSON.parse(localStorage.getItem("user") || "{}");
@@ -14,9 +15,15 @@ function Sidebar() {
           <div className="space-y-1">
             <div className="p-2 flex justify-center flex-col gap-2 items-center">
               <AvatarIcon className="w-20 h-20 text-muted-foreground" />
-              <h1 className="text-lg max-sm:text-base">
-                Hello,{userData.firstname + " " + userData.lastname}
+              <h1 className="text-base max-sm:text-sm">
+                Hello, {userData.firstname + " " + userData.lastname}
               </h1>
+              <Link
+                to="/profile"
+                className="text-sm max-sm:text-xs bg-yellow-200 rounded-lg py-1 px-2"
+              >
+                View Profile
+              </Link>
             </div>
             <nav className="grid items-start">
               <NavLinkItem
