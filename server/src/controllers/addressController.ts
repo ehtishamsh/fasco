@@ -5,6 +5,7 @@ import {
   GETALL,
   GETBYID,
   GETBYUSERID,
+  UPDATE,
 } from "../services/Address";
 import prisma from "../utils/db";
 
@@ -60,7 +61,7 @@ export async function CREATEADDRESS(req: Request, res: Response) {
     billing,
     userId,
   } = req.body;
-  console.log(req.body);
+
   if (!addressLine1) {
     return res.status(400).json({
       status: 400,
@@ -92,6 +93,70 @@ export async function CREATEADDRESS(req: Request, res: Response) {
       status: 200,
       message: "Address created successfully",
       address: createAddress,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      status: 500,
+      message: "Internal server error",
+    });
+  }
+}
+export async function UPDATEADDRESS(req: Request, res: Response) {
+  const {
+    id,
+    firstname,
+    lastname,
+    addressLine1,
+    addressLine2,
+    city,
+    state,
+    postalCode,
+    country,
+    defaultAddress,
+    shipping,
+    billing,
+    userId,
+  } = req.body;
+
+  if (!addressLine1) {
+    return res.status(400).json({
+      status: 400,
+      message: "Address is required",
+    });
+  }
+  try {
+    const checkifexist = await GETBYID(id);
+    if (!checkifexist) {
+      return res.status(404).json({
+        status: 404,
+        message: "Address not found",
+      });
+    }
+    const updatedAddress = await UPDATE(id, {
+      firstname,
+      lastname,
+      addressLine1,
+      addressLine2,
+      city,
+      state,
+      billing,
+      country,
+      default: defaultAddress,
+      postalCode: postalCode,
+      shipping,
+      userId,
+    });
+    if (!updatedAddress) {
+      return res.status(500).json({
+        status: 500,
+        message: "Internal server error",
+      });
+    }
+    return res.status(200).json({
+      status: 200,
+      message: "Address updated successfully",
+      address: updatedAddress,
     });
   } catch (error) {
     console.log(error);
@@ -164,7 +229,6 @@ export async function GETSINGLEADDRESS(req: Request, res: Response) {
 export async function GETUSERADDRESS(req: Request, res: Response) {
   try {
     const { id } = req.body;
-    console.log(id);
 
     const getAddress = await prisma?.address?.findMany({
       where: {
