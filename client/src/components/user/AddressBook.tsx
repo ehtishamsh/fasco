@@ -2,7 +2,6 @@ import { BreadCrumbAdmin } from "../admin/BreadCrumAdmin";
 import { AddModal } from "./AddModal";
 import { Address, User } from "@/lib/redux/types";
 import { useEffect, useState } from "react";
-
 import AddressCard from "./AddressCard";
 
 function AddressBook() {
@@ -37,7 +36,7 @@ function AddressBook() {
       <BreadCrumbAdmin paths={["Dashboard"]} end={"Address"} />
       <div className="bg-accent rounded-lg w-fit p-1 mt-6">
         <h1 className="text-base max-sm:text-xs rounded-lg font-semibold tracking-tight text-foreground bg-background py-1 px-3">
-          Address Book
+          My Address
         </h1>
       </div>
       <div className="flex justify-end items-center mt-10">
