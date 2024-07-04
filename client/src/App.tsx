@@ -31,6 +31,7 @@ import UserDashboardPage from "./pages/user/UserDashboardPage";
 import OrdersPage from "./pages/user/OrdersPage";
 import AddressBookPage from "./pages/user/AddressBookPage";
 import ProfilePage from "./pages/user/ProfilePage";
+import OrderSinglePage from "./pages/user/OrderSinglePage";
 
 function App() {
   const checktoken = localStorage.getItem("token");
@@ -65,6 +66,10 @@ function App() {
                     <Route element={<OrdersPage />} path="/orders" />
                     <Route element={<AddressBookPage />} path="/address" />
                     <Route element={<ProfilePage />} path="/profile" />
+                    <Route
+                      element={<OrderSinglePage />}
+                      path="/orders/view/:id"
+                    />
                   </Route>
                 )}
 
