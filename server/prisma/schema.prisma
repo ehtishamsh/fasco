@@ -26,6 +26,7 @@ model User {
   role String @default("customer")
    reviews Review[]
    address Address[]
+   order Order[]
 }
 model Address {
   id            String   @id @default(uuid())
@@ -44,6 +45,7 @@ model Address {
   user    User  @relation(fields: [userId], references: [id])
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+  order  Order[]
 }
 model Variant {
   id         String   @id @default(uuid())
@@ -51,6 +53,7 @@ model Variant {
   price      String
   product    Product  @relation(fields: [productId], references: [id]) 
   productId  String
+  OrderItem OrderItem[]
 }
 
 model Product {
@@ -77,6 +80,8 @@ model Product {
   frontCamera  String?
   battery      String
   reviews     Review[]
+  OrderItem   OrderItem[]
+
 }
 
 model Color {
@@ -84,6 +89,7 @@ model Color {
    color String  
    product    Product  @relation(fields: [productId], references: [id]) 
   productId  String
+  OrderItem OrderItem[]
 }
 model Brand {
   id     String   @id @default(uuid())
@@ -109,4 +115,40 @@ model Review {
   userId    String
   product   Product  @relation(fields: [productId], references: [id])
   productId String
+}
+
+model Order {
+  id          String     @id @default(uuid())
+  orderNumber String     @unique
+  status      String     @default("pending")
+  total       Float
+  userId      String
+  user        User       @relation(fields: [userId], references: [id])
+  addressId   String
+  address     Address    @relation(fields: [addressId], references: [id])
+  items       OrderItem[]
+  orderConfirmation Boolean @default(false)
+  shipping    Boolean @default(false)
+  toDeliver   Boolean @default(false)
+   paymentIntentId   String?  
+   cod    Boolean @default(false)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model OrderItem {
+  id        String   @id @default(uuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id])
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  variantId String?
+  variant   Variant? @relation(fields: [variantId], references: [id])
+  colorID String?
+  color   Color? @relation(fields: [colorID], references: [id])
+  quantity  Int
+  price     Float
+  total     Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
