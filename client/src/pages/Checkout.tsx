@@ -1,9 +1,9 @@
-import Address from "@/components/checkout/Address";
 import Payment from "@/components/checkout/Payment";
+import SelectAddress from "@/components/checkout/SelectAddress";
 import Shipping from "@/components/checkout/Shipping";
 import Steps from "@/components/checkout/Steps";
+import { Address as AddressType, User } from "@/lib/redux/types";
 import React, { useEffect, useState } from "react";
-
 type StepData = {
   step: number;
   name: string;
@@ -39,7 +39,30 @@ function Checkout() {
   });
   const [step, setStep] = React.useState<StepData[]>([]);
   const [currentStep, setCurrentStep] = useState(1);
+  const [address, setAddress] = useState<AddressType[]>();
+  const [selectedAddress, setSelectedAddress] = useState<AddressType>();
+  useEffect(() => {
+    const user: User = JSON.parse(localStorage.getItem("user") || "{}");
+    if (user) {
+      const fetchData = async () => {
+        try {
+          const req = await fetch(
+            `http://localhost:4000/api/address/user/${user.id}`
+          );
+          const res = await req.json();
+          if (res) {
+            setAddress(res.address);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchData();
+    }
 
+    return () => {};
+  }, []);
+  console.log(address, selectedAddress);
   useEffect(() => {
     setStep(stepsArr);
   }, [step, currentStep]);
@@ -47,11 +70,14 @@ function Checkout() {
     <div className="max-w-6xl mx-auto px-4">
       {step && <Steps stepData={step} currentStep={currentStep} />}
       <div>
-        {currentStep === 1 && (
-          <Address
+        {currentStep === 1 && address && (
+          <SelectAddress
             setStep={setStep}
             currentStep={currentStep}
             setCurrentStep={setCurrentStep}
+            address={address}
+            selectedAddress={selectedAddress}
+            setSelectedAddress={setSelectedAddress}
           />
         )}
         {currentStep === 2 && (
@@ -64,7 +90,11 @@ function Checkout() {
           />
         )}
         {currentStep === 3 && (
-          <Payment checked={checked} setChecked={setChecked} />
+          <Payment
+            checked={checked}
+            setChecked={setChecked}
+            selectedAddress={selectedAddress}
+          />
         )}
       </div>
     </div>
