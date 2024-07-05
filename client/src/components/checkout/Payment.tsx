@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
-import ButtonNextBack from "./ButtonNextBack";
 import { useSelector } from "react-redux";
-import { CartState, Product } from "@/lib/redux/types";
+import { CartState, Product, Address } from "@/lib/redux/types";
 import { Separator } from "../ui/separator";
+import { Link } from "react-router-dom";
+import AddressCard from "./AddressCard";
+import PaymentButton from "./PaymentButton";
+import { CheckConfirm } from "./CheckConfirm";
 
 interface Data {
   free: boolean;
@@ -12,12 +15,15 @@ interface Data {
 function Payment({
   checked,
   setChecked,
+  selectedAddress,
 }: {
   checked: Data;
   setChecked: React.Dispatch<React.SetStateAction<Data>>;
+  selectedAddress: Address | undefined;
 }) {
   const [ship, setShip] = useState<String>("free");
   const [total, setTotal] = useState(0);
+  const [confirm, setConfirm] = useState(false);
   const products = useSelector<CartState, Product[]>(
     (state) => state?.cart?.items
   );
@@ -49,12 +55,29 @@ function Payment({
         <img
           src={`http://localhost:4000${item?.cover}`}
           alt={item.title}
-          className="max-h-[90px] object-cover max-sm:col-span-7 max-sm:max-h-[100px] w-full rounded-lg border border-border"
+          className=" max-sm:col-span-7 object-contain w-full rounded-lg border border-border"
         />
-        <div className="text-sm max-sm:text-xs col-span-4 max-sm:col-span-5">
+        <Link
+          to={`/${item.category.toLowerCase()}/${item.brand.toLowerCase()}/${
+            item.slug
+          }`}
+          className="text-sm max-sm:text-xs flex flex-col col-span-4 max-sm:col-span-5"
+        >
           <span className="text-xs text-gray-400">{item.brand}</span>
           <p className=" font-semibold">{item?.title}</p>
-        </div>
+          <span className="text-gray-400">
+            {`${item.variants[0].name} - $${item.variants[0].price}`}
+          </span>
+          <span className="text-gray-400 flex items-center gap-2 ">
+            Color:
+            <span
+              style={{ backgroundColor: item.colors[0].name }}
+              className="w-4 h-4 rounded-full inline-block shadow"
+            >
+              &nbsp;
+            </span>
+          </span>
+        </Link>
         <p className="text-sm max-sm:text-xs">Qty: {item?.quantity}</p>
         <p className="text-sm max-sm:text-xs font-semibold">
           ${(Number(item?.price) || 1) * (item?.quantity || 1)}
@@ -70,10 +93,10 @@ function Payment({
         <div className="grid grid-cols-1 gap-4  max-sm:gap-2">{prdItems}</div>
       </div>
       <div className="mt-14 max-sm:mt-6">
-        <h1 className="text-sm font-semibold">Address</h1>
-        <p className="mt-4 max-sm:text-sm">
-          1131 Dusty Townline, Jacksonville, TX 40322
-        </p>
+        <h1 className="text-sm font-semibold mb-6">Address</h1>
+        <div className="flex gap-4 bg-gray-100/80 p-6 max-sm:p-4 max-sm:gap-2 rounded-lg">
+          <AddressCard address={selectedAddress as Address} />
+        </div>
         <Separator className="my-4" />
       </div>
       <div className="mt-14  max-sm:mt-6">
@@ -130,7 +153,8 @@ function Payment({
           </span>
         </div>
       </div>
-      <ButtonNextBack handleNext={() => console.log("next")} />
+      <PaymentButton setConfirm={setConfirm} />
+      <CheckConfirm check={confirm} />
     </div>
   );
 }
