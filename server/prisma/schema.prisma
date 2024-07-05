@@ -119,8 +119,8 @@ model Review {
 
 model Order {
   id          String     @id @default(uuid())
-  orderNumber String     @unique
-  status      String     @default("pending")
+  orderNumber Int     @unique
+  status      String[]     @default(["pending"])
   total       Float
   userId      String
   user        User       @relation(fields: [userId], references: [id])
@@ -130,8 +130,7 @@ model Order {
   orderConfirmation Boolean @default(false)
   shipping    Boolean @default(false)
   toDeliver   Boolean @default(false)
-   paymentIntentId   String?  
-   cod    Boolean @default(false)
+   cod        Boolean @default(false)
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
