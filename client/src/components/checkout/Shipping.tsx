@@ -1,3 +1,4 @@
+import { toast } from "../ui/use-toast";
 import ButtonNextBack from "./ButtonNextBack";
 import { StepData } from "@/lib/redux/types";
 
@@ -20,6 +21,18 @@ function Shipping({
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
 }) {
   const handleNext = () => {
+    if (
+      checked.free === false &&
+      checked.standard === false &&
+      checked.express === false
+    ) {
+      toast({
+        title: "Error",
+        description: "Please select a shipping method",
+        variant: "destructive",
+      });
+      return;
+    }
     setCurrentStep(3);
     if (currentStep === 1) {
       setStep((prev) => {
