@@ -5,7 +5,8 @@ import { Separator } from "../ui/separator";
 import { Link } from "react-router-dom";
 import AddressCard from "./AddressCard";
 import PaymentButton from "./PaymentButton";
-import { CheckConfirm } from "./CheckConfirm";
+import { Button } from "../ui/button";
+import { toast } from "../ui/use-toast";
 
 interface Data {
   free: boolean;
@@ -49,6 +50,34 @@ function Payment({
       setShip("express");
     }
   }, [data, products]);
+  const placeOrder = () => {
+    if (selectedAddress === undefined) {
+      toast({
+        title: "Error",
+        description: "Please select an address",
+        variant: "destructive",
+      });
+      return;
+    } else if (
+      checked?.free === false &&
+      checked?.standard === false &&
+      checked?.express === false
+    ) {
+      toast({
+        title: "Error",
+        description: "Please select a shipping method",
+        variant: "destructive",
+      });
+      return;
+    } else {
+      console.log({
+        products: data,
+        address: selectedAddress,
+        shipping: ship,
+        total: total,
+      });
+    }
+  };
   const prdItems = products?.map((item) => {
     return (
       <div className="grid grid-cols-7 gap-4  max-sm:gap-2  max-sm:p-2 items-center bg-gray-100/80 rounded-lg p-4">
@@ -152,9 +181,29 @@ function Payment({
                 : 0)}
           </span>
         </div>
+        {confirm && (
+          <div className="flex justify-between items-center mt-4">
+            <h4 className="text-lg font-semibold max-sm:text-sm">
+              Payment Method
+            </h4>
+            <span className="text-lg font-semibold max-sm:text-sm">
+              Cash on Delivery
+            </span>
+          </div>
+        )}
       </div>
-      <PaymentButton setConfirm={setConfirm} />
-      <CheckConfirm check={confirm} />
+      {!confirm ? (
+        <PaymentButton setConfirm={setConfirm} />
+      ) : (
+        <Button
+          variant={"primary"}
+          size={"lg"}
+          className="py-6 w-full mt-6"
+          onClick={placeOrder}
+        >
+          Order
+        </Button>
+      )}
     </div>
   );
 }
