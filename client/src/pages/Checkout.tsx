@@ -62,7 +62,6 @@ function Checkout() {
 
     return () => {};
   }, []);
-  console.log(address, selectedAddress);
   useEffect(() => {
     setStep(stepsArr);
   }, [step, currentStep]);
