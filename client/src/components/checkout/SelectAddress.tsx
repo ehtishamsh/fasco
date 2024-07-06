@@ -4,6 +4,7 @@ import { Address as AddressType, StepData } from "@/lib/redux/types";
 import ButtonNextBack from "./ButtonNextBack";
 import { Link } from "react-router-dom";
 import AddressCard from "./AddressCard";
+import { toast } from "../ui/use-toast";
 
 function SelectAddress({
   setStep,
@@ -23,6 +24,14 @@ function SelectAddress({
   selectedAddress: AddressType | undefined;
 }) {
   const handleNext = () => {
+    if (selectedAddress === undefined) {
+      toast({
+        title: "Error",
+        description: "Please select an address",
+        variant: "destructive",
+      });
+      return;
+    }
     if (currentStep === 1) {
       setStep((prev) => {
         return prev.map((item) => {
