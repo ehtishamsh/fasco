@@ -11,8 +11,6 @@ export interface Order {
   shipping: boolean;
   toDeliver: boolean;
   cod: boolean;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
 export interface OrderItem {
@@ -22,7 +20,6 @@ export interface OrderItem {
   productId: string;
   variantId?: string | null;
   colorID?: string | null;
-
   quantity: number;
   price: number;
   total: number;
