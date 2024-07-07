@@ -6,6 +6,7 @@ import categoryRoute from "./routes/categoryRoute";
 import uploadRoute from "./routes/uploadRoute";
 import addressRoute from "./routes/addressRoutes";
 import productRoutes from "./routes/productRoutes";
+import orderRoutes from "./routes/orderRouter";
 import bodyParser from "body-parser";
 
 const app = express();
@@ -23,6 +24,7 @@ app.use("/api", addressRoute);
 app.use("/api", productRoutes);
 app.use("/api", categoryRoute);
 app.use("/api", brandRoutes);
+app.use("/api", orderRoutes);
 // ERROR HANDLER
 app.use(errorHandler);
 
