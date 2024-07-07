@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { CartState, Product, Address } from "@/lib/redux/types";
 import { Separator } from "../ui/separator";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AddressCard from "./AddressCard";
 import PaymentButton from "./PaymentButton";
 import { Button } from "../ui/button";
 import { toast } from "../ui/use-toast";
+import { reset } from "@/lib/redux/cartSlice";
 
 interface Data {
   free: boolean;
@@ -24,7 +25,9 @@ function Payment({
 }) {
   const [ship, setShip] = useState<String>("free");
   const [total, setTotal] = useState(0);
+  const dispatch = useDispatch();
   const [confirm, setConfirm] = useState(false);
+  const navigate = useNavigate();
   const products = useSelector<CartState, Product[]>(
     (state) => state?.cart?.items
   );
@@ -50,7 +53,7 @@ function Payment({
       setShip("express");
     }
   }, [data, products]);
-  const placeOrder = () => {
+  const placeOrder = async () => {
     if (selectedAddress === undefined) {
       toast({
         title: "Error",
@@ -70,12 +73,54 @@ function Payment({
       });
       return;
     } else {
-      console.log({
-        products: data,
-        address: selectedAddress,
-        shipping: ship,
-        total: total,
+      const orderNumber = Math.floor(Math.random() * 1000);
+      const status = ["pending"];
+      const totalPrice = total + 50 + (ship === "standard" ? 8.5 : 0);
+      const userId = JSON.parse(localStorage.getItem("user") || "{}").id;
+      const addressId = selectedAddress?.id;
+      const orderConfirmation = false;
+      const shipping = false;
+      const toDeliver = false;
+      const cod = false;
+      const product = data.map((item) => {
+        return {
+          productId: item.id,
+          variantId: item.selectedVariant?.id,
+          colorID: item.selectedColor?.id,
+          quantity: item.quantity,
+          price: Number(item.price) * Number(item.quantity),
+        };
       });
+      const body = {
+        orderNumber,
+        status,
+        total: totalPrice,
+        userId,
+        addressId,
+        orderConfirmation,
+        shipping,
+        toDeliver,
+        cod,
+        product,
+      };
+      const req = await fetch("http://localhost:4000/api/orders/new", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+      if (req.ok) {
+        toast({
+          title: "Success",
+          description: "Order placed successfully",
+          variant: "success",
+        });
+        const removeProducts = dispatch(reset());
+        setTimeout(() => {
+          navigate("/orders");
+        }, 2000);
+      }
     }
   };
   const prdItems = products?.map((item) => {
