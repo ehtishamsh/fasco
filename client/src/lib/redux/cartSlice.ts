@@ -53,8 +53,11 @@ const cartSlice = createSlice({
         }
       }
     },
+    reset(state) {
+      state.items = [];
+    },
   },
 });
 
 export default cartSlice.reducer;
-export const { add, remove, qty } = cartSlice.actions;
+export const { add, remove, qty, reset } = cartSlice.actions;
