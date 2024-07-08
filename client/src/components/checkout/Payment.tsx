@@ -78,10 +78,6 @@ function Payment({
       const totalPrice = total + 50 + (ship === "standard" ? 8.5 : 0);
       const userId = JSON.parse(localStorage.getItem("user") || "{}").id;
       const addressId = selectedAddress?.id;
-      const orderConfirmation = false;
-      const shipping = false;
-      const toDeliver = false;
-      const cod = false;
       const product = data.map((item) => {
         return {
           productId: item.id,
@@ -97,10 +93,7 @@ function Payment({
         total: totalPrice,
         userId,
         addressId,
-        orderConfirmation,
-        shipping,
-        toDeliver,
-        cod,
+        cod: confirm ? true : false,
         product,
       };
       const req = await fetch("http://localhost:4000/api/orders/new", {
@@ -116,6 +109,7 @@ function Payment({
           description: "Order placed successfully",
           variant: "success",
         });
+        //@ts-ignore
         const removeProducts = dispatch(reset());
         setTimeout(() => {
           navigate("/orders");
