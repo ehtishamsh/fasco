@@ -1,11 +1,12 @@
 import {
   getAllOrdersService,
   getOrderById as get,
-  createOrder,
   updateOrder,
+  createNewOrder as createNewOrderService,
   deleteOrder,
 } from "../services/Order";
 import prisma from "../utils/db";
+import { Request, Response } from "express";
 
 const allorders = async (req: any, res: any) => {
   try {
@@ -30,65 +31,24 @@ const orderbyid = async (req: any, res: any) => {
   }
 };
 
-const createNewOrder = async (req: any, res: any) => {
-  const {
-    orderNumber,
-    status,
-    total,
-    userId,
-    addressId,
-    orderConfirmation,
-    shipping,
-    toDeliver,
-    cod,
-    product,
-  } = req.body;
-  console.log(req.body);
+const createNewOrder = async (req: Request, res: Response) => {
+  const orderData = req.body;
   try {
-    const newOrder = await prisma.order.create({
-      data: {
-        orderNumber,
-        status,
-        total,
-        userId,
-        addressId,
-        orderConfirmation,
-        shipping,
-        toDeliver,
-        cod,
-      },
-    });
-    console.log(newOrder);
-    if (newOrder) {
-      const orderitem = await Promise.all(
-        product.map(async (item: any) => {
-          return await prisma.orderItem.create({
-            data: {
-              orderId: newOrder.id,
-              productId: item.productId,
-              variantId: item.variantId,
-              colorID: item.colorID,
-              quantity: item.quantity,
-              price: item.price,
-              total: newOrder.total,
-            },
-          });
-        })
-      );
-      if (orderitem.length > 0) {
-        res.status(201).json({
-          message: "Order created successfully",
-          newOrder,
-          orderitem,
-        });
-      } else {
-        res.status(500).json({ error: "Failed to create order" });
-      }
+    const { newOrder, orderItems } = await createNewOrderService(orderData);
+
+    if (newOrder && orderItems.length > 0) {
+      res.status(201).json({
+        message: "Order created successfully",
+        newOrder,
+        orderItems,
+      });
     } else {
       res.status(500).json({ error: "Failed to create order" });
     }
   } catch (error) {
-    res.status(500).json({ error: error });
+    res.status(500).json({
+      error: error,
+    });
   }
 };
 
