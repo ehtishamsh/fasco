@@ -60,21 +60,21 @@ function App() {
                     <Route path="/signup" element={<SignupPage />} />
                   </>
                 )}
-                {checktoken && (
-                  <Route element={<Dashboard />} path="/">
-                    <Route element={<UserDashboardPage />} path="/dashboard" />
-                    <Route element={<OrdersPage />} path="/orders" />
-                    <Route element={<AddressBookPage />} path="/address" />
-                    <Route element={<ProfilePage />} path="/profile" />
-                    <Route
-                      element={<OrderSinglePage />}
-                      path="/orders/view/:id"
-                    />
-                  </Route>
-                )}
 
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Route>
+              {checktoken && (
+                <Route element={<Dashboard />} path="/">
+                  <Route element={<UserDashboardPage />} path="/dashboard" />
+                  <Route element={<OrdersPage />} path="/orders" />
+                  <Route element={<AddressBookPage />} path="/address" />
+                  <Route element={<ProfilePage />} path="/profile" />
+                  <Route
+                    element={<OrderSinglePage />}
+                    path="/orders/view/:id"
+                  />
+                </Route>
+              )}
               {checktoken && checkuser.role === "admin" && (
                 <Route element={<AdminLayout />} path="/">
                   <Route element={<AdminDashboard />} path="/admin" />
