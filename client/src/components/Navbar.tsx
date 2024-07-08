@@ -10,10 +10,16 @@ import { Input } from "./ui/input";
 import { HeartIcon } from "@radix-ui/react-icons";
 import { NavProfileDropdown } from "./NavProfileDropdown";
 
-function Navbar() {
+function Navbar({
+  hide,
+  sethide,
+}: {
+  hide: boolean;
+  sethide: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
+  console.log(hide, sethide);
   const [openCart, setOpenCart] = useState(false);
   const items = useSelector<CartState, Product[]>((state) => state.cart.items);
-
   const [data, setData] = useState<Product[]>(items);
   const [count, setCount] = useState(0);
   useEffect(() => {
