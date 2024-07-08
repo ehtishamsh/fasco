@@ -1,28 +1,22 @@
 import prisma from "../utils/db";
 
-export interface Order {
-  id: string;
+interface Product {
+  productId: string;
+  variantId: string;
+  colorID: string;
+  quantity: number;
+  price: number;
+}
+
+interface OrderData {
   orderNumber: number;
   status: string[];
   total: number;
   userId: string;
   addressId: string;
-  orderConfirmation: boolean;
-  shipping: boolean;
-  toDeliver: boolean;
   cod: boolean;
-}
 
-export interface OrderItem {
-  id: string;
-  orderId: string;
-  order: Order;
-  productId: string;
-  variantId?: string | null;
-  colorID?: string | null;
-  quantity: number;
-  price: number;
-  total: number;
+  product: Product[];
 }
 export const getAllOrdersService = async () => {
   return await prisma.order.findMany({
@@ -43,25 +37,44 @@ export const getOrderById = async (id: string) => {
     },
   });
 };
-export const createOrder = async (orderData: Order) => {
-  return await prisma.order.create({
-    data: orderData,
-    include: {
-      items: true,
-      user: true,
-      address: true,
+export const createNewOrder = async (orderData: OrderData) => {
+  const { orderNumber, status, total, userId, addressId, cod, product } =
+    orderData;
+
+  const newOrder = await prisma.order.create({
+    data: {
+      orderNumber,
+      status,
+      total,
+      userId,
+      addressId,
+      cod,
     },
   });
+
+  const orderItems = await Promise.all(
+    product.map(async (item) => {
+      return await prisma.orderItem.create({
+        data: {
+          orderId: newOrder.id,
+          productId: item.productId,
+          variantId: item.variantId,
+          colorID: item.colorID,
+          quantity: item.quantity,
+          price: item.price,
+          total: newOrder.total,
+        },
+      });
+    })
+  );
+
+  return { newOrder, orderItems };
 };
-export const updateOrder = async (id: string, orderData: Order) => {
+
+export const updateOrder = async (id: string, orderData: OrderData) => {
   return await prisma.order.update({
     where: { id },
     data: orderData,
-    include: {
-      items: true,
-      user: true,
-      address: true,
-    },
   });
 };
 export const deleteOrder = async (id: string) => {
