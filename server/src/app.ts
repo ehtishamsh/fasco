@@ -6,8 +6,8 @@ import categoryRoute from "./routes/categoryRoute";
 import uploadRoute from "./routes/uploadRoute";
 import addressRoute from "./routes/addressRoutes";
 import productRoutes from "./routes/productRoutes";
-import orderRoutes from "./routes/orderRouter";
 import bodyParser from "body-parser";
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
 
@@ -24,8 +24,23 @@ app.use("/api", addressRoute);
 app.use("/api", productRoutes);
 app.use("/api", categoryRoute);
 app.use("/api", brandRoutes);
-app.use("/api", orderRoutes);
 // ERROR HANDLER
+app.post("/api/payment", async (req, res) => {
+  const { amount } = req.body;
+
+  try {
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount,
+      currency: "usd",
+    });
+
+    res.send({
+      clientSecret: paymentIntent.client_secret,
+    });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
 app.use(errorHandler);
 
 export default app;
