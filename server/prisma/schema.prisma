@@ -116,24 +116,34 @@ model Review {
   product   Product  @relation(fields: [productId], references: [id])
   productId String
 }
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  SHIPPED
+  COMPLETED
+  CANCELLED
+}
 
 model Order {
   id          String        @id @default(uuid())
   orderNumber Int           @unique
-  status      String[]      @default(["pending"])
-  total       Float
+  status String[] @default(["Order is in processing"])
+  orderStatus OrderStatus @default(PENDING)  
   userId      String
   user        User          @relation(fields: [userId], references: [id])
   addressId   String
   address     Address       @relation(fields: [addressId], references: [id])
+  amount    Int
+  currency  String @default("USA")
+  paymentIntentId String?
+  paymentStatus Payment @default(PENDING)
   items       OrderItem[]
-  orderConfirmation Boolean @default(false)
-  shipping    Boolean       @default(false)
-  toDeliver   Boolean       @default(false)
-  cod         Boolean       @default(false)
-  cancel      Boolean       @default(false)
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
+}
+enum Payment {
+  PENDING
+  PAYED
 }
 
 model OrderItem {
