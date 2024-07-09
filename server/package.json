@@ -10,6 +10,7 @@
     "nodemon": "^3.1.0",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
+    "stripe": "^16.2.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.4.5",
     "uploadthing": "^6.12.0",
