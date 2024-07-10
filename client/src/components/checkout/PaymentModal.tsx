@@ -6,7 +6,6 @@ import {
   Dialog,
   DialogContent,
   DialogTrigger,
-  DialogClose,
 } from "../ui/dialog";
 export function PaymentModal({
   setConfirm,
@@ -28,21 +27,16 @@ export function PaymentModal({
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-4 flex flex-col">
-          <Button variant="outline">Pay with Credit Card</Button>
-          <Button variant="outline">Pay with Bank Transfer</Button>
-          <Button variant="outline">Pay with PayPal</Button>
-          <Button variant="outline">Pay with Apple Pay</Button>
-          <DialogClose>
-            <Button
-              variant="outline"
-              type="submit"
-              onClick={() => setConfirm(true)}
-            >
-              Cash on delivery
-            </Button>
-          </DialogClose>
+          <Button
+            variant="outline"
+            onClick={() => {
+              setConfirm(true);
+            }}
+          >
+            Pay with Credit Card
+          </Button>
           <p className="text-xs text-gray-500 mt-2 text-center">
-            Note : At this moment, we only support cash on delivery.
+            Note : At this moment, we only support credit card.
           </p>
         </div>
       </DialogContent>
