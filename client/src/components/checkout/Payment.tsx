@@ -4,10 +4,8 @@ import { CartState, Product, Address } from "@/lib/redux/types";
 import { Separator } from "../ui/separator";
 import { Link, useNavigate } from "react-router-dom";
 import AddressCard from "./AddressCard";
-import PaymentButton from "./PaymentButton";
-import { Button } from "../ui/button";
 import { toast } from "../ui/use-toast";
-import { reset } from "@/lib/redux/cartSlice";
+import PaymentForm from "./PaymentForm";
 
 interface Data {
   free: boolean;
@@ -26,7 +24,7 @@ function Payment({
   const [ship, setShip] = useState<String>("free");
   const [total, setTotal] = useState(0);
   const dispatch = useDispatch();
-  const [confirm, setConfirm] = useState(false);
+  // const [confirm, setConfirm] = useState(false);
   const navigate = useNavigate();
   const products = useSelector<CartState, Product[]>(
     (state) => state?.cart?.items
@@ -73,48 +71,6 @@ function Payment({
       });
       return;
     } else {
-      const orderNumber = Math.floor(Math.random() * 1000);
-      const status = ["pending"];
-      const totalPrice = total + 50 + (ship === "standard" ? 8.5 : 0);
-      const userId = JSON.parse(localStorage.getItem("user") || "{}").id;
-      const addressId = selectedAddress?.id;
-      const product = data.map((item) => {
-        return {
-          productId: item.id,
-          variantId: item.selectedVariant?.id,
-          colorID: item.selectedColor?.id,
-          quantity: item.quantity,
-          price: Number(item.price) * Number(item.quantity),
-        };
-      });
-      const body = {
-        orderNumber,
-        status,
-        total: totalPrice,
-        userId,
-        addressId,
-        cod: confirm ? true : false,
-        product,
-      };
-      const req = await fetch("http://localhost:4000/api/orders/new", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      });
-      if (req.ok) {
-        toast({
-          title: "Success",
-          description: "Order placed successfully",
-          variant: "success",
-        });
-        //@ts-ignore
-        const removeProducts = dispatch(reset());
-        setTimeout(() => {
-          navigate("/orders");
-        }, 2000);
-      }
     }
   };
   const prdItems = products?.map((item) => {
@@ -134,7 +90,7 @@ function Payment({
           <span className="text-xs text-gray-400">{item.brand}</span>
           <p className=" font-semibold">{item?.title}</p>
           <span className="text-gray-400">
-            {`${item.variants[0].name} - $${item.variants[0].price}`}
+            {`${item.selectedVariant?.name} - $${item.selectedVariant?.price}`}
           </span>
           <span className="text-gray-400 flex items-center gap-2 ">
             Color:
@@ -220,29 +176,8 @@ function Payment({
                 : 0)}
           </span>
         </div>
-        {confirm && (
-          <div className="flex justify-between items-center mt-4">
-            <h4 className="text-lg font-semibold max-sm:text-sm">
-              Payment Method
-            </h4>
-            <span className="text-lg font-semibold max-sm:text-sm">
-              Cash on Delivery
-            </span>
-          </div>
-        )}
       </div>
-      {!confirm ? (
-        <PaymentButton setConfirm={setConfirm} />
-      ) : (
-        <Button
-          variant={"primary"}
-          size={"lg"}
-          className="py-6 w-full mt-6"
-          onClick={placeOrder}
-        >
-          Order
-        </Button>
-      )}
+      <PaymentForm cartData={products} />
     </div>
   );
 }
