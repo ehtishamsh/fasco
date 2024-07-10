@@ -32,6 +32,8 @@ import OrdersPage from "./pages/user/OrdersPage";
 import AddressBookPage from "./pages/user/AddressBookPage";
 import ProfilePage from "./pages/user/ProfilePage";
 import OrderSinglePage from "./pages/user/OrderSinglePage";
+import Success from "./pages/Success";
+import CancelPage from "./pages/CancelPage";
 
 function App() {
   const checktoken = localStorage.getItem("token");
@@ -51,6 +53,9 @@ function App() {
                 <Route element={<Homepage />} />
                 <Route element={<ShoppingCart />} path="/cart" />
                 <Route element={<WishlistPage />} path="/wishlist" />
+                <Route element={<Success />} path="/success" />
+                <Route element={<CancelPage />} path="/cancel" />
+
                 {checktoken && (
                   <Route element={<Checkout />} path="/checkout" />
                 )}
