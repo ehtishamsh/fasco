@@ -1,9 +1,15 @@
-import { Product } from "@/lib/redux/types";
+import { Address, Product, User } from "@/lib/redux/types";
 import { useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { toast } from "../ui/use-toast";
 
-function PaymentForm({ cartData }: { cartData: Product[] }) {
+function PaymentForm({
+  cartData,
+  address,
+}: {
+  cartData: Product[];
+  address: Address;
+}) {
   const [total, setTotal] = useState(0);
   useEffect(() => {
     setTotal(() =>
@@ -17,13 +23,19 @@ function PaymentForm({ cartData }: { cartData: Product[] }) {
     );
   }, [cartData]);
 
-  console.log(total);
+  console.log(total, address);
   const makePayment = async () => {
     const stripe = await loadStripe(
       "pk_test_51OaSIsLXJrC5pQEFKKm3qrmBncqMYscHgLotdohKIPUkgoo3A12e3Inl8RnhuPHlEpx8Y4b9w4kv5qEevUHUnZn000m0tQPia9"
     );
+    const user: User = JSON.parse(localStorage.getItem("user") || "{}");
+
     const body = {
-      products: cartData,
+      data: {
+        items: [...cartData],
+        userId: user?.id,
+        addressId: address?.id,
+      },
     };
 
     const headers = {
