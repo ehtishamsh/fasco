@@ -177,7 +177,9 @@ function Payment({
           </span>
         </div>
       </div>
-      <PaymentForm cartData={products} />
+      {selectedAddress && (
+        <PaymentForm address={selectedAddress} cartData={products} />
+      )}
     </div>
   );
 }
