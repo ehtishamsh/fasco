@@ -33,31 +33,93 @@ app.use("/api", brandRoutes);
 //Stripe
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 app.post("/api/create-checkout-session", async (req, res) => {
-  const products = req.body;
-
-  const transformedProducts = products.products.map((product: any) => {
+  const data = req.body;
+  const transformedProducts = data.data.items.map((product: any) => {
+    const quantity = product.quantity;
+    const price = product.price;
+    const total = Number(price) + Number(product.selectedVariant?.price);
+    console.log(total, product.selectedVariant?.price, product.price);
     return {
       price_data: {
         currency: "usd",
         product_data: {
           name: product.title,
         },
-        unit_amount: Number(product.price) * 100,
+        unit_amount: Number(total) * 100,
       },
-      quantity: Number(product.quantity),
+      quantity: Number(quantity),
     };
   });
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     line_items: transformedProducts,
     mode: "payment",
-    success_url: "http://localhost:5173/success",
+    success_url:
+      "http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}",
     cancel_url: "http://localhost:5173/cancel",
+    metadata: {
+      userId: data.data.userId,
+      addressId: data.data.addressId,
+      items: JSON.stringify(
+        data.data.items.map((product: any) => ({
+          productId: product.id,
+          variantId: product.selectedVariant?.id,
+          colorId: product.selectedColor?.id,
+          quantity: product.quantity,
+          price: Number(product.price),
+          total:
+            Number(product.price) +
+            Number(product.selectedVariant?.price) * Number(product.quantity),
+        }))
+      ),
+    },
   });
-
   res.send({ id: session.id, url: session.url });
 });
 
+const endpointSecret = "whsec_..."; // Replace with your webhook secret
+
+app.post(
+  "/webhook",
+  bodyParser.raw({ type: "application/json" }),
+  (request, response) => {
+    const sig = request.headers["stripe-signature"];
+
+    let event;
+
+    try {
+      event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
+    } catch (err) {
+      response.status(400).send(`Webhook Error`);
+      return;
+    }
+
+    if (event.type === "checkout.session.completed") {
+      const session = event.data.object;
+      // Handle successful payment here
+      console.log("Payment was successful for session:", session.id);
+      // You can save the session details to your database or perform any required action
+    }
+
+    response.json({ received: true });
+  }
+);
+
+app.get("/api/check-session", async (req, res) => {
+  const sessionId = req.query.session_id;
+  console.log(sessionId);
+
+  if (!sessionId) {
+    return res.status(400).send({ error: "Session ID is required" });
+  }
+
+  try {
+    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    res.send({ payment_status: session.payment_status });
+  } catch (error) {
+    res.status(500).send({ error: error });
+  }
+});
 // ERROR HANDLER
 app.use(errorHandler);
 
