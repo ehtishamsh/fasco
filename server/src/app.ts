@@ -7,6 +7,7 @@ import uploadRoute from "./routes/uploadRoute";
 import addressRoute from "./routes/addressRoutes";
 import productRoutes from "./routes/productRoutes";
 import bodyParser from "body-parser";
+import orderRoutes from "./routes/orderRouter";
 
 ///////////////////////////
 
@@ -29,6 +30,7 @@ app.use("/api", addressRoute);
 app.use("/api", productRoutes);
 app.use("/api", categoryRoute);
 app.use("/api", brandRoutes);
+app.use("/api", orderRoutes);
 
 //Stripe
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
@@ -38,7 +40,7 @@ app.post("/api/create-checkout-session", async (req, res) => {
     const quantity = product.quantity;
     const price = product.price;
     const total = Number(price) + Number(product.selectedVariant?.price);
-    console.log(total, product.selectedVariant?.price, product.price);
+
     return {
       price_data: {
         currency: "usd",
@@ -96,6 +98,7 @@ app.post(
 
     if (event.type === "checkout.session.completed") {
       const session = event.data.object;
+      const paymentIntentId = session.payment_intent;
       // Handle successful payment here
       console.log("Payment was successful for session:", session.id);
       // You can save the session details to your database or perform any required action
@@ -107,7 +110,6 @@ app.post(
 
 app.get("/api/check-session", async (req, res) => {
   const sessionId = req.query.session_id;
-  console.log(sessionId);
 
   if (!sessionId) {
     return res.status(400).send({ error: "Session ID is required" });
@@ -115,11 +117,12 @@ app.get("/api/check-session", async (req, res) => {
 
   try {
     const session = await stripe.checkout.sessions.retrieve(sessionId);
-    res.send({ payment_status: session.payment_status });
+    res.send({ session: session });
   } catch (error) {
     res.status(500).send({ error: error });
   }
 });
+
 // ERROR HANDLER
 app.use(errorHandler);
 
