@@ -134,7 +134,7 @@ model Order {
   addressId   String
   address     Address       @relation(fields: [addressId], references: [id])
   amount    Int
-  currency  String @default("USA")
+  currency  String @default("usd")
   paymentIntentId String?
   paymentStatus Payment @default(PENDING)
   items       OrderItem[]
@@ -143,7 +143,7 @@ model Order {
 }
 enum Payment {
   PENDING
-  PAYED
+  PAID
 }
 
 model OrderItem {
