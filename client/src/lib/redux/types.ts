@@ -82,3 +82,42 @@ export interface Address {
   shipping: boolean;
   billing: boolean;
 }
+
+export interface Variant {
+  id: string;
+  price: string;
+  variant: string;
+}
+
+export interface Color {
+  id: string;
+  color: string;
+}
+
+export interface OrderItems {
+  id: string;
+  price: number;
+  total: number;
+  variantId: string;
+  colorId: string;
+  variant: Variant;
+  color: Color;
+  quantity: number;
+  product: Product;
+}
+
+export interface Order {
+  id: string;
+  address?: Address;
+  amount: number;
+  currency: string;
+  orderNumber: number;
+  status: string[];
+  paymentStatus: string;
+  createdAt: string;
+  updatedAt: string;
+  addressId: string;
+  userId: string;
+  orderStatus: string;
+  items?: OrderItems[];
+}
