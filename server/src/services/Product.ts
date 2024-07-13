@@ -77,3 +77,7 @@ export async function createColor(data: any) {
 export async function findProductBySlug(slug: string) {
   return await prisma.product.findFirst({ where: { slug } });
 }
+
+export async function findProductById(id: string) {
+  return await prisma.product.findUnique({ where: { id } });
+}
