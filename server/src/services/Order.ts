@@ -65,12 +65,17 @@ export async function checkOrderItems(orderId: string) {
   });
 }
 
-export async function createOrder(data: OrderData, total: number) {
+export async function createOrder(
+  data: OrderData,
+  total: number,
+  addressId: string,
+  userId: string
+) {
   return await prisma.order.create({
     data: {
       orderNumber: Math.floor(Math.random() * 100000),
-      addressId: data.addressId,
-      userId: data.userId,
+      addressId: addressId,
+      userId: userId,
       amount: total,
       orderStatus: "PENDING",
       status: ["PENDING"],
@@ -99,4 +104,62 @@ export async function createOrderItems(orderId: string, products: Product[]) {
       });
     })
   );
+}
+
+export async function getAllOrders() {
+  return await prisma.order.findMany();
+}
+
+export async function getOrderById(id: string) {
+  return await prisma.order.findUnique({
+    where: {
+      id,
+    },
+  });
+}
+
+export async function getOrderItemsByOrderId(orderId: string) {
+  return await prisma.orderItem.findMany({
+    where: {
+      orderId,
+    },
+  });
+}
+export async function getOrderByUserID(id: string) {
+  return await prisma.order.findMany({
+    where: {
+      userId: id,
+    },
+    select: {
+      id: true,
+      address: true,
+      amount: true,
+      currency: true,
+      orderNumber: true,
+      status: true,
+      paymentStatus: true,
+      createdAt: true,
+      orderStatus: true,
+      items: {
+        select: {
+          id: true,
+          price: true,
+          total: true,
+          variant: {
+            select: {
+              price: true,
+              variant: true,
+            },
+          },
+          color: {
+            select: {
+              color: true,
+            },
+          },
+          quantity: true,
+          product: true,
+        },
+      },
+    },
+  });
 }
