@@ -16,6 +16,7 @@ import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import { BreadCrum } from "@/components/BreadCrum";
 import Loading from "@/components/ui/Loading";
+import { toast } from "@/components/ui/use-toast";
 
 interface Variant {
   id: string;
@@ -76,6 +77,11 @@ function Product() {
     };
 
     dispatch(add(productNew));
+    toast({
+      title: "Product added",
+      description: "Product added to cart",
+      variant: "success",
+    });
   };
 
   return (
