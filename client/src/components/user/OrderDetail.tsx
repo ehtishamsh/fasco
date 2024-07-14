@@ -3,8 +3,9 @@ import { BreadCrumbAdmin } from "../admin/BreadCrumAdmin";
 import ProgressBar from "./ProgressBar";
 import ItemCard from "./ItemCard";
 import AddressCard from "./AddressCard";
-import { User, Address } from "@/lib/redux/types";
+import { Address, Order } from "@/lib/redux/types";
 import { Separator } from "../ui/separator";
+import { useParams } from "react-router-dom";
 
 interface OrderStatus {
   orderConfirmation: boolean;
@@ -19,12 +20,10 @@ interface Step {
 }
 
 function OrderDetail() {
+  const { id } = useParams();
+  console.log(id);
   // @ts-ignore
-  const [orders, setOrders] = useState<OrderStatus>({
-    orderConfirmation: true,
-    shipping: false,
-    toDeliver: false,
-  });
+  const [orders, setOrders] = useState<Order>();
   const [steps, setSteps] = useState<Step[]>([]);
   const [address, setAddress] = useState<Address[]>([]);
 
@@ -34,40 +33,40 @@ function OrderDetail() {
     const newSteps = [
       {
         label: "ORDER CONFIRMATION",
-        text: orders.orderConfirmation ? getCurrentDate() : "In Progress",
-        completed: orders.orderConfirmation,
+        text:
+          orders?.orderStatus === "CONFIRMED"
+            ? getCurrentDate()
+            : "In Progress",
+        completed: orders?.orderStatus === "CONFIRMED" ? true : false,
       },
       {
         label: "SHIPPING",
-        text: orders.shipping ? getCurrentDate() : "In Progress",
-        completed: orders.shipping,
+        text:
+          orders?.orderStatus === "SHIPPED" ? getCurrentDate() : "In Progress",
+        completed: orders?.orderStatus === "SHIPPED" ? true : false,
       },
       {
         label: "TO DELIVER",
-        text: orders.toDeliver ? getCurrentDate() : "In Progress",
-        completed: orders.toDeliver,
+        text:
+          orders?.orderStatus === "DELIVERED"
+            ? getCurrentDate()
+            : "In Progress",
+        completed: orders?.orderStatus === "DELIVERED" ? true : false,
       },
     ];
     setSteps(newSteps);
   }, [orders]);
   useEffect(() => {
-    const user: User = JSON.parse(localStorage.getItem("user") || "{}");
-    if (user) {
-      const fetchData = async () => {
-        try {
-          const req = await fetch(
-            `http://localhost:4000/api/address/user/${user.id}`
-          );
-          const res = await req.json();
-          if (res) {
-            setAddress(res.address);
-          }
-        } catch (error) {
-          console.log(error);
-        }
-      };
-      fetchData();
-    }
+    const fetchData = async () => {
+      try {
+        const req = await fetch(`http://localhost:4000/api/order/${id}`);
+        const res = await req.json();
+        setOrders(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
 
     return () => {};
   }, []);
@@ -81,8 +80,8 @@ function OrderDetail() {
       </div>
       <div className="flex justify-between items-center mt-6 border border-gray-300/85 rounded-lg p-3">
         <div className="flex flex-col text-xs">
-          <h1 className="mb-1 text-sm">Order #11233443534464554</h1>
-          <p className="text-gray-400">Placed on 25 June 2024 at 11:21:54</p>
+          <h1 className="mb-1 text-sm">Order #{orders?.orderNumber}</h1>
+          <p className="text-gray-400">Placed on {new Date().toLocaleTimeString()} at 11:21:54</p>
         </div>
         <div className="flex gap-2">
           <span className="text-base text-gray-400">Total: </span>
@@ -110,7 +109,7 @@ function OrderDetail() {
       <div className="grid grid-cols-2 max-sm:grid-cols-1 gap-5">
         {/* Address Box */}
         <div className="mt-6 border border-gray-300/85 rounded-lg">
-          <AddressCard address={address} />
+          {orders?.address && <AddressCard address={orders.address} />}
         </div>
 
         {/* Total Summary Box */}
