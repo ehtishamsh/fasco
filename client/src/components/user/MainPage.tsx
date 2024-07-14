@@ -4,15 +4,18 @@ import { RecentOrderTable } from "./RecentOrderTable";
 import { BreadCrumbAdmin } from "../admin/BreadCrumAdmin";
 import { useEffect, useState } from "react";
 import AddressCard from "./AddressCard";
+import Loading from "../ui/Loading";
 
 function MainPage() {
   const user: User = JSON.parse(localStorage.getItem("user") || "{}");
-  const [address, setAddress] = useState<Address[]>([]);
+  const [address, setAddress] = useState<Address>();
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     if (!user) {
       window.location.href = "/signin";
     }
     const fetchData = async () => {
+      setLoading(true);
       try {
         const req = await fetch(
           `http://localhost:4000/api/address/user/${user.id}`
@@ -21,15 +24,14 @@ function MainPage() {
 
         if (res) {
           setAddress(res.address);
+          setLoading(false);
         }
       } catch (error) {
         console.log(error);
       }
     };
     fetchData();
-    return () => {
-      setAddress([]);
-    };
+    return () => {};
   }, []);
   return (
     <div className="w-full">
@@ -40,29 +42,35 @@ function MainPage() {
         </h1>
       </div>
       <div className="mt-4 grid grid-cols-3 gap-4 max-sm:gap-2 max-sm:grid-cols-1">
-        <div className="flex flex-col gap-3 p-4 max-sm:p-2 max-sm:justify-center border border-gray-300/85 rounded-lg">
-          <h1 className="text-sm">
-            Personal Profile <span className="text-gray-400 text-sm"> | </span>
-            <Link to={"/profile"} className="text-yellow-600">
-              Edit
-            </Link>
-          </h1>
-          <div className="mt-2">
-            <h1 className="text-sm mb-2">
-              {user.firstname} {user.lastname}
-            </h1>
-            <h1 className="text-sm">{user.email}</h1>
+        {loading ? (
+          <div className="col-span-3 flex justify-center items-center h-[35vh]">
+            <Loading />
           </div>
-        </div>
-        <div className="col-span-2 max-sm:col-span-1 max-sm:grid-cols-1 grid grid-cols-2 border border-gray-300/85 rounded-lg ">
-          {address && <AddressCard address={address} />}
-        </div>
+        ) : (
+          <>
+            <div className="flex flex-col gap-3 p-4 max-sm:p-2 max-sm:justify-center border border-gray-300/85 rounded-lg">
+              <h1 className="text-sm">
+                Personal Profile{" "}
+                <span className="text-gray-400 text-sm"> | </span>
+                <Link to={"/profile"} className="text-yellow-600">
+                  Edit
+                </Link>
+              </h1>
+              <div className="mt-2">
+                <h1 className="text-sm mb-2">
+                  {user.firstname} {user.lastname}
+                </h1>
+                <h1 className="text-sm">{user.email}</h1>
+              </div>
+            </div>
+            <div className="col-span-2 max-sm:col-span-1 max-sm:grid-cols-1 grid grid-cols-2 border border-gray-300/85 rounded-lg ">
+              {address && <AddressCard address={address} />}
+            </div>
+          </>
+        )}
       </div>
       <div className="mt-6 border border-gray-300/85 rounded-lg p-4">
         <h1 className="border-b border-gray-300/85 pb-2">Recent Orders</h1>
-        {/* <div className="mb-6 my-8 flex justify-center items-center">
-          <h1 className="font-semibold">No Orders</h1>
-        </div> */}
         <RecentOrderTable />
       </div>
     </div>
