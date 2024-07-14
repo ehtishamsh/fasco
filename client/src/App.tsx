@@ -68,18 +68,7 @@ function App() {
 
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Route>
-              {checktoken && (
-                <Route element={<Dashboard />} path="/">
-                  <Route element={<UserDashboardPage />} path="/dashboard" />
-                  <Route element={<OrdersPage />} path="/orders" />
-                  <Route element={<AddressBookPage />} path="/address" />
-                  <Route element={<ProfilePage />} path="/profile" />
-                  <Route
-                    element={<OrderSinglePage />}
-                    path="/orders/view/:id"
-                  />
-                </Route>
-              )}
+
               {checktoken && checkuser.role === "admin" && (
                 <Route element={<AdminLayout />} path="/">
                   <Route element={<AdminDashboard />} path="/admin" />
@@ -90,6 +79,18 @@ function App() {
                   <Route element={<AddCate />} path="/admin/categories/new" />
                   <Route element={<Brands />} path="/admin/brands" />
                   <Route element={<AddBrand />} path="/admin/brands/new" />
+                </Route>
+              )}
+              {checktoken && (
+                <Route element={<Dashboard />} path="/">
+                  <Route element={<UserDashboardPage />} path="/dashboard" />
+                  <Route element={<OrdersPage />} path="/orders" />
+                  <Route element={<AddressBookPage />} path="/address" />
+                  <Route element={<ProfilePage />} path="/profile" />
+                  <Route
+                    element={<OrderSinglePage />}
+                    path="/orders/view/:id"
+                  />
                 </Route>
               )}
             </Routes>
