@@ -14,8 +14,8 @@ function Navbar({
   hide,
   sethide,
 }: {
-  hide: boolean;
-  sethide: React.Dispatch<React.SetStateAction<boolean>>;
+  hide?: boolean;
+  sethide?: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   console.log(hide, sethide);
   const [openCart, setOpenCart] = useState(false);
