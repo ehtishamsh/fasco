@@ -117,6 +117,44 @@ export async function getOrderById(id: string) {
     },
   });
 }
+export async function getOrderByOrderNumber(orderNumber: number) {
+  return await prisma.order.findUnique({
+    where: {
+      orderNumber,
+    },
+    select: {
+      id: true,
+      address: true,
+      amount: true,
+      currency: true,
+      orderNumber: true,
+      status: true,
+      paymentStatus: true,
+      createdAt: true,
+      orderStatus: true,
+      items: {
+        select: {
+          id: true,
+          price: true,
+          total: true,
+          variant: {
+            select: {
+              price: true,
+              variant: true,
+            },
+          },
+          color: {
+            select: {
+              color: true,
+            },
+          },
+          quantity: true,
+          product: true,
+        },
+      },
+    },
+  });
+}
 
 export async function getOrderItemsByOrderId(orderId: string) {
   return await prisma.orderItem.findMany({

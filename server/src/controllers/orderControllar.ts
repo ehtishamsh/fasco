@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, query } from "express";
 import {
   checkExistingOrder,
   checkOrderItems,
@@ -6,6 +6,7 @@ import {
   createOrder,
   getOrderByUserID,
   getOrderItemsByOrderId,
+  getOrderByOrderNumber,
 } from "../services/Order";
 import { findProductById } from "../services/Product";
 interface OrderData {
@@ -129,5 +130,27 @@ export async function getUserOrdersController(req: Request, res: Response) {
   } catch (error) {
     console.error("Error fetching orders:", error);
     return res.json({ message: "Error fetching orders", status: 400 });
+  }
+}
+
+export async function getOrderDetail(req: Request, res: Response) {
+  const { id } = req.params;
+
+  try {
+    const order = await getOrderByOrderNumber(Number(id));
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found", status: 404 });
+    }
+
+    return res.status(200).json({
+      message: "Order fetched successfully",
+      status: 200,
+      data: order,
+    });
+  } catch {
+    res
+      .status(400)
+      .json({ message: "Error fetching order items", status: 400 });
   }
 }
