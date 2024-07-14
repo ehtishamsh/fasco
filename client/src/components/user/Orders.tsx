@@ -3,12 +3,15 @@ import { BreadCrumbAdmin } from "../admin/BreadCrumAdmin";
 import { SelectDate } from "./SelectDate";
 import { useEffect, useState } from "react";
 import { Order, User } from "@/lib/redux/types";
+import Loading from "../ui/Loading";
 
 function Orders() {
   const [orders, setOrders] = useState<Order[]>();
   const user: User = JSON.parse(localStorage.getItem("user") || "{}");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     const fetchData = async () => {
       try {
         const response = await fetch(
@@ -16,6 +19,7 @@ function Orders() {
         );
         const data = await response.json();
         setOrders(data.data);
+        setLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -109,9 +113,15 @@ function Orders() {
       </div>
       <div className="mt-6 grid grid-cols-1 gap-4 max-sm:gap-2">
         <div className="border border-gray-300/85 rounded-lg  px-4 py-2 flex gap-2 text-sm  items-center">
-          Show: <SelectDate />
+          Show: <SelectDate setOrders={setOrders} />
         </div>
-        {renderOrders}
+        {loading ? (
+          <div className="h-[50vh] flex justify-center items-center">
+            <Loading />
+          </div>
+        ) : (
+          renderOrders
+        )}
       </div>
     </div>
   );
