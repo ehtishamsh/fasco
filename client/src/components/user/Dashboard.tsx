@@ -18,7 +18,7 @@ function Dashboard() {
   return (
     <>
       <Navbar hide={hide} sethide={setHide} />
-      <main className="flex overflow-hidden">
+      <main className="flex overflow-hidden mt-24 max-sm:mt-20">
         <Sidebar hide={hide} />
         <div className="w-full  px-5  max-sm:px-2  mb-20 pt-10">
           <Outlet />
