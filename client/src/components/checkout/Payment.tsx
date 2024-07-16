@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { CartState, Product, Address } from "@/lib/redux/types";
 import { Separator } from "../ui/separator";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import AddressCard from "./AddressCard";
-import { toast } from "../ui/use-toast";
 import PaymentForm from "./PaymentForm";
 
 interface Data {
@@ -12,6 +11,7 @@ interface Data {
   standard: boolean;
   express: boolean;
 }
+
 function Payment({
   checked,
   setChecked,
@@ -23,9 +23,7 @@ function Payment({
 }) {
   const [ship, setShip] = useState<String>("free");
   const [total, setTotal] = useState(0);
-  const dispatch = useDispatch();
-  // const [confirm, setConfirm] = useState(false);
-  const navigate = useNavigate();
+
   const products = useSelector<CartState, Product[]>(
     (state) => state?.cart?.items
   );
@@ -51,28 +49,6 @@ function Payment({
       setShip("express");
     }
   }, [data, products]);
-  const placeOrder = async () => {
-    if (selectedAddress === undefined) {
-      toast({
-        title: "Error",
-        description: "Please select an address",
-        variant: "destructive",
-      });
-      return;
-    } else if (
-      checked?.free === false &&
-      checked?.standard === false &&
-      checked?.express === false
-    ) {
-      toast({
-        title: "Error",
-        description: "Please select a shipping method",
-        variant: "destructive",
-      });
-      return;
-    } else {
-    }
-  };
   const prdItems = products?.map((item) => {
     return (
       <div className="grid grid-cols-7 gap-4  max-sm:gap-2  max-sm:p-2 items-center bg-gray-100/80 rounded-lg p-4">
@@ -82,12 +58,14 @@ function Payment({
           className=" max-sm:col-span-7 object-contain w-full rounded-lg border border-border"
         />
         <Link
-          to={`/${item.category.toLowerCase()}/${item.brand.toLowerCase()}/${
-            item.slug
-          }`}
+          to={`/${item.category.toString().toLowerCase()}/${
+            typeof item.brand === "string" && item.brand.toLowerCase()
+          }/${item.slug}`}
           className="text-sm max-sm:text-xs flex flex-col col-span-4 max-sm:col-span-5"
         >
-          <span className="text-xs text-gray-400">{item.brand}</span>
+          <span className="text-xs text-gray-400">
+            {typeof item.brand === "string" && item.brand}
+          </span>
           <p className=" font-semibold">{item?.title}</p>
           <span className="text-gray-400">
             {`${item.selectedVariant?.name} - $${item.selectedVariant?.price}`}
