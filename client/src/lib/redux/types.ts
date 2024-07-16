@@ -18,8 +18,10 @@ export interface Product {
   ];
 
   description: string;
-  category: string;
-  brand: string;
+  // prettier-ignore
+  category: Category | string;
+  // prettier-ignore
+  brand:Brand | string;
   cover: string;
   screenSize: string;
   cpu: string;
@@ -39,6 +41,12 @@ export interface Product {
     id: string;
     name: string;
   };
+}
+interface Category {
+  name: string;
+}
+interface Brand {
+  name: string;
 }
 export type CartState = {
   cart: {
