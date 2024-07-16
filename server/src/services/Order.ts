@@ -149,7 +149,28 @@ export async function getOrderByOrderNumber(orderNumber: number) {
             },
           },
           quantity: true,
-          product: true,
+          product: {
+            select: {
+              title: true,
+              category: {
+                select: {
+                  name: true,
+                },
+              },
+              createdAt: true,
+              brand: {
+                select: {
+                  name: true,
+                },
+              },
+              id: true,
+              price: true,
+              slug: true,
+              updatedAt: true,
+              cover: true,
+              description: true,
+            },
+          },
         },
       },
     },
