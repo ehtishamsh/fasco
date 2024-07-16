@@ -8,7 +8,7 @@ import Loading from "../ui/Loading";
 
 function MainPage() {
   const user: User = JSON.parse(localStorage.getItem("user") || "{}");
-  const [address, setAddress] = useState<Address>();
+  const [address, setAddress] = useState<Address[]>();
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     if (!user) {
