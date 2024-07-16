@@ -2,16 +2,11 @@ import { useEffect, useState } from "react";
 import { BreadCrumbAdmin } from "../admin/BreadCrumAdmin";
 import ProgressBar from "./ProgressBar";
 import ItemCard from "./ItemCard";
-import AddressCard from "./AddressCard";
-import { Address, Order } from "@/lib/redux/types";
+import { Order } from "@/lib/redux/types";
 import { Separator } from "../ui/separator";
 import { useParams } from "react-router-dom";
-
-interface OrderStatus {
-  orderConfirmation: boolean;
-  shipping: boolean;
-  toDeliver: boolean;
-}
+import OrderAddress from "./OrderAddress";
+import Loading from "../ui/Loading";
 
 interface Step {
   label: string;
@@ -21,14 +16,12 @@ interface Step {
 
 function OrderDetail() {
   const { id } = useParams();
-  console.log(id);
   // @ts-ignore
+  const [loading, setLoading] = useState(false);
   const [orders, setOrders] = useState<Order>();
   const [steps, setSteps] = useState<Step[]>([]);
-  const [address, setAddress] = useState<Address[]>([]);
 
   const getCurrentDate = () => new Date().toLocaleString();
-
   useEffect(() => {
     const newSteps = [
       {
@@ -46,7 +39,7 @@ function OrderDetail() {
         completed: orders?.orderStatus === "SHIPPED" ? true : false,
       },
       {
-        label: "TO DELIVER",
+        label: "DELIVERED",
         text:
           orders?.orderStatus === "DELIVERED"
             ? getCurrentDate()
@@ -54,14 +47,23 @@ function OrderDetail() {
         completed: orders?.orderStatus === "DELIVERED" ? true : false,
       },
     ];
+    if (orders?.orderStatus === "SHIPPED") {
+      newSteps[0].completed = true;
+    }
+    if (orders?.orderStatus === "DELIVERED") {
+      newSteps[0].completed = true;
+      newSteps[1].completed = true;
+    }
     setSteps(newSteps);
   }, [orders]);
   useEffect(() => {
+    setLoading(true);
     const fetchData = async () => {
       try {
         const req = await fetch(`http://localhost:4000/api/order/${id}`);
         const res = await req.json();
         setOrders(res.data);
+        setLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -73,71 +75,100 @@ function OrderDetail() {
   return (
     <div className="w-full">
       <BreadCrumbAdmin paths={["Dashboard"]} end={"Address"} />
-      <div className="bg-accent rounded-lg w-fit p-1 mt-6">
-        <h1 className="text-base max-sm:text-xs rounded-lg font-semibold tracking-tight text-foreground bg-background py-1 px-3">
-          Order Detail
-        </h1>
-      </div>
-      <div className="flex justify-between items-center mt-6 border border-gray-300/85 rounded-lg p-3">
-        <div className="flex flex-col text-xs">
-          <h1 className="mb-1 text-sm">Order #{orders?.orderNumber}</h1>
-          <p className="text-gray-400">Placed on {new Date().toLocaleTimeString()} at 11:21:54</p>
+      {loading ? (
+        <div className="mt-16 flex justify-center h-[50vh]">
+          <Loading />
         </div>
-        <div className="flex gap-2">
-          <span className="text-base text-gray-400">Total: </span>
-          <span>$1000</span>
-        </div>
-      </div>
-      <div className="mt-6 grid grid-cols-1 gap-4 max-sm:gap-2 border border-gray-300/85 rounded-lg p-4 max-sm:p-2">
-        <h1 className="text-xs bg-yellow-200 text-yellow-600 py-1 px-2 w-fit">
-          Currently in Shipping
-        </h1>
-        <div className="mt-10 px-10 max-sm:px-0">
-          <ProgressBar steps={steps} />
-        </div>
-      </div>
-      <div className="mt-6 grid grid-cols-1 gap-4 max-sm:gap-2 border border-gray-300/85 rounded-lg p-4 max-sm:p-2">
-        <ItemCard
-          images={["http://localhost:4000/uploads/image_1718843579090.png"]}
-          quantity={2}
-          title="OnePlus 11"
-          price={1000}
-          orderNumber={1211893928372898}
-        />
-      </div>
+      ) : (
+        <>
+          <div className="bg-accent rounded-lg w-fit p-1 mt-6">
+            <h1 className="text-base max-sm:text-xs rounded-lg font-semibold tracking-tight text-foreground bg-background py-1 px-3">
+              Order Detail
+            </h1>
+          </div>
+          <div className="flex justify-between items-center mt-6 border border-gray-300/85 rounded-lg p-3">
+            <div className="flex flex-col text-xs">
+              <h1 className="mb-1 text-sm">Order #{orders?.orderNumber}</h1>
+              <p className="text-gray-400">
+                Placed on{" "}
+                {orders?.createdAt
+                  ? new Date(orders.createdAt).toDateString()
+                  : "-"}{" "}
+                at{" "}
+                {orders?.createdAt
+                  ? new Date(orders.createdAt).toLocaleTimeString()
+                  : "-"}
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <span className="text-base text-gray-400">Total: </span>
+              <span>${orders?.amount}</span>
+            </div>
+          </div>
+          <div className="mt-6 grid grid-cols-1 gap-4 max-sm:gap-2 border border-gray-300/85 rounded-lg p-4 max-sm:p-2">
+            <h1 className="text-xs bg-yellow-200 text-yellow-600 py-1 px-2 w-fit">
+              {orders?.orderStatus}
+            </h1>
+            <div className="mt-10 px-10 max-sm:px-0">
+              <ProgressBar steps={steps} status={orders?.status} />
+            </div>
+          </div>
+          <div className="mt-6 grid grid-cols-1 gap-4 max-sm:gap-2 border border-gray-300/85 rounded-lg p-4 max-sm:p-2">
+            {orders?.items?.map(
+              (item, index) =>
+                item && (
+                  <ItemCard
+                    key={index}
+                    title={item.product.title}
+                    cover={item.product.cover}
+                    price={item.product.price}
+                    quantity={item.quantity}
+                    category={Object(item.product.category).name}
+                    brand={Object(item.product.brand).name}
+                    orderNumber={orders?.orderNumber}
+                    selectedColor={item?.color}
+                    selectedVariant={item?.variant}
+                    deliverd={steps[2].completed}
+                    confirmed={steps[0].completed}
+                  />
+                )
+            )}
+          </div>
 
-      <div className="grid grid-cols-2 max-sm:grid-cols-1 gap-5">
-        {/* Address Box */}
-        <div className="mt-6 border border-gray-300/85 rounded-lg">
-          {orders?.address && <AddressCard address={orders.address} />}
-        </div>
+          <div className="grid grid-cols-2 max-sm:grid-cols-1 gap-5">
+            {/* Address Box */}
+            <div className="mt-6 border border-gray-300/85 rounded-lg">
+              {orders?.address && <OrderAddress address={orders.address} />}
+            </div>
 
-        {/* Total Summary Box */}
-        <div className="mt-6 border border-gray-300/85 rounded-lg p-4">
-          <h2 className="text-sm font-semibold mb-2">Order Summary</h2>
-          <div className="flex justify-between text-xs mb-1">
-            <span>Subtotal:</span>
-            <span>$1000</span>
+            {/* Total Summary Box */}
+            <div className="mt-6 border border-gray-300/85 rounded-lg p-4">
+              <h2 className="text-sm font-semibold mb-2">Order Summary</h2>
+              <div className="flex justify-between text-xs mb-1">
+                <span>Subtotal:</span>
+                <span>${orders?.amount}</span>
+              </div>
+              <div className="flex justify-between text-xs mb-1">
+                <span>Shipping:</span>
+                <span>$0</span>
+              </div>
+              <div className="flex justify-between text-xs mb-1">
+                <span>Tax:</span>
+                <span>$0</span>
+              </div>
+              <Separator />
+              <div className="flex justify-between text-sm font-semibold mt-2">
+                <span>Total:</span>
+                <span>${orders?.amount}</span>
+              </div>
+              <Separator />
+              <span className="text-xs text-gray-400">
+                Status : {orders?.paymentStatus}
+              </span>
+            </div>
           </div>
-          <div className="flex justify-between text-xs mb-1">
-            <span>Shipping:</span>
-            <span>$20</span>
-          </div>
-          <div className="flex justify-between text-xs mb-1">
-            <span>Tax:</span>
-            <span>$80</span>
-          </div>
-          <div className="flex justify-between text-sm font-semibold mt-2">
-            <span>Total:</span>
-            <span>$1100</span>
-          </div>
-          <Separator />
-          <div className="flex justify-between text-sm font-semibold mt-2">
-            <span>Total Paid By COD:</span>
-            <span>$1100</span>
-          </div>
-        </div>
-      </div>
+        </>
+      )}
     </div>
   );
 }
