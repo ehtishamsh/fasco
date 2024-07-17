@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import prisma from "../utils/db";
 
 interface OrderData {
@@ -219,6 +220,30 @@ export async function getOrderByUserID(id: string) {
           product: true,
         },
       },
+    },
+  });
+}
+
+enum OrderStatus {
+  PENDING = "PENDING",
+  SHIPPED = "SHIPPED",
+  DELIVERED = "DELIVERED",
+  CANCELLED = "CANCELLED",
+  COMPLETED = "COMPLETED",
+}
+
+export async function updateOrderStatus(
+  orderNumber: string,
+  status: OrderStatus
+) {
+  return await prisma.order.update({
+    where: {
+      orderNumber: parseInt(orderNumber),
+    },
+    data: {
+      orderStatus: {
+        set: status,
+      } as Prisma.EnumOrderStatusFieldUpdateOperationsInput,
     },
   });
 }
