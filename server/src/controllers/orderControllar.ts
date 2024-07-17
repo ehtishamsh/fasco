@@ -7,6 +7,7 @@ import {
   getOrderByUserID,
   getOrderItemsByOrderId,
   getOrderByOrderNumber,
+  updateOrderStatus,
 } from "../services/Order";
 import { findProductById } from "../services/Product";
 interface OrderData {
@@ -152,5 +153,24 @@ export async function getOrderDetail(req: Request, res: Response) {
     res
       .status(400)
       .json({ message: "Error fetching order items", status: 400 });
+  }
+}
+
+export async function updateOrderController(req: Request, res: Response) {
+  try {
+    const { status, id } = req.body;
+
+    if (!status || !id) {
+      return res
+        .status(400)
+        .json({ message: "All fields are required", status: 400 });
+    }
+
+    const order = await updateOrderStatus(id, status);
+  } catch (error) {
+    console.error("Error updating order:", error);
+    return res
+      .status(400)
+      .json({ message: "Error updating order", status: 400 });
   }
 }
