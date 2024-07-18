@@ -64,14 +64,18 @@ function Content({
 
     // Filter products by category
     products = products.filter(
-      (product) => product.category.toLowerCase() === params.category
+      (product) =>
+        typeof product.category === "string" &&
+        product.category.toLowerCase() === params.category
     );
 
     // Apply additional filters
     if (brands.length > 0) {
-      products = products.filter((product) =>
-        brands.includes(product.brand.toLowerCase())
-      );
+      products = products.filter((product) => {
+        const brand =
+          typeof product.brand === "string" && product.brand.toLowerCase();
+        return brands.includes(brand as string);
+      });
     }
 
     if (batteryCapacity.length > 0) {

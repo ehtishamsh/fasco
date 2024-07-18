@@ -32,12 +32,16 @@ function Wishlist() {
           className="h-24 w-24 object-cover"
         />
         <div className="col-span-3 flex flex-col justify-center">
-          <p className="text-xs text-gray-500">{item.brand}</p>
+          <p className="text-xs text-gray-500">
+            {typeof item.brand === "string" && item.brand}
+          </p>
           <Link
             to={`/${
+              typeof item.category === "string" &&
               item.category &&
               FormatText({ category: item.category, toLowerCase: true })
             }${
+              typeof item.brand === "string" &&
               item.brand &&
               "/" + FormatText({ title: item.brand, toLowerCase: true })
             }${
@@ -58,9 +62,11 @@ function Wishlist() {
         <div className="flex justify-center items-center">
           <Link
             to={`/${
+              typeof item.category === "string" &&
               item.category &&
               FormatText({ category: item.category, toLowerCase: true })
             }${
+              typeof item.brand === "string" &&
               item.brand &&
               "/" + FormatText({ title: item.brand, toLowerCase: true })
             }${

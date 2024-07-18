@@ -35,9 +35,11 @@ function ShowcaseProducts({ products }: { products: Data[] }) {
         )}
         <Link
           to={`/${
+            typeof item.category === "string" &&
             item.category &&
             FormatText({ category: item.category, toLowerCase: true })
           }${
+            typeof item.brand === "string" &&
             item.brand &&
             "/" + FormatText({ title: item.brand, toLowerCase: true })
           }${

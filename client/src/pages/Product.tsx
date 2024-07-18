@@ -90,8 +90,8 @@ function Product() {
         <div className="mb-10">
           {data?.category && data?.brand && (
             <BreadCrum
-              cat={data?.category}
-              brand={data?.brand}
+              cat={data?.category as string}
+              brand={data?.brand as string}
               productName={data?.title}
             />
           )}
