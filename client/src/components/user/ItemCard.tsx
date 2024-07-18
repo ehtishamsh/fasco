@@ -14,6 +14,7 @@ const ItemCard = ({
   brand,
   deliverd,
   confirmed,
+  orderStatus,
 }: {
   cover: string;
   title: string;
@@ -26,6 +27,7 @@ const ItemCard = ({
   brand: string;
   deliverd: boolean;
   confirmed: boolean;
+  orderStatus: string;
 }) => {
   return (
     <div className="">
@@ -64,27 +66,33 @@ const ItemCard = ({
               <span className="text-gray-400">Qty:</span> {quantity}
             </span>
           </div>
-          <div className="flex flex-col max-sm:mt-4 ">
-            {deliverd && (
+          <div className="flex flex-col max-sm:mt-4 justify-center items-center ">
+            {orderStatus === "CANCELLED" ? (
+              <h1 className="text-red-500">Order Cancelled</h1>
+            ) : (
               <>
-                <Link
-                  to={`/order/review/${orderNumber}`}
-                  className="text-yellow-600"
-                >
-                  Review
-                </Link>
-                <span>-</span>
+                {deliverd && (
+                  <>
+                    <Link
+                      to={`/order/review/${orderNumber}`}
+                      className="text-yellow-600"
+                    >
+                      Review
+                    </Link>
+                    <span>-</span>
+                  </>
+                )}
+                <div className="text-yellow-600 flex flex-col  ">
+                  <OrderCancel
+                    orderConfirmed={confirmed}
+                    orderNumber={orderNumber}
+                  />
+                  <span className="text-gray-400 text-xs">
+                    Should be under 2 days
+                  </span>
+                </div>
               </>
             )}
-            <div className="text-yellow-600 flex flex-col  ">
-              <OrderCancel
-                orderConfirmed={confirmed}
-                orderNumber={orderNumber}
-              />
-              <span className="text-gray-400 text-xs">
-                Should be under 2 days
-              </span>
-            </div>
           </div>
         </div>
       </div>
