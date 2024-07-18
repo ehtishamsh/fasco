@@ -90,7 +90,13 @@ function Orders() {
           </div>
 
           <div>
-            <span className="text-yellow-600 bg-yellow-200 py-1 px-2 max-sm:px-1 text-xs rounded-xl">
+            <span
+              className={`${
+                order?.orderStatus === "CANCELLED"
+                  ? "text-red-500 bg-red-100"
+                  : "bg-yellow-200 text-yellow-600"
+              } py-1 px-2 max-sm:px-1 text-xs rounded-xl`}
+            >
               {order.orderStatus}
             </span>
           </div>
