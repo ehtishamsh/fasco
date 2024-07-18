@@ -79,7 +79,7 @@ export async function createOrder(
       userId: userId,
       amount: total,
       orderStatus: "PENDING",
-      status: ["PENDING"],
+      status: ["Your Order has been placed."],
       currency: "usd",
       paymentIntentId: data.payment_intentId,
       paymentStatus: data.payment_status === "paid" ? "PAID" : "PENDING",
@@ -234,13 +234,15 @@ enum OrderStatus {
 
 export async function updateOrderStatus(
   orderNumber: string,
-  status: OrderStatus
+  status: OrderStatus,
+  orderStatus: string[]
 ) {
   return await prisma.order.update({
     where: {
       orderNumber: parseInt(orderNumber),
     },
     data: {
+      status: orderStatus,
       orderStatus: {
         set: status,
       } as Prisma.EnumOrderStatusFieldUpdateOperationsInput,
