@@ -50,9 +50,13 @@ function MainCart() {
     });
   }, [data, items, checkqty]);
   const mapData = data?.map((item, i) => {
-    const category = item?.category.replace(" ", "-");
+    const category =
+      typeof item?.category === "string" &&
+      item?.category.replace(" ", "-").toLowerCase();
     const title = item?.title.replace(" ", "-").replace(" ", "-");
-    const brand = item.brand.toLowerCase().replace(" ", "-");
+    const brand =
+      typeof item?.brand === "string" &&
+      item.brand.toLowerCase().replace(" ", "-");
     return (
       <div key={i}>
         <div className="grid grid-cols-7 gap-4 p-2 max-md:grid-rows-2 rounded-md mb-5   transition-all duration-300">
@@ -65,9 +69,13 @@ function MainCart() {
           </div>
           <div className="flex col-span-2 max-md:col-span-6 items-center justify-start">
             <div>
-              <p className="text-xs text-gray-500">{item.brand}</p>
+              <p className="text-xs text-gray-500">
+                {typeof item?.brand === "string" && item.brand}
+              </p>
               <Link
-                to={`/${category.toLowerCase()}/${brand}/${title.toLowerCase()}`}
+                to={`/${
+                  typeof item?.category === "string" && category
+                }/${brand}/${title.toLowerCase()}`}
                 className="text-sm font-semibold line-clamp-2"
               >
                 {item.quantity || 1} x {item.title}
