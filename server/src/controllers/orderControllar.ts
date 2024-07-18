@@ -158,15 +158,29 @@ export async function getOrderDetail(req: Request, res: Response) {
 
 export async function updateOrderController(req: Request, res: Response) {
   try {
-    const { status, id } = req.body;
+    const { status, orderNumber, orderStatus } = req.body;
 
-    if (!status || !id) {
+    if (!status || !orderNumber) {
       return res
         .status(400)
         .json({ message: "All fields are required", status: 400 });
     }
+    const findorder = await getOrderByOrderNumber(Number(orderNumber));
+    if (!findorder) {
+      return res.status(404).json({ message: "Order not found", status: 404 });
+    }
+    const order = await updateOrderStatus(orderNumber, status, orderStatus);
+    if (!order) {
+      return res
+        .status(400)
+        .json({ message: "Error updating order", status: 400 });
+    }
 
-    const order = await updateOrderStatus(id, status);
+    return res.status(200).json({
+      message: "Order updated successfully",
+      status: 200,
+      data: order,
+    });
   } catch (error) {
     console.error("Error updating order:", error);
     return res
