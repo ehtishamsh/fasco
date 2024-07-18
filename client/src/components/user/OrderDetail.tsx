@@ -106,14 +106,24 @@ function OrderDetail() {
             </div>
           </div>
           <div className="mt-6 grid grid-cols-1 gap-4 max-sm:gap-2 border border-gray-300/85 rounded-lg p-4 max-sm:p-2">
-            <h1 className="text-xs bg-yellow-200 text-yellow-600 py-1 px-2 w-fit">
+            <h1
+              className={`text-xs ${
+                orders?.orderStatus === "CANCELLED"
+                  ? "text-red-500 bg-red-100"
+                  : "bg-yellow-200 text-yellow-600"
+              } py-1 px-2 w-fit`}
+            >
               {orders?.orderStatus}
             </h1>
             <div className="mt-10 px-10 max-sm:px-0">
               <ProgressBar steps={steps} status={orders?.status} />
             </div>
           </div>
-          <div className="mt-6 grid grid-cols-1 gap-4 max-sm:gap-2 border border-gray-300/85 rounded-lg p-4 max-sm:p-2">
+          <div
+            className={`mt-6 grid grid-cols-1 gap-4 max-sm:gap-2 border border-gray-300/85 ${
+              orders?.orderStatus === "CANCELLED" ? "bg-red-100" : ""
+            } rounded-lg p-4 max-sm:p-2 relative`}
+          >
             {orders?.items?.map(
               (item, index) =>
                 item && (
@@ -130,6 +140,7 @@ function OrderDetail() {
                     selectedVariant={item?.variant}
                     deliverd={steps[2].completed}
                     confirmed={steps[0].completed}
+                    orderStatus={orders?.orderStatus}
                   />
                 )
             )}
