@@ -31,14 +31,16 @@ function OrderCancel({
       if (confirm) {
         try {
           const status = "CANCELLED";
-          const req = await fetch(`http://localhost:4000/api/order/cancel`, {
+          const orderStatus = ["Your order has been cancelled."];
+          const req = await fetch(`http://localhost:4000/api/order/update`, {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ status, orderNumber }),
+            body: JSON.stringify({ status, orderNumber, orderStatus }),
           });
           const res = await req.json();
+          console.log(res);
           if (res.status === 200) {
             toast({
               title: "Order Cancelled",
