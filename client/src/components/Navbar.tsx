@@ -1,4 +1,4 @@
-import { NavLink, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 
@@ -9,15 +9,13 @@ import { useSelector } from "react-redux";
 import { Input } from "./ui/input";
 import { HeartIcon } from "@radix-ui/react-icons";
 import { NavProfileDropdown } from "./NavProfileDropdown";
+import { FaBars } from "react-icons/fa";
 
 function Navbar({
-  hide,
   sethide,
 }: {
-  hide?: boolean;
   sethide?: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  console.log(hide, sethide);
   const [openCart, setOpenCart] = useState(false);
   const items = useSelector<CartState, Product[]>((state) => state.cart.items);
   const [data, setData] = useState<Product[]>(items);
@@ -33,10 +31,23 @@ function Navbar({
     <header className=" fixed top-0 left-0 z-[100] bg-white shadow-md w-full">
       <div className="px-4 py-4 relative">
         <nav className="max-w-6xl mx-auto  grid grid-cols-6 gap-7 max-md:gap-2 items-center justify-between">
-          <Link to="/" className="flex items-center justify-start">
-            <img src="/logo.png" alt="" className="max-w-32" />
-          </Link>
-          <div className="col-span-2 flex items-center relative">
+          <div className="flex items-center justify-start gap-1 max-md:col-span-2">
+            {sethide && (
+              <Button
+                variant={"outline"}
+                size={"icon"}
+                className="border-none"
+                onClick={() => sethide((prev) => !prev)}
+              >
+                <FaBars size={18} className=" text-gray-400" />
+              </Button>
+            )}
+            <Link to="/" className="">
+              <img src="/logo.png" alt="" className="max-w-32" />
+            </Link>
+          </div>
+
+          <div className="col-span-4 max-md:col-span-3 flex items-center relative">
             <Input type="text" className="py-5 " placeholder="Search" />
             <Button
               variant={"outline"}
@@ -46,40 +57,7 @@ function Navbar({
               <BsSearch size={18} className=" text-gray-400" />
             </Button>
           </div>
-          <div className="flex  w-full justify-evenly items-center gap-3 max-md:gap-1 max-md:text-sm text-base col-span-2">
-            <NavLink
-              to={"/"}
-              className={({ isActive }: { isActive: boolean }) =>
-                isActive ? "text-black" : "text-gray-400"
-              }
-            >
-              Home
-            </NavLink>
-            <NavLink
-              to={"/about"}
-              className={({ isActive }: { isActive: boolean }) =>
-                isActive ? "text-black" : "text-gray-400"
-              }
-            >
-              About
-            </NavLink>
-            <NavLink
-              to={"/contact"}
-              className={({ isActive }: { isActive: boolean }) =>
-                isActive ? "text-black" : "text-gray-400"
-              }
-            >
-              Contact Us
-            </NavLink>
-            <NavLink
-              to={"/blog"}
-              className={({ isActive }: { isActive: boolean }) =>
-                isActive ? "text-black" : "text-gray-400"
-              }
-            >
-              Blog
-            </NavLink>
-          </div>
+
           <div className="flex justify-end items-center gap-[2px] text-base max-lg:text-sm">
             <Button
               onClick={() => (window.location.href = "/wishlist")}
