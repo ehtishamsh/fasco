@@ -131,6 +131,7 @@ export async function getOrderByOrderNumber(orderNumber: number) {
       orderNumber: true,
       status: true,
       paymentStatus: true,
+      paymentIntentId: true,
       createdAt: true,
       orderStatus: true,
       items: {
@@ -193,6 +194,7 @@ export async function getOrderByUserID(id: string) {
     select: {
       id: true,
       address: true,
+      paymentIntentId: true,
       amount: true,
       currency: true,
       orderNumber: true,
@@ -243,6 +245,7 @@ export async function updateOrderStatus(
     },
     data: {
       status: orderStatus,
+      paymentStatus: "REFUNDED",
       orderStatus: {
         set: status,
       } as Prisma.EnumOrderStatusFieldUpdateOperationsInput,

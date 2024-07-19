@@ -10,6 +10,7 @@ import {
   updateOrderStatus,
 } from "../services/Order";
 import { findProductById } from "../services/Product";
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 interface OrderData {
   addressId: string;
   userId: string;
@@ -158,8 +159,7 @@ export async function getOrderDetail(req: Request, res: Response) {
 
 export async function updateOrderController(req: Request, res: Response) {
   try {
-    const { status, orderNumber, orderStatus } = req.body;
-
+    const { status, orderNumber, orderStatus, payment_intent_id } = req.body;
     if (!status || !orderNumber) {
       return res
         .status(400)
@@ -170,6 +170,9 @@ export async function updateOrderController(req: Request, res: Response) {
       return res.status(404).json({ message: "Order not found", status: 404 });
     }
     const order = await updateOrderStatus(orderNumber, status, orderStatus);
+    const refund = await stripe.refunds.create({
+      payment_intent: payment_intent_id,
+    });
     if (!order) {
       return res
         .status(400)
@@ -180,6 +183,8 @@ export async function updateOrderController(req: Request, res: Response) {
       message: "Order updated successfully",
       status: 200,
       data: order,
+      success: true,
+      refund,
     });
   } catch (error) {
     console.error("Error updating order:", error);
