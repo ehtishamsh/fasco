@@ -15,6 +15,7 @@ const ItemCard = ({
   deliverd,
   confirmed,
   orderStatus,
+  payment_intent_id,
 }: {
   cover: string;
   title: string;
@@ -28,6 +29,7 @@ const ItemCard = ({
   deliverd: boolean;
   confirmed: boolean;
   orderStatus: string;
+  payment_intent_id: string;
 }) => {
   return (
     <div className="">
@@ -84,6 +86,7 @@ const ItemCard = ({
                 )}
                 <div className="text-yellow-600 flex flex-col  ">
                   <OrderCancel
+                    payment_intent_id={payment_intent_id}
                     orderConfirmed={confirmed}
                     orderNumber={orderNumber}
                   />
