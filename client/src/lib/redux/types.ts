@@ -122,6 +122,7 @@ export interface Order {
   orderNumber: number;
   status: string[];
   paymentStatus: string;
+  paymentIntentId: string | null;
   createdAt: string;
   updatedAt: string;
   addressId: string;
