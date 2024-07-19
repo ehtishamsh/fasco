@@ -144,6 +144,7 @@ model Order {
 enum Payment {
   PENDING
   PAID
+  REFUNDED
 }
 
 model OrderItem {
