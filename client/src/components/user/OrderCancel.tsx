@@ -14,9 +14,11 @@ import { toast } from "../ui/use-toast";
 function OrderCancel({
   orderNumber,
   orderConfirmed,
+  payment_intent_id,
 }: {
   orderNumber: number;
   orderConfirmed: boolean;
+  payment_intent_id: string;
 }) {
   const [confirm, setConfirm] = useState(false);
   const [open, setOpen] = useState(false);
@@ -37,7 +39,12 @@ function OrderCancel({
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ status, orderNumber, orderStatus }),
+            body: JSON.stringify({
+              status,
+              orderNumber,
+              orderStatus,
+              payment_intent_id,
+            }),
           });
           const res = await req.json();
           console.log(res);
