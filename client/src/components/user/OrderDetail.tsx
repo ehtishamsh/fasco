@@ -141,6 +141,7 @@ function OrderDetail() {
                     deliverd={steps[2].completed}
                     confirmed={steps[0].completed}
                     orderStatus={orders?.orderStatus}
+                    payment_intent_id={orders?.paymentIntentId || ""}
                   />
                 )
             )}
