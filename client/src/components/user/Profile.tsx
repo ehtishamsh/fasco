@@ -25,7 +25,7 @@ function Profile() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const convertDate = date?.toISOString();
+    const convertDate = new Date(date || "").toISOString();
     const updateUser = {
       id: user.id,
       firstname: name.split(" ")[0],
@@ -98,7 +98,11 @@ function Profile() {
 
           {!checkClick ? (
             <span className="text-sm  font-semibold">
-              {user.gender || "Please enter your gender"}
+              {user.gender === "m"
+                ? "Male"
+                : user.gender === "f"
+                ? "Female"
+                : "Other" || "Please enter your gender"}
             </span>
           ) : (
             <Select value={gender} onValueChange={setGender}>
@@ -132,14 +136,7 @@ function Profile() {
         </div>
 
         {!checkClick ? (
-          <Button
-            variant={"default"}
-            className="mt-6"
-            type="button"
-            onClick={() => setCheckClick((prev) => !prev)}
-          >
-            Edit Profile
-          </Button>
+          ""
         ) : (
           <Button
             variant={"primary"}
@@ -151,6 +148,16 @@ function Profile() {
           </Button>
         )}
       </form>
+      {!checkClick && (
+        <Button
+          variant={"default"}
+          className="mt-6 w-full"
+          type="button"
+          onClick={() => setCheckClick((prev) => !prev)}
+        >
+          Edit Profile
+        </Button>
+      )}
     </div>
   );
 }
