@@ -5,8 +5,6 @@ interface Product {
   price: string;
   stock: number;
   description: string;
-  categoryId: string;
-  brandId: string;
   cover: string;
   screenSize: string;
   cpu: string;
@@ -15,6 +13,10 @@ interface Product {
   frontCamera?: string;
   battery: string;
   ram: string;
+  quantity?: number;
+  slug: string;
+  brandId: string;
+  categoryId: string;
 }
 export async function getAllProducts() {
   return await prisma.product.findMany();
@@ -45,7 +47,25 @@ export async function findProductByTitle(title: string) {
 }
 
 export async function createProduct(data: Product) {
-  return await prisma.product.create({ data });
+  return await prisma.product.create({
+    data: {
+      battery: data.battery,
+      brandId: data.brandId,
+      categoryId: data.categoryId,
+      cores: data.cores,
+      cpu: data.cpu,
+      description: data.description,
+      frontCamera: data.frontCamera,
+      mainCamera: data.mainCamera,
+      ram: data.ram,
+      screenSize: data.screenSize,
+      slug: data.slug,
+      title: data.title,
+      cover: data.cover,
+      price: data.price,
+      stock: data.stock,
+    },
+  });
 }
 
 export async function findVariantByNameAndProductId(
@@ -57,7 +77,11 @@ export async function findVariantByNameAndProductId(
   });
 }
 
-export async function createVariant(data: any) {
+export async function createVariant(data: {
+  variant: string;
+  price: string;
+  productId: string;
+}) {
   return await prisma.variant.create({ data });
 }
 
@@ -70,7 +94,7 @@ export async function findColorByNameAndProductId(
   });
 }
 
-export async function createColor(data: any) {
+export async function createColor(data: { color: string; productId: string }) {
   return await prisma.color.create({ data });
 }
 
