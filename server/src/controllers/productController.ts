@@ -21,7 +21,7 @@ interface Color {
 interface Variant {
   id: number;
   name: string;
-  price: number;
+  price: string;
 }
 export const getAllProductsController = async (req: Request, res: Response) => {
   try {
@@ -83,33 +83,34 @@ export const createProductController = async (req: Request, res: Response) => {
       colors,
       screenSize,
       cpu,
+      slug,
       cores,
       mainCamera,
       ram,
       frontCamera,
       battery,
     } = req.body;
-
     const checkifexist = await findProductByTitle(title);
     if (checkifexist) {
       return res.status(400).send("Product already exists");
     }
 
     const newProduct = await createProduct({
-      title,
-      description,
-      cover,
-      price,
-      stock,
+      battery,
       brandId,
       categoryId,
-      screenSize,
       cpu,
       cores,
+      cover,
+      description,
+      frontCamera,
       mainCamera,
       ram,
-      frontCamera,
-      battery,
+      screenSize,
+      slug,
+      title,
+      price,
+      stock,
     });
 
     if (!newProduct) {
@@ -121,7 +122,7 @@ export const createProductController = async (req: Request, res: Response) => {
       const newVariants = await Promise.all(
         variants.map(async (variant: any) => {
           const existingVariant = await findVariantByNameAndProductId(
-            variant.name,
+            variant.variant,
             newProduct.id
           );
 
@@ -133,7 +134,7 @@ export const createProductController = async (req: Request, res: Response) => {
           const newVariant = await createVariant({
             price: String(variant.price),
             productId: newProduct.id,
-            variant: variant.name,
+            variant: variant.variant,
           });
 
           if (newVariant) {
