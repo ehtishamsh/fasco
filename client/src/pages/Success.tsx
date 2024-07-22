@@ -10,10 +10,7 @@ function Success() {
   const sessionId = urlParams.get("session_id");
   const user: User = JSON.parse(localStorage.getItem("user") || "{}");
   const [data, setData] = useState<any>({});
-  const [message, setMessage] = useState<any>({
-    status: 0,
-    message: "",
-  });
+
   const dispatch = useDispatch();
   const getProduct = useSelector((state: CartState) => state.cart.items);
   const [checkPayment, setCheckPayment] = useState(false);
@@ -56,13 +53,8 @@ function Success() {
           );
 
           const check = await response.json();
-          if (check.status) {
-            setMessage({
-              status: check.status,
-              message: check.message,
-            });
-          }
-
+      
+          
           if (check.status === 200) {
             dispatch(reset());
             setTimeout(() => {
@@ -92,7 +84,6 @@ function Success() {
 
   return (
     <div className="flex items-center justify-center h-[60svh]">
-      {checkPayment && message?.status === 200 ? (
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -127,42 +118,7 @@ function Success() {
             redirecting to home page in 3 seconds...
           </motion.span>
         </motion.div>
-      ) : (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-          className="p-10 bg-white rounded-lg shadow-lg text-center"
-        >
-          <motion.h1
-            initial={{ y: -50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.5 }}
-            className="text-3xl font-bold text-red-500 mb-4"
-          >
-            {message?.message || "Payment Failed"}
-          </motion.h1>
-          <motion.p
-            initial={{ y: -50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.5 }}
-            className="text-lg mb-2"
-          >
-            Your payment was not successful
-          </motion.p>
-          <motion.p
-            initial={{ y: -50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.7, duration: 0.5 }}
-            className="text-lg"
-          >
-            Please try again
-          </motion.p>
-          <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            redirecting to home page in 3 seconds...
-          </motion.span>
-        </motion.div>
-      )}
+      
     </div>
   );
 }
