@@ -14,45 +14,28 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, Eye, MoreHorizontal, Trash } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-interface Data {
-  cover: string;
-  title: string;
-  category: string;
-  variants: [
-    {
-      name: string;
-      price: string;
-    }
-  ];
-  colors: [
-    {
-      name: string;
-    }
-  ];
+import { Order } from "@/lib/redux/types";
 
-  price: number;
-  stock: number;
-  description: string;
-  id: string;
-  brand: string;
-}
-export const columns: ColumnDef<Data>[] = [
+export const columns: ColumnDef<Order>[] = [
   {
     accessorKey: "image",
     header: "Cover",
     cell: function Cell({ row }) {
       const product = row.original;
-      return (
-        <img
-          src={`http://localhost:4000${product?.cover}`}
-          className="max-w-20 max-sm:max-w-20 border border-border rounded-lg"
-          alt="cover image"
-        />
-      );
+      const images = product.items?.map((prev) => {
+        return (
+          <img
+            src={`http://localhost:4000/${prev.product.cover}`}
+            className="max-w-20 max-sm:max-w-20 border border-border rounded-lg"
+            alt="cover image"
+          />
+        );
+      });
+      return <div className="flex gap-2">{images}</div>;
     },
   },
   {
-    accessorKey: "title",
+    accessorKey: "orderNo",
 
     header: ({ column }) => {
       return (
@@ -60,17 +43,17 @@ export const columns: ColumnDef<Data>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Title
+          Order Num
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: function Cell({ row }) {
       const product = row.original;
-      const getName = product.title;
+      const orderNo = product.orderNumber;
       return (
         <p className="line-clamp-1 max-sm:text-xs bg-muted p-1 text-center rounded-full">
-          {getName}
+          {orderNo}
         </p>
       );
     },
