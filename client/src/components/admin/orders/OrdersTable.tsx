@@ -2,13 +2,13 @@ import { DataTable } from "./data-table";
 import { columns } from "./columns";
 import { useEffect, useState } from "react";
 
-export default function ProductsTable() {
+export default function OrdersTable() {
   const [getData, setData] = useState<any>({});
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const req = await fetch("http://localhost:4000/api/products");
+        const req = await fetch("http://localhost:4000/api/orders");
         const res = await req.json();
         setData(res);
       } catch (error) {
@@ -19,7 +19,7 @@ export default function ProductsTable() {
   }, []);
   return (
     <div className=" mx-auto pb-8 max-w-7xl">
-      <DataTable columns={columns} data={getData?.products || []} />
+      <DataTable columns={columns} data={getData?.Orders || []} />
     </div>
   );
 }
