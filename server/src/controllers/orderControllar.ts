@@ -8,6 +8,7 @@ import {
   getOrderItemsByOrderId,
   getOrderByOrderNumber,
   updateOrderStatus,
+  allOrders,
 } from "../services/Order";
 import { findProductById } from "../services/Product";
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
@@ -188,6 +189,25 @@ export async function updateOrderController(req: Request, res: Response) {
     });
   } catch (error) {
     console.error("Error updating order:", error);
+    return res
+      .status(400)
+      .json({ message: "Error updating order", status: 400 });
+  }
+}
+
+export async function getAllOrders(req: Request, res: Response) {
+  try {
+    const getOrders = await allOrders();
+    if (!getOrders) {
+      res.status(400).json({
+        message: "Faild to get orders",
+      });
+    }
+    res.status(200).json({
+      message: "All orders fetched successfully",
+      orders: getOrders,
+    });
+  } catch (error) {
     return res
       .status(400)
       .json({ message: "Error updating order", status: 400 });
