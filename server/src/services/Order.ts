@@ -252,3 +252,61 @@ export async function updateOrderStatus(
     },
   });
 }
+
+export async function allOrders() {
+  return await prisma.order.findMany({
+    select: {
+      id: true,
+      address: true,
+      amount: true,
+      currency: true,
+      orderNumber: true,
+      status: true,
+      paymentStatus: true,
+      paymentIntentId: true,
+      createdAt: true,
+      orderStatus: true,
+      items: {
+        select: {
+          id: true,
+          price: true,
+          total: true,
+          variant: {
+            select: {
+              price: true,
+              variant: true,
+            },
+          },
+          color: {
+            select: {
+              color: true,
+            },
+          },
+          quantity: true,
+          product: {
+            select: {
+              title: true,
+              category: {
+                select: {
+                  name: true,
+                },
+              },
+              createdAt: true,
+              brand: {
+                select: {
+                  name: true,
+                },
+              },
+              id: true,
+              price: true,
+              slug: true,
+              updatedAt: true,
+              cover: true,
+              description: true,
+            },
+          },
+        },
+      },
+    },
+  });
+}
