@@ -34,6 +34,8 @@ import ProfilePage from "./pages/user/ProfilePage";
 import OrderSinglePage from "./pages/user/OrderSinglePage";
 import Success from "./pages/Success";
 import CancelPage from "./pages/CancelPage";
+import Orders from "./pages/admin/Orders";
+import ViewOrder from "./components/admin/orders/view/ViewOrder";
 
 function App() {
   const checktoken = localStorage.getItem("token");
@@ -77,6 +79,8 @@ function App() {
                   <Route element={<Add />} path="/admin/products/new" />
                   <Route element={<Categories />} path="/admin/categories" />
                   <Route element={<AddCate />} path="/admin/categories/new" />
+                  <Route element={<Orders />} path="/admin/orders" />
+                  <Route element={<ViewOrder />} path="/admin/orders/:id" />
                   <Route element={<Brands />} path="/admin/brands" />
                   <Route element={<AddBrand />} path="/admin/brands/new" />
                 </Route>
