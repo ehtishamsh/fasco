@@ -1,32 +1,21 @@
-import AlertDelete from "../AlertDelete";
 import { Button } from "@/components/ui/button";
-import { Dialog } from "@/components/ui/dialog";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { DialogTrigger } from "@radix-ui/react-dialog";
+
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, Eye, MoreHorizontal, Trash } from "lucide-react";
+import { ArrowUpDown, Eye } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import { Order } from "@/lib/redux/types";
 
 export const columns: ColumnDef<Order>[] = [
   {
-    accessorKey: "image",
+    accessorKey: "cover",
     header: "Cover",
     cell: function Cell({ row }) {
-      const product = row.original;
-      const images = product.items?.map((prev) => {
+      const order = row.original;
+      const images = order.items?.map((prev) => {
         return (
           <img
-            src={`http://localhost:4000/${prev.product.cover}`}
-            className="max-w-20 max-sm:max-w-20 border border-border rounded-lg"
+            src={`http://localhost:4000${prev.product.cover}`}
+            className="max-w-14 max-sm:max-w-14 border border-border rounded-lg"
             alt="cover image"
           />
         );
@@ -35,7 +24,7 @@ export const columns: ColumnDef<Order>[] = [
     },
   },
   {
-    accessorKey: "orderNo",
+    accessorKey: "orderNumber",
 
     header: ({ column }) => {
       return (
@@ -43,95 +32,75 @@ export const columns: ColumnDef<Order>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Order Num
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          Order No.
+          <ArrowUpDown className="ml-2 h-3 w-3" />
         </Button>
       );
     },
     cell: function Cell({ row }) {
-      const product = row.original;
-      const orderNo = product.orderNumber;
+      const order = row.original;
+      const orderNo = order.orderNumber;
       return (
-        <p className="line-clamp-1 max-sm:text-xs bg-muted p-1 text-center rounded-full">
+        <p className="line-clamp-1 max-sm:text-xs bg-gray-200 p-1 text-center rounded-md w-fit">
           {orderNo}
         </p>
       );
     },
   },
   {
-    accessorKey: "Category",
-    header: "Category",
+    accessorKey: "orderStatus",
+    header: "Status",
 
     cell: function Cell({ row }) {
-      const product = row.original;
-      return <p className="line-clamp-1 max-sm:text-xs">{product?.category}</p>;
-    },
-  },
-
-  {
-    accessorKey: "Brand",
-    header: "Brand",
-
-    cell: function Cell({ row }) {
-      const product = row.original;
-      return <p className="line-clamp-1 max-sm:text-xs">{product?.brand}</p>;
-    },
-  },
-  {
-    accessorKey: "Price",
-    header: "Price",
-
-    cell: function Cell({ row }) {
-      const product = row.original;
-      return <p className="line-clamp-1 max-sm:text-xs">${product?.price}</p>;
-    },
-  },
-  {
-    accessorKey: "Stock",
-    header: "Stock",
-
-    cell: function Cell({ row }) {
-      const product = row.original;
-      return <p className="line-clamp-1 max-sm:text-xs">{product?.stock}</p>;
-    },
-  },
-  {
-    accessorKey: "variant",
-    header: "Variants",
-
-    cell: function Cell({ row }) {
-      const product = row.original;
+      const order = row.original;
       return (
-        <p className="line-clamp-1 max-sm:text-xs flex flex-col gap-1 justify-center items-center">
-          {product?.variants.map((item: any) => {
-            return (
-              <span>
-                ({item.name}, ${item.price})
-              </span>
-            );
-          })}
+        <p
+          className={`line-clamp-1 max-sm:text-xs text-center  px-2 py-1 rounded-md w-fit ${
+            order.orderStatus === "PENDING"
+              ? "bg-yellow-200 text-yellow-600"
+              : order.orderStatus === "CONFIRMED"
+              ? "bg-purple-200 text-purple-600"
+              : order.orderStatus === "SHIPPED"
+              ? "bg-blue-200 text-blue-600"
+              : order.orderStatus === "DELIVERED"
+              ? "bg-green-200 text-green-600"
+              : "bg-red-200 text-red-600"
+          }`}
+        >
+          {order.orderStatus}
+        </p>
+      );
+    },
+  },
+
+  {
+    accessorKey: "amount",
+    header: "Total",
+
+    cell: function Cell({ row }) {
+      const order = row.original;
+      return (
+        <p className="line-clamp-1 max-sm:text-xs font-semibold">
+          ${order?.amount}
         </p>
       );
     },
   },
   {
-    accessorKey: "colors",
-    header: "Colors",
+    accessorKey: "paymentStatus",
+    header: "Payment Status",
 
     cell: function Cell({ row }) {
-      const product = row.original;
+      const order = row.original;
       return (
-        <p className="line-clamp-1 max-sm:text-xs flex flex-col gap-1 justify-center items-center">
-          {product.colors.map((item: any) => {
-            return (
-              <span
-                className={`w-4 h-4 rounded-full border border-muted-foreground`}
-                style={{ backgroundColor: item.name }}
-              >
-                &nbsp;
-              </span>
-            );
-          })}
+        <p
+          className={`line-clamp-1 px-2 py-1 rounded-md text-center max-sm:text-xs w-fit ${
+            order?.paymentStatus === "PAID"
+              ? "bg-green-200 text-green-600"
+              : "bg-red-200 text-red-600"
+          }`}
+        >
+          {order?.paymentStatus}
         </p>
       );
     },
@@ -143,44 +112,15 @@ export const columns: ColumnDef<Order>[] = [
 
     id: "actions",
     cell: function Cell({ row }) {
-      const product = row.original;
-      const [open, setOpen] = useState(false);
-      const onDelete = async () => {};
+      const order = row.original;
       return (
-        <>
-          <Dialog open={open} onOpenChange={setOpen}>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="h-8 w-8 p-0">
-                  <span className="sr-only">Open menu</span>
-                  <MoreHorizontal className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <Link
-                    to={"/product/[id]"}
-                    state={`/product/${product.id}`}
-                    className="flex gap-4"
-                  >
-                    <Eye className="mr-1 h-5 w-5" />
-                    View
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem className={`cursor-pointer`}>
-                  <DialogTrigger className="flex gap-4">
-                    <Trash className="mr-1 h-5 w-5" />
-                    Delete
-                  </DialogTrigger>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-            <AlertDelete onConfirm={onDelete} />
-          </Dialog>
-        </>
+        <Link
+          className="text-sm items-center flex gap-2"
+          to={`/admin/orders/${order.orderNumber}`}
+        >
+          View
+          <Eye className="h-4 w-4" />
+        </Link>
       );
     },
   },
