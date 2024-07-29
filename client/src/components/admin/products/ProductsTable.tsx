@@ -18,7 +18,7 @@ export default function ProductsTable() {
     fetchData();
   }, []);
   return (
-    <div className=" mx-auto pb-8 max-w-7xl">
+    <div className=" pb-8">
       <DataTable columns={columns} data={getData?.products || []} />
     </div>
   );

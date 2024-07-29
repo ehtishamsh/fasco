@@ -17,9 +17,10 @@ export default function OrdersTable() {
     };
     fetchData();
   }, []);
+  console.log(getData);
   return (
-    <div className=" mx-auto pb-8 max-w-7xl">
-      <DataTable columns={columns} data={getData?.Orders || []} />
+    <div className="  pb-8 max-w-7xl">
+      <DataTable columns={columns} data={getData?.orders || []} />
     </div>
   );
 }
