@@ -7,9 +7,9 @@ import Cart from "./Cart";
 import { CartState, Product } from "@/lib/redux/types";
 import { useSelector } from "react-redux";
 import { Input } from "./ui/input";
-import { HeartIcon } from "@radix-ui/react-icons";
 import { NavProfileDropdown } from "./NavProfileDropdown";
 import { FaBars } from "react-icons/fa";
+import { IoHeartOutline } from "react-icons/io5";
 
 function Navbar({
   sethide,
@@ -65,7 +65,7 @@ function Navbar({
               size={"icon"}
               className="flex justify-center items-center"
             >
-              <HeartIcon className="w-6 h-6  max-lg:w-5 max-lg:h-5 max-md:w-4 max-md:h-4 max-sm:w-3 max-sm:h-3" />
+              <IoHeartOutline className="text-2xl  max-lg:text-xl max-md:text-base" />
             </Button>
             <NavProfileDropdown />
 
