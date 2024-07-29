@@ -262,6 +262,11 @@ export async function allOrders() {
       currency: true,
       orderNumber: true,
       status: true,
+      user: {
+        select: {
+          id: true,
+        },
+      },
       paymentStatus: true,
       paymentIntentId: true,
       createdAt: true,
