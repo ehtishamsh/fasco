@@ -132,6 +132,13 @@ export async function getOrderByOrderNumber(orderNumber: number) {
       status: true,
       paymentStatus: true,
       paymentIntentId: true,
+      user: {
+        select: {
+          email: true,
+          firstname: true,
+          lastname: true,
+        },
+      },
       createdAt: true,
       orderStatus: true,
       items: {
