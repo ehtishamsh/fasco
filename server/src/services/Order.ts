@@ -243,19 +243,18 @@ enum OrderStatus {
 
 export async function updateOrderStatus(
   orderNumber: string,
-  status: OrderStatus,
-  orderStatus: string[]
+  orderStatus: OrderStatus,
+  status: string[]
 ) {
   return await prisma.order.update({
     where: {
       orderNumber: parseInt(orderNumber),
     },
     data: {
-      status: orderStatus,
-      paymentStatus: "REFUNDED",
       orderStatus: {
-        set: status,
+        set: orderStatus,
       } as Prisma.EnumOrderStatusFieldUpdateOperationsInput,
+      status,
     },
   });
 }
