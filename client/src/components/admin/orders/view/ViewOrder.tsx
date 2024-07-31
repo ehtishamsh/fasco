@@ -1,12 +1,13 @@
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "@/components/ui/use-toast";
 
 import { DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 
 import { BreadCrumbAdmin } from "../../BreadCrumAdmin";
-import { Order, User } from "@/lib/redux/types";
+import { Order } from "@/lib/redux/types";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import SelectStatus from "../../SelectStatus";
 
 interface OrderDetail extends Order {
   user: {
@@ -17,6 +18,9 @@ interface OrderDetail extends Order {
 }
 function ViewOrder() {
   const [order, setOrder] = useState<OrderDetail>();
+  const [orderStatus, setOrderStatus] = useState<string>(
+    order?.orderStatus || ""
+  );
   const { id } = useParams();
   useEffect(() => {
     const fetchData = async () => {
@@ -33,6 +37,49 @@ function ViewOrder() {
       setOrder({} as OrderDetail);
     };
   }, []);
+  const handleStatusChange = async () => {
+    if (orderStatus !== order?.orderStatus) {
+      let status = [...(order?.status as string[])];
+
+      const req = await fetch(`http://localhost:4000/api/order/update`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          orderNumber: order?.orderNumber,
+          orderStatus,
+          status: [
+            ...status,
+            orderStatus === "CANCELLED"
+              ? "Your order has been cancelled"
+              : orderStatus === "COMPLETED"
+              ? "Your order has been delivered"
+              : orderStatus === "SHIPPED"
+              ? "Your order has been shipped"
+              : orderStatus === "CONFIRMED"
+              ? "Your order has been confirmed"
+              : orderStatus === "PENDING"
+              ? "Your order is being processed"
+              : "Your order is being processed",
+          ],
+        }),
+      });
+
+      const res = await req.json();
+      if (res.success) {
+        toast({
+          title: "Success",
+          description: "Order status updated successfully",
+          variant: "success",
+        });
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      }
+    }
+  };
+
   return (
     <div className="mt-10 px-10">
       <div className=" flex flex-col gap-5 ">
@@ -47,100 +94,166 @@ function ViewOrder() {
           </span>
         </div>
         <DropdownMenuSeparator />
-        <div className="">
-          <div className="bg-white shadow-md rounded-lg p-6">
-            <h1 className="text-2xl font-semibold mb-6">Order Details</h1>
-
-            {order?.user && (
-              <div className="mb-6">
-                <h2 className="text-xl font-semibold">Customer Information</h2>
-                <p className="mt-2">
-                  <span className="font-semibold">Name:</span>
-                  {order?.user?.firstname + " " + order?.user?.lastname}
-                </p>
-                <p className="mt-2">
-                  <span className="font-semibold">Email:</span>{" "}
-                  {order?.user.email}
-                </p>
+        <div className="grid grid-cols-6 gap-4">
+          <div className="col-span-4">
+            <h1 className="text-xl font-semibold mb-5">
+              Order Number{" "}
+              <span className="text-yellow-400">#{order?.orderNumber}</span>
+            </h1>
+            <div className="grid grid-cols-1  gap-4 ">
+              <div className="border border-gray-300/85 rounded-lg  p-4">
+                <table className="w-full text-sm border-collapse">
+                  <thead>
+                    <tr>
+                      <th className="text-left p-3 text-base">Items Summary</th>
+                      <th className="text-left p-3">QTY</th>
+                      <th className="text-left p-3">Price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {order?.items &&
+                      order?.items.map((item) => (
+                        <tr
+                          key={item.id}
+                          className="border-t border-gray-300/85"
+                        >
+                          <td className="text-left p-3 flex items-center">
+                            <img
+                              src={`http://localhost:4000${item.product.cover}`}
+                              className="h-10 w-10 mr-2"
+                              alt=""
+                            />{" "}
+                            <Link
+                              to={`/${
+                                typeof item.product.category === "object" &&
+                                item.product.category.name.toLowerCase()
+                              }/${
+                                typeof item.product.brand === "object" &&
+                                item.product.brand.name.toLowerCase()
+                              }/${item.product.slug}`}
+                            >
+                              {item.product.title}
+                            </Link>
+                          </td>
+                          <td className="text-left p-3">x {item.quantity}</td>
+                          <td className="text-left p-3">${item.price}</td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
               </div>
-            )}
-            <div className="mb-6">
-              <h2 className="text-xl font-semibold">Order Information</h2>
-              <p className="mt-2">
-                <span className="font-semibold">Order No:</span>{" "}
-                {order?.orderNumber}
-              </p>
-              <p className="mt-2">
-                <span className="font-semibold">Order Date:</span>{" "}
-                {order?.createdAt}
-              </p>
-              <p className="mt-2">
-                <span className="font-semibold">Total Amount:</span> $
-                {order?.amount}
-              </p>
-            </div>
+              <div className="border border-gray-300/85 rounded-lg  p-4">
+                <h1 className="text-base font-bold p-3">Customer Details</h1>
+                <div className="flex justify-between items-center text-sm border-t border-gray-300/85">
+                  <span className="font-semibold p-3">Customer Email:</span>{" "}
+                  <span>{order?.user && order?.user.email}</span>
+                </div>
 
-            <div className="mb-6">
-              <h2 className="text-xl font-semibold">Shipping Address</h2>
-              <p className="mt-2">
-                <span className="font-semibold">Address:</span>{" "}
-                {order?.address?.addressLine1}
-              </p>
-              <p className="mt-2">
-                <span className="font-semibold">City:</span>{" "}
-                {order?.address?.city}
-              </p>
-              <p className="mt-2">
-                <span className="font-semibold">State:</span>{" "}
-                {order?.address?.state}
-              </p>
-              <p className="mt-2">
-                <span className="font-semibold">ZIP Code:</span>{" "}
-                {order?.address?.postalCode}
-              </p>
-            </div>
+                <div className="flex justify-between items-center text-sm border-t border-gray-300/85">
+                  <span className="font-semibold p-3">Customer Name:</span>{" "}
+                  <span>
+                    {order?.user && order?.user.firstname}{" "}
+                    {order?.user && order?.user.lastname}
+                  </span>
+                </div>
+              </div>
+              <div className="border border-gray-300/85 rounded-lg  p-4">
+                <h1 className="text-base font-bold p-3">Delivery Address</h1>
+                <div className="flex justify-between items-center text-sm border-t border-gray-300/85">
+                  <span className="font-semibold p-3">Full Name</span>{" "}
+                  <span>
+                    {order?.address &&
+                      order?.address.firstname + " " + order?.address.lastname}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center text-sm border-t border-gray-300/85">
+                  <span className="font-semibold p-3">Address Line 1</span>{" "}
+                  <span>{order?.address && order?.address.addressLine1}</span>
+                </div>
 
-            <div className="mb-6">
-              <h2 className="text-xl font-semibold">Order Items</h2>
-              <table className="min-w-full bg-white">
-                <thead>
-                  <tr>
-                    <th className="py-2">Product Name</th>
-                    <th className="py-2">Quantity</th>
-                    <th className="py-2">Price</th>
-                    <th className="py-2">Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {order?.items &&
-                    order?.items.map((item) => (
-                      <tr key={item.id}>
-                        <td className="py-2 border-b">{item.product.title}</td>
-                        <td className="py-2 border-b">{item.quantity}</td>
-                        <td className="py-2 border-b">${item.price}</td>
-                        <td className="py-2 border-b">
-                          ${Number(item.quantity) * Number(item.price)}
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
+                {order?.address?.addressLine2 && (
+                  <div className="flex justify-between items-center text-sm border-t border-gray-300/85">
+                    <span className="font-semibold p-3">Address Line 2</span>{" "}
+                    <span>{order?.address && order?.address.addressLine2}</span>
+                  </div>
+                )}
+                <div className="flex justify-between items-center text-sm border-t border-gray-300/85">
+                  <span className="font-semibold p-3">Country</span>{" "}
+                  <span>{order?.address && order?.address.country}</span>
+                </div>
+                <div className="flex justify-between items-center text-sm border-t border-gray-300/85">
+                  <span className="font-semibold p-3">State</span>{" "}
+                  <span>{order?.address && order?.address.state}</span>
+                </div>
+                <div className="flex justify-between items-center text-sm border-t border-gray-300/85">
+                  <span className="font-semibold p-3">City</span>{" "}
+                  <span>{order?.address && order?.address.city}</span>
+                </div>
+                <div className="flex justify-between items-center text-sm border-t border-gray-300/85">
+                  <span className="font-semibold p-3">Postal Code</span>{" "}
+                  <span>{order?.address && order?.address.postalCode}</span>
+                </div>
+              </div>
             </div>
-
-            <div className="mb-6">
-              <h2 className="text-xl font-semibold">Order Status</h2>
-              <select className="mt-2 block w-full p-2 border rounded">
-                <option value="pending">Pending</option>
-                <option value="processing">Processing</option>
-                <option value="shipped">Shipped</option>
-                <option value="delivered">Delivered</option>
-              </select>
+          </div>
+          <div className="col-span-2 flex flex-col gap-5">
+            <div className="border border-gray-300/85 rounded-lg  p-4 h-fit">
+              <h1 className="text-base font-bold flex justify-between items-center">
+                Order Summary{" "}
+                <span className="text-yellow-600 rounded-md p-2 text-sm font-semibold bg-yellow-200">
+                  {order?.orderStatus}
+                </span>
+              </h1>
+              <div className="flex justify-between items-center text-sm mt-8">
+                <span className="font-semibold">Order Created</span>
+                <span>
+                  {order?.createdAt &&
+                    new Date(order?.createdAt)?.toDateString()}
+                </span>
+              </div>
+              <div className="flex justify-between items-center text-sm mt-4">
+                <span className="font-semibold">Order Time</span>
+                <span>
+                  {order?.createdAt &&
+                    new Date(order?.createdAt)?.toLocaleTimeString()}
+                </span>
+              </div>
+              <div className="flex justify-between items-center text-sm mt-4">
+                <span className="font-semibold">Subtotal</span>
+                <span>${order?.amount && order?.amount}</span>
+              </div>
+              <div className="flex justify-between items-center text-sm mt-3">
+                <span className="font-semibold">Paid Status</span>
+                <span className="text-green-500 bg-green-200 rounded-md p-1 text-sm font-semibold">
+                  {order?.paymentStatus && order?.paymentStatus}
+                </span>
+              </div>
             </div>
-
-            <div className="mt-6">
-              <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">
-                Update Order
-              </button>
+            <div className="border border-gray-300/85 rounded-lg  p-4 h-fit">
+              <div className="flex justify-between items-center text-sm">
+                <span className="font-semibold">Total</span>
+                <span>${order?.amount && order?.amount}</span>
+              </div>
+            </div>
+            <div className="flex flex-col gap-5">
+              <div className="border border-gray-300/85 rounded-lg  p-4 h-fit">
+                <SelectStatus
+                  selectStatus={orderStatus}
+                  setSelectStatus={setOrderStatus}
+                />
+                <Button
+                  variant={"default"}
+                  className="w-full mt-4"
+                  onClick={handleStatusChange}
+                >
+                  Change
+                </Button>
+              </div>
+              <div className="border border-gray-300/85 rounded-lg  p-4 h-fit">
+                <Button variant={"destructive"} className="w-full">
+                  Cancel Order
+                </Button>
+              </div>
             </div>
           </div>
         </div>
