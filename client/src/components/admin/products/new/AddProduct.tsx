@@ -154,7 +154,9 @@ function AddProduct() {
       <div className=" flex flex-col gap-5 ">
         <div className="flex flex-col gap-2">
           <BreadCrumbAdmin paths={["Admin", "Products"]} end={"Add"} />
-          <h1 className="text-3xl font-bold tracking-tight">Add Product</h1>
+          <h1 className="text-3xl font-bold tracking-tight max-sm:text-xl">
+            Add Product
+          </h1>
           <span className="text-sm text-muted-foreground">
             Add a new Product.
           </span>
