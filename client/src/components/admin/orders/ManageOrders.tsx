@@ -1,7 +1,5 @@
 import { DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import OrdersTable from "./OrdersTable";
-import { Link } from "react-router-dom";
-import { Plus } from "lucide-react";
 import { BreadCrumbAdmin } from "../BreadCrumAdmin";
 
 function ManageOrders() {
@@ -19,17 +17,13 @@ function ManageOrders() {
         <BreadCrumbAdmin paths={["Admin"]} end={"Orders"} />
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-2">
-            <h1 className="text-3xl font-bold tracking-tight">Orders</h1>
+            <h1 className="text-3xl font-bold tracking-tight max-sm:text-xl">
+              Orders
+            </h1>
             <span className="text-sm text-muted-foreground">
               Manage the Orders.
             </span>
           </div>
-          <Link
-            to={"/admin/orders/new"}
-            className="flex items-center gap-5 bg-foreground max-sm:text-sm text-white border-placeholder-default border px-3 py-2 rounded-lg"
-          >
-            <Plus className="w-5 h-5 max-sm:w-4 max-sm:h-4" /> Add
-          </Link>
         </div>
         <DropdownMenuSeparator />
         <OrdersTable />
