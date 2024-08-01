@@ -19,7 +19,9 @@ function ManageCategories() {
         <BreadCrumbAdmin paths={["Admin"]} end={"Categories"} />
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-2">
-            <h1 className="text-3xl font-bold tracking-tight">Categories</h1>
+            <h1 className="text-3xl font-bold tracking-tight max-sm:text-xl">
+              Categories
+            </h1>
             <span className="text-sm text-muted-foreground">
               Manage the categories.
             </span>

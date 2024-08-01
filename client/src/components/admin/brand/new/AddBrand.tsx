@@ -68,11 +68,13 @@ function AddBrand() {
     fetchData();
   };
   return (
-    <div className="mt-10 px-10">
+    <div className="mt-10 px-10 max-sm:px-4">
       <div className=" flex flex-col gap-5 ">
         <div className="flex flex-col gap-2">
           <BreadCrumbAdmin paths={["Admin", "Brands"]} end={"Add"} />
-          <h1 className="text-3xl font-bold tracking-tight">Add Brand</h1>
+          <h1 className="text-3xl font-bold tracking-tight max-sm:text-xl">
+            Add Brand
+          </h1>
           <span className="text-sm text-muted-foreground">
             Add a new Brand.
           </span>

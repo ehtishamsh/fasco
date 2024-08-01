@@ -19,7 +19,9 @@ function ManageProducts() {
         <BreadCrumbAdmin paths={["Admin"]} end={"Products"} />
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-2">
-            <h1 className="text-3xl font-bold tracking-tight">Products</h1>
+            <h1 className="text-3xl font-bold tracking-tight max-sm:text-xl">
+              Products
+            </h1>
             <span className="text-sm text-muted-foreground">
               Manage the Products.
             </span>

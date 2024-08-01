@@ -19,7 +19,9 @@ function ManageBrands() {
         <BreadCrumbAdmin paths={["Admin"]} end={"Brands"} />
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-2">
-            <h1 className="text-3xl font-bold tracking-tight">Brands</h1>
+            <h1 className="text-3xl font-bold tracking-tight max-sm:text-xl">
+              Brands
+            </h1>
             <span className="text-sm text-muted-foreground">
               Manage the brands.
             </span>
