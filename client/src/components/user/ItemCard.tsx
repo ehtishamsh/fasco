@@ -41,7 +41,7 @@ const ItemCard = ({
             className="w-20 h-20 max-sm:w-full max-sm:h-full max-sm:object-contain"
           />
         </div>
-        <div className="col-span-3 max-sm:flex max-sm:flex-col grid grid-cols-4">
+        <div className="col-span-3 max-sm:flex max-sm:flex-col grid grid-cols-4 max-sm:mt-3">
           <Link
             to={`/${category?.toLowerCase() || ""}/${
               brand?.toLowerCase() || ""
