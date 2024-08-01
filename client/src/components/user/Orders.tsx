@@ -56,7 +56,7 @@ function Orders() {
           </Link>
         </div>
         <div className="mt-3 grid grid-cols-6 gap-2 px-6 py-2  ">
-          <div className="text-left w-full max-w-[170px] flex gap-1">
+          <div className="text-left w-full max-w-[170px] max-sm:max-w-[50px] max-sm:col-span-2  flex gap-1">
             {order.items?.map((item) => {
               return (
                 <img
@@ -67,8 +67,8 @@ function Orders() {
               );
             })}
           </div>
-          <div className="col-span-2">
-            <div className="flex flex-col gap-2">
+          <div className="col-span-4 max-sm:ml-3">
+            <div className="flex flex-col">
               {order.items?.map((item) => (
                 <h1 className="border-b pb-1 border-gray-300 w-fit">
                   {item.product.title}
@@ -76,7 +76,7 @@ function Orders() {
               ))}
             </div>
           </div>
-          <div>
+          <div className="max-sm:col-span-3 max-sm:mt-4">
             <span>
               {order.items?.map((item) => (
                 <>
@@ -89,7 +89,7 @@ function Orders() {
             </span>
           </div>
 
-          <div>
+          <div className="max-sm:col-span-3">
             <span
               className={`${
                 order?.orderStatus === "CANCELLED"
@@ -100,7 +100,7 @@ function Orders() {
               {order.orderStatus}
             </span>
           </div>
-          <div className="">
+          <div className="max-sm:col-span-6">
             <span className="font-semibold text-gray-600">
               Total: ${order.amount}
             </span>
