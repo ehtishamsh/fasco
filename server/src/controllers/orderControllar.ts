@@ -9,6 +9,7 @@ import {
   getOrderByOrderNumber,
   updateOrderStatus,
   allOrders,
+  refundStatus,
 } from "../services/Order";
 import { findProductById } from "../services/Product";
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
@@ -181,10 +182,11 @@ export async function updateOrderController(req: Request, res: Response) {
       const refund = await stripe.refunds.create({
         payment_intent: payment_intent_id,
       });
+      const updatedOrder = await refundStatus(order.id);
       return res.status(200).json({
         message: "Order updated successfully",
         status: 200,
-        data: order,
+        data: updatedOrder,
         success: true,
         refund,
       });
