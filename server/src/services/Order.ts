@@ -87,6 +87,16 @@ export async function createOrder(
   });
 }
 
+export async function refundStatus(orderId: string) {
+  return await prisma.order.update({
+    where: {
+      id: orderId,
+    },
+    data: {
+      paymentStatus: "REFUNDED",
+    },
+  });
+}
 export async function createOrderItems(orderId: string, products: Product[]) {
   return await Promise.all(
     products.map(async (product) => {

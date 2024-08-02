@@ -103,5 +103,48 @@ export async function findProductBySlug(slug: string) {
 }
 
 export async function findProductById(id: string) {
-  return await prisma.product.findUnique({ where: { id } });
+  return await prisma.product.findUnique({
+    where: { id },
+    select: {
+      battery: true,
+      category: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+      brand: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+      color: {
+        select: {
+          id: true,
+          color: true,
+        },
+      },
+      cores: true,
+      cover: true,
+      cpu: true,
+      description: true,
+      frontCamera: true,
+      id: true,
+      mainCamera: true,
+      price: true,
+      ram: true,
+      screenSize: true,
+      slug: true,
+      title: true,
+      variant: {
+        select: {
+          id: true,
+          price: true,
+          variant: true,
+        },
+      },
+      stock: true,
+    },
+  });
 }
