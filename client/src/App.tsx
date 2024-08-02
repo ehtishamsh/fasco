@@ -36,6 +36,7 @@ import Success from "./pages/Success";
 import CancelPage from "./pages/CancelPage";
 import Orders from "./pages/admin/Orders";
 import ViewOrder from "./components/admin/orders/view/ViewOrder";
+import EditProductPage from "./pages/admin/edit/EditProductPage";
 
 function App() {
   const checktoken = localStorage.getItem("token");
@@ -75,7 +76,10 @@ function App() {
                 <Route element={<AdminLayout />} path="/">
                   <Route element={<AdminDashboard />} path="/admin" />
                   <Route element={<Products />} path="/admin/products" />
-                  <Route element={<Products />} path="/admin/products/:id" />
+                  <Route
+                    element={<EditProductPage />}
+                    path="/admin/products/:id"
+                  />
                   <Route element={<Add />} path="/admin/products/new" />
                   <Route element={<Categories />} path="/admin/categories" />
                   <Route element={<AddCate />} path="/admin/categories/new" />
