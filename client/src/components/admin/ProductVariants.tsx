@@ -4,8 +4,8 @@ import { Button } from "../ui/button";
 
 interface Variant {
   id: number;
-  name: string;
-  price: number;
+  variant: string;
+  price: string;
 }
 const ProductVariants = ({
   variants,
@@ -21,8 +21,8 @@ const ProductVariants = ({
     if (newVariantName.trim() !== "" && newVariantPrice.trim() !== "") {
       const newVariant: Variant = {
         id: variants.length + 1, // Generate a unique ID for the variant
-        name: newVariantName,
-        price: parseFloat(newVariantPrice), // Convert price to number
+        variant: newVariantName,
+        price: newVariantPrice, // Convert price to number
       };
       setVariants([...variants, newVariant]);
       setNewVariantName("");
@@ -65,7 +65,7 @@ const ProductVariants = ({
             className="flex justify-between items-center px-4 py-2 bg-gray-100 rounded-md"
           >
             <div>
-              <span className="font-medium">{variant.name}</span>{" "}
+              <span className="font-medium">{variant.variant}</span>{" "}
               <span className="text-gray-500">(${variant.price})</span>
             </div>
             <Button
