@@ -12,6 +12,7 @@ import {
   findColorByNameAndProductId,
   createColor,
   findProductBySlug,
+  findProductById,
 } from "../services/Product";
 
 interface Color {
@@ -241,5 +242,22 @@ export const getProductController = async (req: Request, res: Response) => {
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
+  }
+};
+
+export const getProductByID = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const getProduct = await findProductById(id);
+    if (!getProduct) {
+      return res.status(404).send("Product not found");
+    }
+    return res.json({
+      data: getProduct,
+      status: 200,
+      message: "Product fetched successfully",
+    });
+  } catch {
+    return res.status(500).send("Failed to fetch product");
   }
 };
