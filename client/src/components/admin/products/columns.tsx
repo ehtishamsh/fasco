@@ -178,12 +178,11 @@ export const columns: ColumnDef<Data>[] = [
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
                   <Link
-                    to={"/product/[id]"}
-                    state={`/product/${product.id}`}
+                    to={`/admin/products/${product.id}`}
                     className="flex gap-4"
                   >
                     <Eye className="mr-1 h-5 w-5" />
-                    View
+                    Edit
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
