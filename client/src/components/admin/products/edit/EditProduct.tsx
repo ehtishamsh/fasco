@@ -107,6 +107,9 @@ function EditProduct() {
         const data = await res.json();
         // setSelectCategory({ id: data.category.id, name: data.category.name });
         // setSelectBrand({ id: data.brand.id, name: data.brand.name });
+        form.setValue("ProductName", data.title);
+        form.setValue("Price", data.price);
+
         setImgUrl(data.cover);
         setVariants(data.variant);
         setColors(data.color);
@@ -248,7 +251,7 @@ function EditProduct() {
             <ProductVariants variants={variants} setVariants={setVariants} />
             <DropdownMenuSeparator />
             <Label>Product Color</Label>
-            <ProductColor color={colors} setcolor={setColors as any} />
+            <ProductColor color={colors as any} setcolor={setColors as any} />
             <DropdownMenuSeparator />
             <Select
               options={categories}
