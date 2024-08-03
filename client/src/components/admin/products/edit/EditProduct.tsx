@@ -105,15 +105,9 @@ function EditProduct() {
           `http://localhost:4000/api/products/edit/${id}`
         );
         const data = await res.json();
-        // setSelectCategory({ id: data.category.id, name: data.category.name });
-        // setSelectBrand({ id: data.brand.id, name: data.brand.name });
+
         form.setValue("ProductName", data.title);
         form.setValue("Price", data.price);
-
-        setImgUrl(data.cover);
-        setVariants(data.variant);
-        setColors(data.color);
-        console.log(data);
       } catch (error) {
         console.error("Failed to fetch product:", error);
       }
