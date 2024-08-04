@@ -108,6 +108,20 @@ function EditProduct() {
 
         form.setValue("ProductName", data.title);
         form.setValue("Price", data.price);
+        form.setValue("Stock", data.stock);
+        form.setValue("Description", data.description);
+        form.setValue("screenSize", data.screenSize);
+        form.setValue("cpu", data.cpu);
+        form.setValue("ram", data.ram);
+        form.setValue("cores", data.cores);
+        form.setValue("mainCamera", data.mainCamera);
+        form.setValue("frontCamera", data.frontCamera);
+        form.setValue("battery", data.battery);
+        setImgUrl(data.cover);
+        setSelectCategory(categories.find((cat) => cat.id === data.categoryId));
+        setSelectBrand(brands.find((brand) => brand.id === data.brandId));
+        setVariants(data.variants);
+        setColors(data.colors);
       } catch (error) {
         console.error("Failed to fetch product:", error);
       }
