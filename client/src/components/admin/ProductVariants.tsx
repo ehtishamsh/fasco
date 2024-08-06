@@ -20,9 +20,9 @@ const ProductVariants = ({
   const handleAddVariant = () => {
     if (newVariantName.trim() !== "" && newVariantPrice.trim() !== "") {
       const newVariant: Variant = {
-        id: variants.length + 1, // Generate a unique ID for the variant
+        id: variants.length + 1,
         variant: newVariantName,
-        price: newVariantPrice, // Convert price to number
+        price: newVariantPrice,
       };
       setVariants([...variants, newVariant]);
       setNewVariantName("");
