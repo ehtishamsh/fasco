@@ -19,7 +19,7 @@ const ProductColor = ({
   const handleAddVariant = () => {
     if (newColorName.trim() !== "") {
       const newVariant: Color = {
-        id: color.length + 1, // Generate a unique ID for the variant
+        id: color.length + 1,
         name: newColorName,
       };
       setcolor([...color, newVariant]);
