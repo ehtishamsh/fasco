@@ -54,6 +54,10 @@ interface Color {
 }
 
 function EditProduct() {
+  const [product, setProduct] = useState<any>();
+  const { setValue } = useForm({
+    resolver: zodResolver(formSchema),
+  });
   const [selectCategory, setSelectCategory] = useState<Option | undefined>();
   const [categories, setCategories] = useState<Option[]>([]);
   const [selectBrand, setSelectBrand] = useState<Option | undefined>();
@@ -81,9 +85,10 @@ function EditProduct() {
     fetchData();
   }, []);
 
+  console.log(product);
   const defaultValues = useMemo(
     () => ({
-      ProductName: "",
+      ProductName: `${product?.data?.title}`,
       Price: "",
       Stock: 0,
       Description: "",
@@ -98,6 +103,10 @@ function EditProduct() {
     []
   );
 
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues,
+  });
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -105,18 +114,9 @@ function EditProduct() {
           `http://localhost:4000/api/products/edit/${id}`
         );
         const data = await res.json();
-
-        form.setValue("ProductName", data.title);
-        form.setValue("Price", data.price);
-        form.setValue("Stock", data.stock);
-        form.setValue("Description", data.description);
-        form.setValue("screenSize", data.screenSize);
-        form.setValue("cpu", data.cpu);
-        form.setValue("ram", data.ram);
-        form.setValue("cores", data.cores);
-        form.setValue("mainCamera", data.mainCamera);
-        form.setValue("frontCamera", data.frontCamera);
-        form.setValue("battery", data.battery);
+        form.setValue("ProductName", data.data.title);
+        form.setValue("Price", data.data.price);
+        setProduct(data.data);
         setImgUrl(data.cover);
         setSelectCategory(categories.find((cat) => cat.id === data.categoryId));
         setSelectBrand(brands.find((brand) => brand.id === data.brandId));
@@ -130,10 +130,6 @@ function EditProduct() {
     fetchProduct();
     return () => {};
   }, []);
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues,
-  });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const newProduct = {
@@ -256,10 +252,10 @@ function EditProduct() {
             />
             <DropdownMenuSeparator />
             <Label>Product Variants(Optional)</Label>
-            <ProductVariants variants={variants} setVariants={setVariants} />
+
             <DropdownMenuSeparator />
             <Label>Product Color</Label>
-            <ProductColor color={colors as any} setcolor={setColors as any} />
+
             <DropdownMenuSeparator />
             <Select
               options={categories}
