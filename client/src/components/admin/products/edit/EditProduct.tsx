@@ -16,8 +16,8 @@ import Select from "../../Select";
 import { useEffect, useMemo, useState } from "react";
 import ImageUpload from "../../ImageUpload";
 import { Label } from "@/components/ui/label";
-import ProductVariants from "../../ProductVariants";
-import ProductColor from "../../Color";
+// import ProductVariants from "../../ProductVariants";
+// import ProductColor from "../../Color";
 import { toast } from "@/components/ui/use-toast";
 import { BreadCrumbAdmin } from "../../BreadCrumAdmin";
 import { useParams } from "react-router-dom";
@@ -55,9 +55,6 @@ interface Color {
 
 function EditProduct() {
   const [product, setProduct] = useState<any>();
-  const { setValue } = useForm({
-    resolver: zodResolver(formSchema),
-  });
   const [selectCategory, setSelectCategory] = useState<Option | undefined>();
   const [categories, setCategories] = useState<Option[]>([]);
   const [selectBrand, setSelectBrand] = useState<Option | undefined>();
@@ -116,12 +113,21 @@ function EditProduct() {
         const data = await res.json();
         form.setValue("ProductName", data.data.title);
         form.setValue("Price", data.data.price);
+        form.setValue("Stock", data.data.stock);
+        form.setValue("Description", data.data.description);
+        form.setValue("screenSize", data.data.screenSize);
+        form.setValue("cpu", data.data.cpu);
+        form.setValue("cores", data.data.cores);
+        form.setValue("mainCamera", data.data.mainCamera);
+        form.setValue("frontCamera", data.data.frontCamera);
+        form.setValue("battery", data.data.battery);
+        form.setValue("ram", data.data.ram);
         setProduct(data.data);
-        setImgUrl(data.cover);
+        setImgUrl(data.data.cover);
         setSelectCategory(categories.find((cat) => cat.id === data.categoryId));
         setSelectBrand(brands.find((brand) => brand.id === data.brandId));
-        setVariants(data.variants);
-        setColors(data.colors);
+        setVariants(data.data.variants);
+        setColors(data.data.colors);
       } catch (error) {
         console.error("Failed to fetch product:", error);
       }
