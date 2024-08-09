@@ -261,3 +261,47 @@ export const getProductByID = async (req: Request, res: Response) => {
     return res.status(500).send("Failed to fetch product");
   }
 };
+
+export const editProduct = async (req: Request, res: Response) => {
+  try {
+    const {
+      id,
+      title,
+      price,
+      stock,
+      description,
+      categoryId,
+      brandId,
+      variants,
+      cover,
+      screenSize,
+      cpu,
+      cores,
+      mainCamera,
+      frontCamera,
+      battery,
+      ram,
+      colors,
+    } = req.body;
+    console.log(req.body);
+    const checkifexist = await findProductById(id);
+    if (!checkifexist) {
+      return res.status(404).send("Product not found");
+    }
+    const findCategory = await getCategoryNameById(categoryId);
+    if (!findCategory) {
+      return res.status(404).send("Category not found");
+    }
+    const findBrand = await getBrandNameById(brandId);
+    if (!findBrand) {
+      return res.status(404).send("Brand not found");
+    }
+
+    return res.json({
+      status: 200,
+      message: "Product updated successfully",
+    });
+  } catch (error) {
+    return res.status(500).send(error);
+  }
+};
