@@ -1,10 +1,10 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 
 interface Color {
-  id: number;
-  name: string;
+  id: number | string;
+  color: string;
 }
 
 const ProductColor = ({
@@ -20,14 +20,19 @@ const ProductColor = ({
     if (newColorName.trim() !== "") {
       const newVariant: Color = {
         id: color.length + 1,
-        name: newColorName,
+        color: newColorName,
       };
       setcolor([...color, newVariant]);
       setNewColorName("");
     }
   };
 
-  const handleRemoveVariant = (id: number) => {
+  useEffect(() => {
+    if (color.length > 0) {
+      setNewColorName(color[color.length - 1].color);
+    }
+  }, [color]);
+  const handleRemoveVariant = (id: number | string) => {
     const updatedcolor = color.filter((variant) => variant.id !== id);
     setcolor(updatedcolor);
   };
@@ -55,10 +60,10 @@ const ProductColor = ({
           >
             <div>
               <span className="font-medium flex gap-3 justify-center items-center">
-                {variant.name}
+                {variant.color}
                 <span
                   className="rounded-full w-3 h-3 block"
-                  style={{ background: variant.name }}
+                  style={{ background: variant.color }}
                 >
                   &nbsp;
                 </span>
