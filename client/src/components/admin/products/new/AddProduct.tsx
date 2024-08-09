@@ -46,12 +46,12 @@ interface Option {
 }
 interface Variant {
   id: number;
-  name: string;
-  price: number;
+  variant: string;
+  price: string;
 }
 interface Color {
-  id: number;
-  name: string;
+  id: number | string;
+  color: string;
 }
 
 function AddProduct() {
