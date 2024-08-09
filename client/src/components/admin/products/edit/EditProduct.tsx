@@ -16,8 +16,8 @@ import Select from "../../Select";
 import { useEffect, useMemo, useState } from "react";
 import ImageUpload from "../../ImageUpload";
 import { Label } from "@/components/ui/label";
-// import ProductVariants from "../../ProductVariants";
-// import ProductColor from "../../Color";
+import ProductVariants from "../../ProductVariants";
+import ProductColor from "../../Color";
 import { toast } from "@/components/ui/use-toast";
 import { BreadCrumbAdmin } from "../../BreadCrumAdmin";
 import { useParams } from "react-router-dom";
@@ -49,8 +49,8 @@ interface Variant {
   price: string;
 }
 interface Color {
-  id: string;
-  name: string;
+  id: string | number;
+  color: string;
 }
 
 function EditProduct() {
@@ -82,7 +82,6 @@ function EditProduct() {
     fetchData();
   }, []);
 
-  console.log(product);
   const defaultValues = useMemo(
     () => ({
       ProductName: `${product?.data?.title}`,
@@ -108,7 +107,7 @@ function EditProduct() {
     const fetchProduct = async () => {
       try {
         const res = await fetch(
-          `http://localhost:4000/api/products/edit/${id}`
+          `http://localhost:4000/api/products/single/${id}`
         );
         const data = await res.json();
         form.setValue("ProductName", data.data.title);
@@ -124,10 +123,12 @@ function EditProduct() {
         form.setValue("ram", data.data.ram);
         setProduct(data.data);
         setImgUrl(data.data.cover);
-        setSelectCategory(categories.find((cat) => cat.id === data.categoryId));
-        setSelectBrand(brands.find((brand) => brand.id === data.brandId));
-        setVariants(data.data.variants);
-        setColors(data.data.colors);
+        setSelectCategory(
+          categories.find((cat) => cat.id === data.data.category.id)
+        );
+        setSelectBrand(brands.find((brand) => brand.id === data.data.brand.id));
+        setVariants(data?.data?.variant);
+        setColors(data?.data?.color);
       } catch (error) {
         console.error("Failed to fetch product:", error);
       }
@@ -136,9 +137,9 @@ function EditProduct() {
     fetchProduct();
     return () => {};
   }, []);
-
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const newProduct = {
+      id: product?.id,
       title: values.ProductName,
       price: values.Price,
       stock: values.Stock,
@@ -157,28 +158,25 @@ function EditProduct() {
       colors,
     };
     try {
-      const res = await fetch("http://localhost:4000/api/products/edit", {
+      const res = await fetch(`http://localhost:4000/api/products/edit`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(newProduct),
       });
-
       const data = await res.json();
+      console.log(data);
       if (data) {
         toast({
-          title: "Product Edited",
-          description: "Product Edited successfully",
+          title: "Success",
           variant: "success",
+          description: "Product updated successfully",
+          duration: 3000,
         });
-        setTimeout(() => {
-          form.reset();
-          window.location.href = "/admin/products";
-        }, 2000);
       }
     } catch (error) {
-      console.log(error);
+      console.error("Failed to fetch product:", error);
     }
   };
 
@@ -258,9 +256,10 @@ function EditProduct() {
             />
             <DropdownMenuSeparator />
             <Label>Product Variants(Optional)</Label>
-
+            <ProductVariants variants={variants} setVariants={setVariants} />
             <DropdownMenuSeparator />
             <Label>Product Color</Label>
+            <ProductColor color={colors} setcolor={setColors} />
 
             <DropdownMenuSeparator />
             <Select
