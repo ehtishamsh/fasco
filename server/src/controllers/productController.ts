@@ -13,6 +13,7 @@ import {
   createColor,
   findProductBySlug,
   findProductById,
+  updateProduct,
 } from "../services/Product";
 
 interface Color {
@@ -281,9 +282,9 @@ export const editProduct = async (req: Request, res: Response) => {
       frontCamera,
       battery,
       ram,
+      slug,
       colors,
     } = req.body;
-    console.log(req.body);
     const checkifexist = await findProductById(id);
     if (!checkifexist) {
       return res.status(404).send("Product not found");
@@ -297,6 +298,24 @@ export const editProduct = async (req: Request, res: Response) => {
       return res.status(404).send("Brand not found");
     }
 
+    const updateProductdetails = await updateProduct({
+      id,
+      title,
+      price,
+      stock,
+      description,
+      categoryId,
+      brandId,
+      cover,
+      screenSize,
+      cpu,
+      cores,
+      mainCamera,
+      frontCamera,
+      battery,
+      ram,
+      slug,
+    });
     return res.json({
       status: 200,
       message: "Product updated successfully",
