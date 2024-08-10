@@ -1,6 +1,7 @@
 import prisma from "../utils/db";
 
 interface Product {
+  id?: string;
   title: string;
   price: string;
   stock: number;
@@ -145,6 +146,29 @@ export async function findProductById(id: string) {
         },
       },
       stock: true,
+    },
+  });
+}
+
+export async function updateProduct(data: Product) {
+  return await prisma.product.update({
+    where: { id: data.id },
+    data: {
+      battery: data.battery,
+      brandId: data.brandId,
+      categoryId: data.categoryId,
+      cores: data.cores,
+      cpu: data.cpu,
+      description: data.description,
+      frontCamera: data.frontCamera,
+      mainCamera: data.mainCamera,
+      ram: data.ram,
+      screenSize: data.screenSize,
+      slug: data.slug,
+      title: data.title,
+      cover: data.cover,
+      price: data.price,
+      stock: data.stock,
     },
   });
 }
