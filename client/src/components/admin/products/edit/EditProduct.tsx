@@ -21,6 +21,7 @@ import ProductColor from "../../Color";
 import { toast } from "@/components/ui/use-toast";
 import { BreadCrumbAdmin } from "../../BreadCrumAdmin";
 import { useParams } from "react-router-dom";
+import Loading from "@/components/ui/Loading";
 
 const formSchema = z.object({
   ProductName: z
@@ -63,6 +64,7 @@ function EditProduct() {
   const [imgUrl, setImgUrl] = useState<string>("");
   const [colors, setColors] = useState<Color[]>([]);
   const { id } = useParams();
+  const [loading, setLoading] = useState(false);
   const fetchData = async () => {
     try {
       const [categoriesRes, brandsRes] = await Promise.all([
@@ -104,6 +106,7 @@ function EditProduct() {
     defaultValues,
   });
   useEffect(() => {
+    setLoading(true);
     const fetchProduct = async () => {
       try {
         const res = await fetch(
@@ -129,6 +132,7 @@ function EditProduct() {
         setSelectBrand(brands.find((brand) => brand.id === data.data.brand.id));
         setVariants(data?.data?.variant);
         setColors(data?.data?.color);
+        setLoading(false);
       } catch (error) {
         console.error("Failed to fetch product:", error);
       }
@@ -137,6 +141,7 @@ function EditProduct() {
     fetchProduct();
     return () => {};
   }, []);
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const newProduct = {
       id: product?.id,
@@ -156,6 +161,7 @@ function EditProduct() {
       battery: values.battery,
       ram: values.ram,
       colors,
+      slug: values.ProductName.toLowerCase().replace(/ /g, "-"),
     };
     try {
       const res = await fetch(`http://localhost:4000/api/products/edit`, {
@@ -167,13 +173,16 @@ function EditProduct() {
       });
       const data = await res.json();
       console.log(data);
-      if (data) {
+      if (data.status === 200) {
         toast({
           title: "Success",
           variant: "success",
           description: "Product updated successfully",
           duration: 3000,
         });
+        setTimeout(() => {
+          window.location.href = "/admin/products";
+        }, 3000);
       }
     } catch (error) {
       console.error("Failed to fetch product:", error);
@@ -182,251 +191,257 @@ function EditProduct() {
 
   return (
     <div className="my-10 px-10">
-      <div className=" flex flex-col gap-5 ">
-        <div className="flex flex-col gap-2">
-          <BreadCrumbAdmin paths={["Admin", "Products"]} end={"Edit"} />
-          <h1 className="text-3xl font-bold tracking-tight max-sm:text-xl">
-            Edit Product
-          </h1>
-          <span className="text-sm text-muted-foreground">
-            Edit a new Product.
-          </span>
+      {loading ? (
+        <div className="w-full h-[50vh] flex justify-center items-center">
+          <Loading />
         </div>
-        <DropdownMenuSeparator />
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="max-w-3xl mx-auto w-full"
-          >
-            <FormField
-              control={form.control}
-              name="ProductName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Product Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter your Product name..."
-                      {...field}
-                      className="w-full"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <DropdownMenuSeparator />
-            <Label>Upload Product Image</Label>
-            <ImageUpload filePath={imgUrl} setFilePath={setImgUrl} />
-            <DropdownMenuSeparator />
-            <FormField
-              control={form.control}
-              name="Price"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Price</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Product Price..."
-                      {...field}
-                      className="w-full"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <DropdownMenuSeparator />
-            <FormField
-              control={form.control}
-              name="Stock"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Stock</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Product Stock..."
-                      {...field}
-                      className="w-full"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <DropdownMenuSeparator />
-            <Label>Product Variants(Optional)</Label>
-            <ProductVariants variants={variants} setVariants={setVariants} />
-            <DropdownMenuSeparator />
-            <Label>Product Color</Label>
-            <ProductColor color={colors} setcolor={setColors} />
+      ) : (
+        <div className=" flex flex-col gap-5 ">
+          <div className="flex flex-col gap-2">
+            <BreadCrumbAdmin paths={["Admin", "Products"]} end={"Edit"} />
+            <h1 className="text-3xl font-bold tracking-tight max-sm:text-xl">
+              Edit Product
+            </h1>
+            <span className="text-sm text-muted-foreground">
+              Edit a new Product.
+            </span>
+          </div>
+          <DropdownMenuSeparator />
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="max-w-3xl mx-auto w-full"
+            >
+              <FormField
+                control={form.control}
+                name="ProductName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Product Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter your Product name..."
+                        {...field}
+                        className="w-full"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <DropdownMenuSeparator />
+              <Label>Upload Product Image</Label>
+              <ImageUpload filePath={imgUrl} setFilePath={setImgUrl} />
+              <DropdownMenuSeparator />
+              <FormField
+                control={form.control}
+                name="Price"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Price</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Product Price..."
+                        {...field}
+                        className="w-full"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <DropdownMenuSeparator />
+              <FormField
+                control={form.control}
+                name="Stock"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Stock</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Product Stock..."
+                        {...field}
+                        className="w-full"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <DropdownMenuSeparator />
+              <Label>Product Variants(Optional)</Label>
+              <ProductVariants variants={variants} setVariants={setVariants} />
+              <DropdownMenuSeparator />
+              <Label>Product Color</Label>
+              <ProductColor color={colors} setcolor={setColors} />
 
-            <DropdownMenuSeparator />
-            <Select
-              options={categories}
-              selectedOptions={selectCategory}
-              setSelectedOptions={setSelectCategory}
-              name="Category"
-            />
-            <DropdownMenuSeparator />
-            <Select
-              options={brands}
-              selectedOptions={selectBrand}
-              setSelectedOptions={setSelectBrand}
-              name="Brand"
-            />
-            <DropdownMenuSeparator />
-            <FormField
-              control={form.control}
-              name="Description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Product Description..."
-                      {...field}
-                      className="w-full"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <DropdownMenuSeparator />
+              <Select
+                options={categories}
+                selectedOptions={selectCategory}
+                setSelectedOptions={setSelectCategory}
+                name="Category"
+              />
+              <DropdownMenuSeparator />
+              <Select
+                options={brands}
+                selectedOptions={selectBrand}
+                setSelectedOptions={setSelectBrand}
+                name="Brand"
+              />
+              <DropdownMenuSeparator />
+              <FormField
+                control={form.control}
+                name="Description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Description</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Product Description..."
+                        {...field}
+                        className="w-full"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <DropdownMenuSeparator />
-            <FormField
-              control={form.control}
-              name="screenSize"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Screen Size</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Product Screen Size..."
-                      {...field}
-                      className="w-full"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <DropdownMenuSeparator />
-            <FormField
-              control={form.control}
-              name="cpu"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>CPU</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Product CPU..."
-                      {...field}
-                      className="w-full"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <DropdownMenuSeparator />
-            <FormField
-              control={form.control}
-              name="cores"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Cores</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Product Cores..."
-                      {...field}
-                      className="w-full"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <DropdownMenuSeparator />
-            <FormField
-              control={form.control}
-              name="mainCamera"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Main Camera</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Product Main Camera..."
-                      {...field}
-                      className="w-full"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <DropdownMenuSeparator />
-            <FormField
-              control={form.control}
-              name="frontCamera"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Front Camera(Optional)</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Product Front Camera..."
-                      {...field}
-                      className="w-full"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <DropdownMenuSeparator />
-            <FormField
-              control={form.control}
-              name="ram"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Ram</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Product Ram..."
-                      {...field}
-                      className="w-full"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <DropdownMenuSeparator />
-            <FormField
-              control={form.control}
-              name="battery"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Battery</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Product Battery..."
-                      {...field}
-                      className="w-full"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <DropdownMenuSeparator />
+              <FormField
+                control={form.control}
+                name="screenSize"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Screen Size</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Product Screen Size..."
+                        {...field}
+                        className="w-full"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <DropdownMenuSeparator />
+              <FormField
+                control={form.control}
+                name="cpu"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>CPU</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Product CPU..."
+                        {...field}
+                        className="w-full"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <DropdownMenuSeparator />
+              <FormField
+                control={form.control}
+                name="cores"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Cores</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Product Cores..."
+                        {...field}
+                        className="w-full"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <DropdownMenuSeparator />
+              <FormField
+                control={form.control}
+                name="mainCamera"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Main Camera</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Product Main Camera..."
+                        {...field}
+                        className="w-full"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <DropdownMenuSeparator />
+              <FormField
+                control={form.control}
+                name="frontCamera"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Front Camera(Optional)</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Product Front Camera..."
+                        {...field}
+                        className="w-full"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <DropdownMenuSeparator />
+              <FormField
+                control={form.control}
+                name="ram"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Ram</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Product Ram..."
+                        {...field}
+                        className="w-full"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <DropdownMenuSeparator />
+              <FormField
+                control={form.control}
+                name="battery"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Battery</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Product Battery..."
+                        {...field}
+                        className="w-full"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <Button variant="default" type="submit" className="w-full mt-6">
-              Edit
-            </Button>
-          </form>
-        </Form>
-      </div>
+              <Button variant="default" type="submit" className="w-full mt-6">
+                Edit
+              </Button>
+            </form>
+          </Form>
+        </div>
+      )}
     </div>
   );
 }
