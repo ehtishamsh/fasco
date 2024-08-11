@@ -172,3 +172,40 @@ export async function updateProduct(data: Product) {
     },
   });
 }
+
+export async function getVariantbyId(id: string) {
+  return await prisma.variant.findUnique({
+    where: { id },
+  });
+}
+export async function getColorbyId(id: string) {
+  return await prisma.color.findUnique({
+    where: { id },
+  });
+}
+export async function deleteProduct(id: string) {
+  return await prisma.product.delete({
+    where: { id },
+  });
+}
+export async function updateVariant(data: {
+  id: string;
+  price: string;
+  variant: string;
+}) {
+  return await prisma.variant.update({
+    where: { id: data.id },
+    data: {
+      variant: data.variant,
+      price: data.price,
+    },
+  });
+}
+export async function updateColor(data: { id: string; color: string }) {
+  return await prisma.color.update({
+    where: { id: data.id },
+    data: {
+      color: data.color,
+    },
+  });
+}
