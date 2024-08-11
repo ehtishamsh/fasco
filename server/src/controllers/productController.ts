@@ -14,6 +14,10 @@ import {
   findProductBySlug,
   findProductById,
   updateProduct,
+  getVariantbyId,
+  updateVariant,
+  getColorbyId,
+  updateColor,
 } from "../services/Product";
 
 interface Color {
@@ -297,7 +301,6 @@ export const editProduct = async (req: Request, res: Response) => {
     if (!findBrand) {
       return res.status(404).send("Brand not found");
     }
-
     const updateProductdetails = await updateProduct({
       id,
       title,
@@ -316,9 +319,61 @@ export const editProduct = async (req: Request, res: Response) => {
       ram,
       slug,
     });
+
+    if (!updateProductdetails) {
+      return res.status(500).send("Failed to update product");
+    }
+
+    if (variants.length > 0) {
+      const newVariants = await Promise.all(
+        variants.map(async (variant: any) => {
+          const existingVariant = await findVariantByNameAndProductId(
+            variant.variant,
+            id
+          );
+          if (existingVariant) {
+            return existingVariant;
+          }
+          const newVariant = await createVariant({
+            productId: id,
+            variant: variant.variant,
+            price: variant.price,
+          });
+          return newVariant;
+        })
+      );
+      if (!newVariants) {
+        return res.status(500).send("Failed to create variants");
+      }
+    }
+
+    if (colors.length > 0) {
+      const newColors = await Promise.all(
+        colors.map(async (color: any) => {
+          const existingColor = await findColorByNameAndProductId(
+            color.color,
+            id
+          );
+          if (existingColor) {
+            return existingColor;
+          }
+          const newColor = await createColor({
+            productId: id,
+            color: color.color,
+          });
+          return newColor;
+        })
+      );
+      if (!newColors) {
+        return res.status(500).send("Failed to create colors");
+      }
+    }
     return res.json({
       status: 200,
       message: "Product updated successfully",
+      data: {
+        product: updateProductdetails,
+      },
     });
   } catch (error) {
     return res.status(500).send(error);
