@@ -91,58 +91,7 @@ function Shipping({
               checked.free ? "" : "text-gray-400"
             }`}
           >
-            17 Oct, 2023
-          </p>
-        </div>
-
-        <div
-          className={`items-center grid grid-cols-12 gap-4 h-fit border max-sm:gap-2 border-muted-foreground p-4 max-sm:p-3 rounded-lg ${
-            !checked.standard ? "text-gray-400" : ""
-          }`}
-        >
-          <input
-            type="checkbox"
-            className="custom-checkbox max-sm:w-5 max-sm:h-5 max-sm:col-span-12"
-            onChange={(e) => handleCheck(e)}
-            checked={checked.standard}
-            name="standard"
-          />
-          <h1 className="font-semibold text-sm max-sm:text-xs max-sm:col-span-12">
-            $8.50
-          </h1>
-          <p className="text-sm max-sm:text-xs col-span-8">Standard shipment</p>
-          <p
-            className={`text-sm max-sm:text-xs col-span-2 max-sm:col-span-4 ${
-              checked.standard ? "" : "text-gray-400"
-            }`}
-          >
-            17 Oct, 2023
-          </p>
-        </div>
-        <div
-          className={`items-center grid grid-cols-12 gap-4 h-fit border max-sm:gap-2 border-muted-foreground p-4 max-sm:p-3 rounded-lg ${
-            !checked.express ? "text-gray-400" : ""
-          }`}
-        >
-          <input
-            type="checkbox"
-            className="custom-checkbox max-sm:w-5 max-sm:h-5 max-sm:col-span-12"
-            onChange={(e) => handleCheck(e)}
-            checked={checked.express}
-            name="express"
-          />
-          <h1 className="font-semibold text-sm max-sm:text-xs max-sm:col-span-12">
-            Schedule
-          </h1>
-          <p className="text-sm max-sm:text-xs col-span-8">
-            Select the date you want to ship.
-          </p>
-          <p
-            className={`text-sm max-sm:text-xs col-span-2 max-sm:col-span-4 ${
-              checked.free ? "" : "text-gray-400"
-            }`}
-          >
-            17 Oct, 2023
+            $0
           </p>
         </div>
       </div>
