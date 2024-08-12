@@ -10,6 +10,7 @@ function PaymentForm({
   cartData: Product[];
   address: Address;
 }) {
+  //@ts-ignore
   const [total, setTotal] = useState(0);
   useEffect(() => {
     setTotal(() =>
@@ -23,7 +24,6 @@ function PaymentForm({
     );
   }, [cartData]);
 
-  console.log(total, address);
   const makePayment = async () => {
     const stripe = await loadStripe(
       "pk_test_51OaSIsLXJrC5pQEFKKm3qrmBncqMYscHgLotdohKIPUkgoo3A12e3Inl8RnhuPHlEpx8Y4b9w4kv5qEevUHUnZn000m0tQPia9"

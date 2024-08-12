@@ -17,7 +17,6 @@ export default function OrdersTable() {
     };
     fetchData();
   }, []);
-  console.log(getData);
   return (
     <div className="  pb-8 max-w-7xl">
       <DataTable columns={columns} data={getData?.orders || []} />
