@@ -18,6 +18,7 @@ import {
   updateVariant,
   getColorbyId,
   updateColor,
+  getColorbyProductId,
 } from "../services/Product";
 
 interface Color {
@@ -350,10 +351,7 @@ export const editProduct = async (req: Request, res: Response) => {
     if (colors.length > 0) {
       const newColors = await Promise.all(
         colors.map(async (color: any) => {
-          const existingColor = await findColorByNameAndProductId(
-            color.color,
-            id
-          );
+          const existingColor = await getColorbyId(id);
           if (existingColor) {
             return existingColor;
           }
