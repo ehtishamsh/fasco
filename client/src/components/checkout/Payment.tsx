@@ -123,7 +123,7 @@ function Payment({
           <h4 className="text-sm max-sm:text-xs text-muted-foreground">
             Estimated Tax
           </h4>
-          <span className="text-sm max-sm:text-xs font-semibold">$50</span>
+          <span className="text-sm max-sm:text-xs font-semibold">$0</span>
         </div>
         <div className="flex justify-between items-center mt-2">
           <h4 className="text-sm max-sm:text-xs text-muted-foreground">
@@ -144,7 +144,6 @@ function Payment({
           <span className="text-lg font-semibold max-sm:text-sm">
             $
             {total +
-              50 +
               (ship === "free"
                 ? 0
                 : ship === "standard"
