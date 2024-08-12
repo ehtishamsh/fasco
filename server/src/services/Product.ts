@@ -209,3 +209,25 @@ export async function updateColor(data: { id: string; color: string }) {
     },
   });
 }
+
+export async function deleteVariant(id: string) {
+  return await prisma.variant.delete({
+    where: { id },
+  });
+}
+export async function deleteColor(id: string) {
+  return await prisma.color.delete({
+    where: { id },
+  });
+}
+export async function getVariantbyProductId(id: string) {
+  return await prisma.variant.findMany({
+    where: { productId: id },
+  });
+}
+
+export async function getColorbyProductId(id: string) {
+  return await prisma.color.findMany({
+    where: { productId: id },
+  });
+}
