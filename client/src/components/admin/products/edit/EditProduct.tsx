@@ -140,7 +140,7 @@ function EditProduct() {
 
     fetchProduct();
     return () => {};
-  }, []);
+  }, [categories, brands]);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const newProduct = {
