@@ -30,7 +30,7 @@ function TopProducts() {
       <Reveal delayTime={0.5}>
         <TopProductsButton active={checkActive} setActive={setCheckActive} />
       </Reveal>
-      <Reveal delayTime={0.8}>
+      <Reveal delayTime={0.8} width="100%">
         <div className="grid grid-cols-4 gap-4 mt-10 max-sm:grid-cols-2 max-md:grid-cols-3">
           <ShowcaseProducts products={products} />
         </div>
