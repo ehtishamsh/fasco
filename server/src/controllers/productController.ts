@@ -19,6 +19,9 @@ import {
   getColorbyId,
   updateColor,
   getColorbyProductId,
+  getVariantbyProductId,
+  deleteColor,
+  deleteVariant,
 } from "../services/Product";
 
 interface Color {
@@ -325,12 +328,24 @@ export const editProduct = async (req: Request, res: Response) => {
       return res.status(500).send("Failed to update product");
     }
 
+    // Update variants
     if (variants.length > 0) {
+      const existingVariants = await getVariantbyProductId(id);
+
+      const variantNames = variants.map((variant: any) => variant.id);
+
+      // Delete variants that are no longer present
+      existingVariants.forEach(async (existingVariant: any) => {
+        if (!variantNames.includes(existingVariant.id)) {
+          await deleteVariant(existingVariant.id);
+        }
+      });
+
+      // Add or update variants
       const newVariants = await Promise.all(
         variants.map(async (variant: any) => {
-          const existingVariant = await findVariantByNameAndProductId(
-            variant.variant,
-            id
+          const existingVariant = existingVariants.find(
+            (ev: any) => ev.variant === variant.variant
           );
           if (existingVariant) {
             return existingVariant;
@@ -343,15 +358,31 @@ export const editProduct = async (req: Request, res: Response) => {
           return newVariant;
         })
       );
+
       if (!newVariants) {
         return res.status(500).send("Failed to create variants");
       }
     }
 
+    // Update colors
     if (colors.length > 0) {
+      const existingColors = await getColorbyProductId(id);
+
+      const colorNames = colors.map((color: any) => color.id);
+
+      // Delete colors that are no longer present
+      existingColors.forEach(async (existingColor: any) => {
+        if (!colorNames.includes(existingColor.id)) {
+          await deleteColor(existingColor.id);
+        }
+      });
+
+      // // Add or update colors
       const newColors = await Promise.all(
         colors.map(async (color: any) => {
-          const existingColor = await getColorbyId(id);
+          const existingColor = existingColors.find(
+            (ec: any) => ec.color === color.color
+          );
           if (existingColor) {
             return existingColor;
           }
@@ -362,6 +393,7 @@ export const editProduct = async (req: Request, res: Response) => {
           return newColor;
         })
       );
+
       if (!newColors) {
         return res.status(500).send("Failed to create colors");
       }
