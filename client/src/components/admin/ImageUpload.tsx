@@ -63,6 +63,14 @@ function ImageUpload({
         description: "File deleted successfully",
         variant: "success",
       });
+    } else {
+      setFilePath("");
+      setFile(null);
+      toast({
+        title: "Error",
+        description: data.message,
+        variant: "destructive",
+      });
     }
   };
   return (
