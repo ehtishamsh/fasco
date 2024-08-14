@@ -1,5 +1,6 @@
 import React, { useState, ChangeEvent } from "react";
 import { Input } from "../ui/input";
+import { X } from "lucide-react";
 
 interface Option {
   id: string;
@@ -59,9 +60,15 @@ const Select = ({
           ))}
         </ul>
       )}
-      {selectedOptions && (
-        <span className="border border-border px-3 py-2 cursor-pointer text-white text-sm mt-3 inline-block rounded-md bg-foreground dark:bg-background">
+      {selectedOptions && selectedOptions.name && (
+        <span className="border relative border-border px-5 py-3 cursor-pointer text-white text-sm mt-3 inline-block rounded-md bg-foreground dark:bg-background">
           {selectedOptions?.name}
+          <button>
+            <X
+              className="absolute right-1 top-1 w-3 h-3"
+              onClick={() => setSelectedOptions(undefined)}
+            />
+          </button>
         </span>
       )}
     </div>
