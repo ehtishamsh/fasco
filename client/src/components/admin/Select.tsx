@@ -1,6 +1,7 @@
 import React, { useState, ChangeEvent } from "react";
 import { Input } from "../ui/input";
 import { X } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface Option {
   id: string;
@@ -48,7 +49,7 @@ const Select = ({
         className="mt-3"
       />
       {optionSuggestions.length > 0 && (
-        <ul className="absolute z-10 w-[28rem] max-sm:w-[20rem] mt-3 bg-white border-border dark:bg-background border dark:border-border rounded">
+        <motion.ul className="absolute z-10 w-[28rem] max-sm:w-[20rem] mt-1 bg-white border-border dark:bg-background border dark:border-border rounded">
           {optionSuggestions.map((option) => (
             <li
               key={option.id}
@@ -58,7 +59,7 @@ const Select = ({
               {option.name}
             </li>
           ))}
-        </ul>
+        </motion.ul>
       )}
       {selectedOptions && selectedOptions.name && (
         <span className="border relative border-border px-5 py-3 cursor-pointer text-white text-sm mt-3 inline-block rounded-md bg-foreground dark:bg-background">
