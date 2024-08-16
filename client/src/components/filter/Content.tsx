@@ -79,8 +79,10 @@ function Content({
     }
 
     if (batteryCapacity.length > 0) {
-      products = products.filter((product) =>
-        batteryCapacity.includes(product.battery)
+      const convertAllNumber = batteryCapacity.map(Number);
+      const findMin = Math.min(...convertAllNumber);
+      products = products.filter(
+        (product) => Number(product.battery) >= findMin
       );
     }
 
