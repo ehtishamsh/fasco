@@ -78,8 +78,13 @@ model Product {
   mainCamera   String?
   ram          String?
   frontCamera  String?
+  screenType  String?
+  sensor      String?
+  zoom       String?
+  features    String?
+  connectivity String?
+  lens String?
   battery      String?
-  attributes Json?
   reviews     Review[]
   OrderItem   OrderItem[]
 }
