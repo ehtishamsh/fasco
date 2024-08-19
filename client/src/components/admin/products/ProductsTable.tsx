@@ -9,6 +9,7 @@ interface Option {
 }
 export default function ProductsTable() {
   const [getData, setData] = useState<any>({});
+  const [unEditedData, setUnEditedData] = useState<any>({});
   const [categories, setCategories] = useState<Option[]>([]);
   const [selectCategory, setSelectCategory] = useState<any>([]);
 
@@ -18,19 +19,23 @@ export default function ProductsTable() {
         ...prev,
         products:
           selectCategory?.id === undefined
-            ? getData?.products
+            ? unEditedData?.products
+            : selectCategory === undefined
+            ? unEditedData?.products
             : getData?.products?.filter(
                 (item: any) => selectCategory.id === item.categoryId
               ),
       };
     });
   }, [selectCategory]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const req = await fetch("http://localhost:4000/api/products");
         const res = await req.json();
         setData(res);
+        setUnEditedData(res);
       } catch (error) {
         console.log(error);
       }
@@ -53,12 +58,14 @@ export default function ProductsTable() {
 
   return (
     <div className="pb-8">
-      <Select
-        name="Category"
-        options={categories}
-        selectedOptions={selectCategory}
-        setSelectedOptions={setSelectCategory}
-      />
+      <div className="max-w-96">
+        <Select
+          name="Category"
+          options={categories}
+          selectedOptions={selectCategory}
+          setSelectedOptions={setSelectCategory}
+        />
+      </div>
       <DataTable columns={columns} data={getData?.products || []} />
     </div>
   );
