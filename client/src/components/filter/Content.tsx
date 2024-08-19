@@ -97,7 +97,8 @@ function Content({
         ...ram.map((r) => parseInt(r.replace("gb", ""), 10))
       );
       products = products.filter(
-        (product) => parseInt(product.ram.replace("gb", ""), 10) >= minRam
+        (product) =>
+          parseInt(product?.ram?.replace("gb", "") || "0", 10) >= minRam
       );
     }
 
