@@ -57,37 +57,68 @@ model Variant {
 }
 
 model Product {
-  id           String   @id @default(uuid())
-  title        String   @unique
-  description  String
-  cover        String
-  price        String
-  stock        Int
-  brand        Brand    @relation(fields: [brandId], references: [id])
-  category     Category @relation(fields: [categoryId], references: [id])
-  variant      Variant[]
-  color        Color[]
-  brandId      String
-  categoryId   String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  screenSize   String?
-  cpu          String?
-  slug         String @default("to be added")
-  cores        String?
-  mainCamera   String?
-  ram          String?
-  frontCamera  String?
-  screenType  String?
-  sensor      String?
-  zoom       String?
-  features    String?
-  connectivity String?
-  lens String?
-  battery      String?
-  reviews     Review[]
-  OrderItem   OrderItem[]
+  id            String   @id @default(uuid())
+  title         String   @unique
+  description   String
+  cover         String
+  price         String
+  stock         Int
+  brand         Brand    @relation(fields: [brandId], references: [id])
+  category      Category @relation(fields: [categoryId], references: [id])
+  variant       Variant[]
+  color         Color[]
+  brandId       String
+  categoryId    String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  slug          String   @default("to be added")
+  
+  // Common fields
+  screenSize    String?
+  cpu           String?
+  battery       String?
+
+  // Fields for smartwatches 
+  features      String?
+  connectivity  String?
+  screenType    String?
+  sensor        String?
+
+  // Fields for smartphones and laptops
+  mainCamera    String?
+  frontCamera   String?
+  cores         String?
+  ram           String?
+
+  // Fields for camera 
+  zoom          String?
+  lens          String?
+  megapixels      String?  // Camera resolution
+  aperture        String?  // e.g., f/1.8
+  videoResolution String?  // e.g., 4K, 1080p
+
+  // Fields for headphones/earphones
+  type          String?  // In-Ear, Over-Ear, On-Ear, etc.
+
+  batteryLife   String?
+   noiseCancellation Boolean @default(false)
+    wireless      Boolean  @default(false)
+  microphone    Boolean  @default(false)
+
+  // Also have features and sensor
+
+  // Fields for gaming consoles
+  storage       String?
+  gpu           String?
+  maxResolution String?
+  numberOfControllers String?
+  compatibleGames String?
+
+  // Relations
+  reviews       Review[]
+  OrderItem     OrderItem[]
 }
+
 
 model Color {
    id     String   @id @default(uuid())
