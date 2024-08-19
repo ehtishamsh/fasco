@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Reveal } from "../animation/Reveal";
 import { Button } from "../ui/button";
 import { GridCarousel } from "./GridCarousel";
@@ -8,6 +9,7 @@ interface Data {
   title: string;
   description: string;
   bg_color: string;
+  link?: string;
   heading_color?: string;
 }
 
@@ -16,6 +18,7 @@ const data: Data[] = [
     src: "/oneplus.png",
     alt: "OnePlus 12",
     title: "OnePlus 12",
+    link: "/smartphones/oneplus-12",
     description:
       "The OnePlus 12 is a premium phone with a curved AMOLED display, Hasselblad-powered camera system, and a starting price of $799.",
     bg_color: "bg-white",
@@ -24,6 +27,7 @@ const data: Data[] = [
     src: "/watch.png",
     alt: "Galaxy Watch 6",
     title: "Galaxy Watch 6",
+    link: "/smartwatches/samsung-galaxy-watch-6",
     description:
       "Galaxy Watch 6 is a bright, always-on Super AMOLED touch display, a touch bezel for scrolling, and a water-friendly sport band.",
     bg_color: "bg-gray-100",
@@ -32,6 +36,7 @@ const data: Data[] = [
     src: "/ipadpro.png",
     alt: "iPad Pro",
     title: "iPad Pro",
+    link: "/smartphones/ipad-pro-2024",
     description:
       "iPad combines a magnificent 10.2-inch Retina display, incredible performance, multitasking, and ease of use.",
     bg_color: "bg-gray-200",
@@ -40,6 +45,7 @@ const data: Data[] = [
     src: "/mc_grid.png",
     alt: "MacBook Pro",
     title: "MacBook Pro",
+    link: "/laptops/apple-macbook-pro-14",
     description:
       "The new 15‑inch MacBook Pro makes room for more of what you love with a spacious Liquid Retina display.",
     heading_color: "text-white",
@@ -53,7 +59,8 @@ function ShowcaseProductGrid() {
         <div className="grid grid-cols-4  max-lg:grid-cols-2  max-sm:hidden">
           {data.map((item, index) => {
             return (
-              <div
+              <Link
+                to={item?.link || "#"}
                 key={index}
                 className={`grid grid-cols-1 rounded-md h-full border border-border ${item.bg_color}`}
               >
@@ -77,7 +84,7 @@ function ShowcaseProductGrid() {
                     Shop now
                   </Button>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>

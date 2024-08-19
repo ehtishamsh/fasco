@@ -1,5 +1,6 @@
 import { Button } from "../ui/button";
 import { Reveal } from "../animation/Reveal";
+import { Link } from "react-router-dom";
 
 function ShopGrid() {
   return (
@@ -66,7 +67,10 @@ function ShopGrid() {
           </div>
 
           <div className="grid grid-cols-3 bg-gray-200 ">
-            <div className="col-span-2 flex justify-center items-center flex-col">
+            <Link
+              to={"/laptops/apple/macbook-air-2023"}
+              className="col-span-2 flex justify-center items-center flex-col"
+            >
               <h1 className="text-6xl max-lg:text-5xl max-md:text-3xl max-sm:text-2xl mb-2 text-left px-2 max-sm:px-1 text-black">
                 <Reveal delayTime={0.7} width="fit-content">
                   MacBook <span className="font-semibold">Air</span>
@@ -86,7 +90,7 @@ function ShopGrid() {
                   Shop Now
                 </Button>
               </Reveal>
-            </div>
+            </Link>
             <div className="flex justify-center items-center">
               <img src="/mb.png" alt="" className=" max-w-full" />
             </div>
