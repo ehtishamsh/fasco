@@ -1,31 +1,315 @@
 export const ProductsInBulk = [
   {
-    title: "OnePlus 12",
-    price: "799.99",
+    title: "Apple AirPods Pro",
+    price: "249.99",
+    stock: 50,
+    description:
+      "Apple AirPods Pro offer active noise cancellation, immersive sound, and a customizable fit. With up to 4.5 hours of listening time and a wireless charging case that provides more than 24 hours of battery life, these in-ear headphones are perfect for everyday use.",
+    categoryId: "93ae7b89-0e69-420a-aef8-9b34532a9eed",
+    brandId: "ee10611c-7282-47fc-a440-633400654cdc",
+    variants: [
+      { id: 101, variant: "With Wireless Charging Case", price: "0" },
+      { id: 102, variant: "With MagSafe Charging Case", price: "20" },
+    ],
+    cover: "/uploads/image_airpods_pro.png",
+    type: "In-Ear",
+    noiseCancellation: true,
+    batteryLife: "4.5 hours",
+    battery: "519",
+    wireless: true,
+    microphone: true,
+    features: "Active Noise Cancellation, Transparency Mode, Adaptive EQ",
+    sensor:
+      "Dual beamforming microphones, Dual optical sensors, Motion-detecting accelerometer, Speech-detecting accelerometer, Force sensor",
+    slug: "apple-airpods-pro",
+    colors: [{ id: 201, name: "#FFFFFF" }],
+  },
+  {
+    title: "Samsung Galaxy Buds2",
+    price: "149.99",
+    stock: 40,
+    description:
+      "The Samsung Galaxy Buds2 feature active noise cancellation, immersive sound with a compact design, and up to 5 hours of listening time. With the wireless charging case, you can extend the battery life to up to 20 hours.",
+    categoryId: "93ae7b89-0e69-420a-aef8-9b34532a9eed",
+    brandId: "061ef0bc-8dbc-4691-a884-f1ce8dea17a6",
+    variants: [{ id: 103, variant: "Standard Edition", price: "0" }],
+    cover: "/uploads/image_galaxy_buds2.png",
+    type: "In-Ear",
+    noiseCancellation: true,
+    batteryLife: "5 hours",
+    battery: "472",
+    wireless: true,
+    microphone: true,
+    features: "Active Noise Cancellation, Ambient Sound Mode, Touch Controls",
+    sensor:
+      "Accelerometer, Gyro Sensor, Proximity Sensor, Hall Sensor, Touch Sensor",
+    slug: "samsung-galaxy-buds2",
+    colors: [
+      { id: 202, name: "#FFFFFF" },
+      { id: 203, name: "#000000" },
+    ],
+  },
+  {
+    title: "Sony WH-1000XM4",
+    price: "349.99",
     stock: 30,
     description:
-      "The OnePlus 12 is built for speed and power. Equipped with a 6.7-inch Fluid AMOLED display and a 120Hz refresh rate, it offers a seamless and vibrant viewing experience. Powered by the Snapdragon 8 Gen 3 processor and 12GB of RAM, it ensures smooth performance across all apps and games. Capture detailed photos with the 50MP main camera and 32MP front camera. With a 5000mAh battery and Warp Charge 100, it powers up in minutes. Available in Volcanic Black and Arctic Blue.",
-    categoryId: "bdd821cf-871b-401d-ae7a-3dd8ce2d7fe2",
-    brandId: "23937424-9f80-4b55-a703-cf9dbba82070",
-    variants: [
-      { id: 4, variant: "256GB", price: "0" },
-      { id: 5, variant: "512GB", price: "100" },
-    ],
-    cover: "/uploads/image_oneplus_12.png",
-    screenSize: "6.7",
-    cpu: "Snapdragon 8 Gen 3",
-    cores: "8",
-    mainCamera: "50MP",
-    frontCamera: "32MP",
-    battery: "5000",
-    ram: "12",
-    slug: "oneplus-12",
+      "Sony WH-1000XM4 headphones offer industry-leading noise cancellation, premium sound quality, and up to 30 hours of battery life. These over-ear headphones are ideal for travel, work, and relaxation.",
+    categoryId: "93ae7b89-0e69-420a-aef8-9b34532a9eed",
+    brandId: "c4650b20-1e72-4731-85b7-3987cdc930be",
+    variants: [{ id: 104, variant: "Standard Edition", price: "0" }],
+    cover: "/uploads/image_sony_wh1000xm4.png",
+    type: "Over-Ear",
+    noiseCancellation: true,
+    batteryLife: "30 hours",
+    battery: "1100",
+    wireless: true,
+    microphone: true,
+    features:
+      "Industry-Leading Noise Cancellation, Adaptive Sound Control, Touch Sensor Controls",
+    sensor: "Proximity Sensor, Wearing Detection, Gesture Sensor",
+    slug: "sony-wh-1000xm4",
     colors: [
-      { id: 3, name: "#1A1A1A" },
-      { id: 4, name: "#4A90E2" },
+      { id: 204, name: "#000000" },
+      { id: 205, name: "#C0C0C0" },
+    ],
+  },
+  {
+    title: "Google Pixel Buds A-Series",
+    price: "99.99",
+    stock: 60,
+    description:
+      "Google Pixel Buds A-Series offer rich sound quality, a comfortable fit, and up to 5 hours of listening time. These in-ear headphones are designed for seamless integration with Google Assistant and other Google services.",
+    categoryId: "93ae7b89-0e69-420a-aef8-9b34532a9eed",
+    brandId: "1d6b0eb8-19fa-4116-b997-bfd4f8aa0955",
+    variants: [{ id: 105, variant: "Standard Edition", price: "0" }],
+    cover: "/uploads/image_pixel_buds_a_series.png",
+    type: "In-Ear",
+    noiseCancellation: false,
+    batteryLife: "5 hours",
+    battery: "550",
+    wireless: true,
+    microphone: true,
+    features:
+      "Google Assistant Integration, IPX4 Water Resistance, Touch Controls",
+    sensor:
+      "Capacitive Touch Sensor, Dual IR Proximity Sensors, Motion Detecting Accelerometer",
+    slug: "google-pixel-buds-a-series",
+    colors: [
+      { id: 206, name: "#FFFFFF" },
+      { id: 207, name: "#008080" },
+    ],
+  },
+  {
+    title: "Mi Earbuds Basic 2",
+    price: "29.99",
+    stock: 70,
+    description:
+      "The Xiaomi Mi True Wireless Earbuds Basic 2 offer great sound quality at an affordable price. With up to 4 hours of battery life on a single charge and a compact charging case that provides up to 12 hours of total playtime, these earbuds are perfect for everyday use.",
+    categoryId: "93ae7b89-0e69-420a-aef8-9b34532a9eed",
+    brandId: "28f37902-51d3-4734-9994-4edfe3a2e124",
+    variants: [{ id: 106, variant: "Standard Edition", price: "0" }],
+    cover: "/uploads/image_mi_earbuds_basic2.png",
+    type: "In-Ear",
+    noiseCancellation: false,
+    batteryLife: "4 hours",
+    battery: "410",
+    wireless: true,
+    microphone: true,
+    features: "Lightweight Design, Voice Assistant Support, Touch Controls",
+    sensor: "Capacitive Touch Sensor, Proximity Sensor",
+    slug: "mi-earbuds-basic-2",
+    colors: [{ id: 208, name: "#000000" }],
+  },
+  {
+    title: "OnePlus Buds Pro",
+    price: "149.99",
+    stock: 50,
+    description:
+      "OnePlus Buds Pro feature smart adaptive noise cancellation, immersive sound quality, and up to 7 hours of listening time on a single charge. With the wireless charging case, you can extend the battery life to up to 38 hours.",
+    categoryId: "93ae7b89-0e69-420a-aef8-9b34532a9eed",
+    brandId: "23937424-9f80-4b55-a703-cf9dbba82070",
+    variants: [{ id: 107, variant: "Standard Edition", price: "0" }],
+    cover: "/uploads/image_oneplus_buds_pro.png",
+    type: "In-Ear",
+    noiseCancellation: true,
+    batteryLife: "7 hours",
+    battery: "520",
+    wireless: true,
+    microphone: true,
+    features:
+      "Smart Adaptive Noise Cancellation, IP55 Water Resistance, Zen Mode Air",
+    sensor:
+      "Capacitive Touch Sensor, Motion Detecting Accelerometer, Gyroscope, Wear Detection Sensor",
+    slug: "oneplus-buds-pro",
+    colors: [
+      { id: 209, name: "#FFFFFF" },
+      { id: 210, name: "#000000" },
     ],
   },
 ];
+
+// export const ProductsInBulk = [
+//   {
+//     title: "MacBook Air 2023",
+//     price: "1199.99",
+//     stock: 20,
+//     description:
+//       "The MacBook Air 2023 is Apple's latest ultra-thin laptop, featuring a 13.6-inch Liquid Retina display. It is powered by the M2 chip, which provides exceptional performance and power efficiency. With 16GB of unified memory and a 512GB SSD, it handles multitasking and storage with ease. The laptop also offers up to 18 hours of battery life, making it ideal for all-day use.",
+//     categoryId: "0f2a83f3-f138-4648-bbab-56c4c322ee85",
+//     brandId: "ee10611c-7282-47fc-a440-633400654cdc",
+//     variants: [
+//       { id: 16, variant: "256GB SSD", price: "0" },
+//       { id: 17, variant: "512GB SSD", price: "200" },
+//       { id: 18, variant: "1TB SSD", price: "400" },
+//     ],
+//     cover: "/uploads/image_macbook_air_2023.png",
+//     screenSize: "13.6",
+//     cpu: "Apple M2",
+//     cores: "8",
+//     mainCamera: "N/A",
+//     frontCamera: "1080p HD",
+//     battery: "4379",
+//     ram: "16",
+//     slug: "macbook-air-2023",
+//     colors: [
+//       { id: 14, name: "#C0C0C0" },
+//       { id: 15, name: "#000000" },
+//       { id: 16, name: "#F5F5F5" },
+//     ],
+//   },
+// ];
+
+// export const ProductsInBulk = [
+//   {
+//     title: "Apple Watch Series 9",
+//     price: "499.99",
+//     stock: 50,
+//     description:
+//  "The Apple Watch Series 9 features a stunning Always-On Retina display and the new S9 chip for faster performance. It comes with advanced health and fitness tracking, including blood oxygen monitoring and ECG. The watch offers GPS, cellular connectivity, and a wide range of sensors. Available in multiple colors and finishes, it is perfect for both fitness enthusiasts and everyday users.",
+//     categoryId: "71a89833-9e30-422b-9ad7-ba13920f2b8a",
+//     brandId: "ee10611c-7282-47fc-a440-633400654cdc",
+//     variants: [
+//       { id: 1, variant: "40mm", price: "0" },
+//       { id: 2, variant: "44mm", price: "50" },
+//     ],
+//     cover: "/uploads/image_apple_watch_series_9.png",
+//     screenSize: "1.78",
+//     screenType: "Retina",
+//     battery: "284", // Battery capacity in mAh
+//     cpu: "Apple S9", // Added CPU field
+//     features: "Blood Oxygen Monitoring, ECG, Always-On Display",
+//     connectivity: "GPS, Cellular, Wi-Fi, Bluetooth",
+//     sensors: "Accelerometer, Gyroscope, Heart Rate Monitor",
+//     slug: "apple-watch-series-9",
+//     colors: [
+//       { id: 1, name: "#F0F0F0" },
+//       { id: 2, name: "#000000" },
+//     ],
+//   },
+//   {
+//     title: "Samsung Galaxy Watch 6",
+//     price: "399.99",
+//     stock: 40,
+//     description:
+//       "The Samsung Galaxy Watch 6 offers a sleek design and advanced features, including a Super AMOLED display, blood pressure monitoring, and sleep tracking. Powered by the Exynos W930 processor, it ensures smooth performance and long battery life. It supports GPS, LTE, and NFC, making it a versatile smartwatch for any lifestyle.",
+//     categoryId: "71a89833-9e30-422b-9ad7-ba13920f2b8a",
+//     brandId: "061ef0bc-8dbc-4691-a884-f1ce8dea17a6",
+//     variants: [
+//       { id: 3, variant: "40mm", price: "0" },
+//       { id: 4, variant: "44mm", price: "50" },
+//     ],
+//     cover: "/uploads/image_samsung_galaxy_watch_6.png",
+//     screenSize: "1.4",
+//     screenType: "Super AMOLED",
+//     battery: "361", // Battery capacity in mAh
+//     cpu: "Exynos W930", // Added CPU field
+//     features:
+//       "Blood Pressure Monitoring, Sleep Tracking, Customizable Watch Faces",
+//     connectivity: "GPS, LTE, Wi-Fi, Bluetooth, NFC",
+//     sensors: "Accelerometer, Barometer, Gyroscope, Heart Rate Monitor",
+//     slug: "samsung-galaxy-watch-6",
+//     colors: [
+//       { id: 3, name: "#1C1C1C" },
+//       { id: 4, name: "#E5E5E5" },
+//     ],
+//   },
+// {
+//   title: "Google Pixel Watch",
+//   price: "349.99",
+//   stock: 60,
+//   description:
+//     "The Google Pixel Watch combines sleek design with powerful features. It runs on Wear OS and integrates seamlessly with Google services like Assistant and Maps. The Pixel Watch tracks heart rate, sleep, and more, with advanced sensors and a beautiful circular AMOLED display. It also supports Google Pay and offers excellent battery life.",
+//   categoryId: "71a89833-9e30-422b-9ad7-ba13920f2b8a",
+//   brandId: "1d6b0eb8-19fa-4116-b997-bfd4f8aa0955",
+//   variants: [{ id: 5, variant: "41mm", price: "0" }],
+//   cover: "/uploads/image_google_pixel_watch.png",
+//   screenSize: "1.2",
+//   screenType: "AMOLED",
+//   battery: "294", // Battery capacity in mAh
+//   cpu: "Exynos 9110", // Added CPU field
+//   features: "Heart Rate Monitoring, Sleep Tracking, Google Pay",
+//   connectivity: "GPS, Wi-Fi, Bluetooth, NFC",
+//   sensors: "Accelerometer, Gyroscope, Optical Heart Rate Sensor",
+//   slug: "google-pixel-watch",
+//   colors: [
+//     { id: 5, name: "#FFFFFF" },
+//     { id: 6, name: "#000000" },
+//   ],
+// },
+// {
+//   title: "Xiaomi Watch S1 Pro",
+//   price: "249.99",
+//   stock: 70,
+//   description:
+//     "The Xiaomi Watch S1 Pro offers a premium build with sapphire glass and stainless steel frame. It comes with a 1.47-inch AMOLED display and includes advanced health tracking features like SpO2 monitoring and heart rate tracking. With a long battery life and comprehensive fitness tracking, it is a great companion for any activity.",
+//   categoryId: "71a89833-9e30-422b-9ad7-ba13920f2b8a",
+//   brandId: "28f37902-51d3-4734-9994-4edfe3a2e124",
+//   variants: [{ id: 6, variant: "47mm", price: "0" }],
+//   cover: "/uploads/image_xiaomi_watch_s1_pro.png",
+//   screenSize: "1.47",
+//   screenType: "AMOLED",
+//   battery: "500", // Battery capacity in mAh
+//   cpu: "Qualcomm Snapdragon Wear 4100+", // Added CPU field
+//   features: "SpO2 Monitoring, Heart Rate Tracking, 5ATM Water Resistance",
+//   connectivity: "GPS, Wi-Fi, Bluetooth",
+//   sensors: "Accelerometer, Gyroscope, SpO2 Sensor",
+//   slug: "xiaomi-watch-s1-pro",
+//   colors: [
+//     { id: 7, name: "#C0C0C0" },
+//     { id: 8, name: "#1F1F1F" },
+//   ],
+// },
+//];
+
+// export const ProductsInBulk = [
+//   {
+//     title: "OnePlus 12",
+//     price: "799.99",
+//     stock: 30,
+//     description:
+//       "The OnePlus 12 is built for speed and power. Equipped with a 6.7-inch Fluid AMOLED display and a 120Hz refresh rate, it offers a seamless and vibrant viewing experience. Powered by the Snapdragon 8 Gen 3 processor and 12GB of RAM, it ensures smooth performance across all apps and games. Capture detailed photos with the 50MP main camera and 32MP front camera. With a 5000mAh battery and Warp Charge 100, it powers up in minutes. Available in Volcanic Black and Arctic Blue.",
+//     categoryId: "71a89833-9e30-422b-9ad7-ba13920f2b8a",
+//     brandId: "23937424-9f80-4b55-a703-cf9dbba82070",
+//     variants: [
+//       { id: 4, variant: "256GB", price: "0" },
+//       { id: 5, variant: "512GB", price: "100" },
+//     ],
+//     cover: "/uploads/image_oneplus_12.png",
+//     screenSize: "6.7",
+//     cpu: "Snapdragon 8 Gen 3",
+//     cores: "8",
+//     mainCamera: "50MP",
+//     frontCamera: "32MP",
+//     battery: "5000",
+//     ram: "12",
+//     slug: "oneplus-12",
+//     colors: [
+//       { id: 3, name: "#1A1A1A" },
+//       { id: 4, name: "#4A90E2" },
+//     ],
+//   },
+// ];
 
 //[
 // {
