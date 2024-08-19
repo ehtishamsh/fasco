@@ -25,11 +25,11 @@ export interface Product {
   cover: string;
   screenSize: string;
   cpu: string;
-  cores: string;
-  mainCamera: string;
+  cores?: string;
+  mainCamera?: string;
   frontCamera?: string;
   battery: string;
-  ram: string;
+  ram?: string;
   quantity?: number;
   slug: string;
   selectedVariant?: {
@@ -41,6 +41,12 @@ export interface Product {
     id: string;
     name: string;
   };
+  screenType?: string;
+  sensor?: string;
+  zoom?: string;
+  features?: string;
+  connectivity?: string;
+  lens?: string;
 }
 interface Category {
   name: string;
