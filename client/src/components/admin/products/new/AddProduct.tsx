@@ -33,11 +33,17 @@ const formSchema = z.object({
   Description: z.string().min(1, "Description is required"),
   screenSize: z.string().min(1, "Screen Size is required"),
   cpu: z.string().min(1, "Cpu is required"),
-  ram: z.string().min(1, "RAM is required"),
-  cores: z.string().min(1, "Cores is required"),
-  mainCamera: z.string().min(1, "Main Camera is required"),
+  ram: z.string().optional(),
+  cores: z.string().optional(),
+  mainCamera: z.string().optional(),
   frontCamera: z.string().optional(),
   battery: z.string().min(1, "Battery is required"),
+  features: z.string().optional(),
+  connectivity: z.string().optional(),
+  sensor: z.string().optional(),
+  screenType: z.string().optional(),
+  lens: z.string().optional(),
+  zoom: z.string().optional(),
 });
 
 interface Option {
@@ -95,6 +101,12 @@ function AddProduct() {
       frontCamera: "",
       battery: "",
       ram: "",
+      features: "",
+      connectivity: "",
+      sensor: "",
+      screenType: "",
+      lens: "",
+      zoom: "",
     }),
     []
   );
@@ -116,11 +128,17 @@ function AddProduct() {
       cover: imgUrl,
       screenSize: values.screenSize,
       cpu: values.cpu,
-      cores: values.cores,
-      mainCamera: values.mainCamera,
-      frontCamera: values.frontCamera,
+      cores: values.cores || undefined,
+      mainCamera: values.mainCamera || undefined,
+      frontCamera: values.frontCamera || undefined,
       battery: values.battery,
-      ram: values.ram,
+      ram: values.ram || undefined,
+      features: values.features || undefined,
+      connectivity: values.connectivity || undefined,
+      sensor: values.sensor || undefined,
+      screenType: values.screenType || undefined,
+      lens: values.lens || undefined,
+      zoom: values.zoom || undefined,
       colors,
     };
     try {
@@ -299,77 +317,158 @@ function AddProduct() {
               )}
             />
             <DropdownMenuSeparator />
-            <FormField
-              control={form.control}
-              name="cores"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Cores</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Product Cores..."
-                      {...field}
-                      className="w-full"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <DropdownMenuSeparator />
-            <FormField
-              control={form.control}
-              name="mainCamera"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Main Camera</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Product Main Camera..."
-                      {...field}
-                      className="w-full"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <DropdownMenuSeparator />
-            <FormField
-              control={form.control}
-              name="frontCamera"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Front Camera(Optional)</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Product Front Camera..."
-                      {...field}
-                      className="w-full"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <DropdownMenuSeparator />
-            <FormField
-              control={form.control}
-              name="ram"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Ram</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Product Ram..."
-                      {...field}
-                      className="w-full"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            {(selectCategory?.name === "Laptops" ||
+              selectCategory?.name === "Smartphones" ||
+              selectCategory?.name === "Gaming") && (
+              <>
+                <FormField
+                  control={form.control}
+                  name="cores"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Cores</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Product Cores..."
+                          {...field}
+                          className="w-full"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <DropdownMenuSeparator />
+                <FormField
+                  control={form.control}
+                  name="mainCamera"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Main Camera</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Product Main Camera..."
+                          {...field}
+                          className="w-full"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <DropdownMenuSeparator />
+                <FormField
+                  control={form.control}
+                  name="frontCamera"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Front Camera(Optional)</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Product Front Camera..."
+                          {...field}
+                          className="w-full"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <DropdownMenuSeparator />
+                <FormField
+                  control={form.control}
+                  name="ram"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Ram</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Product Ram..."
+                          {...field}
+                          className="w-full"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </>
+            )}
+            {selectCategory?.name === "Smartwatches" && (
+              <>
+                <FormField
+                  control={form.control}
+                  name="sensor"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Sensors</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Product Sensors..."
+                          {...field}
+                          className="w-full"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <DropdownMenuSeparator />
+                <FormField
+                  control={form.control}
+                  name="screenType"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Screen Type</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Product Screen Type..."
+                          {...field}
+                          className="w-full"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <DropdownMenuSeparator />
+                <FormField
+                  control={form.control}
+                  name="connectivity"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Connectivity</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Product Connectivity..."
+                          {...field}
+                          className="w-full"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <DropdownMenuSeparator />
+                <FormField
+                  control={form.control}
+                  name="features"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Features</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Product Features..."
+                          {...field}
+                          className="w-full"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </>
+            )}
             <DropdownMenuSeparator />
             <FormField
               control={form.control}
