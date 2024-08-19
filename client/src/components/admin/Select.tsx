@@ -67,7 +67,11 @@ const Select = ({
           <button>
             <X
               className="absolute right-1 top-1 w-3 h-3"
-              onClick={() => setSelectedOptions(undefined)}
+              onClick={() => {
+                setSelectedOptions(undefined);
+                setOptionInput("");
+                setOptionSuggestions([]);
+              }}
             />
           </button>
         </span>
