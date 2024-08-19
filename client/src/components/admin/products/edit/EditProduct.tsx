@@ -22,6 +22,7 @@ import { toast } from "@/components/ui/use-toast";
 import { BreadCrumbAdmin } from "../../BreadCrumAdmin";
 import { useParams } from "react-router-dom";
 import Loading from "@/components/ui/Loading";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const formSchema = z.object({
   ProductName: z
@@ -32,12 +33,26 @@ const formSchema = z.object({
   Stock: z.coerce.number().min(1, "Stock is required"),
   Description: z.string().min(1, "Description is required"),
   screenSize: z.string().min(1, "Screen Size is required"),
-  cpu: z.string().min(1, "Cpu is required"),
-  ram: z.string().min(1, "RAM is required"),
-  cores: z.string().min(1, "Cores is required"),
-  mainCamera: z.string().min(1, "Main Camera is required"),
-  frontCamera: z.string().optional(),
+  cpu: z.string().nullable(),
+  ram: z.string().nullable(),
+  cores: z.string().nullable(),
+  mainCamera: z.string().nullable(),
+  frontCamera: z.string().nullable(),
   battery: z.string().min(1, "Battery is required"),
+  features: z.string().nullable(),
+  connectivity: z.string().nullable(),
+  sensor: z.string().nullable(),
+  screenType: z.string().nullable(),
+  lens: z.string().nullable(),
+  zoom: z.string().nullable(),
+  megapixels: z.string().nullable(),
+  aperture: z.string().nullable(),
+  videoResolution: z.string().nullable(),
+  type: z.string().nullable(),
+  noiseCancellation: z.boolean(),
+  batteryLife: z.string().nullable(),
+  wireless: z.boolean(),
+  microphone: z.boolean(),
 });
 
 interface Option {
@@ -97,6 +112,20 @@ function EditProduct() {
       frontCamera: "",
       battery: "",
       ram: "",
+      features: "",
+      connectivity: "",
+      sensor: "",
+      screenType: "",
+      lens: "",
+      zoom: "",
+      megapixels: "",
+      aperture: "",
+      videoResolution: "",
+      type: "",
+      noiseCancellation: false,
+      batteryLife: "",
+      wireless: false,
+      microphone: false,
     }),
     []
   );
@@ -124,6 +153,21 @@ function EditProduct() {
         form.setValue("frontCamera", data.data.frontCamera);
         form.setValue("battery", data.data.battery);
         form.setValue("ram", data.data.ram);
+        form.setValue("features", data.data.features);
+        form.setValue("connectivity", data.data.connectivity);
+        form.setValue("sensor", data.data.sensor);
+        form.setValue("screenType", data.data.screenType);
+        form.setValue("lens", data.data.lens);
+        form.setValue("zoom", data.data.zoom);
+        form.setValue("megapixels", data.data.megapixels);
+        form.setValue("aperture", data.data.aperture);
+        form.setValue("videoResolution", data.data.videoResolution);
+        form.setValue("type", data.data.type);
+        form.setValue("noiseCancellation", data.data.noiseCancellation);
+        form.setValue("batteryLife", data.data.batteryLife);
+        form.setValue("wireless", data.data.wireless);
+        form.setValue("microphone", data.data.microphone);
+
         setProduct(data.data);
         setImgUrl(data.data.cover);
         setSelectCategory(
@@ -141,6 +185,7 @@ function EditProduct() {
     fetchProduct();
     return () => {};
   }, [categories, brands]);
+  console.log(product);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const newProduct = {
@@ -160,9 +205,24 @@ function EditProduct() {
       frontCamera: values.frontCamera,
       battery: values.battery,
       ram: values.ram,
+      features: values.features,
+      connectivity: values.connectivity,
+      sensor: values.sensor,
+      screenType: values.screenType,
+      lens: values.lens,
+      zoom: values.zoom,
+      megapixels: values.megapixels,
+      aperture: values.aperture,
+      videoResolution: values.videoResolution,
+      type: values.type,
+      noiseCancellation: values.noiseCancellation,
+      batteryLife: values.batteryLife,
+      wireless: values.wireless,
+      microphone: values.microphone,
       colors,
       slug: values.ProductName.toLowerCase().replace(/ /g, "-"),
     };
+    console.log(newProduct);
     try {
       const res = await fetch(`http://localhost:4000/api/products/edit`, {
         method: "PUT",
@@ -337,6 +397,7 @@ function EditProduct() {
                       <Input
                         placeholder="Product CPU..."
                         {...field}
+                        value={field.value ?? ""}
                         className="w-full"
                       />
                     </FormControl>
@@ -345,77 +406,281 @@ function EditProduct() {
                 )}
               />
               <DropdownMenuSeparator />
-              <FormField
-                control={form.control}
-                name="cores"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Cores</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Product Cores..."
-                        {...field}
-                        className="w-full"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <DropdownMenuSeparator />
-              <FormField
-                control={form.control}
-                name="mainCamera"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Main Camera</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Product Main Camera..."
-                        {...field}
-                        className="w-full"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <DropdownMenuSeparator />
-              <FormField
-                control={form.control}
-                name="frontCamera"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Front Camera(Optional)</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Product Front Camera..."
-                        {...field}
-                        className="w-full"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <DropdownMenuSeparator />
-              <FormField
-                control={form.control}
-                name="ram"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Ram</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Product Ram..."
-                        {...field}
-                        className="w-full"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              {(selectCategory?.name === "Laptops" ||
+                selectCategory?.name === "Smartphones" ||
+                selectCategory?.name === "Gaming") && (
+                <>
+                  <FormField
+                    control={form.control}
+                    name="cores"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Cores</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Product Cores..."
+                            {...field}
+                            value={field.value ?? ""}
+                            className="w-full"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <DropdownMenuSeparator />
+                  <FormField
+                    control={form.control}
+                    name="mainCamera"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Main Camera</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Product Main Camera..."
+                            {...field}
+                            value={field.value ?? ""}
+                            className="w-full"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <DropdownMenuSeparator />
+                  <FormField
+                    control={form.control}
+                    name="frontCamera"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Front Camera(Optional)</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Product Front Camera..."
+                            {...field}
+                            value={field.value ?? ""}
+                            className="w-full"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <DropdownMenuSeparator />
+                  <FormField
+                    control={form.control}
+                    name="ram"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Ram</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Product Ram..."
+                            {...field}
+                            value={field.value ?? ""}
+                            className="w-full"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </>
+              )}
+              {selectCategory?.name === "Smartwatches" && (
+                <>
+                  <FormField
+                    control={form.control}
+                    name="sensor"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Sensors</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Product Sensors..."
+                            {...field}
+                            value={field.value ?? ""}
+                            className="w-full"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <DropdownMenuSeparator />
+                  <FormField
+                    control={form.control}
+                    name="screenType"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Screen Type</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Product Screen Type..."
+                            {...field}
+                            value={field.value ?? ""}
+                            className="w-full"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <DropdownMenuSeparator />
+                  <FormField
+                    control={form.control}
+                    name="connectivity"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Connectivity</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Product Connectivity..."
+                            {...field}
+                            value={field.value ?? ""}
+                            className="w-full"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <DropdownMenuSeparator />
+                  <FormField
+                    control={form.control}
+                    name="features"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Features</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Product Features..."
+                            {...field}
+                            value={field.value ?? ""}
+                            className="w-full"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </>
+              )}
+              {selectCategory?.name === "Headphones" && (
+                <>
+                  <FormField
+                    control={form.control}
+                    name="sensor"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Sensors</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Product Sensors..."
+                            {...field}
+                            value={field.value ?? ""}
+                            className="w-full"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <DropdownMenuSeparator />
+                  <FormField
+                    control={form.control}
+                    name="type"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Type</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Product Type..."
+                            {...field}
+                            value={field.value ?? ""}
+                            className="w-full"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <DropdownMenuSeparator />
+                  <FormField
+                    control={form.control}
+                    name="batteryLife"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>batteryLife</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Product battery Life..."
+                            {...field}
+                            value={field.value ?? ""}
+                            className="w-full"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <DropdownMenuSeparator />
+                  <FormField
+                    control={form.control}
+                    name="features"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Features</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Product Features..."
+                            {...field}
+                            value={field.value ?? ""}
+                            className="w-full"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <DropdownMenuSeparator />
+                  <FormField
+                    control={form.control}
+                    name="microphone"
+                    render={({ field }) => (
+                      <div className="flex flex-col gap-2">
+                        <FormLabel>Microphone</FormLabel>
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </div>
+                    )}
+                  />
+                  <DropdownMenuSeparator />
+                  <FormField
+                    control={form.control}
+                    name="noiseCancellation"
+                    render={({ field }) => (
+                      <FormItem>
+                        <div className="flex flex-col gap-2">
+                          <FormLabel>Noise Cancellation</FormLabel>
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </>
+              )}
               <DropdownMenuSeparator />
               <FormField
                 control={form.control}
@@ -427,6 +692,7 @@ function EditProduct() {
                       <Input
                         placeholder="Product Battery..."
                         {...field}
+                        value={field.value ?? ""}
                         className="w-full"
                       />
                     </FormControl>
