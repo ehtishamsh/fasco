@@ -8,16 +8,35 @@ interface Product {
   description: string;
   cover: string;
   screenSize: string;
-  cpu: string;
-  cores: string;
-  mainCamera: string;
-  frontCamera?: string;
   battery: string;
-  ram: string;
-  quantity?: number;
   slug: string;
   brandId: string;
+  cpu: string;
+  cores?: string;
+  mainCamera?: string;
+  frontCamera?: string;
+  ram?: string;
+  quantity?: number;
   categoryId: string;
+  screenType?: string;
+  sensor?: string;
+  zoom?: string;
+  features?: string;
+  connectivity?: string;
+  lens?: string;
+  megapixels?: string;
+  aperture?: string;
+  videoResolution?: string;
+  batteryLife?: string;
+  gpu?: string;
+  compatibleGames?: string;
+  maxResolution?: string;
+  microphone?: boolean;
+  noiseCancellation?: boolean;
+  wireless?: boolean;
+  numberOfControllers?: string;
+  storage?: string;
+  type?: string;
 }
 export async function getAllProducts() {
   return await prisma.product.findMany();
@@ -65,6 +84,24 @@ export async function createProduct(data: Product) {
       cover: data.cover,
       price: data.price,
       stock: data.stock,
+      features: data.features,
+      connectivity: data.connectivity,
+      sensor: data.sensor,
+      screenType: data.screenType,
+      lens: data.lens,
+      megapixels: data.megapixels,
+      aperture: data.aperture,
+      videoResolution: data.videoResolution,
+      batteryLife: data.batteryLife,
+      gpu: data.gpu,
+      compatibleGames: data.compatibleGames,
+      maxResolution: data.maxResolution,
+      microphone: data.microphone,
+      noiseCancellation: data.noiseCancellation,
+      wireless: data.wireless,
+      numberOfControllers: data.numberOfControllers,
+      storage: data.storage,
+      type: data.type,
     },
   });
 }
@@ -138,6 +175,25 @@ export async function findProductById(id: string) {
       screenSize: true,
       slug: true,
       title: true,
+      features: true,
+      connectivity: true,
+      sensor: true,
+      screenType: true,
+      lens: true,
+      zoom: true,
+      megapixels: true,
+      aperture: true,
+      videoResolution: true,
+      batteryLife: true,
+      gpu: true,
+      compatibleGames: true,
+      maxResolution: true,
+      microphone: true,
+      noiseCancellation: true,
+      numberOfControllers: true,
+      storage: true,
+      type: true,
+      wireless: true,
       variant: {
         select: {
           id: true,
@@ -169,6 +225,24 @@ export async function updateProduct(data: Product) {
       cover: data.cover,
       price: data.price,
       stock: data.stock,
+      features: data.features,
+      connectivity: data.connectivity,
+      sensor: data.sensor,
+      screenType: data.screenType,
+      lens: data.lens,
+      megapixels: data.megapixels,
+      aperture: data.aperture,
+      videoResolution: data.videoResolution,
+      batteryLife: data.batteryLife,
+      gpu: data.gpu,
+      compatibleGames: data.compatibleGames,
+      maxResolution: data.maxResolution,
+      microphone: data.microphone,
+      noiseCancellation: data.noiseCancellation,
+      wireless: data.wireless,
+      numberOfControllers: data.numberOfControllers,
+      storage: data.storage,
+      type: data.type,
     },
   });
 }
