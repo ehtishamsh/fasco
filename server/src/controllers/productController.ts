@@ -350,7 +350,6 @@ export const editProduct = async (req: Request, res: Response) => {
       storage,
       type,
     } = req.body;
-    console.log(req.body);
     const checkifexist = await findProductById(id);
     if (!checkifexist) {
       return res.status(404).send("Product not found");
