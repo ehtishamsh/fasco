@@ -31,19 +31,37 @@ const formSchema = z.object({
   Price: z.string().min(1, "Price is required"),
   Stock: z.coerce.number().min(1, "Stock is required"),
   Description: z.string().min(1, "Description is required"),
+  //Smartphone & Laptop
   screenSize: z.string().min(1, "Screen Size is required"),
-  cpu: z.string().min(1, "Cpu is required"),
-  ram: z.string().optional(),
-  cores: z.string().optional(),
-  mainCamera: z.string().optional(),
-  frontCamera: z.string().optional(),
+  cpu: z.string().nullable(),
+  ram: z.string().nullable(),
+  cores: z.string().nullable(),
+  mainCamera: z.string().nullable(),
+  frontCamera: z.string().nullable(),
   battery: z.string().min(1, "Battery is required"),
-  features: z.string().optional(),
-  connectivity: z.string().optional(),
-  sensor: z.string().optional(),
-  screenType: z.string().optional(),
-  lens: z.string().optional(),
-  zoom: z.string().optional(),
+  //Smartwatch
+  features: z.string().nullable(),
+  connectivity: z.string().nullable(),
+  sensor: z.string().nullable(),
+  screenType: z.string().nullable(),
+  //Camera
+  lens: z.string().nullable(),
+  zoom: z.string().nullable(),
+  megapixels: z.string().nullable(),
+  aperture: z.string().nullable(),
+  videoResolution: z.string().nullable(),
+  //Headphones
+  type: z.string().nullable(),
+  noiseCancellation: z.boolean(),
+  batteryLife: z.string().nullable(),
+  wireless: z.boolean(),
+  microphone: z.boolean(),
+  //Gaming
+  storage: z.string().nullable(),
+  gpu: z.string().nullable(),
+  maxResolution: z.string().nullable(),
+  numberOfControllers: z.string().nullable(),
+  compatibleGames: z.string().nullable(),
 });
 
 interface Option {
@@ -107,6 +125,19 @@ function AddProduct() {
       screenType: "",
       lens: "",
       zoom: "",
+      megapixels: "",
+      aperture: "",
+      videoResolution: "",
+      type: "",
+      noiseCancellation: false,
+      batteryLife: "",
+      wireless: false,
+      microphone: false,
+      storage: "",
+      gpu: "",
+      maxResolution: "",
+      numberOfControllers: "",
+      compatibleGames: "",
     }),
     []
   );
@@ -139,6 +170,20 @@ function AddProduct() {
       screenType: values.screenType || undefined,
       lens: values.lens || undefined,
       zoom: values.zoom || undefined,
+      megapixels: values.megapixels || undefined,
+      aperture: values.aperture || undefined,
+      videoResolution: values.videoResolution || undefined,
+      type: values.type || undefined,
+      noiseCancellation: values.noiseCancellation,
+      batteryLife: values.batteryLife || undefined,
+      wireless: values.wireless,
+      microphone: values.microphone,
+      storage: values.storage || undefined,
+      gpu: values.gpu || undefined,
+      maxResolution: values.maxResolution || undefined,
+      numberOfControllers: values.numberOfControllers || undefined,
+      compatibleGames: values.compatibleGames || undefined,
+
       colors,
     };
     try {
@@ -309,6 +354,7 @@ function AddProduct() {
                     <Input
                       placeholder="Product CPU..."
                       {...field}
+                      value={field.value ?? ""}
                       className="w-full"
                     />
                   </FormControl>
@@ -331,6 +377,7 @@ function AddProduct() {
                         <Input
                           placeholder="Product Cores..."
                           {...field}
+                          value={field.value ?? ""}
                           className="w-full"
                         />
                       </FormControl>
@@ -349,6 +396,7 @@ function AddProduct() {
                         <Input
                           placeholder="Product Main Camera..."
                           {...field}
+                          value={field.value ?? ""}
                           className="w-full"
                         />
                       </FormControl>
@@ -367,6 +415,7 @@ function AddProduct() {
                         <Input
                           placeholder="Product Front Camera..."
                           {...field}
+                          value={field.value ?? ""}
                           className="w-full"
                         />
                       </FormControl>
@@ -385,6 +434,7 @@ function AddProduct() {
                         <Input
                           placeholder="Product Ram..."
                           {...field}
+                          value={field.value ?? ""}
                           className="w-full"
                         />
                       </FormControl>
@@ -406,6 +456,7 @@ function AddProduct() {
                         <Input
                           placeholder="Product Sensors..."
                           {...field}
+                          value={field.value ?? ""}
                           className="w-full"
                         />
                       </FormControl>
@@ -424,6 +475,7 @@ function AddProduct() {
                         <Input
                           placeholder="Product Screen Type..."
                           {...field}
+                          value={field.value ?? ""}
                           className="w-full"
                         />
                       </FormControl>
@@ -442,6 +494,7 @@ function AddProduct() {
                         <Input
                           placeholder="Product Connectivity..."
                           {...field}
+                          value={field.value ?? ""}
                           className="w-full"
                         />
                       </FormControl>
@@ -460,6 +513,7 @@ function AddProduct() {
                         <Input
                           placeholder="Product Features..."
                           {...field}
+                          value={field.value ?? ""}
                           className="w-full"
                         />
                       </FormControl>
