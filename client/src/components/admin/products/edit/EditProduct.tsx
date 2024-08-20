@@ -32,27 +32,37 @@ const formSchema = z.object({
   Price: z.string().min(1, "Price is required"),
   Stock: z.coerce.number().min(1, "Stock is required"),
   Description: z.string().min(1, "Description is required"),
-  screenSize: z.string().min(1, "Screen Size is required"),
+  //Smartphone & Laptop
+  screenSize: z.string().nullable(),
   cpu: z.string().nullable(),
   ram: z.string().nullable(),
   cores: z.string().nullable(),
   mainCamera: z.string().nullable(),
   frontCamera: z.string().nullable(),
-  battery: z.string().min(1, "Battery is required"),
+  battery: z.string().nullable(),
+  //Smartwatch
   features: z.string().nullable(),
   connectivity: z.string().nullable(),
   sensor: z.string().nullable(),
   screenType: z.string().nullable(),
+  //Camera
   lens: z.string().nullable(),
   zoom: z.string().nullable(),
   megapixels: z.string().nullable(),
   aperture: z.string().nullable(),
   videoResolution: z.string().nullable(),
+  //Headphones
   type: z.string().nullable(),
   noiseCancellation: z.boolean(),
   batteryLife: z.string().nullable(),
   wireless: z.boolean(),
   microphone: z.boolean(),
+  //Gaming
+  storage: z.string().nullable(),
+  gpu: z.string().nullable(),
+  maxResolution: z.string().nullable(),
+  numberOfControllers: z.string().nullable(),
+  compatibleGames: z.string().nullable(),
 });
 
 interface Option {
@@ -167,6 +177,11 @@ function EditProduct() {
         form.setValue("batteryLife", data.data.batteryLife);
         form.setValue("wireless", data.data.wireless);
         form.setValue("microphone", data.data.microphone);
+        form.setValue("storage", data.data.storage);
+        form.setValue("gpu", data.data.gpu);
+        form.setValue("maxResolution", data.data.maxResolution);
+        form.setValue("numberOfControllers", data.data.numberOfControllers);
+        form.setValue("compatibleGames", data.data.compatibleGames);
 
         setProduct(data.data);
         setImgUrl(data.data.cover);
@@ -185,7 +200,6 @@ function EditProduct() {
     fetchProduct();
     return () => {};
   }, [categories, brands]);
-  console.log(product);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const newProduct = {
@@ -219,10 +233,15 @@ function EditProduct() {
       batteryLife: values.batteryLife,
       wireless: values.wireless,
       microphone: values.microphone,
+      storage: values.storage,
+      gpu: values.gpu,
+      maxResolution: values.maxResolution,
+      numberOfControllers: values.numberOfControllers,
+      compatibleGames: values.compatibleGames,
       colors,
       slug: values.ProductName.toLowerCase().replace(/ /g, "-"),
     };
-    console.log(newProduct);
+
     try {
       const res = await fetch(`http://localhost:4000/api/products/edit`, {
         method: "PUT",
@@ -232,7 +251,7 @@ function EditProduct() {
         body: JSON.stringify(newProduct),
       });
       const data = await res.json();
-      console.log(data);
+
       if (data.status === 200) {
         toast({
           title: "Success",
@@ -257,7 +276,7 @@ function EditProduct() {
         </div>
       ) : (
         <div className=" flex flex-col gap-5 ">
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 mt-2">
             <BreadCrumbAdmin paths={["Admin", "Products"]} end={"Edit"} />
             <h1 className="text-3xl font-bold tracking-tight max-sm:text-xl">
               Edit Product
@@ -369,47 +388,47 @@ function EditProduct() {
               />
 
               <DropdownMenuSeparator />
-              <FormField
-                control={form.control}
-                name="screenSize"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Screen Size</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Product Screen Size..."
-                        {...field}
-                        className="w-full"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <DropdownMenuSeparator />
-              <FormField
-                control={form.control}
-                name="cpu"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>CPU</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Product CPU..."
-                        {...field}
-                        value={field.value ?? ""}
-                        className="w-full"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <DropdownMenuSeparator />
               {(selectCategory?.name === "Laptops" ||
-                selectCategory?.name === "Smartphones" ||
-                selectCategory?.name === "Gaming") && (
+                selectCategory?.name === "Smartphones") && (
                 <>
+                  <FormField
+                    control={form.control}
+                    name="screenSize"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Screen Size</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Product Screen Size..."
+                            {...field}
+                            value={field.value ?? ""}
+                            className="w-full"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <DropdownMenuSeparator />
+                  <FormField
+                    control={form.control}
+                    name="cpu"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>CPU</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Product CPU..."
+                            {...field}
+                            value={field.value ?? ""}
+                            className="w-full"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <DropdownMenuSeparator />
                   <FormField
                     control={form.control}
                     name="cores"
@@ -489,6 +508,43 @@ function EditProduct() {
               )}
               {selectCategory?.name === "Smartwatches" && (
                 <>
+                  <FormField
+                    control={form.control}
+                    name="screenSize"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Screen Size</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Product Screen Size..."
+                            {...field}
+                            value={field.value ?? ""}
+                            className="w-full"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <DropdownMenuSeparator />
+                  <FormField
+                    control={form.control}
+                    name="cpu"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>CPU</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Product CPU..."
+                            {...field}
+                            value={field.value ?? ""}
+                            className="w-full"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                   <FormField
                     control={form.control}
                     name="sensor"
@@ -648,7 +704,7 @@ function EditProduct() {
                     control={form.control}
                     name="microphone"
                     render={({ field }) => (
-                      <div className="flex flex-col gap-2">
+                      <div className="flex flex-col gap-2 mt-2">
                         <FormLabel>Microphone</FormLabel>
                         <FormControl>
                           <Checkbox
@@ -666,8 +722,27 @@ function EditProduct() {
                     name="noiseCancellation"
                     render={({ field }) => (
                       <FormItem>
-                        <div className="flex flex-col gap-2">
+                        <div className="flex flex-col gap-2 mt-2">
                           <FormLabel>Noise Cancellation</FormLabel>
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                  <DropdownMenuSeparator />
+                  <FormField
+                    control={form.control}
+                    name="wireless"
+                    render={({ field }) => (
+                      <FormItem>
+                        <div className="flex flex-col gap-2 mt-2">
+                          <FormLabel>Wireless</FormLabel>
                           <FormControl>
                             <Checkbox
                               checked={field.value}
