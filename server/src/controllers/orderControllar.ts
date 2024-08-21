@@ -52,6 +52,27 @@ interface Product {
   ram: string;
   quantity?: number;
   slug: string;
+  categoryId: string;
+  screenType?: string;
+  sensor?: string;
+  zoom?: string;
+  features?: string;
+  connectivity?: string;
+  lens?: string;
+  megapixels?: string;
+  aperture?: string;
+  videoResolution?: string;
+  batteryLife?: string;
+  gpu?: string;
+  compatibleGames?: string;
+  maxResolution?: string;
+  microphone?: boolean;
+  noiseCancellation?: boolean;
+  wireless?: boolean;
+  numberOfControllers?: string;
+  storage?: string;
+  type?: string;
+
   selectedVariant?: {
     id: string;
     name: string;
