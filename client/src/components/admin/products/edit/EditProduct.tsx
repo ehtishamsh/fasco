@@ -51,6 +51,9 @@ const formSchema = z.object({
   megapixels: z.string().nullable(),
   aperture: z.string().nullable(),
   videoResolution: z.string().nullable(),
+  //maxResolution: z.string().nullable(),
+  //  features: z.string().nullable(),
+
   //Headphones
   type: z.string().nullable(),
   noiseCancellation: z.boolean(),
@@ -182,6 +185,7 @@ function EditProduct() {
         form.setValue("maxResolution", data.data.maxResolution);
         form.setValue("numberOfControllers", data.data.numberOfControllers);
         form.setValue("compatibleGames", data.data.compatibleGames);
+        form.setValue("zoom", data.data.zoom);
 
         setProduct(data.data);
         setImgUrl(data.data.cover);
@@ -756,25 +760,124 @@ function EditProduct() {
                   />
                 </>
               )}
-              <DropdownMenuSeparator />
-              <FormField
-                control={form.control}
-                name="battery"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Battery</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Product Battery..."
-                        {...field}
-                        value={field.value ?? ""}
-                        className="w-full"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              {selectCategory?.name === "Cameras" && (
+                <>
+                  <FormField
+                    control={form.control}
+                    name="lens"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Camera Lens</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Camera Lens..."
+                            {...field}
+                            value={field.value ?? ""}
+                            className="w-full"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <DropdownMenuSeparator />
+                  <FormField
+                    control={form.control}
+                    name="maxResolution"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>maxResolution</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Product maxResolution..."
+                            {...field}
+                            value={field.value ?? ""}
+                            className="w-full"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <DropdownMenuSeparator />
+                  <FormField
+                    control={form.control}
+                    name="aperture"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Aperture</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Product battery Life..."
+                            {...field}
+                            value={field.value ?? ""}
+                            className="w-full"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <DropdownMenuSeparator />
+
+                  <FormField
+                    control={form.control}
+                    name="videoResolution"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Video Resolution</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Product Video Resolution..."
+                            {...field}
+                            value={field.value ?? ""}
+                            className="w-full"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <DropdownMenuSeparator />
+                  <FormField
+                    control={form.control}
+                    name="zoom"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Zoom</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Product Zoom..."
+                            {...field}
+                            value={field.value ?? ""}
+                            className="w-full"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <DropdownMenuSeparator />
+                  <FormField
+                    control={form.control}
+                    name="megapixels"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Product Megapixels</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Product Megapixels..."
+                            {...field}
+                            value={field.value ?? ""}
+                            className="w-full"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </>
+              )}
 
               <Button variant="default" type="submit" className="w-full mt-6">
                 Edit
