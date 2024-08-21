@@ -47,6 +47,19 @@ export interface Product {
   features?: string;
   connectivity?: string;
   lens?: string;
+  megapixels?: string;
+  aperture?: string;
+  videoResolution?: string;
+  batteryLife?: string;
+  gpu?: string;
+  compatibleGames?: string;
+  maxResolution?: string;
+  microphone?: boolean;
+  noiseCancellation?: boolean;
+  wireless?: boolean;
+  numberOfControllers?: string;
+  storage?: string;
+  type?: string;
 }
 interface Category {
   name: string;
