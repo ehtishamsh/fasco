@@ -102,6 +102,7 @@ export async function createProduct(data: Product) {
       numberOfControllers: data.numberOfControllers,
       storage: data.storage,
       type: data.type,
+      zoom: data.zoom,
     },
   });
 }
@@ -230,6 +231,8 @@ export async function updateProduct(data: Product) {
       sensor: data.sensor,
       screenType: data.screenType,
       lens: data.lens,
+      zoom: data.zoom,
+
       megapixels: data.megapixels,
       aperture: data.aperture,
       videoResolution: data.videoResolution,
