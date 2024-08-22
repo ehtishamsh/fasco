@@ -22,6 +22,7 @@ import { toast } from "@/components/ui/use-toast";
 import { BreadCrumbAdmin } from "../../BreadCrumAdmin";
 import Bulk from "./Bulk";
 import { ProductsInBulk } from "./ProductInBulk";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const formSchema = z.object({
   ProductName: z
@@ -32,13 +33,13 @@ const formSchema = z.object({
   Stock: z.coerce.number().min(1, "Stock is required"),
   Description: z.string().min(1, "Description is required"),
   //Smartphone & Laptop
-  screenSize: z.string().min(1, "Screen Size is required"),
+  screenSize: z.string().nullable(),
   cpu: z.string().nullable(),
   ram: z.string().nullable(),
   cores: z.string().nullable(),
   mainCamera: z.string().nullable(),
   frontCamera: z.string().nullable(),
-  battery: z.string().min(1, "Battery is required"),
+  battery: z.string().nullable(),
   //Smartwatch
   features: z.string().nullable(),
   connectivity: z.string().nullable(),
@@ -50,6 +51,9 @@ const formSchema = z.object({
   megapixels: z.string().nullable(),
   aperture: z.string().nullable(),
   videoResolution: z.string().nullable(),
+  //maxResolution: z.string().nullable(),
+  //  features: z.string().nullable(),
+
   //Headphones
   type: z.string().nullable(),
   noiseCancellation: z.boolean(),
@@ -59,6 +63,10 @@ const formSchema = z.object({
   //Gaming
   storage: z.string().nullable(),
   gpu: z.string().nullable(),
+  //cpu: z.string().nullable(),
+  //ram: z.string().nullable(),
+  //cores: z.string().nullable(),
+  //  features: z.string().nullable(),
   maxResolution: z.string().nullable(),
   numberOfControllers: z.string().nullable(),
   compatibleGames: z.string().nullable(),
@@ -132,6 +140,7 @@ function AddProduct() {
       noiseCancellation: false,
       batteryLife: "",
       wireless: false,
+
       microphone: false,
       storage: "",
       gpu: "",
@@ -159,31 +168,30 @@ function AddProduct() {
       cover: imgUrl,
       screenSize: values.screenSize,
       cpu: values.cpu,
-      cores: values.cores || undefined,
-      mainCamera: values.mainCamera || undefined,
-      frontCamera: values.frontCamera || undefined,
+      cores: values.cores,
+      mainCamera: values.mainCamera,
+      frontCamera: values.frontCamera,
       battery: values.battery,
-      ram: values.ram || undefined,
-      features: values.features || undefined,
-      connectivity: values.connectivity || undefined,
-      sensor: values.sensor || undefined,
-      screenType: values.screenType || undefined,
-      lens: values.lens || undefined,
-      zoom: values.zoom || undefined,
-      megapixels: values.megapixels || undefined,
-      aperture: values.aperture || undefined,
-      videoResolution: values.videoResolution || undefined,
-      type: values.type || undefined,
+      ram: values.ram,
+      features: values.features,
+      connectivity: values.connectivity,
+      sensor: values.sensor,
+      screenType: values.screenType,
+      lens: values.lens,
+      zoom: values.zoom,
+      megapixels: values.megapixels,
+      aperture: values.aperture,
+      videoResolution: values.videoResolution,
+      type: values.type,
       noiseCancellation: values.noiseCancellation,
-      batteryLife: values.batteryLife || undefined,
+      batteryLife: values.batteryLife,
       wireless: values.wireless,
       microphone: values.microphone,
-      storage: values.storage || undefined,
-      gpu: values.gpu || undefined,
-      maxResolution: values.maxResolution || undefined,
-      numberOfControllers: values.numberOfControllers || undefined,
-      compatibleGames: values.compatibleGames || undefined,
-
+      storage: values.storage,
+      gpu: values.gpu,
+      maxResolution: values.maxResolution,
+      numberOfControllers: values.numberOfControllers,
+      compatibleGames: values.compatibleGames,
       colors,
     };
     try {
@@ -292,6 +300,7 @@ function AddProduct() {
             <DropdownMenuSeparator />
             <Label>Product Color</Label>
             <ProductColor color={colors} setcolor={setColors} />
+
             <DropdownMenuSeparator />
             <Select
               options={categories}
@@ -326,47 +335,47 @@ function AddProduct() {
             />
 
             <DropdownMenuSeparator />
-            <FormField
-              control={form.control}
-              name="screenSize"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Screen Size</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Product Screen Size..."
-                      {...field}
-                      className="w-full"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <DropdownMenuSeparator />
-            <FormField
-              control={form.control}
-              name="cpu"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>CPU</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Product CPU..."
-                      {...field}
-                      value={field.value ?? ""}
-                      className="w-full"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <DropdownMenuSeparator />
             {(selectCategory?.name === "Laptops" ||
-              selectCategory?.name === "Smartphones" ||
-              selectCategory?.name === "Gaming") && (
+              selectCategory?.name === "Smartphones") && (
               <>
+                <FormField
+                  control={form.control}
+                  name="screenSize"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Screen Size</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Product Screen Size..."
+                          {...field}
+                          value={field.value ?? ""}
+                          className="w-full"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <DropdownMenuSeparator />
+                <FormField
+                  control={form.control}
+                  name="cpu"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>CPU</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Product CPU..."
+                          {...field}
+                          value={field.value ?? ""}
+                          className="w-full"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <DropdownMenuSeparator />
                 <FormField
                   control={form.control}
                   name="cores"
@@ -448,6 +457,43 @@ function AddProduct() {
               <>
                 <FormField
                   control={form.control}
+                  name="screenSize"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Screen Size</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Product Screen Size..."
+                          {...field}
+                          value={field.value ?? ""}
+                          className="w-full"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <DropdownMenuSeparator />
+                <FormField
+                  control={form.control}
+                  name="cpu"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>CPU</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Product CPU..."
+                          {...field}
+                          value={field.value ?? ""}
+                          className="w-full"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
                   name="sensor"
                   render={({ field }) => (
                     <FormItem>
@@ -523,24 +569,258 @@ function AddProduct() {
                 />
               </>
             )}
-            <DropdownMenuSeparator />
-            <FormField
-              control={form.control}
-              name="battery"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Battery</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Product Battery..."
-                      {...field}
-                      className="w-full"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            {selectCategory?.name === "Headphones" && (
+              <>
+                <FormField
+                  control={form.control}
+                  name="sensor"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Sensors</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Product Sensors..."
+                          {...field}
+                          value={field.value ?? ""}
+                          className="w-full"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <DropdownMenuSeparator />
+                <FormField
+                  control={form.control}
+                  name="type"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Type</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Product Type..."
+                          {...field}
+                          value={field.value ?? ""}
+                          className="w-full"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <DropdownMenuSeparator />
+                <FormField
+                  control={form.control}
+                  name="batteryLife"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>batteryLife</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Product battery Life..."
+                          {...field}
+                          value={field.value ?? ""}
+                          className="w-full"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <DropdownMenuSeparator />
+                <FormField
+                  control={form.control}
+                  name="features"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Features</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Product Features..."
+                          {...field}
+                          value={field.value ?? ""}
+                          className="w-full"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <DropdownMenuSeparator />
+                <FormField
+                  control={form.control}
+                  name="microphone"
+                  render={({ field }) => (
+                    <div className="flex flex-col gap-2 mt-2">
+                      <FormLabel>Microphone</FormLabel>
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </div>
+                  )}
+                />
+                <DropdownMenuSeparator />
+                <FormField
+                  control={form.control}
+                  name="noiseCancellation"
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="flex flex-col gap-2 mt-2">
+                        <FormLabel>Noise Cancellation</FormLabel>
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </div>
+                    </FormItem>
+                  )}
+                />
+                <DropdownMenuSeparator />
+                <FormField
+                  control={form.control}
+                  name="wireless"
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="flex flex-col gap-2 mt-2">
+                        <FormLabel>Wireless</FormLabel>
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </div>
+                    </FormItem>
+                  )}
+                />
+              </>
+            )}
+            {selectCategory?.name === "Cameras" && (
+              <>
+                <FormField
+                  control={form.control}
+                  name="lens"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Camera Lens</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Camera Lens..."
+                          {...field}
+                          value={field.value ?? ""}
+                          className="w-full"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <DropdownMenuSeparator />
+                <FormField
+                  control={form.control}
+                  name="maxResolution"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>maxResolution</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Product maxResolution..."
+                          {...field}
+                          value={field.value ?? ""}
+                          className="w-full"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <DropdownMenuSeparator />
+                <FormField
+                  control={form.control}
+                  name="aperture"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Aperture</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Product battery Life..."
+                          {...field}
+                          value={field.value ?? ""}
+                          className="w-full"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <DropdownMenuSeparator />
+
+                <FormField
+                  control={form.control}
+                  name="videoResolution"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Video Resolution</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Product Video Resolution..."
+                          {...field}
+                          value={field.value ?? ""}
+                          className="w-full"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <DropdownMenuSeparator />
+                <FormField
+                  control={form.control}
+                  name="zoom"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Zoom</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Product Zoom..."
+                          {...field}
+                          value={field.value ?? ""}
+                          className="w-full"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <DropdownMenuSeparator />
+                <FormField
+                  control={form.control}
+                  name="megapixels"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Product Megapixels</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Product Megapixels..."
+                          {...field}
+                          value={field.value ?? ""}
+                          className="w-full"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </>
+            )}
 
             <Button variant="default" type="submit" className="w-full mt-6">
               Add
