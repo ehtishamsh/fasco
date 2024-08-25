@@ -1,82 +1,36 @@
 import { Product } from "@/lib/redux/types";
-import { BsPhoneFill } from "react-icons/bs";
-import { BsCpu } from "react-icons/bs";
-import { GoCpu } from "react-icons/go";
-import { IoMdCamera } from "react-icons/io";
-import { IoMdReverseCamera } from "react-icons/io";
-import { PiBatteryVerticalHighBold } from "react-icons/pi";
+import FieldMappings from "./FieldMappings";
 
-function TopDetailsGrid({ data }: { data: Product }) {
+interface FieldMappings {
+  [key: string]: { label: string; icon: JSX.Element };
+}
+function TopDetailsGrid({ data }: { data: Product | any }) {
+  const filterKeys = Object.keys(FieldMappings).filter(
+    (field: string) =>
+      data[field] !== null &&
+      data[field] !== undefined &&
+      data[field] !== "" &&
+      data[field] !== 0 &&
+      data[field] !== false
+  );
   return (
     <div className="grid grid-cols-3 max-sm:grid-cols-2 max-sm:gap-3 gap-4 mt-6">
-      <div className="flex justify-start items-center gap-2 p-3 bg-gray-200/50 rounded-md">
-        <span>
-          <BsPhoneFill
-            size={24}
-            className="text-gray-800/75 max-sm:text-base"
-          />
-        </span>
-        <div className="flex flex-col text-xs">
-          <span className="text-gray-400">Screen Size</span>
-          <span>{data.screenSize}"</span>
-        </div>
-      </div>
-
-      <div className="flex justify-start items-center gap-2 p-3 bg-gray-200/50 rounded-md">
-        <span>
-          <BsCpu size={24} className="text-gray-800/75 max-sm:text-base" />
-        </span>
-        <div className="flex flex-col text-xs">
-          <span className="text-gray-400">CPU</span>
-          <span>{data.cpu}</span>
-        </div>
-      </div>
-
-      <div className="flex justify-start items-center gap-2 p-3 bg-gray-200/50 rounded-md">
-        <span>
-          <GoCpu size={24} className="text-gray-800/75 max-sm:text-base" />
-        </span>
-        <div className="flex flex-col text-xs max-md:text-xs">
-          <span className="text-gray-400">Cores</span>
-          <span>{data.cores}</span>
-        </div>
-      </div>
-
-      <div className="flex justify-start items-center gap-2 p-3 bg-gray-200/50 rounded-md">
-        <span>
-          <IoMdCamera size={24} className="text-gray-800/75 max-sm:text-base" />
-        </span>
-        <div className="flex flex-col text-xs max-md:text-xs">
-          <span className="text-gray-400">Main Camera</span>
-          <span>{data.mainCamera}</span>
-        </div>
-      </div>
-
-      <div className="flex justify-start items-center gap-2 p-3 bg-gray-200/50 rounded-md">
-        <span>
-          <IoMdReverseCamera
-            size={24}
-            className="text-gray-800/75 max-sm:text-base"
-          />
-        </span>
-        <div className="flex flex-col text-xs max-md:text-xs">
-          <span className="text-gray-400">Front Camera</span>
-          <span>{data.frontCamera}</span>
-        </div>
-      </div>
-
-      <div className="flex justify-start items-center gap-2 p-3 bg-gray-200/50 rounded-md">
-        <span>
-          <PiBatteryVerticalHighBold
-            size={24}
-            className="text-gray-800/75 max-sm:text-base"
-          />
-        </span>
-        <div className="flex flex-col text-xs max-md:text-xs">
-          <span className="text-gray-400">Battery</span>
-          <span>{data.battery}</span>
-        </div>
-      </div>
+      {filterKeys.map((field: string) => {
+        const { label, icon } =
+          FieldMappings[field as keyof typeof FieldMappings];
+        return (
+          <div
+            key={field}
+            className="flex justify-start items-center gap-2 p-3 bg-gray-200/50 rounded-md"
+          >
+            <span>{icon}</span>
+            <div className="flex flex-col text-xs">
+              <span className="text-gray-400">{label}</span>
+              <span className="line-clamp-2">{data[field]}</span>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }
