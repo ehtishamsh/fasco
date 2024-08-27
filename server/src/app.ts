@@ -8,6 +8,7 @@ import addressRoute from "./routes/addressRoutes";
 import productRoutes from "./routes/productRoutes";
 import bodyParser from "body-parser";
 import orderRoutes from "./routes/orderRouter";
+import reviewRoutes from "./routes/reviewRoutes";
 
 ///////////////////////////
 
@@ -31,7 +32,7 @@ app.use("/api", productRoutes);
 app.use("/api", categoryRoute);
 app.use("/api", brandRoutes);
 app.use("/api", orderRoutes);
-
+app.use("/api", reviewRoutes);
 //Stripe
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 app.post("/api/create-checkout-session", async (req, res) => {
