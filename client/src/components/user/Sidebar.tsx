@@ -1,5 +1,4 @@
 import { AvatarIcon, DashboardIcon } from "@radix-ui/react-icons";
-import { Boxes, Notebook, User2Icon } from "lucide-react";
 import { GoChecklist } from "react-icons/go";
 import NavLinkItem from "../admin/NavlinkItem";
 import { FaAddressBook } from "react-icons/fa";
@@ -7,6 +6,7 @@ import { User } from "@/lib/redux/types";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { MdReviews } from "react-icons/md";
 
 function Sidebar({ hide }: { hide: boolean }) {
   const userData: User = JSON.parse(localStorage.getItem("user") || "{}");
@@ -64,16 +64,10 @@ function Sidebar({ hide }: { hide: boolean }) {
                   Icon={FaAddressBook}
                   label="Address"
                 />
-                <NavLinkItem to="/admin/users" Icon={User2Icon} label="Users" />
                 <NavLinkItem
-                  to="/admin/categories"
-                  Icon={Boxes}
-                  label="Categories"
-                />
-                <NavLinkItem
-                  to="/admin/brands"
-                  Icon={Notebook}
-                  label="Brands"
+                  to="/admin/reviews"
+                  Icon={MdReviews}
+                  label="Reviews"
                 />
               </nav>
             </div>
