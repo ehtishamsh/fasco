@@ -31,3 +31,11 @@ export async function UpdateUser(User: User): Promise<User | null> {
     data: User,
   });
 }
+
+export async function findUserByID(userId: string) {
+  return prisma?.user?.findFirst({
+    where: {
+      id: userId,
+    },
+  });
+}
