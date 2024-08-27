@@ -331,21 +331,3 @@ export async function allOrders() {
     },
   });
 }
-
-
-
-
-export async function checkProductPurchase(userId: string, productId: string) {
-  return await prisma?.order?.findFirst({
-    where: {
-      userId: userId,
-    },
-    select:{
-      items: {
-        where: {
-          productId: productId
-        }
-      }
-    }
-  });
-}
