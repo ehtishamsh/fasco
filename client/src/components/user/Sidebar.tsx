@@ -64,11 +64,7 @@ function Sidebar({ hide }: { hide: boolean }) {
                   Icon={FaAddressBook}
                   label="Address"
                 />
-                <NavLinkItem
-                  to="/admin/reviews"
-                  Icon={MdReviews}
-                  label="Reviews"
-                />
+                <NavLinkItem to="/reviews" Icon={MdReviews} label="Reviews" />
               </nav>
             </div>
           </div>
