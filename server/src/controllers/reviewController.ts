@@ -5,26 +5,24 @@ import { findProductBySlug } from "../services/Product";
 import { getReviewsByUserID } from "../services/Review";
 
 export async function orderReview(req: Request, res: Response) {
-  const { userid } = req.params;
+  const { uid } = req.params;
 
   try {
-    const checkUser = await findUserByID(userid);
+    const checkUser = await findUserByID(uid);
     if (!checkUser) {
       return res.status(404).json({
         status: 404,
         message: "User not found",
       });
     }
-
-    const orders = await getOrderByUserID(userid);
+    const orders = await getOrderByUserID(uid);
     if (!orders) {
       return res.status(404).json({
         status: 404,
         message: "Product not found",
       });
     }
-
-    const getReviews = await getReviewsByUserID(userid);
+    const getReviews = await getReviewsByUserID(uid);
 
     if (!getReviews) {
       return res.status(404).json({
@@ -32,14 +30,22 @@ export async function orderReview(req: Request, res: Response) {
         message: "Product not found",
       });
     }
-    const checkIfReviewed = orders.map((order) => {
+    const checkIfComplete = orders.filter(
+      (order) => order.orderStatus === "COMPLETED"
+    );
+    if (checkIfComplete.length === 0) {
+      return res.status(400).json({
+        status: 400,
+        message: "No orders or reviews found for this user",
+      });
+    }
+    const checkIfReviewed = checkIfComplete.map((order) => {
       // Map through each item in the order
       const updatedItems = order.items?.map((item) => {
         // Check if there is a review for this product
         const isReviewed = getReviews.some(
           (review) => review.productId === item.product.id
         );
-
         // Return the item with the 'reviewed' property set accordingly
         return {
           ...item,
@@ -54,12 +60,17 @@ export async function orderReview(req: Request, res: Response) {
       };
     });
 
-    if (checkIfReviewed) {
+    if (checkIfReviewed.length === 0) {
       return res.status(400).json({
         status: 400,
-        message: "You have already reviewed this product",
+        message: "No orders or reviews found for this user",
       });
     }
+    return res.status(200).json({
+      status: 200,
+      message: "Reviews fetched successfully",
+      orders: checkIfReviewed,
+    });
   } catch (error) {
     return res.status(500).json({
       status: 500,
