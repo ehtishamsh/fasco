@@ -10,15 +10,16 @@ function Review() {
   const user: User = JSON.parse(localStorage.getItem("user") || "{}");
   const [loading, setLoading] = useState(false);
 
+  console.log(orders);
   useEffect(() => {
     setLoading(true);
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:4000/api/review/user/" + user.id
+          "http://localhost:4000/api/reviews/user/" + user.id
         );
         const data = await response.json();
-        setOrders(data.data);
+        setOrders(data.orders);
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -49,25 +50,29 @@ function Review() {
             </span>
           </div>
           <Link
-            to={`/orders/view/${order.orderNumber}`}
+            to={`/review/${order.orderNumber}`}
             className="bg-yellow-200 py-1 px-2 max-sm:px-1  max-sm:text-xs text-sm rounded-xl text-yellow-900"
           >
-            Manage
+            Give Review
           </Link>
         </div>
-        <div className="mt-3 grid grid-cols-6 gap-2 px-6 py-2  ">
-          <div className="text-left w-full max-w-[170px] max-sm:max-w-[50px] max-sm:col-span-2  flex gap-1">
+        <div className="mt-3 grid grid-cols-6 gap-2 px-6 py-2 ">
+          <div className="text-left w-full max-sm:col-span-2 max-sm:flex-col max-sm:row-span-4  flex gap-1">
             {order.items?.map((item) => {
               return (
                 <img
+                  key={item.product.id}
                   src={`http://localhost:4000${item.product.cover}`}
                   alt=""
-                  className="w-20 h-20 max-sm:w-full max-sm:h-full max-sm:object-contain"
+                  className="w-20 h-20 max-sm:max-w-28 max-sm:h-full max-sm:object-contain"
                 />
               );
             })}
           </div>
-          <div className="col-span-4 max-sm:ml-3">
+          <div className="col-span-3 max-sm:col-span-4 max-sm:ml-3">
+            <span className="text-gray-600 mb-2 text-xs inline-block">
+              Name:
+            </span>
             <div className="flex flex-col">
               {order.items?.map((item) => (
                 <h1 className="border-b pb-1 border-gray-300 w-fit">
@@ -76,31 +81,25 @@ function Review() {
               ))}
             </div>
           </div>
-          <div className="max-sm:col-span-3 max-sm:mt-4">
+
+          <div className="max-sm:col-span-4 max-sm:mt-4 max-sm:ml-3">
+            <span className="text-gray-600 mb-2 text-xs inline-block">
+              Quantity:
+            </span>
+            <br />
             <span>
               {order.items?.map((item) => (
                 <>
                   <span className="text-center text-gray-600">
                     Qty: {item.quantity} x ${item.product.price}
                   </span>
-                  {orders.length > 1 && <br />}
+                  {orders.length > 0 && <br />}
                 </>
               ))}
             </span>
           </div>
 
-          <div className="max-sm:col-span-3">
-            <span
-              className={`${
-                order?.orderStatus === "CANCELLED"
-                  ? "text-red-500 bg-red-100"
-                  : "bg-yellow-200 text-yellow-600"
-              } py-1 px-2 max-sm:px-1 text-xs rounded-xl`}
-            >
-              {order.orderStatus}
-            </span>
-          </div>
-          <div className="max-sm:col-span-6">
+          <div className="max-sm:col-span-4 max-sm:ml-3">
             <span className="font-semibold text-gray-600">
               Total: ${order.amount}
             </span>
