@@ -37,6 +37,7 @@ import CancelPage from "./pages/CancelPage";
 import Orders from "./pages/admin/Orders";
 import ViewOrder from "./components/admin/orders/view/ViewOrder";
 import EditProductPage from "./pages/admin/edit/EditProductPage";
+import ReviewsPage from "./pages/user/ReviewsPage";
 
 function App() {
   const checktoken = localStorage.getItem("token");
@@ -93,6 +94,7 @@ function App() {
                 <Route element={<Dashboard />} path="/">
                   <Route element={<UserDashboardPage />} path="/dashboard" />
                   <Route element={<OrdersPage />} path="/orders" />
+                  <Route element={<ReviewsPage />} path="/reviews" />
                   <Route element={<AddressBookPage />} path="/address" />
                   <Route element={<ProfilePage />} path="/profile" />
                   <Route
