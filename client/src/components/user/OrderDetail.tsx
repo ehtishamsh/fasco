@@ -41,16 +41,16 @@ function OrderDetail() {
       {
         label: "DELIVERED",
         text:
-          orders?.orderStatus === "DELIVERED"
+          orders?.orderStatus === "COMPLETED"
             ? getCurrentDate()
             : "In Progress",
-        completed: orders?.orderStatus === "DELIVERED" ? true : false,
+        completed: orders?.orderStatus === "COMPLETED" ? true : false,
       },
     ];
     if (orders?.orderStatus === "SHIPPED") {
       newSteps[0].completed = true;
     }
-    if (orders?.orderStatus === "DELIVERED") {
+    if (orders?.orderStatus === "COMPLETED") {
       newSteps[0].completed = true;
       newSteps[1].completed = true;
     }
