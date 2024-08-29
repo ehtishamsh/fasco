@@ -93,6 +93,7 @@ export async function refundStatus(orderId: string) {
       id: orderId,
     },
     data: {
+      updatedAt: new Date(),
       paymentStatus: "REFUNDED",
     },
   });
@@ -261,6 +262,7 @@ export async function updateOrderStatus(
       orderNumber: parseInt(orderNumber),
     },
     data: {
+      updatedAt: new Date(),
       orderStatus: {
         set: orderStatus,
       } as Prisma.EnumOrderStatusFieldUpdateOperationsInput,
