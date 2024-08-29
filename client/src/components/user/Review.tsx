@@ -9,8 +9,6 @@ function Review() {
   const [orders, setOrders] = useState<Order[]>();
   const user: User = JSON.parse(localStorage.getItem("user") || "{}");
   const [loading, setLoading] = useState(false);
-
-  console.log(orders);
   useEffect(() => {
     setLoading(true);
     const fetchData = async () => {
@@ -50,7 +48,7 @@ function Review() {
             </span>
           </div>
           <Link
-            to={`/review/${order.orderNumber}`}
+            to={`/reviews/${order.orderNumber}`}
             className="bg-yellow-200 py-1 px-2 max-sm:px-1  max-sm:text-xs text-sm rounded-xl text-yellow-900"
           >
             Give Review
