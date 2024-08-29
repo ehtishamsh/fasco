@@ -5,13 +5,11 @@ import {
   createOrderItems,
   createOrder,
   getOrderByUserID,
-  getOrderItemsByOrderId,
   getOrderByOrderNumber,
   updateOrderStatus,
   allOrders,
   refundStatus,
 } from "../services/Order";
-import { findProductById } from "../services/Product";
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 interface OrderData {
   addressId: string;
@@ -244,4 +242,4 @@ export async function getAllOrders(req: Request, res: Response) {
       .status(400)
       .json({ message: "Error updating order", status: 400 });
   }
-}
+} 
