@@ -9,6 +9,7 @@ function Review() {
   const [orders, setOrders] = useState<Order[]>();
   const user: User = JSON.parse(localStorage.getItem("user") || "{}");
   const [loading, setLoading] = useState(false);
+  const [checkReview, setCheckReview] = useState<boolean>();
   useEffect(() => {
     setLoading(true);
     const fetchData = async () => {
@@ -18,6 +19,11 @@ function Review() {
         );
         const data = await response.json();
         setOrders(data.orders);
+        const reviews = orders?.map((order) =>
+          order.items?.filter((item) => item.reviewed === true)
+        );
+        setCheckReview(reviews && reviews.length > 0 ? true : false);
+
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -51,7 +57,7 @@ function Review() {
             to={`/reviews/${order.orderNumber}`}
             className="bg-yellow-200 py-1 px-2 max-sm:px-1  max-sm:text-xs text-sm rounded-xl text-yellow-900"
           >
-            Give Review
+            {checkReview === true ? "Reviewed" : "Give Review"}
           </Link>
         </div>
         <div className="mt-3 grid grid-cols-6 gap-2 px-6 py-2 ">
