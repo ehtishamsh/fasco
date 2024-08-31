@@ -130,6 +130,7 @@ export interface OrderItems {
   variant: Variant;
   color: Color;
   quantity: number;
+  reviewed?: boolean;
   product: Product;
 }
 
