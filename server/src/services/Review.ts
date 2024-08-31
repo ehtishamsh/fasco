@@ -19,6 +19,60 @@ export async function getReviewsByUserID(id: string) {
     },
   });
 }
-export async function create(data: any) {
-  return await prisma.review.create({ data });
+export async function create({
+  comment,
+  rating,
+  userid,
+  productId,
+}: {
+  comment: string;
+  rating: number;
+  userid: string;
+  productId: string;
+}) {
+  return await prisma.review.create({
+    data: {
+      comment: comment,
+      rating,
+      productId,
+      userId: userid,
+    },
+  });
+}
+
+export async function getReviewsByUserIDandProductID({
+  userid,
+  productid,
+}: {
+  userid: string;
+  productid: string;
+}) {
+  return await prisma.review.findFirst({
+    where: {
+      userId: userid,
+      productId: productid,
+    },
+    select: {
+      comment: true,
+      rating: true,
+      product: {
+        select: {
+          cover: true,
+          slug: true,
+          title: true,
+          brand: {
+            select: {
+              name: true,
+            },
+          },
+          category: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      },
+      createdAt: true,
+    },
+  });
 }
