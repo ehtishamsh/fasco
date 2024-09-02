@@ -63,7 +63,7 @@ export function NavProfileDropdown() {
             </>
           ) : (
             <>
-              {checkUser?.role && (
+              {checkUser?.role === "admin" && (
                 <DropdownMenuItem
                   className=" cursor-pointer"
                   onClick={() => (window.location.href = "/admin")}
@@ -79,7 +79,7 @@ export function NavProfileDropdown() {
                 className=" cursor-pointer"
                 onClick={() => (window.location.href = "/dashboard")}
               >
-                Dashboard
+                Account
                 <DropdownMenuShortcut>
                   <DashboardIcon />
                 </DropdownMenuShortcut>
