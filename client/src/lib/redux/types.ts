@@ -150,3 +150,13 @@ export interface Order {
   orderStatus: string;
   items?: OrderItems[];
 }
+
+export interface Reviews {
+  id: string;
+  rating: number;
+  comment: string;
+  productId: string;
+  userId: string;
+  createdAt: string;
+  updatedAt: string;
+}
