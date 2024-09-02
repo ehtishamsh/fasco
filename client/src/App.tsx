@@ -40,17 +40,29 @@ import EditProductPage from "./pages/admin/edit/EditProductPage";
 import ReviewsPage from "./pages/user/ReviewsPage";
 import GiveReviewsPage from "./pages/user/GiveReviewsPage";
 
+function ProtectedRoute({ Element, isAllowed }: any) {
+  return isAllowed ? <Element /> : <Navigate to="/" replace />;
+}
+
+function ProtectedLayoutRoute({ children, isAllowed, Layout }: any) {
+  return isAllowed ? <Layout>{children}</Layout> : <Navigate to="/" replace />;
+}
+
 function App() {
   const checktoken = localStorage.getItem("token");
   const checkuser = JSON.parse(localStorage.getItem("user") || "{}");
-
   let persistor = persistStore(store);
+
+  const isAuthenticated = !!checktoken;
+  const isAdmin = checkuser?.role === "admin";
+
   return (
     <>
       <Provider store={store}>
         <PersistGate persistor={persistor} loading={<Loader />}>
           <Router>
             <Routes>
+              {/* General Routes */}
               <Route element={<Layout />} path="/">
                 <Route element={<Homepage />} path="/" />
                 <Route element={<Product />} path="/:category/:brand?/:title" />
@@ -60,51 +72,78 @@ function App() {
                 <Route element={<WishlistPage />} path="/wishlist" />
                 <Route element={<Success />} path="/success" />
                 <Route element={<CancelPage />} path="/cancel" />
-
-                {checktoken && (
-                  <Route element={<Checkout />} path="/checkout" />
-                )}
-                {!checktoken && (
-                  <>
-                    <Route path="/signin" element={<SigninPage />} />
-                    <Route path="/signup" element={<SignupPage />} />
-                  </>
-                )}
-
+                <Route
+                  element={
+                    <ProtectedRoute
+                      Element={SigninPage}
+                      isAllowed={!isAuthenticated}
+                    />
+                  }
+                  path="/signin"
+                />
+                <Route
+                  element={
+                    <ProtectedRoute
+                      Element={SignupPage}
+                      isAllowed={!isAuthenticated}
+                    />
+                  }
+                  path="/signup"
+                />
+                <Route
+                  element={
+                    <ProtectedRoute
+                      Element={Checkout}
+                      isAllowed={isAuthenticated}
+                    />
+                  }
+                  path="/checkout"
+                />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Route>
 
-              {checktoken && checkuser.role === "admin" && (
-                <Route element={<AdminLayout />} path="/">
-                  <Route element={<AdminDashboard />} path="/admin" />
-                  <Route element={<Products />} path="/admin/products" />
-                  <Route
-                    element={<EditProductPage />}
-                    path="/admin/products/:id"
+              {/* Admin Routes */}
+              <Route
+                element={
+                  <ProtectedLayoutRoute
+                    isAllowed={isAuthenticated && isAdmin}
+                    Layout={AdminLayout}
                   />
-                  <Route element={<Add />} path="/admin/products/new" />
-                  <Route element={<Categories />} path="/admin/categories" />
-                  <Route element={<AddCate />} path="/admin/categories/new" />
-                  <Route element={<Orders />} path="/admin/orders" />
-                  <Route element={<ViewOrder />} path="/admin/orders/:id" />
-                  <Route element={<Brands />} path="/admin/brands" />
-                  <Route element={<AddBrand />} path="/admin/brands/new" />
-                </Route>
-              )}
-              {checktoken && (
-                <Route element={<Dashboard />} path="/">
-                  <Route element={<UserDashboardPage />} path="/dashboard" />
-                  <Route element={<OrdersPage />} path="/orders" />
-                  <Route element={<ReviewsPage />} path="/reviews" />
-                  <Route element={<GiveReviewsPage />} path="/reviews/:id" />
-                  <Route element={<AddressBookPage />} path="/address" />
-                  <Route element={<ProfilePage />} path="/profile" />
-                  <Route
-                    element={<OrderSinglePage />}
-                    path="/orders/view/:id"
+                }
+                path="/"
+              >
+                <Route element={<AdminDashboard />} path="/admin" />
+                <Route element={<Products />} path="/admin/products" />
+                <Route
+                  element={<EditProductPage />}
+                  path="/admin/products/:id"
+                />
+                <Route element={<Add />} path="/admin/products/new" />
+                <Route element={<Categories />} path="/admin/categories" />
+                <Route element={<AddCate />} path="/admin/categories/new" />
+                <Route element={<Orders />} path="/admin/orders" />
+                <Route element={<ViewOrder />} path="/admin/orders/:id" />
+                <Route element={<Brands />} path="/admin/brands" />
+                <Route element={<AddBrand />} path="/admin/brands/new" />
+              </Route>
+              {/* User Dashboard Routes */}
+              <Route
+                element={
+                  <ProtectedLayoutRoute
+                    isAllowed={isAuthenticated}
+                    Layout={Dashboard}
                   />
-                </Route>
-              )}
+                }
+                path="/"
+              >
+                <Route element={<UserDashboardPage />} path="/dashboard" />
+                <Route element={<OrdersPage />} path="/orders" />
+                <Route element={<ReviewsPage />} path="/reviews" />
+                <Route element={<GiveReviewsPage />} path="/reviews/:id" />
+                <Route element={<AddressBookPage />} path="/address" />
+                <Route element={<ProfilePage />} path="/profile" />
+                <Route element={<OrderSinglePage />} path="/orders/view/:id" />
+              </Route>
             </Routes>
           </Router>
         </PersistGate>
