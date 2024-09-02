@@ -9,7 +9,7 @@ function Review() {
   const [orders, setOrders] = useState<Order[]>();
   const user: User = JSON.parse(localStorage.getItem("user") || "{}");
   const [loading, setLoading] = useState(false);
-  const [checkReview, setCheckReview] = useState<boolean>();
+  const [checkReview, setCheckReview] = useState<boolean>(false);
   useEffect(() => {
     setLoading(true);
     const fetchData = async () => {
@@ -19,10 +19,6 @@ function Review() {
         );
         const data = await response.json();
         setOrders(data.orders);
-        const reviews = orders?.map((order) =>
-          order.items?.filter((item) => item.reviewed === true)
-        );
-        setCheckReview(reviews && reviews.length > 0 ? true : false);
 
         setLoading(false);
       } catch (error) {
@@ -33,6 +29,15 @@ function Review() {
     return () => {};
   }, []);
 
+  useEffect(() => {
+    const reviews = orders?.map((order) =>
+      order.items?.filter((item) => item.reviewed === true)
+    );
+
+    setCheckReview(
+      reviews && reviews[0] && reviews[0].length > 0 ? true : false
+    );
+  }, [orders]);
   const renderOrders = orders?.map((order) => {
     return (
       <div className="border border-gray-300/85 rounded-lg mt-3 gap-2 text-sm  items-center">
