@@ -76,3 +76,11 @@ export async function getReviewsByUserIDandProductID({
     },
   });
 }
+
+export async function getReviewsByProductID(id: string) {
+  return await prisma.review.findMany({
+    where: {
+      productId: id,
+    },
+  });
+}
