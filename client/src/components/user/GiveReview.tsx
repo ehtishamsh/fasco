@@ -21,13 +21,20 @@ function GiveReview() {
     setLoading(true);
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:4000/api/reviews/" + id);
+        const response = await fetch(
+          "http://localhost:4000/api/reviews/" + id,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
         const data = await response.json();
-        if (data.reviews) {
-          setReviews(data.reviews);
-        } else {
-          setOrders(data.order);
-        }
+
+        setOrders(data.data && data.data);
+        setReviews(data.reviews && data.reviews);
+
         setLoading(false);
       } catch (error) {
         console.log(error);
