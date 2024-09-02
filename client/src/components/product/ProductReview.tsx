@@ -3,8 +3,43 @@ import { FaStar } from "react-icons/fa6";
 import { Progress } from "../ui/progress";
 import { Input } from "../ui/input";
 import Reviews from "./Reviews";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { Reviews as ReviewType } from "@/lib/redux/types";
 
 function ProductReview() {
+  const [reviews, setReviews] = useState<ReviewType[]>([]);
+  const [averageRating, setAverageRating] = useState(0);
+  const { title: slug } = useParams();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const req = await fetch(
+          "http://localhost:4000/api/reviews/product/" + slug,
+          {
+            method: "GET",
+          }
+        );
+        const res = await req.json();
+        setReviews(res.reviews);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+    return () => {};
+  }, []);
+  useEffect(() => {
+    if (reviews.length > 0) {
+      let sum = 0;
+      reviews.forEach((r) => {
+        sum += r.rating;
+      });
+      setAverageRating(sum / reviews.length);
+    }
+  }, [reviews]);
+
   return (
     <div className="max-w-6xl mx-auto px-8  max-sm:px-4 bg-background py-10 ">
       <h1 className="text-2xl font-semibold mb-8">Reviews</h1>
@@ -12,18 +47,20 @@ function ProductReview() {
         <div className="col-span-1 w-full rounded-lg p-5 bg-gray-100 flex justify-center flex-col max-md:flex-row max-sm:flex-col items-center gap-4">
           <div className="flex justify-center flex-col">
             <h1 className="text-7xl font-semibold text-center max-md:text-6xl max-sm:text-5xl">
-              4.8
+              {averageRating}
             </h1>
             <p className="text-sm text-gray-500 text-center">
-              Based on 1000+ reviews
+              Based on {reviews.length} reviews
             </p>
           </div>
           <div className="flex gap-2 justify-center items-center">
-            <FaStar className="w-6 h-6 text-yellow-400/80" />
-            <FaStar className="w-6 h-6 text-yellow-400/80" />
-            <FaStar className="w-6 h-6 text-yellow-400/80" />
-            <FaStar className="w-6 h-6 text-yellow-400/80" />
-            <FaStar className="w-6 h-6 text-yellow-400/80" />
+            {[1, 2, 3, 4, 5].map((i) => (
+              <FaStar
+                key={i}
+                className="text-accent text-xl"
+                fill={i <= averageRating ? "yellow" : "none"}
+              />
+            ))}
           </div>
         </div>
         <div className="col-span-2 max-md:col-span-1 flex justify-between">
