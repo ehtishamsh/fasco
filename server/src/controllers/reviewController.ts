@@ -4,6 +4,7 @@ import { getOrderByOrderNumber, getOrderByUserID } from "../services/Order";
 import { findProductById, findProductBySlug } from "../services/Product";
 import {
   create,
+  getReviewsByProductID,
   getReviewsByUserID,
   getReviewsByUserIDandProductID,
 } from "../services/Review";
@@ -163,16 +164,15 @@ export async function addReview(req: Request, res: Response) {
 
 export async function getReviewsByOrderID(req: Request, res: Response) {
   const { id } = req.params;
-
   try {
     const order = await getOrderByOrderNumber(Number(id));
     if (!order) {
       return res.status(404).json({ message: "Order not found", status: 404 });
     }
 
-    const productID = order.items?.map((item) => item.product.id);
+    const productIDs = order.items?.map((item) => item.product.id);
     const getReviews = await Promise.all(
-      productID.map(async (id) => {
+      productIDs.map(async (productId) => {
         const userEmail = order.user.email;
         const getUser = await findUserByEmail(userEmail);
         if (!getUser) {
@@ -181,7 +181,7 @@ export async function getReviewsByOrderID(req: Request, res: Response) {
             .json({ message: "User not found", status: 404 });
         }
 
-        const product = await findProductById(id);
+        const product = await findProductById(productId);
         if (!product) {
           return res
             .status(404)
@@ -189,32 +189,64 @@ export async function getReviewsByOrderID(req: Request, res: Response) {
         }
 
         const review = await getReviewsByUserIDandProductID({
-          productid: id,
+          productid: productId,
           userid: getUser.id,
         });
-        if (!review) {
-          return res
-            .status(404)
-            .json({ message: "Reviews not found", status: 404 });
-        }
-        return {
-          ...review,
-          color: order.items?.find((item) => item.product.id === id)?.color,
-          variant: order.items?.find((item) => item.product.id === id)?.variant,
-        };
+        return review
+          ? {
+              ...review,
+              color: order.items?.find((item) => item.product.id === productId)
+                ?.color,
+              variant: order.items?.find(
+                (item) => item.product.id === productId
+              )?.variant,
+            }
+          : null;
       })
     );
-    if (getReviews.length > 0) {
+
+    const reviewsWithData = getReviews.filter((review) => review !== null);
+
+    if (reviewsWithData.length > 0) {
       return res.status(200).json({
         message: "Reviews fetched successfully",
         status: 200,
-        reviews: getReviews,
+        reviews: reviewsWithData,
       });
     }
-    return res.status(200).json({ data: order, status: 200 });
-  } catch {
-    res
+
+    return res
+      .status(200)
+      .json({ data: order, status: 200, message: "Order found" });
+  } catch (error) {
+    console.error(error);
+    return res
       .status(400)
       .json({ message: "Error fetching order items", status: 400 });
+  }
+}
+
+export async function getReviewByProductSlug(req: Request, res: Response) {
+  const { id } = req.params;
+  try {
+    const product = await findProductBySlug(id);
+    if (!product) {
+      return res
+        .status(404)
+        .json({ message: "Product not found", status: 404 });
+    }
+    const getReviews = await getReviewsByProductID(product.id);
+    if (!getReviews) {
+      return res
+        .status(404)
+        .json({ message: "Reviews not found", status: 404 });
+    }
+    return res.status(200).json({
+      message: "Reviews fetched successfully",
+      status: 200,
+      reviews: getReviews,
+    });
+  } catch {
+    res.status(400).send("Bad request");
   }
 }
