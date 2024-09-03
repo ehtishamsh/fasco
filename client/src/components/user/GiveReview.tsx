@@ -43,7 +43,7 @@ function GiveReview() {
     fetchData();
     return () => {};
   }, []);
-  console.log(reviews);
+
   const submitReview = async () => {
     try {
       if (ratings && comment) {
@@ -59,7 +59,7 @@ function GiveReview() {
           }),
         });
         const res = await req.json();
-        console.log(res);
+
         if (res.status === 200) {
           toast({
             title: "Review Added",
@@ -75,6 +75,7 @@ function GiveReview() {
       console.log(error, "error");
     }
   };
+ 
   return (
     <div className="w-full">
       <BreadCrumbAdmin paths={["Dashboard", "Reviews"]} end={"Give Review"} />
