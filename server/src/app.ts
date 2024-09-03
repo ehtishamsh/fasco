@@ -101,7 +101,7 @@ app.post(
       const session = event.data.object;
       const paymentIntentId = session.payment_intent;
       // Handle successful payment here
-      console.log("Payment was successful for session:", session.id);
+
       // You can save the session details to your database or perform any required action
     }
 

@@ -107,7 +107,7 @@ function EditProduct() {
       console.error("Failed to fetch data:", error);
     }
   };
-  console.log(product);
+
   useEffect(() => {
     fetchData();
   }, []);
