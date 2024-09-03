@@ -22,7 +22,9 @@ import {
   getVariantbyProductId,
   deleteColor,
   deleteVariant,
+  getProductsByCategory,
 } from "../services/Product";
+import { One } from "../services/Category";
 
 interface Color {
   id: number;
@@ -483,5 +485,28 @@ export const editProduct = async (req: Request, res: Response) => {
     });
   } catch (error) {
     return res.status(500).send(error);
+  }
+};
+
+export const getProductsByCate = async (req: Request, res: Response) => {
+  try {
+    const { id: catename } = req.params;
+    console.log(catename);
+    const getcateID = await One(catename);
+    if (!getcateID) {
+      return res.status(404).send("Category not found");
+    }
+    const products = await getProductsByCategory(getcateID.id);
+    if (!products) {
+      return res.status(500).send("Failed to fetch products");
+    }
+    return res.json({
+      status: 200,
+      message: "Products fetched successfully",
+      data: products,
+    });
+  } catch {
+    console.log("error");
+    return res.status(500).send("Failed to fetch products");
   }
 };
