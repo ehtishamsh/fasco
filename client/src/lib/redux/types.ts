@@ -159,4 +159,8 @@ export interface Reviews {
   userId: string;
   createdAt: string;
   updatedAt: string;
+  user: {
+    firstname: string;
+    lastname: string;
+  };
 }
