@@ -70,7 +70,7 @@ function Signup() {
           password: data.password,
         }),
       });
-     
+
       if (response.ok) {
         toast({
           title: "Success",
@@ -78,7 +78,7 @@ function Signup() {
           variant: "success",
         });
         setTimeout(() => {
-          window.location.href = "/login";
+          window.location.href = "/signin";
         }, 2000);
       }
     } catch (error) {
