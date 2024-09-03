@@ -1,7 +1,4 @@
-import { FaStar } from "react-icons/fa6";
-
 import { Progress } from "../ui/progress";
-import { Input } from "../ui/input";
 import Reviews from "./Reviews";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -10,7 +7,16 @@ import { Reviews as ReviewType } from "@/lib/redux/types";
 function ProductReview() {
   const [reviews, setReviews] = useState<ReviewType[]>([]);
   const [averageRating, setAverageRating] = useState(0);
+  const [ratingDistribution, setRatingDistribution] = useState({
+    excellent: 0,
+    good: 0,
+    average: 0,
+    belowAverage: 0,
+    poor: 0,
+  });
+
   const { title: slug } = useParams();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -28,17 +34,47 @@ function ProductReview() {
     };
 
     fetchData();
-    return () => {};
   }, []);
+
   useEffect(() => {
     if (reviews.length > 0) {
       let sum = 0;
+      const distribution = {
+        excellent: 0,
+        good: 0,
+        average: 0,
+        belowAverage: 0,
+        poor: 0,
+      };
+
       reviews.forEach((r) => {
         sum += r.rating;
+        if (r.rating === 5) {
+          distribution.excellent += 1;
+        } else if (r.rating === 4) {
+          distribution.good += 1;
+        } else if (r.rating === 3) {
+          distribution.average += 1;
+        } else if (r.rating === 2) {
+          distribution.belowAverage += 1;
+        } else if (r.rating === 1) {
+          distribution.poor += 1;
+        }
       });
+
       setAverageRating(sum / reviews.length);
+      const totalReviews = reviews.length || 1; // Prevents division by zero
+
+      setRatingDistribution({
+        excellent: (distribution.excellent / totalReviews) * 100,
+        good: (distribution.good / totalReviews) * 100,
+        average: (distribution.average / totalReviews) * 100,
+        belowAverage: (distribution.belowAverage / totalReviews) * 100,
+        poor: (distribution.poor / totalReviews) * 100,
+      });
     }
   }, [reviews]);
+  console.log(ratingDistribution);
 
   return (
     <div className="max-w-6xl mx-auto px-8  max-sm:px-4 bg-background py-10 ">
@@ -53,13 +89,19 @@ function ProductReview() {
               Based on {reviews.length} reviews
             </p>
           </div>
-          <div className="flex gap-2 justify-center items-center">
+          <div className="flex gap-1 justify-center items-center">
             {[1, 2, 3, 4, 5].map((i) => (
-              <FaStar
+              <svg
                 key={i}
-                className="text-accent text-xl"
-                fill={i <= averageRating ? "yellow" : "none"}
-              />
+                className={`cursor-pointer w-8 h-8 ${
+                  i <= averageRating ? "text-yellow-500" : "text-gray-300"
+                }`}
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M9.049 2.927a.75.75 0 011.902 0l1.03 3.17a.75.75 0 00.708.515h3.346c.658 0 .936.84.404 1.196l-2.707 1.83a.75.75 0 00-.272.832l1.03 3.17c.21.646-.54 1.185-1.104.832l-2.707-1.83a.75.75 0 00-.884 0l-2.707 1.83c-.564.353-1.314-.186-1.104-.832l1.03-3.17a.75.75 0 00-.272-.832L3.51 7.808c-.532-.356-.254-1.196.404-1.196h3.346a.75.75 0 00.708-.515l1.03-3.17z" />
+              </svg>
             ))}
           </div>
         </div>
@@ -73,31 +115,31 @@ function ProductReview() {
           </div>
           <div className="flex flex-col justify-between h-full w-full">
             <p className="mt-2">
-              <Progress value={80} className="w-full" />
+              <Progress
+                value={ratingDistribution.excellent}
+                className="w-full"
+              />
             </p>
             <p className="mt-2">
-              <Progress value={80} className="w-full" />
+              <Progress value={ratingDistribution.good} className="w-full" />
             </p>
             <p className="mt-2">
-              <Progress value={80} className="w-full" />
+              <Progress value={ratingDistribution.average} className="w-full" />
             </p>
             <p className="mt-2">
-              <Progress value={80} className="w-full" />
+              <Progress
+                value={ratingDistribution.belowAverage}
+                className="w-full"
+              />
             </p>
             <p className="mt-2">
-              <Progress value={80} className="w-full" />
+              <Progress value={ratingDistribution.poor} className="w-full" />
             </p>
           </div>
         </div>
       </div>
-      <div className="w-full mt-8 max-sm:mt-6">
-        <Input
-          type="text"
-          placeholder="Leave a review"
-          className="w-full py-7 max-sm:py-4"
-        />
-      </div>
-      <Reviews />
+
+      <Reviews reviewsData={reviews} />
     </div>
   );
 }
