@@ -8,7 +8,7 @@ function ShopGrid() {
       <div className="py-10 h-fit">
         <div className="grid grid-cols-2 max-md:grid-cols-1 h-fit">
           <div className=" grid grid-cols-1 grid-rows-2">
-            <div className="bg-white grid grid-cols-2">
+            <Link to="/gaming?brand=sony" className="bg-white grid grid-cols-2">
               <div className="pr-10">
                 <img src="/ps.png" alt="" className="max-w-full " />
               </div>
@@ -23,10 +23,13 @@ function ShopGrid() {
                   </Reveal>
                 </p>
               </div>
-            </div>
+            </Link>
 
             <div className=" grid grid-cols-2 bg-gray-200">
-              <div className="grid grid-cols-6">
+              <Link
+                to="/headphones/apple/apple-airpods-max"
+                className="grid grid-cols-6"
+              >
                 <div className=" col-span-2 flex justify-center items-center">
                   <img src="/air.png" alt="" className="max-w-full" />
                 </div>
@@ -44,9 +47,12 @@ function ShopGrid() {
                     </Reveal>
                   </p>
                 </div>
-              </div>
+              </Link>
 
-              <div className="grid grid-cols-6 bg-gray-700">
+              <Link
+                to="/headphones/apple/apple-airpods-pro"
+                className="grid grid-cols-6 bg-gray-700"
+              >
                 <div className=" col-span-2 flex justify-center items-center">
                   <img src="/airpods.png" alt="" className="max-w-full" />
                 </div>
@@ -62,7 +68,7 @@ function ShopGrid() {
                     </Reveal>
                   </p>
                 </div>
-              </div>
+              </Link>
             </div>
           </div>
 
