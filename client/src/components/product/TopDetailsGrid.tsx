@@ -5,7 +5,7 @@ interface FieldMappings {
   [key: string]: { label: string; icon: JSX.Element };
 }
 function TopDetailsGrid({ data }: { data: Product | any }) {
-  const filterKeys = Object.keys(FieldMappings).filter(
+  let filterKeys = Object.keys(FieldMappings).filter(
     (field: string) =>
       data[field] !== null &&
       data[field] !== undefined &&
@@ -13,6 +13,10 @@ function TopDetailsGrid({ data }: { data: Product | any }) {
       data[field] !== 0 &&
       data[field] !== false
   );
+  const filterKeysLength = filterKeys.length;
+  if (filterKeysLength > 6) {
+    filterKeys = filterKeys.slice(0, 6);
+  }
   return (
     <div className="grid grid-cols-3 max-sm:grid-cols-2 max-sm:gap-3 gap-4 mt-6">
       {filterKeys.map((field: string) => {
