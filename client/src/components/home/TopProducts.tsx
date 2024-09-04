@@ -2,9 +2,10 @@ import TopProductsButton from "./TopProductsButton";
 import { useEffect, useState } from "react";
 import ShowcaseProducts from "./ShowcaseProducts";
 import { Reveal } from "../animation/Reveal";
+import { Product as ProductType } from "@/lib/redux/types";
 
 function TopProducts() {
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<ProductType[]>([]);
   useEffect(() => {
     const fetehData = async () => {
       try {
@@ -12,7 +13,11 @@ function TopProducts() {
           method: "GET",
         });
         const res = await getres.json();
-        setProducts(res.products);
+        const sortedProducts = [...res.products].sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+        setProducts(sortedProducts);
       } catch (error) {
         console.log(error);
       }
@@ -25,6 +30,29 @@ function TopProducts() {
 
   const [checkActive, setCheckActive] = useState("new");
 
+  useEffect(() => {
+    if (checkActive === "new") {
+      const sortedProducts = [...products].sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
+      setProducts(sortedProducts);
+    }
+
+    if (checkActive === "best") {
+      const sortedProducts = [...products].sort(
+        (a: any, b: any) => b.orders - a.orders
+      );
+      setProducts(sortedProducts);
+    }
+    if (checkActive === "price") {
+      const sortedProducts = [...products].sort(
+        (a, b) => Number(b.price) - Number(a.price)
+      );
+      setProducts(sortedProducts);
+    }
+  }, [checkActive]);
+  console.log(products);
   return (
     <div className="max-w-6xl mt-28 mx-auto px-2 max-md:mt-16 max-sm:mt-10">
       <Reveal delayTime={0.5}>
