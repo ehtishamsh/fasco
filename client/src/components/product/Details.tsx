@@ -13,6 +13,7 @@ const DetailsFieldMappings: { [key: string]: { [key: string]: FieldMapping } } =
       gpu: { label: "GPU" },
       cores: { label: "Cores", unit: "cores" },
       storage: { label: "Storage" },
+      type: { label: "Type" },
     },
     camera: {
       mainCamera: { label: "Main Camera" },
@@ -42,7 +43,6 @@ const DetailsFieldMappings: { [key: string]: { [key: string]: FieldMapping } } =
       sensor: { label: "Sensor" },
     },
     gaming: {
-      type: { label: "Type" },
       numberOfControllers: { label: "Number of Controllers" },
       compatibleGames: { label: "Compatible Games" },
     },
