@@ -82,5 +82,20 @@ export async function getReviewsByProductID(id: string) {
     where: {
       productId: id,
     },
+    select: {
+      id: true,
+      comment: true,
+      createdAt: true,
+      rating: true,
+      updatedAt: true,
+      productId: true,
+      userId: true,
+      user: {
+        select: {
+          firstname: true,
+          lastname: true,
+        },
+      },
+    },
   });
 }

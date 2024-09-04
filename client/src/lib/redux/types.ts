@@ -3,6 +3,11 @@ export interface Product {
   title: string;
   price: string;
   stock: number;
+  createdAt: string;
+  updatedAt: string;
+  orders?: number;
+  rating?: number;
+  totalReviews?: number;
   variants: [
     {
       id: string;

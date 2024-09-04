@@ -136,6 +136,7 @@ export async function getOrderByOrderNumber(orderNumber: number) {
     },
     select: {
       id: true,
+      updatedAt: true,
       address: true,
       amount: true,
       currency: true,
@@ -330,6 +331,31 @@ export async function allOrders() {
           },
         },
       },
+    },
+  });
+}
+
+export async function getOrderByProductId(productId: string) {
+  return await prisma.orderItem.findMany({
+    where: {
+      productId,
+    },
+    select: {
+      id: true,
+      price: true,
+      total: true,
+      variant: {
+        select: {
+          price: true,
+          variant: true,
+        },
+      },
+      color: {
+        select: {
+          color: true,
+        },
+      },
+      product: true,
     },
   });
 }
