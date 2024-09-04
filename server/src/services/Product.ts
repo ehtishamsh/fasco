@@ -308,3 +308,9 @@ export async function getColorbyProductId(id: string) {
     where: { productId: id },
   });
 }
+
+export async function getProductsByCategory(id: string) {
+  return await prisma.product.findMany({
+    where: { categoryId: id },
+  });
+}

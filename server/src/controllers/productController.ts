@@ -14,10 +14,6 @@ import {
   findProductBySlug,
   findProductById,
   updateProduct,
-  getVariantbyId,
-  updateVariant,
-  getColorbyId,
-  updateColor,
   getColorbyProductId,
   getVariantbyProductId,
   deleteColor,
@@ -25,6 +21,8 @@ import {
   getProductsByCategory,
 } from "../services/Product";
 import { One } from "../services/Category";
+import { getOrderByProductId } from "../services/Order";
+import { getReviewsByProductID } from "../services/Review";
 
 interface Color {
   id: number;
@@ -55,7 +53,11 @@ export const getAllProductsController = async (req: Request, res: Response) => {
         const variants = productsVariants
           .filter((variant) => variant.productId === product.id)
           .map((variant) => ({ name: variant.variant, price: variant.price }));
-
+        const numberOfOrders = await getOrderByProductId(product.id);
+        const rating = await getReviewsByProductID(product.id);
+        const allRatings = rating
+          .map((review) => review.rating || 0)
+          .reduce((acc, curr) => acc + curr, 0);
         const colors = productsColors
           .filter((color) => color.productId === product.id)
           .map((color) => ({ name: color.color }));
@@ -65,6 +67,9 @@ export const getAllProductsController = async (req: Request, res: Response) => {
           category: getCateName?.name || null,
           brand: getBrandName?.name || null,
           variants,
+          orders: numberOfOrders.length,
+          rating: rating.length > 0 ? allRatings / rating.length : 0,
+          totalReviews: rating.length,
           colors,
         };
       })
@@ -500,10 +505,23 @@ export const getProductsByCate = async (req: Request, res: Response) => {
     if (!products) {
       return res.status(500).send("Failed to fetch products");
     }
+    const addRating = await Promise.all(
+      products.map(async (product) => {
+        const rating = await getReviewsByProductID(product.id);
+        const allRatings = rating
+          .map((review) => review.rating || 0)
+          .reduce((acc, curr) => acc + curr, 0);
+        return {
+          ...product,
+          rating: allRatings / rating.length,
+          totalReviews: rating.length,
+        };
+      })
+    );
     return res.json({
       status: 200,
       message: "Products fetched successfully",
-      data: products,
+      data: addRating,
     });
   } catch {
     console.log("error");
