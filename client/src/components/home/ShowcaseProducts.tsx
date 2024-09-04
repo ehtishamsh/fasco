@@ -20,7 +20,7 @@ function ShowcaseProducts({ products }: { products: Data[] }) {
     setProductData(products);
   }, [products]);
   const { toast } = useToast();
-
+  console.log(productData);
   const createElement = productData?.map((item) => {
     return (
       <div className="relative h-full">
@@ -49,7 +49,7 @@ function ShowcaseProducts({ products }: { products: Data[] }) {
           reloadDocument
           className={`grid grid-row-6 ${
             item?.stock && item?.stock > 0 ? "" : "opacity-50 bg-gray-200"
-          }  border border-border px-4 h-full   max-sm:px-2 hover:shadow-lg transition-all hover:bg-yellow-50 duration-300`}
+          }  border border-border px-4 h-full   max-sm:px-2 hover:shadow-lg transition-all  duration-300`}
           key={item.id}
         >
           <div className="flex items-center justify-end py-4 max-sm:py-2">
@@ -80,18 +80,29 @@ function ShowcaseProducts({ products }: { products: Data[] }) {
           <h1 className="text-sm max-sm:text-xs font-semibold text-center line-clamp-3 mt-2">
             {item.title}
           </h1>
-          <div className="flex justify-center items-center gap-1 mt-2">
-            {item.colors?.map((item, index) => {
+          <div className="flex justify-center items-center mt-2">
+            {[...Array(5)].map((_, index) => {
+              const ratingValue = index + 1;
+
               return (
-                <span
-                  className="w-4 h-4 rounded-full border border-muted-foreground"
-                  style={{ backgroundColor: item.name }}
+                <svg
                   key={index}
+                  className={`cursor-pointer w-5 h-5 ${
+                    ratingValue <= (item?.rating || 0)
+                      ? "text-yellow-500"
+                      : "text-gray-300"
+                  }`}
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  &nbsp;
-                </span>
+                  <path d="M9.049 2.927a.75.75 0 011.902 0l1.03 3.17a.75.75 0 00.708.515h3.346c.658 0 .936.84.404 1.196l-2.707 1.83a.75.75 0 00-.272.832l1.03 3.17c.21.646-.54 1.185-1.104.832l-2.707-1.83a.75.75 0 00-.884 0l-2.707 1.83c-.564.353-1.314-.186-1.104-.832l1.03-3.17a.75.75 0 00-.272-.832L3.51 7.808c-.532-.356-.254-1.196.404-1.196h3.346a.75.75 0 00.708-.515l1.03-3.17z" />
+                </svg>
               );
             })}
+            <span className="text-gray-500 text-xs">
+              ({item?.totalReviews})
+            </span>
           </div>
           <h2 className="text-xl font-semibold text-center max-sm:text-base  flex items-end justify-center pb-4 mt-2">
             ${item.price}
