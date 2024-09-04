@@ -45,15 +45,17 @@ function Hero() {
         </div>
         <div className="row-span-2 rounded-lg overflow-hidden transition-all duration-300">
           <Reveal height="100%" delayTime={0.6}>
-            <img
-              src="/bottom-img.png"
-              className="h-full w-full rounded-lg transition-all duration-300 max-md:object-cover"
-            />
+            <Link to={"/smartphones?brand=apple"}>
+              <img
+                src="/bottom-img.png"
+                className="h-full w-full rounded-lg transition-all duration-300 max-md:object-cover"
+              />
+            </Link>
           </Reveal>
         </div>
       </div>
       <Link
-        to={"/smartphones/apple/apple-iphone-15-pro"}
+        to={"/smartphones/apple/apple-iphone-14-pro-max"}
         className=" rounded-lg overflow-hidden transition-all duration-300  max-sm:h-full "
       >
         <Reveal height="100%" width="100%" delayTime={0.4}>
