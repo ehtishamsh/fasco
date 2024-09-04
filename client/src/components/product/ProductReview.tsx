@@ -139,7 +139,13 @@ function ProductReview() {
         </div>
       </div>
 
-      <Reviews reviewsData={reviews} />
+      {reviews.length > 0 ? (
+        <Reviews reviewsData={reviews} />
+      ) : (
+        <h1 className="text-center text-gray-500 text-xl mt-12 font-semibold ">
+          No reviews yet
+        </h1>
+      )}
     </div>
   );
 }
