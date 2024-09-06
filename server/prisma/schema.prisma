@@ -67,6 +67,7 @@ model Product {
   category      Category @relation(fields: [categoryId], references: [id])
   variant       Variant[]
   color         Color[]
+  discounted    String @default("0")
   brandId       String
   categoryId    String
   createdAt     DateTime @default(now())
