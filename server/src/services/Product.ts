@@ -4,6 +4,7 @@ interface Product {
   id?: string;
   title: string;
   price: string;
+  discounted: string;
   stock: number;
   description: string;
   cover: string;
@@ -83,6 +84,7 @@ export async function createProduct(data: Product) {
       title: data.title,
       cover: data.cover,
       price: data.price,
+      discounted: data.discounted,
       stock: data.stock,
       features: data.features,
       connectivity: data.connectivity,
@@ -175,6 +177,7 @@ export async function findProductById(id: string) {
       ram: true,
       screenSize: true,
       slug: true,
+      discounted: true,
       title: true,
       features: true,
       connectivity: true,
@@ -225,6 +228,7 @@ export async function updateProduct(data: Product) {
       title: data.title,
       cover: data.cover,
       price: data.price,
+      discounted: data.discounted,
       stock: data.stock,
       features: data.features,
       connectivity: data.connectivity,

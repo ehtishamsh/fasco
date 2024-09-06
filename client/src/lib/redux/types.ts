@@ -4,6 +4,7 @@ export interface Product {
   price: string;
   stock: number;
   createdAt: string;
+  discounted: string;
   updatedAt: string;
   orders?: number;
   rating?: number;
