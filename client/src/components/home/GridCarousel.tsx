@@ -10,12 +10,14 @@ import {
 } from "@/components/ui/carousel";
 import { Button } from "../ui/button";
 import { Reveal } from "../animation/Reveal";
+import { Link } from "react-router-dom";
 interface Data {
   src: string;
   alt: string;
   title: string;
   description: string;
   bg_color: string;
+  link?: string;
 }
 
 export function GridCarousel({ data }: { data: Data[] }) {
@@ -43,7 +45,8 @@ export function GridCarousel({ data }: { data: Data[] }) {
           <CarouselContent>
             {data.map((item, index) => (
               <CarouselItem key={index}>
-                <div
+                <Link
+                  to={item?.link || "#"}
                   className={`grid grid-cols-1 rounded-md h-full border border-border ${item.bg_color}`}
                 >
                   <div className="p-6 max-sm:p-4 flex justify-center items-center">
@@ -64,7 +67,7 @@ export function GridCarousel({ data }: { data: Data[] }) {
                       Shop now
                     </Button>
                   </div>
-                </div>
+                </Link>
               </CarouselItem>
             ))}
           </CarouselContent>
