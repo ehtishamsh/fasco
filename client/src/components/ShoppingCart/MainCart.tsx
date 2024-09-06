@@ -40,7 +40,8 @@ function MainCart() {
     const getTotal = () => {
       return items.map((i) => {
         return (
-          (Number(i.price) + Number(i.selectedVariant?.price)) *
+          ((Number(i.discounted) > 0 ? Number(i.discounted) : Number(i.price)) +
+            Number(i.selectedVariant?.price)) *
           (i.quantity || 1)
         );
       });
@@ -175,17 +176,17 @@ function MainCart() {
           </div>
           <div className="flex justify-between items-center mt-4">
             <h4 className="text-sm text-muted-foreground">Estimated Tax</h4>
-            <span className="text-sm font-semibold">$50</span>
+            <span className="text-sm font-semibold">$0</span>
           </div>
           <div className="flex justify-between items-center">
             <h4 className="text-sm text-muted-foreground">
               Estimated Shipping & Handling
             </h4>
-            <span className="text-sm font-semibold">$29</span>
+            <span className="text-sm font-semibold">Free</span>
           </div>
           <div className="flex justify-between items-center mt-4">
             <h4 className="text-sm font-semibold">Total</h4>
-            <span className="text-sm font-semibold">${total + 79}</span>
+            <span className="text-sm font-semibold">${total}</span>
           </div>
         </div>
         {checktoken ? (

@@ -131,7 +131,11 @@ function OrderDetail() {
                     key={index}
                     title={item.product.title}
                     cover={item.product.cover}
-                    price={item.product.price}
+                    price={
+                      Number(item.product.discounted) > 0
+                        ? item.product.discounted
+                        : item.product.price
+                    }
                     quantity={item.quantity}
                     category={Object(item.product.category).name}
                     brand={Object(item.product.brand).name}

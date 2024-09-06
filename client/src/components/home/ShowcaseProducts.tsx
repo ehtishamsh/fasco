@@ -104,9 +104,20 @@ function ShowcaseProducts({ products }: { products: Data[] }) {
               ({item?.totalReviews})
             </span>
           </div>
-          <h2 className="text-xl font-semibold text-center max-sm:text-base  flex items-end justify-center pb-4 mt-2">
-            ${item.price}
-          </h2>
+          {Number(item.discounted) > 0 ? (
+            <div className="flex justify-center items-center gap-2">
+              <s className="text-lg font-semibold text-center max-sm:text-base  flex items-end justify-center pb-4 mt-2">
+                ${item.price}
+              </s>
+              <span className="text-lg font-semibold italic text-red-500 text-center max-sm:text-base  flex items-end justify-center pb-4 mt-2">
+                ${item.discounted}
+              </span>
+            </div>
+          ) : (
+            <h2 className="text-lg font-semibold text-center max-sm:text-base  flex items-end justify-center pb-4 mt-2">
+              ${item.price}
+            </h2>
+          )}
         </Link>
       </div>
     );

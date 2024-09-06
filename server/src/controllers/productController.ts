@@ -93,6 +93,7 @@ export const createProductController = async (req: Request, res: Response) => {
       description,
       cover,
       price,
+      discounted,
       stock,
       brandId,
       categoryId,
@@ -140,6 +141,7 @@ export const createProductController = async (req: Request, res: Response) => {
       cover,
       description,
       frontCamera,
+      discounted,
       mainCamera,
       ram,
       screenSize,
@@ -328,6 +330,7 @@ export const editProduct = async (req: Request, res: Response) => {
       brandId,
       variants,
       cover,
+      discounted,
       screenSize,
       cpu,
       cores,
@@ -373,6 +376,7 @@ export const editProduct = async (req: Request, res: Response) => {
       id,
       title,
       price,
+      discounted,
       stock,
       description,
       categoryId,
@@ -496,7 +500,6 @@ export const editProduct = async (req: Request, res: Response) => {
 export const getProductsByCate = async (req: Request, res: Response) => {
   try {
     const { id: catename } = req.params;
-    console.log(catename);
     const getcateID = await One(catename);
     if (!getcateID) {
       return res.status(404).send("Category not found");

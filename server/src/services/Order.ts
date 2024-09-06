@@ -13,6 +13,7 @@ interface Product {
   title: string;
   price: string;
   stock: number;
+  discounted: string;
   variants: [
     {
       id: string;
@@ -108,9 +109,15 @@ export async function createOrderItems(orderId: string, products: Product[]) {
           variantId: product.selectedVariant?.id,
           colorID: product.selectedColor?.id,
           quantity: product.quantity || 1,
-          price: Number(product.price),
+          price:
+            Number(product.discounted) > 0
+              ? Number(product.discounted)
+              : Number(product.price),
           total:
-            (Number(product.price) + Number(product.selectedVariant?.price)) *
+            ((Number(product.discounted) > 0
+              ? Number(product.discounted)
+              : Number(product.price)) +
+              Number(product.selectedVariant?.price)) *
             Number(product.quantity),
         },
       });
@@ -309,6 +316,7 @@ export async function allOrders() {
           quantity: true,
           product: {
             select: {
+              discounted: true,
               title: true,
               category: {
                 select: {

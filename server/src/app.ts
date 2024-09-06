@@ -39,7 +39,8 @@ app.post("/api/create-checkout-session", async (req, res) => {
   const data = req.body;
   const transformedProducts = data.data.items.map((product: any) => {
     const quantity = product.quantity;
-    const price = product.price;
+    const price =
+      Number(product.discounted) > 0 ? product.discounted : product.price;
     const total = Number(price) + Number(product.selectedVariant?.price);
 
     return {
@@ -69,10 +70,16 @@ app.post("/api/create-checkout-session", async (req, res) => {
           variantId: product.selectedVariant?.id,
           colorId: product.selectedColor?.id,
           quantity: product.quantity,
-          price: Number(product.price),
+          price:
+            Number(product.discounted) > 0
+              ? Number(product.discounted)
+              : Number(product.price),
           total:
-            Number(product.price) +
-            Number(product.selectedVariant?.price) * Number(product.quantity),
+            Number(product.discounted) > 0
+              ? Number(product.discounted)
+              : Number(product.price) +
+                Number(product.selectedVariant?.price) *
+                  Number(product.quantity),
         }))
       ),
     },

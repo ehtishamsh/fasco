@@ -16,9 +16,10 @@ function PaymentForm({
     setTotal(() =>
       cartData.reduce(
         (acc, item) =>
-          acc +
-          Number(item.price) * Number(item.quantity) +
-          Number(item.selectedVariant?.price || 0),
+          acc + Number(item.discounted) > 0
+            ? Number(item.discounted)
+            : Number(item.price) * Number(item.quantity) +
+              Number(item.selectedVariant?.price || 0),
         0
       )
     );

@@ -89,16 +89,19 @@ function Content({
     if (price.length > 0) {
       const convertAllNumber = price.map(Number);
       const findMin = Math.min(...convertAllNumber);
-      products = products.filter((product) => Number(product.price) >= findMin);
+      products = products.filter(
+        (product) =>
+          (Number(product.discounted) > 0
+            ? Number(product.discounted)
+            : Number(product.price)) >= findMin
+      );
     }
 
     if (ram.length > 0) {
-      const minRam = Math.min(
-        ...ram.map((r) => parseInt(r.replace("gb", ""), 10))
-      );
-      products = products.filter(
-        (product) =>
-          parseInt(product?.ram?.replace("gb", "") || "0", 10) >= minRam
+      const selectedRams = ram.map((num) => parseInt(num.replace("gb", "")));
+
+      products = products.filter((product) =>
+        selectedRams.includes(Number(product.ram))
       );
     }
 
@@ -121,8 +124,12 @@ function Content({
 
   const sortedProducts = useMemo(() => {
     if (select === "price") {
-      return [...filteredProducts].sort(
-        (a, b) => parseFloat(b.price) - parseFloat(a.price)
+      return [...filteredProducts].sort((a, b) =>
+        parseFloat(b.discounted) > 0
+          ? parseFloat(b.discounted)
+          : parseFloat(b.price) - parseFloat(a.discounted) > 0
+          ? parseFloat(a.discounted)
+          : parseFloat(a.price)
       );
     }
     return filteredProducts;

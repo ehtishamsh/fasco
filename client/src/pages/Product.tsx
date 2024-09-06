@@ -117,11 +117,20 @@ function Product() {
                   <h1 className="text-4xl font-bold mb-6 max-sm:mb-2 max-md:text-2xl max-sm:text-lg">
                     {data?.title}
                   </h1>
-                  <p className="text-3xl mb-6 max-sm:mb-2  max-md:text-xl max-sm:text-lg">
-                    $
-                    {Number(data?.price?.replace(",", "")) +
-                      Number(selectSize?.price)}
-                  </p>
+                  {Number(data?.discounted) > 0 ? (
+                    <div className="flex items-center gap-2">
+                      <s className="text-3xl mb-6 max-sm:mb-2  max-md:text-xl max-sm:text-lg">
+                        ${Number(data?.price) + Number(selectSize?.price)}
+                      </s>
+                      <span className="text-3xl mb-6 max-sm:mb-2  max-md:text-xl max-sm:text-lg text-red-500 italic">
+                        ${Number(data?.discounted) + Number(selectSize?.price)}
+                      </span>
+                    </div>
+                  ) : (
+                    <h2 className="text-lg font-semibold text-center max-sm:text-base  flex items-end justify-center pb-4 mt-2">
+                      ${Number(data?.price) + Number(selectSize?.price)}
+                    </h2>
+                  )}
                   {/* Select color */}
                   <div className="flex items-center mb-6 max-sm:mb-2">
                     <p className="text-sm mr-4">Select color:</p>

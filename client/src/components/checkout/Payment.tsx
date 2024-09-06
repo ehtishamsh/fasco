@@ -37,7 +37,13 @@ function Payment({
     setTotal(() => {
       let sum = 0;
       data.forEach((item) => {
-        sum += Number(item.price) * (item?.quantity || 1);
+        const itemPrice =
+          Number(item.discounted) > 0
+            ? Number(item.discounted)
+            : Number(item.price);
+        sum +=
+          (itemPrice + Number(item.selectedVariant?.price || 0)) *
+          (item?.quantity || 1);
       });
       return sum;
     });
@@ -82,7 +88,11 @@ function Payment({
         </Link>
         <p className="text-sm max-sm:text-xs">Qty: {item?.quantity}</p>
         <p className="text-sm max-sm:text-xs font-semibold">
-          ${(Number(item?.price) || 1) * (item?.quantity || 1)}
+          $
+          {(Number(item?.discounted) > 0
+            ? Number(item.discounted)
+            : Number(item.price)) +
+            Number(item.selectedVariant?.price || 0) * (item?.quantity || 1)}
         </p>
       </div>
     );

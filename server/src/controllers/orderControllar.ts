@@ -23,6 +23,7 @@ interface Product {
   title: string;
   price: string;
   stock: number;
+  discounted: string;
   variants: [
     {
       id: string;
@@ -106,8 +107,10 @@ export async function createOrderController(req: Request, res: Response) {
 
     const total = data.products.reduce((acc, product) => {
       const productTotal =
-        (Number(product.price) + Number(product.selectedVariant?.price || 0)) *
-        Number(product.quantity);
+        (Number(product.discounted) > 0
+          ? Number(product.discounted)
+          : Number(product.price)) +
+        Number(product.selectedVariant?.price || 0) * Number(product.quantity);
       return acc + productTotal;
     }, 0);
     const order = await createOrder(data, total, data.addressId, data.userId);
@@ -242,4 +245,4 @@ export async function getAllOrders(req: Request, res: Response) {
       .status(400)
       .json({ message: "Error updating order", status: 400 });
   }
-} 
+}

@@ -55,7 +55,10 @@ function Wishlist() {
         </div>
         <div className="flex justify-center items-center">
           <p className="text-sm text-yellow-600 font-semibold ">
-            ${Number(item.price)}
+            $
+            {Number(item.discounted) > 0
+              ? Number(item.discounted)
+              : Number(item.price)}
           </p>
         </div>
 

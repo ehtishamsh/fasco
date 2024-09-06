@@ -35,7 +35,10 @@ function Cart({
     setTotal(() => {
       let sum = 0;
       cartItems.forEach((item) => {
-        const itemPrice = Number(item.price);
+        const itemPrice =
+          Number(item.discounted) > 0
+            ? Number(item.discounted)
+            : Number(item.price);
         const variantPrice = Number(item.selectedVariant?.price || 0);
         const itemQuantity = item.quantity || 1;
 
@@ -97,7 +100,8 @@ function Cart({
                 </span>
               </p>
               <p className="text-sm text-yellow-600 font-semibold mt-3">
-                ${item.price} + ${item.selectedVariant?.price}
+                ${Number(item.discounted) > 0 ? item.discounted : item.price} +
+                ${item.selectedVariant?.price}
               </p>
             </div>
             <div className="">
