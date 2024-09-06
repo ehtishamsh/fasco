@@ -137,7 +137,7 @@ function ViewOrder() {
                               <td className="text-left p-3 flex items-center">
                                 <img
                                   src={`http://localhost:4000${item.product.cover}`}
-                                  className="h-10 w-10 mr-2"
+                                  className="w-10 mr-2 "
                                   alt=""
                                 />{" "}
                                 <Link
@@ -150,6 +150,20 @@ function ViewOrder() {
                                   }/${item.product.slug}`}
                                 >
                                   {item.product.title}
+                                  <br />
+                                  <span className="text-sm max-sm:text-xs text-muted-foreground">
+                                    {item.variant.variant} + $
+                                    {item.variant.price}
+                                  </span>
+                                  <br />
+                                  <span
+                                    className="w-3 h-3 inline-block rounded-full border border-muted-foreground"
+                                    style={{
+                                      backgroundColor: item.color.color,
+                                    }}
+                                  >
+                                    &nbsp;
+                                  </span>
                                 </Link>
                               </td>
                               <td className="text-left p-3">
