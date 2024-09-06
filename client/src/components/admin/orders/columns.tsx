@@ -63,6 +63,8 @@ export const columns: ColumnDef<Order>[] = [
               : order.orderStatus === "SHIPPED"
               ? "bg-blue-200 text-blue-600"
               : order.orderStatus === "DELIVERED"
+              ? "bg-teal-200 text-teal-600"
+              : order.orderStatus === "COMPLETED"
               ? "bg-green-200 text-green-600"
               : "bg-red-200 text-red-600"
           }`}
