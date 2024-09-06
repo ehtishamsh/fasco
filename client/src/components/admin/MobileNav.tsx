@@ -2,8 +2,10 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import { motion } from "framer-motion";
 import { DashboardIcon, HamburgerMenuIcon } from "@radix-ui/react-icons";
-import { X } from "lucide-react";
-import { Link, useParams } from "react-router-dom";
+import { UserSquare2, X } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+import { FaProductHunt } from "react-icons/fa";
+import { TbBrandSass } from "react-icons/tb";
 const links = [
   {
     href: "/admin",
@@ -11,20 +13,49 @@ const links = [
     icon: <DashboardIcon width={25} height={25} />,
     path: "/admin",
   },
+  {
+    href: "/admin/orders",
+    text: "Orders",
+    icon: <HamburgerMenuIcon width={25} height={25} />,
+    path: "/admin/orders",
+  },
+  {
+    href: "/admin/products",
+    text: "Products",
+    icon: <FaProductHunt width={25} height={25} />,
+    path: "/admin/products",
+  },
+  {
+    href: "/admin/users",
+    text: "Users",
+    icon: <UserSquare2 width={25} height={25} />,
+    path: "/admin/users",
+  },
+  {
+    href: "/admin/brands",
+    text: "Brands",
+    icon: <TbBrandSass width={25} height={25} />,
+    path: "/admin/brands",
+  },
+  {
+    href: "/admin/categories",
+    text: "Categories",
+    icon: <HamburgerMenuIcon width={25} height={25} />,
+    path: "/admin/categories",
+  },
 ];
 function MobileNav() {
   const [open, setOpen] = useState<boolean>(false);
   const [leave, setLeave] = useState<boolean>(false);
-  const { path } = useParams();
-
+  const path = useLocation().pathname;
   const mapLink = links.map((link, index) => {
     return (
       <motion.div key={index}>
         <Link
           to={link.href}
           target={link.path ? "_self" : "_blank"}
-          className={`text-lg text-center min-w-max block mx-3 px-2 py-2 max-xs:text-base hover:bg-accent ${
-            path === link.path ? "bg-accent" : ""
+          className={`text-lg text-center min-w-max block mx-3 px-2 py-2 max-sm:text-sm hover:bg-gray-600 ${
+            path === link.path ? "bg-gray-800 text-white" : " text-black"
           } transition-all duration-300 rounded-md border border-border flex justify-center items-center gap-3`}
         >
           <span>{link.icon}</span>
@@ -37,7 +68,9 @@ function MobileNav() {
     <>
       <div className="hidden max-md:block">
         <div
-          className="fixed top-0 left-0 h-screen w-screen bg-transparent -z-50"
+          className={`fixed top-0 left-0 h-screen w-screen bg-transparent  -z-50 ${
+            open ? "block" : "hidden"
+          }`}
           onClick={() => leave && setOpen(false)}
         >
           &nbsp;
