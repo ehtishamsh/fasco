@@ -30,8 +30,10 @@ const formSchema = z.object({
     .min(1, "Product Name is required")
     .max(40, "Product Name is too long"),
   Price: z.string().min(1, "Price is required"),
+
   Stock: z.coerce.number().min(1, "Stock is required"),
   Description: z.string().min(1, "Description is required"),
+  discounted: z.string().optional(),
   //Smartphone & Laptop
   screenSize: z.string().nullable(),
   cpu: z.string().nullable(),
@@ -116,6 +118,7 @@ function EditProduct() {
     () => ({
       ProductName: `${product?.data?.title}`,
       Price: "",
+      discounted: "",
       Stock: 0,
       Description: "",
       screenSize: "",
@@ -157,6 +160,7 @@ function EditProduct() {
         const data = await res.json();
         form.setValue("ProductName", data.data.title);
         form.setValue("Price", data.data.price);
+        form.setValue("discounted", data.data.discounted);
         form.setValue("Stock", data.data.stock);
         form.setValue("Description", data.data.description);
         form.setValue("screenSize", data.data.screenSize);
@@ -210,10 +214,12 @@ function EditProduct() {
       id: product?.id,
       title: values.ProductName,
       price: values.Price,
+      discounted: values.discounted,
       stock: values.Stock,
       description: values.Description,
       categoryId: selectCategory?.id,
       brandId: selectBrand?.id,
+
       variants,
       cover: imgUrl,
       screenSize: values.screenSize,
@@ -325,6 +331,24 @@ function EditProduct() {
                     <FormControl>
                       <Input
                         placeholder="Product Price..."
+                        {...field}
+                        className="w-full"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <DropdownMenuSeparator />
+              <FormField
+                control={form.control}
+                name="discounted"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Discounted Price</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Discounted Price..."
                         {...field}
                         className="w-full"
                       />

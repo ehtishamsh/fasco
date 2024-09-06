@@ -32,6 +32,7 @@ const formSchema = z.object({
   Price: z.string().min(1, "Price is required"),
   Stock: z.coerce.number().min(1, "Stock is required"),
   Description: z.string().min(1, "Description is required"),
+  discounted: z.string().optional(),
   //Smartphone & Laptop
   screenSize: z.string().nullable(),
   cpu: z.string().nullable(),
@@ -127,6 +128,7 @@ function AddProduct() {
       frontCamera: "",
       battery: "",
       ram: "",
+      discounted: "",
       features: "",
       connectivity: "",
       sensor: "",
@@ -160,6 +162,7 @@ function AddProduct() {
     const newProduct = {
       title: values.ProductName,
       price: values.Price,
+      discounted: values.discounted,
       stock: values.Stock,
       description: values.Description,
       categoryId: selectCategory?.id,
@@ -268,6 +271,24 @@ function AddProduct() {
                   <FormControl>
                     <Input
                       placeholder="Product Price..."
+                      {...field}
+                      className="w-full"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <DropdownMenuSeparator />
+            <FormField
+              control={form.control}
+              name="discounted"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Discounted Price</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Discounted Price..."
                       {...field}
                       className="w-full"
                     />
