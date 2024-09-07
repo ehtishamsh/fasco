@@ -74,7 +74,6 @@ function ProductReview() {
       });
     }
   }, [reviews]);
-  console.log(ratingDistribution);
 
   return (
     <div className="max-w-6xl mx-auto px-8  max-sm:px-4 bg-background py-10 ">

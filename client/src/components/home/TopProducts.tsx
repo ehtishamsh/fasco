@@ -52,7 +52,6 @@ function TopProducts() {
       setProducts(sortedProducts);
     }
   }, [checkActive]);
-  console.log(products);
   return (
     <div className="max-w-6xl mt-28 mx-auto px-2 max-md:mt-16 max-sm:mt-10">
       <Reveal delayTime={0.5}>
