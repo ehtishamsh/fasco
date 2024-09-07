@@ -2,23 +2,23 @@ import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import ShowcaseProducts from "./ShowcaseProducts";
 import { Reveal } from "../animation/Reveal";
+import { Product } from "@/lib/redux/types";
 
 function DiscountedProducts() {
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   useEffect(() => {
     const fetehData = async () => {
       try {
-        const getres = await fetch("https://dummyjson.com/products", {
+        const res = await fetch("http://localhost:4000/api/products", {
           method: "GET",
         });
-        const res = await getres.json();
-        const removetenProducts = res?.products.filter(
-          //@ts-ignore
-          (item: any, i: number) => {
-            return i >= 12;
-          }
+        const data = await res.json();
+        // filter products by discount
+        const filteredProducts = data.products.filter(
+          (product: Product) => Number(product?.discounted) > 0
         );
-        setProducts(removetenProducts);
+
+        setProducts(filteredProducts);
       } catch (error) {
         console.log(error);
       }
