@@ -16,7 +16,11 @@ function List({
   }, [data]);
 
   const checkSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const itemName = e.target.value.toLowerCase(); // Convert to lowercase
+    const itemName = e.target.value
+      .toLowerCase()
+      .replace(/[^\d.]+/g, "")
+      .replace(/\s+/g, "");
+    console.log(itemName);
     setSelected((prev) => {
       if (e.target.checked) {
         return [...prev, itemName]; // Add item to selected array
@@ -27,7 +31,10 @@ function List({
   };
 
   const mapCate = value?.map((item) => {
-    const itemName = item.toLowerCase(); // Convert to lowercase
+    const itemName = item
+      .toLowerCase()
+      .replace(/[^\d.]+/g, "")
+      .replace(/\s+/g, ""); // Convert to lowercase
     const checked = selected?.includes(itemName);
     return (
       <div
