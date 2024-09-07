@@ -20,10 +20,9 @@ function ShowcaseProducts({ products }: { products: Data[] }) {
     setProductData(products);
   }, [products]);
   const { toast } = useToast();
-  console.log(productData);
-  const createElement = productData?.map((item) => {
+  const createElement = productData?.map((item, i) => {
     return (
-      <div className="relative h-full">
+      <div className="relative h-full" key={i}>
         {item?.stock && item?.stock > 0 ? (
           ""
         ) : (
