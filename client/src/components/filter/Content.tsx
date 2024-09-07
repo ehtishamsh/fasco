@@ -123,15 +123,37 @@ function Content({
   ]);
 
   const sortedProducts = useMemo(() => {
-    if (select === "price") {
-      return [...filteredProducts].sort((a, b) =>
-        parseFloat(b.discounted) > 0
-          ? parseFloat(b.discounted)
-          : parseFloat(b.price) - parseFloat(a.discounted) > 0
-          ? parseFloat(a.discounted)
-          : parseFloat(a.price)
-      );
+    switch (select) {
+      case "price":
+        return [...filteredProducts].sort(
+          (a, b) =>
+            (parseFloat(b.discounted) > 0
+              ? parseFloat(b.discounted)
+              : parseFloat(b.price)) -
+            (parseFloat(a.discounted) > 0
+              ? parseFloat(a.discounted)
+              : parseFloat(a.price))
+        );
+        break;
+
+      case "rating":
+        return [...filteredProducts].sort(
+          (a, b) => (b?.rating || 0) - (a?.rating || 0)
+        );
+        break;
+      case "top":
+        return [...filteredProducts].sort(
+          (a, b) => (b.orders || 0) - (a.orders || 0)
+        );
+        break;
+      case "best":
+        //Return unfiltered products if select is 'best'
+        return filteredProducts;
+        break;
+      default:
+        break;
     }
+
     return filteredProducts;
   }, [filteredProducts, select]);
 
