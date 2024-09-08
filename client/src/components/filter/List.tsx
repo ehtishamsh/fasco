@@ -16,11 +16,10 @@ function List({
   }, [data]);
 
   const checkSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const itemName = e.target.value
-      .toLowerCase()
-      .replace(/[^\d.]+/g, "")
-      .replace(/\s+/g, "");
-    console.log(itemName);
+    const hasNumbers = /\d/.test(e.target.value); // Check if item contains any digits
+    const itemName = hasNumbers
+      ? e.target.value.replace(/[^\d.]+/g, "") // Keep only numbers
+      : e.target.value.toLowerCase(); // Keep entire text if no numbers
     setSelected((prev) => {
       if (e.target.checked) {
         return [...prev, itemName]; // Add item to selected array
@@ -31,10 +30,10 @@ function List({
   };
 
   const mapCate = value?.map((item) => {
-    const itemName = item
-      .toLowerCase()
-      .replace(/[^\d.]+/g, "")
-      .replace(/\s+/g, ""); // Convert to lowercase
+    const hasNumbers = /\d/.test(item); // Check if item contains any digits
+    const itemName = hasNumbers
+      ? item.replace(/[^\d.]+/g, "") // Keep only numbers
+      : item.toLowerCase(); // Keep entire text if no numbers
     const checked = selected?.includes(itemName);
     return (
       <div
