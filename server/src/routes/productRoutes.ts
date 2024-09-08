@@ -3,6 +3,7 @@ import {
   createProductController,
   editProduct,
   getAllProductsController,
+  getFilterData,
   getProductByID,
   getProductController,
   getProductsByCate,
@@ -16,5 +17,6 @@ router.get("/products/:id", getProductController);
 router.get("/products/single/:id", getProductByID);
 router.put("/products/edit", editProduct);
 router.get("/products/category/:id", getProductsByCate);
+router.get("/products/filters", getFilterData);
 
 export default router;

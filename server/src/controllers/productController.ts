@@ -19,6 +19,7 @@ import {
   deleteColor,
   deleteVariant,
   getProductsByCategory,
+  getProductFilterData,
 } from "../services/Product";
 import { One } from "../services/Category";
 import { getOrderByProductId } from "../services/Order";
@@ -525,6 +526,32 @@ export const getProductsByCate = async (req: Request, res: Response) => {
       status: 200,
       message: "Products fetched successfully",
       data: addRating,
+    });
+  } catch {
+    console.log("error");
+    return res.status(500).send("Failed to fetch products");
+  }
+};
+
+export const getFilterData = async (req: Request, res: Response) => {
+  try {
+    const getdata = await getProductFilterData();
+    console.log(getdata);
+    if (!getdata) {
+      return res.status(500).send("Failed to fetch products");
+    }
+    return res.json({
+      status: 200,
+      message: "Products fetched successfully",
+      data: {
+        cpus: getdata.map((item) => item.cpu),
+        gpus: getdata.map((item) => item.gpu),
+        storages: getdata.map((item) => item.storage),
+        zooms: getdata.map((item) => item.zoom),
+        megapixels: getdata.map((item) => item.megapixels),
+        screensize: getdata.map((item) => item.screenSize),
+        screenType: getdata.map((item) => item.screenType),
+      },
     });
   } catch {
     console.log("error");

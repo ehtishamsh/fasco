@@ -318,3 +318,29 @@ export async function getProductsByCategory(id: string) {
     where: { categoryId: id },
   });
 }
+
+export async function getProductFilterData() {
+  return await prisma.product.findMany({
+    select: {
+      cpu: true,
+      ram: true,
+      screenSize: true,
+      battery: true,
+      screenType: true,
+      brand: {
+        select: {
+          name: true,
+        },
+      },
+      lens: true,
+      megapixels: true,
+      aperture: true,
+      videoResolution: true,
+      batteryLife: true,
+      gpu: true,
+      maxResolution: true,
+      storage: true,
+      zoom: true,
+    },
+  });
+}
