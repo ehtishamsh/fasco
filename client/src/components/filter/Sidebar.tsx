@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import CollapsibleSection from "./CollapsibleSection";
-import { useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "../ui/button";
 import { FaChevronLeft } from "react-icons/fa";
@@ -12,14 +12,38 @@ interface Data {
   screenSize?: string[];
   ram?: string[];
   price?: string[];
+  cpu?: string[];
+  mainCamera?: string[];
+  frontCamera?: string[];
+  screenType?: string[];
+  lens?: string[];
+  zoom?: string[];
+  megapixels?: string[];
+  aperture?: string[];
+  videoResolution?: string[];
+  storage?: string[];
+  gpu?: string[];
+  maxResolution?: string[];
 }
 
 interface AllFilters {
   brands: string[];
-  screenSize: string[];
   batteryCapacity: string[];
+  screenSize: string[];
   ram: string[];
   price: string[];
+  cpu: string[];
+  mainCamera: string[];
+  frontCamera: string[];
+  screenType: string[];
+  lens: string[];
+  zoom: string[];
+  megapixels: string[];
+  aperture: string[];
+  videoResolution: string[];
+  storage: string[];
+  gpu: string[];
+  maxResolution: string[];
 }
 
 interface SidebarProps {
@@ -33,66 +57,98 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
   const [batteryCapacity, setBatteryCapacity] = useState<string[]>([]);
   const [ram, setRAM] = useState<string[]>([]);
   const [price, setPrice] = useState<string[]>([]);
+  const [cpu, setCpu] = useState<string[]>([]);
+  const [mainCamera, setMainCamera] = useState<string[]>([]);
+  const [frontCamera, setFrontCamera] = useState<string[]>([]);
+  const [screenType, setScreenType] = useState<string[]>([]);
+  const [lens, setLens] = useState<string[]>([]);
+  const [zoom, setZoom] = useState<string[]>([]);
+  const [megapixels, setMegapixels] = useState<string[]>([]);
+  const [aperture, setAperture] = useState<string[]>([]);
+  const [videoResolution, setVideoResolution] = useState<string[]>([]);
+  const [storage, setStorage] = useState<string[]>([]);
+  const [gpu, setGpu] = useState<string[]>([]);
+  const [maxResolution, setMaxResolution] = useState<string[]>([]);
+  const [numberOfControllers, setNumberOfControllers] = useState<string[]>([]);
+  const [compatibleGames, setCompatibleGames] = useState<string[]>([]);
   const [data, setData] = useState<Data>({});
   const [loading, setLoading] = useState<boolean>(false);
   const [searchParams, setSearchParams] = useSearchParams();
-
+  const { category } = useParams();
   // Fetch initial data (brands, capacities, etc.)
   useEffect(() => {
     setLoading(true);
     const fetchData = async () => {
       try {
-        const brandResponse = await fetch("http://localhost:4000/api/brands");
-        const brandData = await brandResponse.json();
-        const brands = brandData.brands.map((brand: any) => brand.name);
-        if (brandData) {
+        const res = await fetch("http://localhost:4000/api/products/filters");
+        const filterData = await res.json();
+        console.log(filterData);
+        const brands = filterData.brands.map((brand: any) => brand.name);
+        if (brands) {
           setLoading(false);
+          setData({
+            brands,
+            batteryCapacity: [
+              "1000",
+              "2000",
+              "3000",
+              "4000",
+              "5000",
+              "6000",
+              "7000",
+              "8000",
+              "9000",
+              "10000",
+            ],
+            screenSize: [
+              "Over 1",
+              "Over 1.5",
+              "Over 2.5",
+              "Over 3.5",
+              "Over 4.5",
+              "Over 5.5",
+              "Over 6.5",
+              "Over 7.5",
+              "Over 8.5",
+            ],
+            ram: ["4GB", "6GB", "8GB", "12GB", "14GB", "16GB"],
+            price: [
+              "$100",
+              "$200",
+              "$300",
+              "$400",
+              "$500",
+              "$600",
+              "$700",
+              "$800",
+              "$900",
+              "$1000",
+              "$1500",
+            ],
+            // You will need to add corresponding data for the new filters
+            cpu: [],
+            mainCamera: ["12MP", "16MP", "20MP"],
+            frontCamera: ["8MP", "12MP"],
+            screenType: ["LCD", "AMOLED", "OLED"],
+            lens: ["Wide", "Telephoto", "Macro"],
+            zoom: ["2x", "4x", "10x"],
+            megapixels: ["12MP", "16MP", "20MP"],
+            aperture: ["f/1.8", "f/2.2", "f/2.8"],
+            videoResolution: ["1080p", "4K", "8K"],
+            storage: ["64GB", "128GB", "256GB"],
+            gpu: ["NVIDIA", "AMD"],
+            maxResolution: ["1080p", "1440p", "4K"],
+          });
         }
-        setData({
-          brands,
-          batteryCapacity: [
-            "1000",
-            "2000",
-            "3000",
-            "4000",
-            "5000",
-            "6000",
-            "7000",
-            "8000",
-            "9000",
-            "10000",
-          ],
-          screenSize: [
-            "Over 4.5",
-            "Over 5.5",
-            "Over 6.5",
-            "Over 7.5",
-            "Over 8.5",
-          ],
-          ram: ["4GB", "6GB", "8GB", "12GB", "14GB", "16GB"],
-          price: [
-            "$100",
-            "$200",
-            "$300",
-            "$400",
-            "$500",
-            "$600",
-            "$700",
-            "$800",
-            "$900",
-            "$1000",
-            "$1500",
-          ],
-        });
       } catch (error) {
         console.error("Failed to fetch data:", error);
       }
     };
 
-    // Fetch data only if it hasn't been fetched before
-    if (!data.brands) {
-      fetchData();
-    }
+    fetchData();
+    return () => {
+      setLoading(false);
+    };
   }, []);
 
   // Parse URL parameters to initialize filter states
@@ -114,12 +170,59 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
     if (searchParams.get("price")) {
       setPrice(filterParams("price"));
     }
+    // Add additional useEffect hooks to handle the new filters
+    if (searchParams.get("cpu")) {
+      setCpu(filterParams("cpu"));
+    }
+    if (searchParams.get("mainCamera")) {
+      setMainCamera(filterParams("mainCamera"));
+    }
+    if (searchParams.get("frontCamera")) {
+      setFrontCamera(filterParams("frontCamera"));
+    }
+    if (searchParams.get("screenType")) {
+      setScreenType(filterParams("screenType"));
+    }
+    if (searchParams.get("lens")) {
+      setLens(filterParams("lens"));
+    }
+    if (searchParams.get("zoom")) {
+      setZoom(filterParams("zoom"));
+    }
+    if (searchParams.get("megapixels")) {
+      setMegapixels(filterParams("megapixels"));
+    }
+    if (searchParams.get("aperture")) {
+      setAperture(filterParams("aperture"));
+    }
+    if (searchParams.get("videoResolution")) {
+      setVideoResolution(filterParams("videoResolution"));
+    }
+
+    if (searchParams.get("storage")) {
+      setStorage(filterParams("storage"));
+    }
+    if (searchParams.get("gpu")) {
+      setGpu(filterParams("gpu"));
+    }
+    if (searchParams.get("maxResolution")) {
+      setMaxResolution(filterParams("maxResolution"));
+    }
+    if (searchParams.get("numberOfControllers")) {
+      setNumberOfControllers(filterParams("numberOfControllers"));
+    }
+    if (searchParams.get("compatibleGames")) {
+      setCompatibleGames(filterParams("compatibleGames"));
+    }
+    console.log(selectedBrand, screenSize, batteryCapacity);
   }, [searchParams]);
+
   useEffect(() => {
     const newSearchParams = new URLSearchParams();
 
-    if (selectedBrand.length > 0)
+    if (selectedBrand.length > 0) {
       newSearchParams.set("brand", selectedBrand.join(" ").toLowerCase());
+    }
     if (screenSize.length > 0)
       newSearchParams.set("screenSize", screenSize.join(" ").toLowerCase());
     if (batteryCapacity.length > 0)
@@ -131,17 +234,81 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
     if (price.length > 0)
       newSearchParams.set("price", price.join(" ").toLowerCase());
 
+    // Add the additional filters to the URL params
+    if (cpu.length > 0) newSearchParams.set("cpu", cpu.join(" ").toLowerCase());
+    if (mainCamera.length > 0)
+      newSearchParams.set("mainCamera", mainCamera.join(" ").toLowerCase());
+    if (frontCamera.length > 0)
+      newSearchParams.set("frontCamera", frontCamera.join(" ").toLowerCase());
+    if (screenType.length > 0)
+      newSearchParams.set("screenType", screenType.join(" ").toLowerCase());
+    if (lens.length > 0)
+      newSearchParams.set("lens", lens.join(" ").toLowerCase());
+    if (zoom.length > 0)
+      newSearchParams.set("zoom", zoom.join(" ").toLowerCase());
+    if (megapixels.length > 0)
+      newSearchParams.set("megapixels", megapixels.join(" ").toLowerCase());
+    if (aperture.length > 0)
+      newSearchParams.set("aperture", aperture.join(" ").toLowerCase());
+    if (videoResolution.length > 0)
+      newSearchParams.set(
+        "videoResolution",
+        videoResolution.join(" ").toLowerCase()
+      );
+
+    if (storage.length > 0)
+      newSearchParams.set("storage", storage.join(" ").toLowerCase());
+    if (gpu.length > 0) newSearchParams.set("gpu", gpu.join(" ").toLowerCase());
+    if (maxResolution.length > 0)
+      newSearchParams.set(
+        "maxResolution",
+        maxResolution.join(" ").toLowerCase()
+      );
+
     window.history.pushState(null, "", `?${newSearchParams.toString()}`);
     setSearchParams(newSearchParams);
-
+    console.log(selectedBrand, screenSize, batteryCapacity);
     setAllFilters({
       brands: selectedBrand,
       screenSize,
       batteryCapacity,
       ram,
       price,
+      cpu,
+      mainCamera,
+      frontCamera,
+      screenType,
+      lens,
+      zoom,
+      megapixels,
+      aperture,
+      videoResolution,
+      storage,
+      gpu,
+      maxResolution,
     });
-  }, [selectedBrand, screenSize, batteryCapacity, ram, price]);
+  }, [
+    selectedBrand,
+    screenSize,
+    batteryCapacity,
+    ram,
+    price,
+    cpu,
+    mainCamera,
+    frontCamera,
+    screenType,
+    lens,
+    zoom,
+    megapixels,
+    aperture,
+    videoResolution,
+    storage,
+    gpu,
+    maxResolution,
+    numberOfControllers,
+    compatibleGames,
+  ]);
+  console.log(selectedBrand);
 
   return (
     <div className={`max-md:max-h-[80svh] max-md:overflow-y-auto`}>
@@ -159,6 +326,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
             <Loading />
           ) : (
             <>
+              {/* Common filters */}
               <CollapsibleSection
                 select={selectedBrand}
                 setSelected={setSelectedBrand}
@@ -166,30 +334,214 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
                 data={data?.brands || []}
               />
               <CollapsibleSection
-                select={batteryCapacity}
-                setSelected={setBatteryCapacity}
-                title="Battery Capacity"
-                data={data?.batteryCapacity || []}
-              />
-              <CollapsibleSection
-                select={screenSize}
-                setSelected={setScreenSize}
-                title="Screen Size"
-                data={data?.screenSize || []}
-              />
-
-              <CollapsibleSection
-                select={ram}
-                setSelected={setRAM}
-                title="RAM"
-                data={data?.ram || []}
-              />
-              <CollapsibleSection
                 select={price}
                 setSelected={setPrice}
                 title="Price"
                 data={data?.price || []}
               />
+
+              {/* Category-specific filters */}
+              {category === "Laptops" && (
+                <>
+                  <CollapsibleSection
+                    select={screenSize}
+                    setSelected={setScreenSize}
+                    title="Screen Size"
+                    data={data?.screenSize || []}
+                  />
+                  <CollapsibleSection
+                    select={cpu}
+                    setSelected={setCpu}
+                    title="CPU"
+                    data={data?.cpu || []}
+                  />
+
+                  <CollapsibleSection
+                    select={frontCamera}
+                    setSelected={setFrontCamera}
+                    title="Front Camera"
+                    data={data?.frontCamera || []}
+                  />
+                  <CollapsibleSection
+                    select={ram}
+                    setSelected={setRAM}
+                    title="RAM"
+                    data={data?.ram || []}
+                  />
+                  <CollapsibleSection
+                    select={batteryCapacity}
+                    setSelected={setBatteryCapacity}
+                    title="Battery"
+                    data={data?.batteryCapacity || []}
+                  />
+                </>
+              )}
+
+              {category === "Smartphones" && (
+                <>
+                  <CollapsibleSection
+                    select={screenSize}
+                    setSelected={setScreenSize}
+                    title="Screen Size"
+                    data={data?.screenSize || []}
+                  />
+                  <CollapsibleSection
+                    select={cpu}
+                    setSelected={setCpu}
+                    title="CPU"
+                    data={data?.cpu || []}
+                  />
+
+                  <CollapsibleSection
+                    select={mainCamera}
+                    setSelected={setMainCamera}
+                    title="Main Camera"
+                    data={data?.mainCamera || []}
+                  />
+                  <CollapsibleSection
+                    select={frontCamera}
+                    setSelected={setFrontCamera}
+                    title="Front Camera"
+                    data={data?.frontCamera || []}
+                  />
+                  <CollapsibleSection
+                    select={ram}
+                    setSelected={setRAM}
+                    title="RAM"
+                    data={data?.ram || []}
+                  />
+                  <CollapsibleSection
+                    select={batteryCapacity}
+                    setSelected={setBatteryCapacity}
+                    title="Battery"
+                    data={data?.batteryCapacity || []}
+                  />
+                </>
+              )}
+
+              {category === "smartwatches" && (
+                <>
+                  <CollapsibleSection
+                    select={screenSize}
+                    setSelected={setScreenSize}
+                    title="Screen Size"
+                    data={data?.screenSize || []}
+                  />
+                  <CollapsibleSection
+                    select={cpu}
+                    setSelected={setCpu}
+                    title="CPU"
+                    data={data?.cpu || []}
+                  />
+                  <CollapsibleSection
+                    select={screenType}
+                    setSelected={setScreenType}
+                    title="Screen Type"
+                    data={data?.screenType || []}
+                  />
+
+                  <CollapsibleSection
+                    select={batteryCapacity}
+                    setSelected={setBatteryCapacity}
+                    title="Battery"
+                    data={data?.batteryCapacity || []}
+                  />
+                </>
+              )}
+
+              {category === "Headphones" && (
+                <>
+                  <CollapsibleSection
+                    select={batteryCapacity}
+                    setSelected={setBatteryCapacity}
+                    title="Battery"
+                    data={data?.batteryCapacity || []}
+                  />
+                </>
+              )}
+
+              {category === "Cameras" && (
+                <>
+                  <CollapsibleSection
+                    select={lens}
+                    setSelected={setLens}
+                    title="Lens"
+                    data={data?.lens || []}
+                  />
+                  <CollapsibleSection
+                    select={maxResolution}
+                    setSelected={setMaxResolution}
+                    title="Max Resolution"
+                    data={data?.maxResolution || []}
+                  />
+                  <CollapsibleSection
+                    select={aperture}
+                    setSelected={setAperture}
+                    title="Aperture"
+                    data={data?.aperture || []}
+                  />
+                  <CollapsibleSection
+                    select={videoResolution}
+                    setSelected={setVideoResolution}
+                    title="Video Resolution"
+                    data={data?.videoResolution || []}
+                  />
+                  <CollapsibleSection
+                    select={zoom}
+                    setSelected={setZoom}
+                    title="Zoom"
+                    data={data?.zoom || []}
+                  />
+                  <CollapsibleSection
+                    select={megapixels}
+                    setSelected={setMegapixels}
+                    title="Megapixels"
+                    data={data?.megapixels || []}
+                  />
+                </>
+              )}
+
+              {category === "Gaming" && (
+                <>
+                  <CollapsibleSection
+                    select={screenSize}
+                    setSelected={setScreenSize}
+                    title="Screen Size"
+                    data={data?.screenSize || []}
+                  />
+                  <CollapsibleSection
+                    select={screenType}
+                    setSelected={setScreenType}
+                    title="Screen Type"
+                    data={data?.screenType || []}
+                  />
+                  <CollapsibleSection
+                    select={storage}
+                    setSelected={setStorage}
+                    title="Storage"
+                    data={data?.storage || []}
+                  />
+                  <CollapsibleSection
+                    select={cpu}
+                    setSelected={setCpu}
+                    title="CPU"
+                    data={data?.cpu || []}
+                  />
+
+                  <CollapsibleSection
+                    select={gpu}
+                    setSelected={setGpu}
+                    title="GPU"
+                    data={data?.gpu || []}
+                  />
+                  <CollapsibleSection
+                    select={maxResolution}
+                    setSelected={setMaxResolution}
+                    title="Max Resolution"
+                    data={data?.maxResolution || []}
+                  />
+                </>
+              )}
             </>
           )}
         </motion.div>
