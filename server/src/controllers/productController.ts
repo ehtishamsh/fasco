@@ -540,18 +540,90 @@ export const getFilterData = async (req: Request, res: Response) => {
     if (!getdata) {
       return res.status(500).send("Failed to fetch products");
     }
+    const allData = {
+      lens: [
+        ...new Set(
+          getdata.map((item) => item.lens).filter((item) => item !== null)
+        ),
+      ],
+      aperture: [
+        ...new Set(
+          getdata.map((item) => item.aperture).filter((item) => item !== null)
+        ),
+      ],
+      cpu: [
+        ...new Set(
+          getdata.map((item) => item.cpu).filter((item) => item !== null)
+        ),
+      ],
+      ram: [
+        ...new Set(
+          getdata.map((item) => item.ram).filter((item) => item !== null)
+        ),
+      ],
+      screenType: [
+        ...new Set(
+          getdata.map((item) => item.screenType).filter((item) => item !== null)
+        ),
+      ],
+      screenSize: [
+        ...new Set(
+          getdata.map((item) => item.screenSize).filter((item) => item !== null)
+        ),
+      ],
+      storage: [
+        ...new Set(
+          getdata.map((item) => item.storage).filter((item) => item !== null)
+        ),
+      ],
+      gpu: [
+        ...new Set(
+          getdata.map((item) => item.gpu).filter((item) => item !== null)
+        ),
+      ],
+      mainCamera: [
+        ...new Set(
+          getdata.map((item) => item.mainCamera).filter((item) => item !== null)
+        ),
+      ],
+      frontCamera: [
+        ...new Set(
+          getdata
+            .map((item) => item.frontCamera)
+            .filter((item) => item !== null)
+        ),
+      ],
+      maxResolution: [
+        ...new Set(
+          getdata
+            .map((item) => item.maxResolution)
+            .filter((item) => item !== null)
+        ),
+      ],
+      megapixels: [
+        ...new Set(
+          getdata.map((item) => item.megapixels).filter((item) => item !== null)
+        ),
+      ],
+      zoom: [
+        ...new Set(
+          getdata.map((item) => item.zoom).filter((item) => item !== null)
+        ),
+      ],
+      videoResolution: [
+        ...new Set(
+          getdata
+            .map((item) => item.videoResolution)
+            .filter((item) => item !== null)
+        ),
+      ],
+      brand: [...new Set(getdata.map((item) => item.brand.name))],
+    };
+
     return res.json({
       status: 200,
       message: "Products fetched successfully",
-      data: {
-        cpus: getdata.map((item) => item.cpu),
-        gpus: getdata.map((item) => item.gpu),
-        storages: getdata.map((item) => item.storage),
-        zooms: getdata.map((item) => item.zoom),
-        megapixels: getdata.map((item) => item.megapixels),
-        screensize: getdata.map((item) => item.screenSize),
-        screenType: getdata.map((item) => item.screenType),
-      },
+      data: allData,
     });
   } catch {
     console.log("error");

@@ -322,25 +322,25 @@ export async function getProductsByCategory(id: string) {
 export async function getProductFilterData() {
   return await prisma.product.findMany({
     select: {
+      lens: true,
+      aperture: true,
       cpu: true,
       ram: true,
-      screenSize: true,
-      battery: true,
       screenType: true,
+      screenSize: true,
+      storage: true,
+      gpu: true,
+      mainCamera: true,
+      frontCamera: true,
+      maxResolution: true,
+      megapixels: true,
+      zoom: true,
+      videoResolution: true,
       brand: {
         select: {
           name: true,
         },
       },
-      lens: true,
-      megapixels: true,
-      aperture: true,
-      videoResolution: true,
-      batteryLife: true,
-      gpu: true,
-      maxResolution: true,
-      storage: true,
-      zoom: true,
     },
   });
 }
