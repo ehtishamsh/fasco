@@ -80,7 +80,9 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
     setLoading(true);
     const fetchData = async () => {
       try {
-        const res = await fetch("http://localhost:4000/api/products/filters");
+        const res = await fetch("http://localhost:4000/api/products/filters", {
+          method: "GET",
+        });
         const filterData = await res.json();
         console.log(filterData);
         const brands = filterData.brands.map((brand: any) => brand.name);
