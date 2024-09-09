@@ -24,6 +24,18 @@ function Content({
   ram,
   screenSize,
   brands,
+  cpu,
+  mainCamera,
+  frontCamera,
+  screenType,
+  lens,
+  zoom,
+  megapixels,
+  aperture,
+  videoResolution,
+  storage,
+  gpu,
+  maxResolution,
   open,
   setOpen,
 }: {
@@ -31,10 +43,21 @@ function Content({
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   brands: string[];
   batteryCapacity: string[];
-
   price: string[];
   ram: string[];
   screenSize: string[];
+  cpu: string[];
+  mainCamera: string[];
+  frontCamera: string[];
+  screenType: string[];
+  lens: string[];
+  zoom: string[];
+  megapixels: string[];
+  aperture: string[];
+  videoResolution: string[];
+  storage: string[];
+  gpu: string[];
+  maxResolution: string[];
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
@@ -106,9 +129,12 @@ function Content({
     }
 
     if (screenSize.length > 0) {
-      products = products.filter((product) =>
-        screenSize.includes(product.screenSize)
-      );
+      const selectedScreenSizes = screenSize.map((num) => Number(num));
+      selectedScreenSizes.forEach((num) => {
+        products = products.filter(
+          (product) => Number(product.screenSize) >= num
+        );
+      });
     }
 
     setFilteredProducts(products);
