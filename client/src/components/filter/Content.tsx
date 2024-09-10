@@ -136,6 +136,14 @@ function Content({
         );
       });
     }
+    if (screenType.length > 0) {
+      products = products.filter((product) => {
+        const screenTypeValue = screenType
+          .map((screenType) => screenType.toLowerCase())
+          .includes((product.screenType ?? "").toLowerCase());
+        return screenTypeValue;
+      });
+    }
 
     setFilteredProducts(products);
   }, [
