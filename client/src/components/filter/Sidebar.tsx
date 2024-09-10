@@ -75,21 +75,21 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const { category } = useParams();
+  console.log(category);
   // Fetch initial data (brands, capacities, etc.)
   useEffect(() => {
     setLoading(true);
     const fetchData = async () => {
       try {
-        const res = await fetch("http://localhost:4000/api/products/filters", {
+        const res = await fetch("http://localhost:4000/api/products/filter", {
           method: "GET",
         });
         const filterData = await res.json();
-        console.log(filterData);
-        const brands = filterData.brands.map((brand: any) => brand.name);
-        if (brands) {
+
+        if (filterData) {
           setLoading(false);
           setData({
-            brands,
+            brands: filterData.data.brand,
             batteryCapacity: [
               "1000",
               "2000",
@@ -113,7 +113,11 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
               "Over 7.5",
               "Over 8.5",
             ],
-            ram: ["4GB", "6GB", "8GB", "12GB", "14GB", "16GB"],
+            ram: filterData.data.ram
+              .map((ram: string) => ram)
+              .filter((ram: string) => !ram.includes("LPDDR5"))
+              .sort((a: string, b: string) => parseFloat(a) - parseFloat(b))
+              .map((ram: string) => ram + "GB"),
             price: [
               "$100",
               "$200",
@@ -128,18 +132,38 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
               "$1500",
             ],
             // You will need to add corresponding data for the new filters
-            cpu: [],
-            mainCamera: ["12MP", "16MP", "20MP"],
-            frontCamera: ["8MP", "12MP"],
+            cpu: ["Intel", "AMD", "Snapdragon", "Exynos"],
+            mainCamera: filterData.data.mainCamera
+              .map((cam: string) =>
+                cam
+                  .replace("MP", "")
+                  .replace(" ", "")
+                  .replace("p", "")
+                  .replace("HD", "")
+              )
+              .sort((a: string, b: string) => parseFloat(a) - parseFloat(b))
+              .filter((cam: string) => parseFloat(cam) <= 200)
+              .map((cam: string) => cam + "MP"),
+            frontCamera: filterData.data.frontCamera
+              .map((cam: string) =>
+                cam
+                  .replace("MP", "")
+                  .replace(" ", "")
+                  .replace("p", "")
+                  .replace("HD", "")
+              )
+              .sort((a: string, b: string) => parseFloat(a) - parseFloat(b))
+              .filter((cam: string) => parseFloat(cam) <= 200)
+              .map((cam: string) => cam + "MP"),
             screenType: ["LCD", "AMOLED", "OLED"],
             lens: ["Wide", "Telephoto", "Macro"],
-            zoom: ["2x", "4x", "10x"],
+            zoom: filterData.data.zoom,
             megapixels: ["12MP", "16MP", "20MP"],
-            aperture: ["f/1.8", "f/2.2", "f/2.8"],
+            aperture: filterData.data.aperture,
             videoResolution: ["1080p", "4K", "8K"],
             storage: ["64GB", "128GB", "256GB"],
             gpu: ["NVIDIA", "AMD"],
-            maxResolution: ["1080p", "1440p", "4K"],
+            maxResolution: ["720p", "1080p", "1440p", "4K"],
           });
         }
       } catch (error) {
@@ -310,7 +334,6 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
     numberOfControllers,
     compatibleGames,
   ]);
-  console.log(selectedBrand);
 
   return (
     <div className={`max-md:max-h-[80svh] max-md:overflow-y-auto`}>
@@ -343,7 +366,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
               />
 
               {/* Category-specific filters */}
-              {category === "Laptops" && (
+              {category === "laptops" && (
                 <>
                   <CollapsibleSection
                     select={screenSize}
@@ -379,7 +402,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
                 </>
               )}
 
-              {category === "Smartphones" && (
+              {category === "smartphones" && (
                 <>
                   <CollapsibleSection
                     select={screenSize}
@@ -451,7 +474,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
                 </>
               )}
 
-              {category === "Headphones" && (
+              {category === "headphones" && (
                 <>
                   <CollapsibleSection
                     select={batteryCapacity}
@@ -462,7 +485,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
                 </>
               )}
 
-              {category === "Cameras" && (
+              {category === "cameras" && (
                 <>
                   <CollapsibleSection
                     select={lens}
@@ -503,7 +526,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
                 </>
               )}
 
-              {category === "Gaming" && (
+              {category === "gaming" && (
                 <>
                   <CollapsibleSection
                     select={screenSize}
