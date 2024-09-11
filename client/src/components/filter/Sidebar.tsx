@@ -16,7 +16,7 @@ interface Data {
   mainCamera?: string[];
   frontCamera?: string[];
   screenType?: string[];
-  lens?: string[];
+
   zoom?: string[];
   megapixels?: string[];
   aperture?: string[];
@@ -36,7 +36,6 @@ interface AllFilters {
   mainCamera: string[];
   frontCamera: string[];
   screenType: string[];
-  lens: string[];
   zoom: string[];
   megapixels: string[];
   aperture: string[];
@@ -61,7 +60,6 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
   const [mainCamera, setMainCamera] = useState<string[]>([]);
   const [frontCamera, setFrontCamera] = useState<string[]>([]);
   const [screenType, setScreenType] = useState<string[]>([]);
-  const [lens, setLens] = useState<string[]>([]);
   const [zoom, setZoom] = useState<string[]>([]);
   const [megapixels, setMegapixels] = useState<string[]>([]);
   const [aperture, setAperture] = useState<string[]>([]);
@@ -75,15 +73,17 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const { category } = useParams();
-  console.log(category);
   // Fetch initial data (brands, capacities, etc.)
   useEffect(() => {
     setLoading(true);
     const fetchData = async () => {
       try {
-        const res = await fetch("http://localhost:4000/api/products/filter", {
-          method: "GET",
-        });
+        const res = await fetch(
+          "http://localhost:4000/api/products/filter/" + category,
+          {
+            method: "GET",
+          }
+        );
         const filterData = await res.json();
 
         if (filterData) {
@@ -156,14 +156,16 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
               .filter((cam: string) => parseFloat(cam) <= 200)
               .map((cam: string) => cam + "MP"),
             screenType: ["LCD", "AMOLED", "OLED"],
-            lens: ["Wide", "Telephoto", "Macro"],
-            zoom: filterData.data.zoom,
-            megapixels: ["12MP", "16MP", "20MP"],
+
+            zoom: filterData.data.zoom.filter(
+              (zoom: string) => zoom !== "None"
+            ),
+            megapixels: filterData.data.megapixels,
             aperture: filterData.data.aperture,
-            videoResolution: ["1080p", "4K", "8K"],
-            storage: ["64GB", "128GB", "256GB"],
+            videoResolution: ["720p", "1080p", "4K", "8K"],
+            storage: filterData.data.storage,
             gpu: ["NVIDIA", "AMD"],
-            maxResolution: ["720p", "1080p", "1440p", "4K"],
+            maxResolution: ["720p", "1080p", "4K", "8K"],
           });
         }
       } catch (error) {
@@ -177,7 +179,6 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
     };
   }, []);
 
-  // Parse URL parameters to initialize filter states
   useEffect(() => {
     const filterParams = (param: string) =>
       searchParams.getAll(param).flatMap((p) => p.split(" "));
@@ -209,9 +210,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
     if (searchParams.get("screenType")) {
       setScreenType(filterParams("screenType"));
     }
-    if (searchParams.get("lens")) {
-      setLens(filterParams("lens"));
-    }
+
     if (searchParams.get("zoom")) {
       setZoom(filterParams("zoom"));
     }
@@ -240,7 +239,6 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
     if (searchParams.get("compatibleGames")) {
       setCompatibleGames(filterParams("compatibleGames"));
     }
-    console.log(selectedBrand, screenSize, batteryCapacity);
   }, [searchParams]);
 
   useEffect(() => {
@@ -268,8 +266,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
       newSearchParams.set("frontCamera", frontCamera.join(" ").toLowerCase());
     if (screenType.length > 0)
       newSearchParams.set("screenType", screenType.join(" ").toLowerCase());
-    if (lens.length > 0)
-      newSearchParams.set("lens", lens.join(" ").toLowerCase());
+
     if (zoom.length > 0)
       newSearchParams.set("zoom", zoom.join(" ").toLowerCase());
     if (megapixels.length > 0)
@@ -293,7 +290,6 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
 
     window.history.pushState(null, "", `?${newSearchParams.toString()}`);
     setSearchParams(newSearchParams);
-    console.log(selectedBrand, screenSize, batteryCapacity);
     setAllFilters({
       brands: selectedBrand,
       screenSize,
@@ -304,7 +300,6 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
       mainCamera,
       frontCamera,
       screenType,
-      lens,
       zoom,
       megapixels,
       aperture,
@@ -323,7 +318,6 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
     mainCamera,
     frontCamera,
     screenType,
-    lens,
     zoom,
     megapixels,
     aperture,
@@ -356,6 +350,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
                 select={selectedBrand}
                 setSelected={setSelectedBrand}
                 title="Brand"
+                type="brand"
                 data={data?.brands || []}
               />
               <CollapsibleSection
@@ -488,12 +483,6 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
               {category === "cameras" && (
                 <>
                   <CollapsibleSection
-                    select={lens}
-                    setSelected={setLens}
-                    title="Lens"
-                    data={data?.lens || []}
-                  />
-                  <CollapsibleSection
                     select={maxResolution}
                     setSelected={setMaxResolution}
                     title="Max Resolution"
@@ -509,6 +498,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
                     select={videoResolution}
                     setSelected={setVideoResolution}
                     title="Video Resolution"
+                    type="video"
                     data={data?.videoResolution || []}
                   />
                   <CollapsibleSection
