@@ -13,7 +13,6 @@ interface Data {
   mainCamera: string[];
   frontCamera: string[];
   screenType: string[];
-  lens: string[];
   zoom: string[];
   megapixels: string[];
   aperture: string[];
@@ -36,7 +35,6 @@ function Filter() {
     mainCamera: [],
     frontCamera: [],
     screenType: [],
-    lens: [],
     zoom: [],
     megapixels: [],
     aperture: [],
@@ -72,7 +70,6 @@ function Filter() {
           mainCamera={allFilters.mainCamera}
           frontCamera={allFilters.frontCamera}
           screenType={allFilters.screenType}
-          lens={allFilters.lens}
           zoom={allFilters.zoom}
           megapixels={allFilters.megapixels}
           aperture={allFilters.aperture}

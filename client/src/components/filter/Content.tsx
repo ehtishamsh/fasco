@@ -28,7 +28,6 @@ function Content({
   mainCamera,
   frontCamera,
   screenType,
-  lens,
   zoom,
   megapixels,
   aperture,
@@ -50,7 +49,7 @@ function Content({
   mainCamera: string[];
   frontCamera: string[];
   screenType: string[];
-  lens: string[];
+
   zoom: string[];
   megapixels: string[];
   aperture: string[];
@@ -143,6 +142,10 @@ function Content({
           .includes((product.screenType ?? "").toLowerCase());
         return screenTypeValue;
       });
+    }
+
+    if (zoom.length > 0) {
+      console.log(zoom);
     }
 
     setFilteredProducts(products);
