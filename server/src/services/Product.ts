@@ -319,8 +319,11 @@ export async function getProductsByCategory(id: string) {
   });
 }
 
-export async function getProductFilterData() {
+export async function getProductFilterData({ cateID }: { cateID: string }) {
   return await prisma.product.findMany({
+    where: {
+      categoryId: cateID,
+    },
     select: {
       lens: true,
       aperture: true,

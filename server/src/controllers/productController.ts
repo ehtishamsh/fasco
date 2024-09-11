@@ -534,9 +534,17 @@ export const getProductsByCate = async (req: Request, res: Response) => {
 };
 
 export const getFilterData = async (req: Request, res: Response) => {
+  const { id: catename } = req.params;
   try {
-    const getdata = await getProductFilterData();
-    console.log(getdata);
+    const sliceFirst = catename.split("").splice(0, 1);
+    const formatedCatename =
+      sliceFirst[0].toUpperCase() + catename.split("").splice(1).join("");
+
+    const getCateID = await One(formatedCatename);
+    if (!getCateID) {
+      return res.status(404).send("Category not found");
+    }
+    const getdata = await getProductFilterData({ cateID: getCateID.id });
     if (!getdata) {
       return res.status(500).send("Failed to fetch products");
     }
