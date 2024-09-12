@@ -8,12 +8,14 @@ interface CollapsibleSectionProps {
   data: string[];
   setSelected: React.Dispatch<React.SetStateAction<string[]>>;
   select: string[];
+  type?: string;
 }
 const CollapsibleSection = ({
   title,
   data,
   setSelected,
   select,
+  type,
 }: CollapsibleSectionProps) => {
   const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
@@ -41,7 +43,12 @@ const CollapsibleSection = ({
         className="overflow-y-auto transition duration-300 scrollBar max-h-[300px] max-md:max-h-[160px]"
       >
         <motion.div className="flex flex-col mt-3 text-sm transition-all duration-300 pr-3 pl-2">
-          <List data={data} setSelected={setSelected} selected={select} />
+          <List
+            data={data}
+            setSelected={setSelected}
+            selected={select}
+            type={type}
+          />
         </motion.div>
       </motion.div>
     </div>
