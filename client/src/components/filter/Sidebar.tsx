@@ -160,7 +160,13 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
             zoom: filterData.data.zoom.filter(
               (zoom: string) => zoom !== "None"
             ),
-            megapixels: filterData.data.megapixels,
+            megapixels: [
+              "Over 10MP",
+              "Over 20MP",
+              "Over 30MP",
+              "Over 40MP",
+              "Over 50MP",
+            ],
             aperture: filterData.data.aperture,
             videoResolution: ["720p", "1080p", "4K", "8K"],
             storage: filterData.data.storage,
@@ -498,7 +504,6 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
                     select={videoResolution}
                     setSelected={setVideoResolution}
                     title="Video Resolution"
-                    type="video"
                     data={data?.videoResolution || []}
                   />
                   <CollapsibleSection
