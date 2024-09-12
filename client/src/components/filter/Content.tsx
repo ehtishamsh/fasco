@@ -145,14 +145,48 @@ function Content({
     }
 
     if (zoom.length > 0) {
-      console.log(zoom);
+      products = products.filter((product) => {
+        const zoomMap = zoom.map((zoom) => Number(zoom));
+        return zoomMap.includes(
+          Number(product?.zoom?.replace(/[^\d.]+/g, "") || "0")
+        );
+      });
     }
-
+    if (megapixels.length > 0) {
+      products = products.filter((product) => {
+        const convertAllNumber = megapixels.map(Number);
+        const findMin = Math.min(...convertAllNumber);
+        return (
+          Number(product?.megapixels?.replace(/[^\d.]+/g, "") || "0") >= findMin
+        );
+      });
+    }
+    if (videoResolution.length > 0) {
+      products = products.filter((product) => {
+        const videoResolutionMap = videoResolution.map((videoResolution) =>
+          Number(videoResolution)
+        );
+        return videoResolutionMap.includes(
+          Number(product?.videoResolution?.replace(/[^\d.]+/g, "") || "0")
+        );
+      });
+    }
     setFilteredProducts(products);
   }, [
     allProducts,
     brands,
     price,
+    cpu,
+    mainCamera,
+    frontCamera,
+    screenType,
+    zoom,
+    megapixels,
+    aperture,
+    videoResolution,
+    storage,
+    gpu,
+    maxResolution,
     ram,
     screenSize,
     batteryCapacity,
