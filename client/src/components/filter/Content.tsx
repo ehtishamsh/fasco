@@ -101,11 +101,11 @@ function Content({
     }
 
     if (batteryCapacity.length > 0) {
-      const convertAllNumber = batteryCapacity.map(Number);
-      const findMin = Math.min(...convertAllNumber);
-      products = products.filter(
-        (product) => Number(product.battery) >= findMin
-      );
+      console.log(batteryCapacity);
+      const battery = batteryCapacity.map((num) => Number(num));
+      battery.forEach((num) => {
+        products = products.filter((product) => Number(product.battery) >= num);
+      });
     }
 
     if (price.length > 0) {
@@ -115,7 +115,7 @@ function Content({
         (product) =>
           (Number(product.discounted) > 0
             ? Number(product.discounted)
-            : Number(product.price)) >= findMin
+            : Number(product.price)) <= findMin
       );
     }
 
@@ -129,17 +129,23 @@ function Content({
 
     if (screenSize.length > 0) {
       const selectedScreenSizes = screenSize.map((num) => Number(num));
-      selectedScreenSizes.forEach((num) => {
-        products = products.filter(
-          (product) => Number(product.screenSize) >= num
-        );
-      });
+      params.category === "laptops"
+        ? selectedScreenSizes.forEach((num) => {
+            products = products.filter(
+              (product) => Number(product.screenSize) === num
+            );
+          })
+        : selectedScreenSizes.forEach((num) => {
+            products = products.filter(
+              (product) => Number(product.screenSize) >= num
+            );
+          });
     }
     if (screenType.length > 0) {
       products = products.filter((product) => {
         const screenTypeValue = screenType
           .map((screenType) => screenType.toLowerCase())
-          .includes((product.screenType ?? "").toLowerCase());
+          .includes((product.screenType ?? "").toLowerCase().replace(" ", ""));
         return screenTypeValue;
       });
     }
@@ -171,6 +177,63 @@ function Content({
         );
       });
     }
+    if (aperture.length > 0) {
+      products = products.filter((product) => {
+        const apertureMap = aperture.map((aperture) => Number(aperture));
+        return apertureMap.includes(
+          Number(product?.aperture?.replace(/[^\d.]+/g, "") || "0")
+        );
+      });
+    }
+    if (maxResolution.length > 0) {
+      console.log(maxResolution);
+      products = products.filter((product) => {
+        const maxResolutionMap = maxResolution.map((maxResolution) =>
+          Number(maxResolution)
+        );
+        return maxResolutionMap.includes(
+          Number(product?.maxResolution?.replace(/[^\d.]+/g, "") || "0")
+        );
+      });
+    }
+    if (storage.length > 0) {
+      products = products.filter((product) => {
+        const storageMap = storage.map((item) => Number(item));
+        console.log(storageMap);
+        return storageMap.includes(
+          Number(product?.storage?.replace(/[^\d.]+/g, "") || "0")
+        );
+      });
+    }
+    if (cpu.length > 0) {
+      products = products.filter((product) => {
+        const productCpu = (product.cpu ?? "").toLowerCase();
+        return cpu.some((filterCpu) =>
+          productCpu.includes(filterCpu.toLowerCase())
+        );
+      });
+    }
+    if (mainCamera.length > 0) {
+      const convertAllNumber = mainCamera.map(Number);
+      console.log(convertAllNumber);
+      convertAllNumber.forEach((num) => {
+        products = products.filter(
+          (product) =>
+            Number(product?.mainCamera?.replace(/[^\d.]+/g, "")) === num
+        );
+      });
+    }
+    if (frontCamera.length > 0) {
+      const convertAllNumber = frontCamera.map(Number);
+      console.log(convertAllNumber);
+      convertAllNumber.forEach((num) => {
+        products = products.filter(
+          (product) =>
+            Number(product?.frontCamera?.replace(/[^\d.]+/g, "")) === num
+        );
+      });
+    }
+
     setFilteredProducts(products);
   }, [
     allProducts,
