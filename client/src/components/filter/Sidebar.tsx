@@ -91,28 +91,31 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
           setData({
             brands: filterData.data.brand,
             batteryCapacity: [
-              "1000",
-              "2000",
-              "3000",
-              "4000",
-              "5000",
-              "6000",
-              "7000",
-              "8000",
-              "9000",
-              "10000",
+              "Over 100",
+              "Over 350",
+              "Over 500",
+              "Over 1000",
+              "Over 2000",
+              "Over 3000",
+              "Over 4000",
+              "Over 5000",
+              "Over 6000",
+              "Over 7000",
             ],
-            screenSize: [
-              "Over 1",
-              "Over 1.5",
-              "Over 2.5",
-              "Over 3.5",
-              "Over 4.5",
-              "Over 5.5",
-              "Over 6.5",
-              "Over 7.5",
-              "Over 8.5",
-            ],
+            screenSize:
+              category === "laptops"
+                ? filterData.data.screenSize
+                : [
+                    "Over 1",
+                    "Over 1.5",
+                    "Over 2.5",
+                    "Over 3.5",
+                    "Over 4.5",
+                    "Over 5.5",
+                    "Over 6.5",
+                    "Over 7.5",
+                    "Over 8.5",
+                  ],
             ram: filterData.data.ram
               .map((ram: string) => ram)
               .filter((ram: string) => !ram.includes("LPDDR5"))
@@ -132,7 +135,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
               "$1500",
             ],
             // You will need to add corresponding data for the new filters
-            cpu: ["Intel", "AMD", "Snapdragon", "Exynos"],
+            cpu: ["Intel", "AMD", "Snapdragon", "Exynos", "Cortex", "Google"],
             mainCamera: filterData.data.mainCamera
               .map((cam: string) =>
                 cam
@@ -155,7 +158,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
               .sort((a: string, b: string) => parseFloat(a) - parseFloat(b))
               .filter((cam: string) => parseFloat(cam) <= 200)
               .map((cam: string) => cam + "MP"),
-            screenType: ["LCD", "AMOLED", "OLED"],
+            screenType: filterData.data.screenType,
 
             zoom: filterData.data.zoom.filter(
               (zoom: string) => zoom !== "None"
@@ -169,9 +172,10 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
             ],
             aperture: filterData.data.aperture,
             videoResolution: ["720p", "1080p", "4K", "8K"],
-            storage: filterData.data.storage,
+            storage: ["32GB", "64GB", "128GB", "256GB", "512GB", "1TB", "2TB"],
             gpu: ["NVIDIA", "AMD"],
-            maxResolution: ["720p", "1080p", "4K", "8K"],
+            // maxResolution: ["Over"],
+            maxResolution: filterData.data.maxResolution,
           });
         }
       } catch (error) {
@@ -379,6 +383,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
                     select={cpu}
                     setSelected={setCpu}
                     title="CPU"
+                    type="cpu"
                     data={data?.cpu || []}
                   />
 
@@ -415,6 +420,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
                     select={cpu}
                     setSelected={setCpu}
                     title="CPU"
+                    type="cpu"
                     data={data?.cpu || []}
                   />
 
@@ -453,16 +459,12 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
                     title="Screen Size"
                     data={data?.screenSize || []}
                   />
-                  <CollapsibleSection
-                    select={cpu}
-                    setSelected={setCpu}
-                    title="CPU"
-                    data={data?.cpu || []}
-                  />
+
                   <CollapsibleSection
                     select={screenType}
                     setSelected={setScreenType}
                     title="Screen Type"
+                    type="screenType"
                     data={data?.screenType || []}
                   />
 
@@ -533,6 +535,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
                     select={screenType}
                     setSelected={setScreenType}
                     title="Screen Type"
+                    type="screenType"
                     data={data?.screenType || []}
                   />
                   <CollapsibleSection
@@ -545,6 +548,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
                     select={cpu}
                     setSelected={setCpu}
                     title="CPU"
+                    type="cpu"
                     data={data?.cpu || []}
                   />
 
