@@ -19,8 +19,11 @@ function List({
 
   const checkSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const itemName =
-      type === "brand" || type === "video"
-        ? e.target.value.toLowerCase()
+      type === "brand" ||
+      type === "video" ||
+      type === "screenType" ||
+      type === "cpu"
+        ? e.target.value.toLowerCase().replace(" ", "")
         : e.target.value.replace(/[^\d.]+/g, "");
     console.log(itemName);
     setSelected((prev) => {
@@ -34,8 +37,11 @@ function List({
 
   const mapCate = value?.map((item) => {
     const itemName =
-      type === "brand" || type === "video"
-        ? item.toLowerCase()
+      type === "brand" ||
+      type === "video" ||
+      type === "screenType" ||
+      type === "cpu"
+        ? item.toLowerCase().replace(" ", "")
         : item.replace(/[^\d.]+/g, "");
     const checked = selected?.includes(itemName);
     return (
