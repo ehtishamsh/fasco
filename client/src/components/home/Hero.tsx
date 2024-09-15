@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { Reveal } from "../animation/Reveal";
-import { Button } from "../ui/button";
 
 function Hero() {
   return (
@@ -37,9 +36,12 @@ function Hero() {
                 SALE
               </h1>
               <p className="text-sm  tracking-[2px] mb-5">NEW COLLECTION</p>
-              <Button variant="default" size="lg">
-                SHOP NOW
-              </Button>
+              <Link
+                to={"/discount"}
+                className="py-3 px-4 bg-foreground hover:bg-slate-800 transition-all duration-300 text-white rounded-lg"
+              >
+                Shop Now
+              </Link>
             </div>
           </Reveal>
         </div>

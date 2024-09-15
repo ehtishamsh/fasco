@@ -1,5 +1,5 @@
+import { Link } from "react-router-dom";
 import { Reveal } from "../animation/Reveal";
-import { Button } from "../ui/button";
 
 function SaleSection() {
   return (
@@ -22,13 +22,12 @@ function SaleSection() {
               Best deals on all your favorite products this summer, up to 70%
               off.
             </p>
-            <Button
-              variant={"outline"}
-              size={"lg"}
-              className="py-6 text-lg max-sm:text-sm mt-8 max-sm:mt-4 max-sm:p-3"
+            <Link
+              to={"/discount"}
+              className="py-3 px-4 text-lg max-sm:text-sm mt-8 max-sm:mt-4 max-sm:p-3 bg-foreground hover:bg-slate-800 transition-all duration-300 text-white rounded-lg"
             >
               Shop Now
-            </Button>
+            </Link>
           </div>
           <div className="flex justify-end col-span-2 max-md:col-span-1 ">
             <img
