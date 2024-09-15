@@ -3,10 +3,13 @@ import { Button } from "../ui/button";
 import ShowcaseProducts from "./ShowcaseProducts";
 import { Reveal } from "../animation/Reveal";
 import { Product } from "@/lib/redux/types";
+import Loading from "../ui/Loading";
 
 function DiscountedProducts() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
+    setLoading(true);
     const fetehData = async () => {
       try {
         const res = await fetch("http://localhost:4000/api/products", {
@@ -19,6 +22,7 @@ function DiscountedProducts() {
         );
 
         setProducts(filteredProducts);
+        setLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -38,11 +42,19 @@ function DiscountedProducts() {
           </span>
         </Button>
       </Reveal>
-      <Reveal delayTime={0.8}>
-        <div className="grid grid-cols-4 gap-4 mt-10 max-sm:grid-cols-2 max-md:grid-cols-3">
-          <ShowcaseProducts products={products} />
+      {loading ? (
+        <div className="mt-10">
+          <div className="h-[60vh] flex justify-center items-center">
+            <Loading />
+          </div>
         </div>
-      </Reveal>
+      ) : (
+        <Reveal delayTime={0.8}>
+          <div className="grid grid-cols-4 gap-4 mt-10 max-sm:grid-cols-2 max-md:grid-cols-3">
+            <ShowcaseProducts products={products} />
+          </div>
+        </Reveal>
+      )}
     </div>
   );
 }
