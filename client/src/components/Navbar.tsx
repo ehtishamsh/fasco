@@ -2,14 +2,14 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 
-import { BsSearch, BsBag } from "react-icons/bs";
+import { BsSearch } from "react-icons/bs";
 import Cart from "./Cart";
 import { CartState, Product } from "@/lib/redux/types";
 import { useSelector } from "react-redux";
 import { Input } from "./ui/input";
 import { NavProfileDropdown } from "./NavProfileDropdown";
 import { FaBars } from "react-icons/fa";
-import { IoHeartOutline } from "react-icons/io5";
+import { IoBag, IoHeartOutline } from "react-icons/io5";
 
 function Navbar({
   sethide,
@@ -65,7 +65,7 @@ function Navbar({
               size={"icon"}
               className="flex justify-center items-center"
             >
-              <IoHeartOutline className="text-2xl  max-lg:text-xl max-md:text-base" />
+              <IoHeartOutline className="text-xl  max-lg:text-lg max-md:text-base" />
             </Button>
             <NavProfileDropdown />
 
@@ -75,7 +75,7 @@ function Navbar({
               size={"icon"}
               className="relative flex justify-center items-center"
             >
-              <BsBag className="text-xl  max-lg:text-lg max-md:text-base" />
+              <IoBag className="text-xl  max-lg:text-lg max-md:text-base" />
               {count > 0 && (
                 <span className="absolute  top-0 -right-[3px] bg-red-500 text-white rounded-full w-4 h-4  text-xs flex justify-center items-center">
                   {count}

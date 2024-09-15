@@ -11,10 +11,10 @@ import {
 
 import { BiLogIn } from "react-icons/bi";
 import { Button } from "./ui/button";
-import { BsPerson } from "react-icons/bs";
 import { UserCircle } from "lucide-react";
 import { DashboardIcon } from "@radix-ui/react-icons";
 import { GoSignOut } from "react-icons/go";
+import { IoPersonOutline } from "react-icons/io5";
 
 export function NavProfileDropdown() {
   const checkLogin = localStorage.getItem("token");
@@ -32,7 +32,7 @@ export function NavProfileDropdown() {
           size={"icon"}
           className="flex justify-center items-center"
         >
-          <BsPerson className="text-2xl max-lg:text-xl  max-md:text-lg" />
+          <IoPersonOutline className="text-xl max-lg:text-lg  max-md:text-base" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-36 max-sm:w-28">
