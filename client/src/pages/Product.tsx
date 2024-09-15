@@ -118,7 +118,7 @@ function Product() {
                     {data?.title}
                   </h1>
                   {Number(data?.discounted) > 0 ? (
-                    <div className="flex items-center gap-2">
+                    <div className="flex ju gap-2">
                       <s className="text-3xl mb-6 max-sm:mb-2  max-md:text-xl max-sm:text-lg">
                         ${Number(data?.price) + Number(selectSize?.price)}
                       </s>
@@ -127,7 +127,7 @@ function Product() {
                       </span>
                     </div>
                   ) : (
-                    <h2 className="text-lg font-semibold text-center max-sm:text-base  flex items-end justify-center pb-4 mt-2">
+                    <h2 className="text-3xl mb-6 max-sm:mb-2  max-md:text-xl max-sm:text-lg">
                       ${Number(data?.price) + Number(selectSize?.price)}
                     </h2>
                   )}
