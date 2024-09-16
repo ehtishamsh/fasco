@@ -2,14 +2,13 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 
-import { BsSearch } from "react-icons/bs";
 import Cart from "./Cart";
 import { CartState, Product } from "@/lib/redux/types";
 import { useSelector } from "react-redux";
-import { Input } from "./ui/input";
 import { NavProfileDropdown } from "./NavProfileDropdown";
 import { FaBars } from "react-icons/fa";
 import { IoBag, IoHeartOutline } from "react-icons/io5";
+import { Search } from "lucide-react";
 
 function Navbar({
   sethide,
@@ -48,14 +47,7 @@ function Navbar({
           </div>
 
           <div className="col-span-4 max-md:col-span-3 flex items-center relative">
-            <Input type="text" className="py-5 " placeholder="Search" />
-            <Button
-              variant={"outline"}
-              size={"icon"}
-              className="border-none absolute right-1 py-1"
-            >
-              <BsSearch size={18} className=" text-gray-400" />
-            </Button>
+            <Search />
           </div>
 
           <div className="flex justify-end items-center gap-[2px] text-base max-lg:text-sm">
