@@ -7,6 +7,7 @@ import {
   getProductByID,
   getProductController,
   getProductsByCate,
+  getProductsBySearch,
 } from "../controllers/productController";
 
 const router = Router();
@@ -18,5 +19,6 @@ router.get("/products/:id", getProductController);
 router.get("/products/single/:id", getProductByID);
 router.put("/products/edit", editProduct);
 router.get("/products/category/:id", getProductsByCate);
+router.get("/products/search/:query", getProductsBySearch);
 
 export default router;
