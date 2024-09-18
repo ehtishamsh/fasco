@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { NavProfileDropdown } from "./NavProfileDropdown";
 import { FaBars } from "react-icons/fa";
 import { IoBag, IoHeartOutline } from "react-icons/io5";
-import { Search } from "lucide-react";
+import Search from "./Search";
 
 function Navbar({
   sethide,
