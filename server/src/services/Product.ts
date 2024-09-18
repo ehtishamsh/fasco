@@ -347,3 +347,75 @@ export async function getProductFilterData({ cateID }: { cateID: string }) {
     },
   });
 }
+
+export async function getSearchedProducts(query: string) {
+  return await prisma.product.findMany({
+    where: {
+      OR: [
+        { title: { contains: query, mode: "insensitive" } },
+        { description: { contains: query, mode: "insensitive" } },
+      ],
+    },
+    select: {
+      battery: true,
+      category: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+      brand: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+      color: {
+        select: {
+          id: true,
+          color: true,
+        },
+      },
+      cores: true,
+      cover: true,
+      cpu: true,
+      description: true,
+      frontCamera: true,
+      id: true,
+      mainCamera: true,
+      price: true,
+      ram: true,
+      screenSize: true,
+      slug: true,
+      discounted: true,
+      title: true,
+      features: true,
+      connectivity: true,
+      sensor: true,
+      screenType: true,
+      lens: true,
+      zoom: true,
+      megapixels: true,
+      aperture: true,
+      videoResolution: true,
+      batteryLife: true,
+      gpu: true,
+      compatibleGames: true,
+      maxResolution: true,
+      microphone: true,
+      noiseCancellation: true,
+      numberOfControllers: true,
+      storage: true,
+      type: true,
+      wireless: true,
+      variant: {
+        select: {
+          id: true,
+          price: true,
+          variant: true,
+        },
+      },
+      stock: true,
+    },
+  });
+}

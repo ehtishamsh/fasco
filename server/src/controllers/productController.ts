@@ -20,6 +20,7 @@ import {
   deleteVariant,
   getProductsByCategory,
   getProductFilterData,
+  getSearchedProducts,
 } from "../services/Product";
 import { One } from "../services/Category";
 import { getOrderByProductId } from "../services/Order";
@@ -632,6 +633,24 @@ export const getFilterData = async (req: Request, res: Response) => {
       status: 200,
       message: "Products fetched successfully",
       data: allData,
+    });
+  } catch {
+    console.log("error");
+    return res.status(500).send("Failed to fetch products");
+  }
+};
+
+export const getProductsBySearch = async (req: Request, res: Response) => {
+  const { query } = req.params;
+  try {
+    const products = await getSearchedProducts(query);
+    if (!products) {
+      return res.status(500).send("Failed to fetch products");
+    }
+    return res.json({
+      status: 200,
+      message: "Products fetched successfully",
+      data: products,
     });
   } catch {
     console.log("error");
