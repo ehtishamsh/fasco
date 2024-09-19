@@ -12,7 +12,7 @@ const NavLinkItem = ({
   const { pathname } = useLocation();
 
   return (
-    <Link to={to} className="mt-5">
+    <Link reloadDocument to={to} className="mt-5">
       <span
         className={`group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground ${
           pathname === to ? "bg-accent" : ""
