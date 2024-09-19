@@ -4,10 +4,11 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
 import Loading from "./ui/Loading";
+import { Product } from "@/lib/redux/types";
 
 const Search: React.FC = () => {
   const [query, setQuery] = useState<string>(""); // Search query state
-  const [products, setProducts] = useState<any[]>([]); // Search results
+  const [products, setProducts] = useState<Product[]>([]); // Search results
   const [showDropdown, setShowDropdown] = useState<boolean>(false); // Dropdown visibility state
   const [isFetching, setIsFetching] = useState<boolean>(false); // Loading state for request
   const dropdownRef = useRef<HTMLDivElement>(null); // Ref for dropdown container
@@ -77,17 +78,17 @@ const Search: React.FC = () => {
     <>
       <Input
         type="text"
-        className="py-5"
+        className="py-5 max-sm:py-3 max-sm:rounded-full"
         placeholder="Search"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
       />
       <Button
-        variant={"outline"}
+        variant={"link"}
         size={"icon"}
-        className="border-none absolute right-1 py-1"
+        className="border-none absolute right-1 py-1 max-sm:p-0 max-sm:bg-transparent max-sm:rounded-full"
       >
-        <BsSearch size={18} className="text-gray-400" />
+        <BsSearch className="text-gray-400 max-sm:text-base" />
       </Button>
 
       {showDropdown && products.length > 0 && (
@@ -99,16 +100,28 @@ const Search: React.FC = () => {
             {products.map((product) => (
               <Link
                 reloadDocument
-                to={`/${product.category.name.toLowerCase()}/${product.brand.name.toLowerCase()}/${
-                  product.slug
-                }`}
+                to={`/${
+                  typeof product.category === "object" &&
+                  product.category.name.toLowerCase()
+                }/${
+                  typeof product.brand === "object" &&
+                  product.brand.name.toLowerCase()
+                }/${product.slug}`}
                 key={product.id}
-                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2"
                 onClick={() =>
                   console.log(`Selected product: ${product.title}`)
                 }
               >
-                {product.title}
+                <span>
+                  <img
+                    className="col-span-1 w-10 h-10 object-contain"
+                    src={"http://localhost:4000" + product.cover}
+                  />
+                </span>
+                <span className="col-span-3 text-sm font-semibold text-gray-600">
+                  {product.title}
+                </span>
               </Link>
             ))}
           </div>
@@ -118,6 +131,18 @@ const Search: React.FC = () => {
               <Loading />
             </div>
           )}
+        </div>
+      )}
+      {showDropdown && products.length === 0 && (
+        <div
+          ref={dropdownRef}
+          className="absolute top-full mt-2 w-full bg-white shadow-lg max-h-64 overflow-y-auto rounded-lg z-10"
+        >
+          <div className="w-full h-full flex flex-col gap-2">
+            <span className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-xs text-gray-400 flex items-center justify-center gap-2">
+              No products found
+            </span>
+          </div>
         </div>
       )}
     </>
