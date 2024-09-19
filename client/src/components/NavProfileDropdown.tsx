@@ -32,7 +32,7 @@ export function NavProfileDropdown() {
           size={"icon"}
           className="flex justify-center items-center"
         >
-          <IoPersonOutline className="text-xl max-lg:text-lg  max-md:text-base" />
+          <IoPersonOutline className="text-xl max-lg:text-lg  max-md:text-base  max-sm:w-6 max-sm:h-6" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-36 max-sm:w-28">
