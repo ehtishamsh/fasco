@@ -1,16 +1,13 @@
-import { AvatarIcon, DashboardIcon } from "@radix-ui/react-icons";
-import { GoChecklist } from "react-icons/go";
-
-import { FaAddressBook } from "react-icons/fa";
-import { User } from "@/lib/redux/types";
-import { Link } from "react-router-dom";
+import { FaCircleChevronRight } from "react-icons/fa6";
 import { motion } from "framer-motion";
-import { MdReviews } from "react-icons/md";
-import { X } from "lucide-react";
-import NavLinkItem from "./admin/NavlinkItem";
+import { User } from "@/lib/redux/types";
+import { FaUserCircle } from "react-icons/fa";
 import { Button } from "./ui/button";
+import { X } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Separator } from "./ui/separator";
 
-function Sidebar({
+function MobileNav({
   hide,
   sethide,
 }: {
@@ -19,60 +16,130 @@ function Sidebar({
 }) {
   const userData: User = JSON.parse(localStorage.getItem("user") || "{}");
 
+  const menuVariants = {
+    open: {
+      opacity: 1,
+      x: 0,
+      transition: { stiffness: 100, damping: 20 },
+    },
+    closed: {
+      opacity: 0,
+      x: "-100%",
+      transition: { stiffness: 100, damping: 20 },
+    },
+  };
+
   return (
     <motion.div
-      className={` ${"fixed  max-sm:block hidden z-[99999] right-0 top-0 bg-white h-screen pt-9"}`}
-      initial={{ opacity: 0 }}
-      animate={{
-        opacity: hide ? 0 : 1,
-        x: hide ? -100 : 0,
-        width: hide ? 0 : "100%",
-      }}
-      exit={{ width: 0, display: "none" }}
+      className="fixed z-[9999] top-0 left-0 w-full h-screen  bg-white shadow-lg"
+      initial="closed"
+      animate={hide ? "open" : "closed"}
+      variants={menuVariants}
     >
-      <nav className="relative h-full border-r  lg:block w-full max-sm:px-7">
-        <Button
-          variant={"link"}
-          onClick={() => sethide(!hide)}
-          className="absolute hidden max-sm:block right-5 top-0"
-        >
-          <X />
-        </Button>
-        <div className="space-y-4 py-2">
-          <div className="px-3 py-2">
-            <div className="space-y-1">
-              <div className="p-2 flex justify-center flex-col gap-2 items-center">
-                <AvatarIcon className="w-20 h-20 text-muted-foreground" />
-                <h1 className="text-base max-sm:text-sm">
-                  Hello, {userData.firstname + " " + userData.lastname}
-                </h1>
-                <Link
-                  to="/profile"
-                  className="text-sm max-sm:text-xs bg-yellow-200 rounded-lg py-1 px-2"
-                >
-                  View Profile
-                </Link>
+      <Button
+        variant="ghost"
+        className="absolute top-6 right-4"
+        onClick={() => sethide(!hide)}
+      >
+        <X />
+      </Button>
+      <div className="p-6 mt-14 overflow-y-scroll max-h-[100svh]">
+        {/* User Avatar and Info */}
+        <div className="flex flex-col gap-4  bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-lg p-2 items-center justify-center  mb-8">
+          <FaUserCircle
+            className="text-5xl 
+        text-gray-50"
+          />
+          {userData.firstname !== undefined ? (
+            <>
+              <div className="flex flex-col gap-1 justify-center items-center">
+                <p className="text-xl max-sm:text-lg  text-white">
+                  {userData.firstname + " " + userData.lastname}
+                </p>
+                <p className="text-sm text-white">{userData.email}</p>
               </div>
-              <nav className="grid items-start">
-                <NavLinkItem
-                  to="/dashboard"
-                  Icon={DashboardIcon}
-                  label="Dashboard"
-                />
-                <NavLinkItem to="/orders" Icon={GoChecklist} label="Orders" />
-                <NavLinkItem
-                  to="/address"
-                  Icon={FaAddressBook}
-                  label="Address"
-                />
-                <NavLinkItem to="/reviews" Icon={MdReviews} label="Reviews" />
-              </nav>
-            </div>
-          </div>
+            </>
+          ) : (
+            <>
+              <p className="text-xl max-sm:text-lg font-semibold  text-white">
+                Guest
+              </p>
+            </>
+          )}
         </div>
-      </nav>
+
+        {/* Account Links */}
+        {userData.firstname !== undefined ? (
+          <div className="space-y-4 ">
+            {[
+              { label: "My Profile", link: "/profile" },
+              { label: "Dashboard", link: "/dashboard" },
+              { label: "My Orders", link: "/orders" },
+              { label: "My Reviews", link: "/reviews" },
+              { label: "Wishlist", link: "/wishlist" },
+            ].map((item) => (
+              <Link
+                reloadDocument
+                to={item.link}
+                key={item.label}
+                className="flex last-of-type:border-0 items-center justify-between text-lg max-sm:text-sm border-b pb-1 border-border  text-gray-800 hover:text-yellow-600 transition-colors"
+              >
+                {item.label}
+                <FaCircleChevronRight className="text-yellow-600" />
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <div className="space-y-4 ">
+            {[
+              { label: "Sign in", link: "/signin" },
+              { label: "Sign up", link: "/signup" },
+            ].map((item) => (
+              <Link
+                reloadDocument
+                to={item.link}
+                key={item.label}
+                className="flex last-of-type:border-0 items-center justify-between text-lg max-sm:text-sm border-b pb-1 border-border  text-gray-800 hover:text-yellow-600 transition-colors"
+              >
+                {item.label}
+                <FaCircleChevronRight className="text-yellow-600" />
+              </Link>
+            ))}
+          </div>
+        )}
+
+        <div className="my-3">
+          <Separator />
+        </div>
+
+        {/* General Links */}
+        <div className="space-y-4">
+          {[
+            { label: "Sale", link: "/discount" },
+            { label: "Contact Us", link: "/contact" },
+            { label: "Help", link: "/help" },
+          ].map((item) => (
+            <Link
+              reloadDocument
+              to={item.link}
+              key={item.label}
+              className="flex items-center justify-between text-lg max-sm:text-sm text-gray-800 hover:text-yellow-600 transition-colors"
+            >
+              {item.label}
+              <FaCircleChevronRight className="text-yellow-600" />
+            </Link>
+          ))}
+        </div>
+        {userData.firstname !== undefined && (
+          <div className="flex flex-col gap-4 mt-8  bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-lg p-2 items-center justify-center  mb-8">
+            <Link to="/signout" className="w-full text-white text-center">
+              Sign Out
+            </Link>
+          </div>
+        )}
+      </div>
     </motion.div>
   );
 }
 
-export default Sidebar;
+export default MobileNav;
