@@ -5,6 +5,7 @@ import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
 import Loading from "./ui/Loading";
 import { Product } from "@/lib/redux/types";
+import { Loader2 } from "lucide-react";
 
 const Search: React.FC = () => {
   const [query, setQuery] = useState<string>(""); // Search query state
@@ -94,9 +95,9 @@ const Search: React.FC = () => {
       {showDropdown && products.length > 0 && (
         <div
           ref={dropdownRef}
-          className="absolute top-full mt-2 w-full bg-white shadow-lg max-h-64 overflow-y-auto rounded-lg z-10"
+          className="absolute top-full mt-2 w-full bg-white shadow-lg max-sm:shadow-2xl max-h-64 overflow-y-auto rounded-lg  z-10"
         >
-          <div className="w-full h-full flex flex-col gap-2">
+          <div className="w-full h-full max-sm:pt-2  flex flex-col gap-2">
             {products.map((product) => (
               <Link
                 reloadDocument
@@ -141,6 +142,18 @@ const Search: React.FC = () => {
           <div className="w-full h-full flex flex-col gap-2">
             <span className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-xs text-gray-400 flex items-center justify-center gap-2">
               No products found
+            </span>
+          </div>
+        </div>
+      )}
+      {isFetching && (
+        <div
+          ref={dropdownRef}
+          className="absolute top-full mt-2 w-full bg-white shadow-lg max-h-64 overflow-y-auto rounded-lg z-10"
+        >
+          <div className="w-full h-full flex flex-col gap-2">
+            <span className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-xs text-gray-700 flex items-center justify-center gap-2">
+              <Loader2 className="w-5 h-5 max-sm:w-4 max-sm:h-4 animate-spin" />
             </span>
           </div>
         </div>
