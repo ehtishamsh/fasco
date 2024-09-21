@@ -7,6 +7,7 @@ import Loading from "../ui/Loading";
 
 function TopProducts() {
   const [products, setProducts] = useState<ProductType[]>([]);
+  const [products2, setProducts2] = useState<ProductType[]>([]);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     setLoading(true);
@@ -20,8 +21,9 @@ function TopProducts() {
           (a, b) =>
             new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         );
-        const sortedProducts2 = sortedProducts.slice(0, 20);
-        setProducts(sortedProducts2);
+
+        setProducts(sortedProducts);
+        setProducts2(sortedProducts);
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -36,27 +38,32 @@ function TopProducts() {
   const [checkActive, setCheckActive] = useState("new");
 
   useEffect(() => {
+    setProducts(products2);
     if (checkActive === "new") {
       const sortedProducts = [...products].sort(
         (a, b) =>
           new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       );
-      setProducts(sortedProducts);
+      const slicedProducts = sortedProducts.slice(0, 20);
+
+      setProducts(slicedProducts);
     }
 
     if (checkActive === "best") {
       const sortedProducts = [...products].sort(
         (a: any, b: any) => b.orders - a.orders
       );
-      setProducts(sortedProducts);
+      const slicedProducts = sortedProducts.slice(0, 20);
+      setProducts(slicedProducts);
     }
     if (checkActive === "price") {
       const sortedProducts = [...products].sort(
         (a, b) => Number(b.price) - Number(a.price)
       );
-      setProducts(sortedProducts);
+      const slicedProducts = sortedProducts.slice(0, 20);
+      setProducts(slicedProducts);
     }
-  }, [checkActive]);
+  }, [checkActive, products2]);
   return (
     <div className="max-w-6xl mt-28 mx-auto px-2 max-md:mt-16 max-sm:mt-10">
       <Reveal delayTime={0.5}>
