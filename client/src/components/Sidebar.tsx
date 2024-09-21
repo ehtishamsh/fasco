@@ -116,7 +116,7 @@ function MobileNav({
         <div className="space-y-4">
           {[
             { label: "Sale", link: "/discount" },
-            { label: "Contact Us", link: "/contact" },
+            { label: "About Us", link: "/about" },
             { label: "Help", link: "/help" },
           ].map((item) => (
             <Link
