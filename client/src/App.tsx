@@ -40,6 +40,7 @@ import EditProductPage from "./pages/admin/edit/EditProductPage";
 import ReviewsPage from "./pages/user/ReviewsPage";
 import GiveReviewsPage from "./pages/user/GiveReviewsPage";
 import DiscountPage from "./pages/DiscountPage";
+import AboutUs from "./pages/AboutUs";
 
 function ProtectedRoute({ Element, isAllowed }: any) {
   return isAllowed ? <Element /> : <Navigate to="/" replace />;
@@ -71,6 +72,7 @@ function App() {
                 <Route element={<Homepage />} />
                 <Route element={<ShoppingCart />} path="/cart" />
                 <Route element={<DiscountPage />} path="/discount" />
+                <Route element={<AboutUs />} path="/about" />
                 <Route element={<WishlistPage />} path="/wishlist" />
                 <Route element={<Success />} path="/success" />
                 <Route element={<CancelPage />} path="/cancel" />
