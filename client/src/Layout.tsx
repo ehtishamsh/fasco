@@ -12,7 +12,7 @@ function Layout() {
     <>
       <Navbar sethide={setHide} />
       <Sidebar hide={hide} sethide={setHide} />
-      <div className="mt-28 max-sm:mt-24">
+      <div className="mt-36 max-sm:mt-28">
         <Outlet />
       </div>
       <Toaster />
