@@ -36,7 +36,7 @@ function Wishlist() {
             {typeof item.brand === "string" && item.brand}
           </p>
           <Link
-            to={`/${
+            to={`/shop/${
               typeof item.category === "string" &&
               item.category &&
               FormatText({ category: item.category, toLowerCase: true })
@@ -64,7 +64,7 @@ function Wishlist() {
 
         <div className="flex justify-center items-center">
           <Link
-            to={`/${
+            to={`/shop/${
               typeof item.category === "string" &&
               item.category &&
               FormatText({ category: item.category, toLowerCase: true })

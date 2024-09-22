@@ -14,7 +14,7 @@ function Category() {
         <div className="grid grid-cols-6 gap-5 mt-12 max-md:grid-cols-3 max-sm:grid-cols-2">
           <Link
             reloadDocument
-            to={"/smartphones"}
+            to={"/shop/smartphones"}
             className="flex justify-center  items-center flex-col gap-4 bg-gray-100 transition-all duration-300 hover:scale-105  hover:shadow-md  rounded-md text-black py-6 px-2 max-sm:py-3"
           >
             <IoPhonePortraitOutline className="text-4xl max-md:text-3xl max-sm:text-2xl" />
@@ -23,7 +23,7 @@ function Category() {
 
           <Link
             reloadDocument
-            to={"/smartwatches"}
+            to={"/shop/smartwatches"}
             className="flex justify-center  items-center flex-col gap-4 bg-gray-100 transition-all duration-300 hover:scale-105  hover:shadow-md  rounded-md text-black py-6 px-2 max-sm:py-3"
           >
             <BsSmartwatch className="text-4xl max-md:text-3xl max-sm:text-2xl" />
@@ -32,7 +32,7 @@ function Category() {
 
           <Link
             reloadDocument
-            to={"/gaming"}
+            to={"/shop/gaming"}
             className="flex justify-center  items-center flex-col gap-4 bg-gray-100 transition-all duration-300 hover:scale-105  hover:shadow-md  rounded-md text-black py-6 px-2 max-sm:py-3"
           >
             <BsController className="text-4xl max-md:text-3xl max-sm:text-2xl" />
@@ -41,7 +41,7 @@ function Category() {
 
           <Link
             reloadDocument
-            to={"/cameras"}
+            to={"/shop/cameras"}
             className="flex justify-center  items-center flex-col gap-4 bg-gray-100 transition-all duration-300 hover:scale-105  hover:shadow-md  rounded-md text-black py-6 px-2 max-sm:py-3"
           >
             <IoCameraOutline className="text-4xl max-md:text-3xl max-sm:text-2xl" />
@@ -49,7 +49,7 @@ function Category() {
           </Link>
           <Link
             reloadDocument
-            to={"/laptops"}
+            to={"/shop/laptops"}
             className="flex justify-center  items-center flex-col gap-4 bg-gray-100 transition-all duration-300 hover:scale-105  hover:shadow-md  rounded-md text-black py-6 px-2 max-sm:py-3"
           >
             <IoLaptopOutline className="text-4xl max-md:text-3xl max-sm:text-2xl" />
@@ -58,7 +58,7 @@ function Category() {
 
           <Link
             reloadDocument
-            to={"/headphones"}
+            to={"/shop/headphones"}
             className="flex justify-center  items-center flex-col gap-4 bg-gray-100 transition-all duration-300 hover:scale-105  hover:shadow-md  rounded-md text-black py-6 px-2 max-sm:py-3"
           >
             <CiHeadphones className="text-4xl max-md:text-3xl max-sm:text-2xl" />

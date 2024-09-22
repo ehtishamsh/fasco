@@ -74,7 +74,7 @@ function MainCart() {
                 {typeof item?.brand === "string" && item.brand}
               </p>
               <Link
-                to={`/${
+                to={`/shop/${
                   typeof item?.category === "string" && category
                 }/${brand}/${title.toLowerCase()}`}
                 className="text-sm font-semibold line-clamp-2"

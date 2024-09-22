@@ -75,7 +75,7 @@ function GiveReview() {
       console.log(error, "error");
     }
   };
- 
+
   return (
     <div className="w-full">
       <BreadCrumbAdmin paths={["Dashboard", "Reviews"]} end={"Give Review"} />
@@ -121,7 +121,7 @@ function GiveReview() {
                                 </span>
                                 <span className="w-full   grid grid-cols-1  gap-2">
                                   <Link
-                                    to={`/${
+                                    to={`/shop/${
                                       typeof item.product.category ===
                                         "object" &&
                                       item.product.category.name.toLowerCase()
@@ -191,7 +191,7 @@ function GiveReview() {
                               </span>
                               <span className="w-full   grid grid-cols-1  gap-2">
                                 <Link
-                                  to={`/${
+                                  to={`/shop/${
                                     typeof item.product.category === "object" &&
                                     item.product.category.name.toLowerCase()
                                   }/${

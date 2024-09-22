@@ -64,7 +64,7 @@ function Payment({
           className=" max-sm:col-span-7 object-contain w-full rounded-lg border border-border"
         />
         <Link
-          to={`/${item.category.toString().toLowerCase()}/${
+          to={`/shop/${item.category.toString().toLowerCase()}/${
             typeof item.brand === "string" && item.brand.toLowerCase()
           }/${item.slug}`}
           className="text-sm max-sm:text-xs flex flex-col col-span-4 max-sm:col-span-5"

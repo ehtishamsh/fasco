@@ -72,7 +72,7 @@ function Cart({
                 {typeof item.brand === "string" && item.brand}
               </p>
               <Link
-                to={`/${
+                to={`/shop/${
                   typeof item.category === "string" &&
                   item.category &&
                   FormatText({ category: item.category, toLowerCase: true })

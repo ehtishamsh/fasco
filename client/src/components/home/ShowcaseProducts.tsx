@@ -33,7 +33,7 @@ function ShowcaseProducts({ products }: { products: Data[] }) {
           </>
         )}
         <Link
-          to={`/${
+          to={`/shop/${
             typeof item.category === "string" &&
             item.category &&
             FormatText({ category: item.category, toLowerCase: true })

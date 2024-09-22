@@ -141,7 +141,7 @@ function ViewOrder() {
                                   alt=""
                                 />{" "}
                                 <Link
-                                  to={`/${
+                                  to={`/shop/${
                                     typeof item.product.category === "object" &&
                                     item.product.category.name.toLowerCase()
                                   }/${

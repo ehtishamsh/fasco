@@ -101,7 +101,7 @@ const Search: React.FC = () => {
             {products.map((product) => (
               <Link
                 reloadDocument
-                to={`/${
+                to={`/shop/${
                   typeof product.category === "object" &&
                   product.category.name.toLowerCase()
                 }/${
