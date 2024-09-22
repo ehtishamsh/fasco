@@ -41,6 +41,7 @@ import ReviewsPage from "./pages/user/ReviewsPage";
 import GiveReviewsPage from "./pages/user/GiveReviewsPage";
 import DiscountPage from "./pages/DiscountPage";
 import AboutUs from "./pages/AboutUs";
+import Error404 from "./pages/Error404";
 
 function ProtectedRoute({ Element, isAllowed }: any) {
   return isAllowed ? <Element /> : <Navigate to="/" replace />;
@@ -67,8 +68,11 @@ function App() {
               {/* General Routes */}
               <Route element={<Layout />} path="/">
                 <Route element={<Homepage />} path="/" />
-                <Route element={<Product />} path="/:category/:brand?/:title" />
-                <Route element={<FilterPage />} path="/:category" />
+                <Route
+                  element={<Product />}
+                  path="/shop/:category/:brand?/:title"
+                />
+                <Route element={<FilterPage />} path="/shop/:category" />
                 <Route element={<Homepage />} />
                 <Route element={<ShoppingCart />} path="/cart" />
                 <Route element={<DiscountPage />} path="/discount" />
@@ -76,6 +80,7 @@ function App() {
                 <Route element={<WishlistPage />} path="/wishlist" />
                 <Route element={<Success />} path="/success" />
                 <Route element={<CancelPage />} path="/cancel" />
+                <Route element={<Error404 />} path="/404" />
                 <Route
                   element={
                     <ProtectedRoute
@@ -103,7 +108,6 @@ function App() {
                   }
                   path="/checkout"
                 />
-                <Route path="*" element={<Navigate to="/" replace />} />
               </Route>
 
               {/* Admin Routes */}
@@ -130,6 +134,7 @@ function App() {
                 <Route element={<Brands />} path="/admin/brands" />
                 <Route element={<AddBrand />} path="/admin/brands/new" />
               </Route>
+
               {/* User Dashboard Routes */}
               <Route
                 element={
@@ -148,6 +153,8 @@ function App() {
                 <Route element={<ProfilePage />} path="/profile" />
                 <Route element={<OrderSinglePage />} path="/orders/view/:id" />
               </Route>
+
+              <Route path="*" element={<Error404 />} />
             </Routes>
           </Router>
         </PersistGate>
