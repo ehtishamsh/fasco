@@ -42,6 +42,10 @@ import GiveReviewsPage from "./pages/user/GiveReviewsPage";
 import DiscountPage from "./pages/DiscountPage";
 import AboutUs from "./pages/AboutUs";
 import Error404 from "./pages/Error404";
+import HelpPage from "./pages/HelpPage";
+import ContactUsPage from "./pages/ContactUsPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import TermsAndConditionsPage from "./pages/TermsAndConditionsPage";
 
 function ProtectedRoute({ Element, isAllowed }: any) {
   return isAllowed ? <Element /> : <Navigate to="/" replace />;
@@ -81,6 +85,10 @@ function App() {
                 <Route element={<Success />} path="/success" />
                 <Route element={<CancelPage />} path="/cancel" />
                 <Route element={<Error404 />} path="/404" />
+                <Route element={<HelpPage />} path="/help" />
+                <Route element={<ContactUsPage />} path="/contact" />
+                <Route element={<PrivacyPolicyPage />} path="/privacy" />
+                <Route element={<TermsAndConditionsPage />} path="/terms" />
                 <Route
                   element={
                     <ProtectedRoute
