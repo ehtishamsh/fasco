@@ -21,30 +21,28 @@ function Footer() {
             </div>
             <div className="flex flex-col  h-full justify-start items-start  max-sm:justify-center max-sm:items-center">
               <h1 className="text-xl font-semibold mb-4 max-sm:text-base">
-                Information
+                Quick Links
               </h1>
               <div className="text-base max-sm:text-sm text-gray-300 flex flex-col gap-4 max-sm:justify-center max-sm:items-center">
-                <Link to="#">Home</Link>
-
-                <Link to="#">Shop</Link>
-
-                <Link to="#">About Us</Link>
-
-                <Link to="#">Our's Blog</Link>
+                <Link to="/">Home</Link>
+                <Link to="/discount">Discount</Link>
+                <Link to="/cart">Cart</Link>
+                <Link to="/wishlist">Wishlist</Link>
               </div>
             </div>
             <div className="flex flex-col  h-full justify-start items-start  max-sm:justify-center max-sm:items-center">
               <h1 className="text-xl font-semibold mb-4 max-sm:text-base">
-                Information
+                Useful Links
               </h1>
               <div className="text-base max-sm:text-sm text-gray-300 flex flex-col gap-4 max-sm:justify-center max-sm:items-center">
-                <Link to="#">Home</Link>
+                <Link to="/contact">Contact</Link>
 
-                <Link to="#">Shop</Link>
+                <Link to="/terms">Terms and Conditions</Link>
 
-                <Link to="#">About Us</Link>
+                <Link to="/privacy">Privacy Policy</Link>
+                <Link to="/about">About Us</Link>
 
-                <Link to="#">Our's Blog</Link>
+                <Link to="/help">Need Help?</Link>
               </div>
             </div>
           </div>
