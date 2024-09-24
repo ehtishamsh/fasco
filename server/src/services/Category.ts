@@ -9,3 +9,7 @@ export async function One(name: string) {
 export async function Create(name: string) {
   return await prismm.category.create({ data: { name } });
 }
+
+export async function Delete(id: string) {
+  return await prismm.category.delete({ where: { id } });
+}

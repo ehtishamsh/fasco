@@ -9,6 +9,7 @@ import {
   getProductsByCate,
   getProductsBySearch,
 } from "../controllers/productController";
+import { deleteProduct } from "../services/Product";
 
 const router = Router();
 
@@ -20,5 +21,6 @@ router.get("/products/single/:id", getProductByID);
 router.put("/products/edit", editProduct);
 router.get("/products/category/:id", getProductsByCate);
 router.get("/products/search/:query", getProductsBySearch);
+router.delete("/products/:id", deleteProduct);
 
 export default router;

@@ -419,3 +419,11 @@ export async function getSearchedProducts(query: string) {
     },
   });
 }
+
+export async function Delete(id: string) {
+  return await prisma.product.delete({
+    where: {
+      id,
+    },
+  });
+}
