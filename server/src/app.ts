@@ -9,6 +9,7 @@ import productRoutes from "./routes/productRoutes";
 import bodyParser from "body-parser";
 import orderRoutes from "./routes/orderRouter";
 import reviewRoutes from "./routes/reviewRoutes";
+import dashboardRoutes from "./routes/dashboardRoutes";
 
 ///////////////////////////
 
@@ -32,6 +33,7 @@ app.use("/api", productRoutes);
 app.use("/api", categoryRoute);
 app.use("/api", brandRoutes);
 app.use("/api", orderRoutes);
+app.use("/api", dashboardRoutes);
 app.use("/api", reviewRoutes);
 //Stripe
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
