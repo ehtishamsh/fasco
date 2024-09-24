@@ -21,6 +21,7 @@ import {
   getProductsByCategory,
   getProductFilterData,
   getSearchedProducts,
+  Delete,
 } from "../services/Product";
 import { One } from "../services/Category";
 import { getOrderByProductId } from "../services/Order";
@@ -657,3 +658,27 @@ export const getProductsBySearch = async (req: Request, res: Response) => {
     return res.status(500).send("Failed to fetch products");
   }
 };
+
+
+
+export const deleteProduct= async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const getProduct = await findProductById(id);
+    if (!getProduct) {
+      return res.status(404).send("Product not found");
+    }
+    const deleteProduct = await Delete(id);
+    if (!deleteProduct) {
+      return res.status(404).send("Product not found");
+    }
+    return res.json({
+      status: 200,
+      message: "Product deleted successfully",
+      data: deleteProduct,
+    });
+  } catch {
+    console.log("error");
+    return res.status(500).send("Failed to delete product");
+  }
+}

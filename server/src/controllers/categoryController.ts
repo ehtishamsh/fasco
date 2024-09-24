@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
-import { All, Create, One } from "../services/Category";
+import { All, Create, Delete, One } from "../services/Category";
 import { z } from "zod";
+import { getCategoryNameById } from "../services/Product";
 const formSchema = z.object({
   name: z
     .string()
@@ -44,3 +45,24 @@ export async function createCategory(req: Request, res: Response) {
     res.status(500).send(error);
   }
 }
+export const deleteCategory = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const getCate = await getCategoryNameById(id);
+    if (!getCate) {
+      return res.status(404).send("Category not found");
+    }
+    const deleteCategory = await Delete(id);
+    if (!deleteCategory) {
+      return res.status(404).send("Category not found");
+    }
+    return res.json({
+      status: 200,
+      message: "Category deleted successfully",
+      data: deleteCategory,
+    });
+  } catch {
+    console.log("error");
+    return res.status(500).send("Failed to delete Category");
+  }
+};

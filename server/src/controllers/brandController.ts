@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
-import { All, FindOne, CreateBrand } from "../services/Brand";
+import { All, FindOne, CreateBrand, DeleteBrand } from "../services/Brand";
 import { z } from "zod";
 import prisma from "../utils/db";
+import { getBrandNameById } from "../services/Product";
 
 const formSchema = z.object({
   name: z
@@ -47,3 +48,25 @@ export async function Create(req: Request, res: Response) {
     res.status(500).send(error);
   }
 }
+
+export const deleteBrand = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const getBrand = await getBrandNameById(id);
+    if (!getBrand) {
+      return res.status(404).send("Brand not found");
+    }
+    const deleteBrand = await DeleteBrand(id);
+    if (!deleteBrand) {
+      return res.status(404).send("Brand not found");
+    }
+    return res.json({
+      status: 200,
+      message: "Brand deleted successfully",
+      data: deleteBrand,
+    });
+  } catch {
+    console.log("error");
+    return res.status(500).send("Failed to delete Brand");
+  }
+};
