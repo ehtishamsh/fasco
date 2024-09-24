@@ -118,6 +118,7 @@ function MobileNav({
             { label: "Sale", link: "/discount" },
             { label: "About Us", link: "/about" },
             { label: "Help", link: "/help" },
+            { label: "Contact Us", link: "/contact" },
           ].map((item) => (
             <Link
               reloadDocument
@@ -130,6 +131,7 @@ function MobileNav({
             </Link>
           ))}
         </div>
+
         {userData.firstname !== undefined && (
           <div className="flex flex-col gap-4 mt-8  bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-lg p-2 items-center justify-center  mb-8">
             <Link to="/signout" className="w-full text-white text-center">
