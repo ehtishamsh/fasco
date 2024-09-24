@@ -14,6 +14,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, Eye, MoreHorizontal, Trash } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { toast } from "@/components/ui/use-toast";
 interface Data {
   cover: string;
   title: string;
@@ -162,7 +163,35 @@ export const columns: ColumnDef<Data>[] = [
     cell: function Cell({ row }) {
       const product = row.original;
       const [open, setOpen] = useState(false);
-      const onDelete = async () => {};
+      const onDelete = async () => {
+        setOpen(false);
+        try {
+          const response = await fetch(
+            `http://localhost:4000/api/products/${product.id}`,
+            {
+              method: "DELETE",
+            }
+          );
+          const data = await response.json();
+          if (data.status === 200) {
+            window.setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+            toast({
+              title: "Product Deleted",
+              description: "Product deleted successfully",
+              variant: "success",
+            });
+          }
+        } catch (error) {
+          console.log(error);
+          toast({
+            title: "Error",
+            description: "Something went wrong",
+            variant: "destructive",
+          });
+        }
+      };
       return (
         <>
           <Dialog open={open} onOpenChange={setOpen}>
