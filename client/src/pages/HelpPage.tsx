@@ -8,7 +8,7 @@ function HelpPage() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-16">
+    <div className="max-w-6xl mx-auto px-4 py-16 max-sm:py-8">
       {/* Page Title */}
       <h1 className="text-5xl max-md:text-3xl  max-sm:text-xl font-bold text-center text-yellow-600">
         Need Help?
