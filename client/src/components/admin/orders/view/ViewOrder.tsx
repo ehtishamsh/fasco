@@ -30,6 +30,7 @@ function ViewOrder() {
       try {
         const req = await fetch(`http://localhost:4000/api/order/${id}`);
         const res = await req.json();
+        console.log(res.data);
         setOrder(res.data);
         setLoading(false);
       } catch (error) {
@@ -101,7 +102,7 @@ function ViewOrder() {
                 paths={["Admin", "Orders"]}
                 end={`${order?.orderNumber}`}
               />
-              <h1 className="text-3xl mt-2 font-bold tracking-tight max-sm:text-xl">
+              <h1 className="text-3xl mt-2  font-bold tracking-tight max-sm:text-xl">
                 View Order
               </h1>
               <span className="text-sm max-sm:text-xs text-muted-foreground">
@@ -110,7 +111,7 @@ function ViewOrder() {
             </div>
             <DropdownMenuSeparator />
             <div className="grid grid-cols-6 gap-4 max-md:grid-cols-1">
-              <div className="col-span-4 max-md:col-span-1">
+              <div className="col-span-4 max-md:col-span-1 bg-white rounded-lg p-4">
                 <h1 className="text-xl max-sm:text-base font-semibold mb-5">
                   Order Number{" "}
                   <span className="text-yellow-400">#{order?.orderNumber}</span>
@@ -159,7 +160,7 @@ function ViewOrder() {
                                   <span
                                     className="w-3 h-3 inline-block rounded-full border border-muted-foreground"
                                     style={{
-                                      backgroundColor: item.color.color,
+                                      backgroundColor: item?.color?.color || "",
                                     }}
                                   >
                                     &nbsp;
@@ -241,7 +242,7 @@ function ViewOrder() {
                   </div>
                 </div>
               </div>
-              <div className="col-span-2 flex flex-col gap-5 max-md:col-span-1">
+              <div className="col-span-2 flex flex-col gap-5 max-md:col-span-1 bg-white rounded-lg p-4">
                 <div className="border border-gray-300/85 rounded-lg  p-4 h-fit">
                   <h1 className="text-base max-sm:text-sm  font-bold flex justify-between items-center">
                     Order Summary{" "}
