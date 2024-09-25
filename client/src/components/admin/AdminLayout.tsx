@@ -17,7 +17,7 @@ function AdminLayout() {
       <AdminNavbar />
       <main className="flex">
         <Sidebar />
-        <div className="w-full py-16">
+        <div className="w-full py-16 bg-gray-100">
           <Outlet />
         </div>
         <Toaster />
