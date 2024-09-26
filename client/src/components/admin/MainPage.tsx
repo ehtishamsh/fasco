@@ -11,12 +11,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import {
-  FaUsers,
-  FaBoxOpen,
-  FaShoppingCart,
-  FaDollarSign,
-} from "react-icons/fa";
+import { User } from "@/lib/redux/types";
 
 // Register the scales and components needed
 Chart.register(
@@ -147,103 +142,94 @@ function MainPage() {
       },
     ],
   };
-
+  const user: User = JSON.parse(localStorage.getItem("user") || "{}");
   return (
-    <div className="px-5 mt-8 max-xs:px-2 min-h-screen bg-gray-100">
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-        <div className="p-6 bg-white shadow-lg rounded-lg text-center flex flex-col items-center hover:shadow-2xl transition-shadow duration-300">
-          <FaUsers className="text-yellow-500 text-4xl mb-3" />
-          <h3 className="text-xl font-semibold">Total Users</h3>
-          <p className="mt-2 text-2xl font-bold">
-            {" "}
-            {dashboardData.totalUsers.all}{" "}
+    <div className="p-6 bg-gray-100 min-h-screen">
+      <h1 className="text-3xl font-bold text-gray-700 mb-8">
+        Welcome back, {user.firstname}
+      </h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+        {/* Total Users */}
+        <div className="bg-white shadow rounded-lg p-4">
+          <h2 className="text-gray-500 text-xs font-bold">Total Users</h2>
+          <p className="text-2xl font-bold text-gray-700">
+            {dashboardData.totalUsers.all}
           </p>
         </div>
-        <div className="p-6 bg-white shadow-lg rounded-lg text-center flex flex-col items-center hover:shadow-2xl transition-shadow duration-300">
-          <FaBoxOpen className="text-green-500 text-4xl mb-3" />
-          <h3 className="text-xl font-semibold">Total Products</h3>
-          <p className="mt-2 text-2xl font-bold">
-            {" "}
-            {dashboardData.totalProducts}{" "}
+        {/* Total Products */}
+        <div className="bg-white shadow rounded-lg p-4">
+          <h2 className="text-gray-500 text-xs font-bold">Total Products</h2>
+          <p className="text-2xl font-bold text-gray-700">
+            {dashboardData.totalProducts}
           </p>
         </div>
-        <div className="p-6 bg-white shadow-lg rounded-lg text-center flex flex-col items-center hover:shadow-2xl transition-shadow duration-300">
-          <FaShoppingCart className="text-blue-500 text-4xl mb-3" />
-          <h3 className="text-xl font-semibold">Total Orders</h3>
-          <p className="mt-2 text-2xl font-bold">
-            {" "}
-            {dashboardData.totalOrders.all}{" "}
+        {/* Total Orders */}
+        <div className="bg-white shadow rounded-lg p-4">
+          <h2 className="text-gray-500 text-xs font-bold">Total Orders</h2>
+          <p className="text-2xl font-bold text-gray-700">
+            {dashboardData.totalOrders.all}
           </p>
         </div>
-        <div className="p-6 bg-white shadow-lg rounded-lg text-center flex flex-col items-center hover:shadow-2xl transition-shadow duration-300">
-          <FaDollarSign className="text-red-500 text-4xl mb-3" />
-          <h3 className="text-xl font-semibold">Total Sales</h3>
-          <p className="mt-2 text-2xl font-bold">
-            {" "}
-            ${dashboardData.totalSales.toFixed(2)}{" "}
-          </p>
-        </div>
-      </div>
-
-      {/* Orders Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-        <div className="p-6 bg-white shadow-lg rounded-lg text-center flex flex-col items-center hover:shadow-2xl transition-shadow duration-300">
-          <h3 className="text-xl font-semibold">Pending Orders</h3>
-          <p className="mt-2 text-2xl font-bold text-yellow-600">
-            {" "}
-            {dashboardData.pendingOrders}{" "}
-          </p>
-        </div>
-        <div className="p-6 bg-white shadow-lg rounded-lg text-center flex flex-col items-center hover:shadow-2xl transition-shadow duration-300">
-          <h3 className="text-xl font-semibold">Completed Orders</h3>
-          <p className="mt-2 text-2xl font-bold text-green-600">
-            {" "}
-            {dashboardData.completedOrders}{" "}
-          </p>
-        </div>
-        <div className="p-6 bg-white shadow-lg rounded-lg text-center flex flex-col items-center hover:shadow-2xl transition-shadow duration-300">
-          <h3 className="text-xl font-semibold">Cancelled Orders</h3>
-          <p className="mt-2 text-2xl font-bold text-red-600">
-            {" "}
-            {dashboardData.cancelledOrders}{" "}
+        {/* Total Sales */}
+        <div className="bg-white shadow rounded-lg p-4">
+          <h2 className="text-gray-500 text-xs font-bold">Total Sales</h2>
+          <p className="text-2xl font-bold text-gray-700">
+            ${dashboardData.totalSales.toFixed(2)}
           </p>
         </div>
       </div>
 
-      {/* Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="p-6 bg-white shadow-lg rounded-lg hover:shadow-2xl transition-shadow duration-300">
-          <h3 className="text-xl font-semibold text-center mb-6">
-            Sales by Month
-          </h3>
-          <div className="flex justify-center w-full">
-            <Bar data={saleData} />
-          </div>
+      {/* Order Status */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        <div className="bg-white shadow rounded-lg p-4">
+          <h2 className="text-gray-500 text-xs font-bold">Pending Orders</h2>
+          <p className="text-2xl font-bold text-yellow-500">
+            {dashboardData.pendingOrders}
+          </p>
         </div>
-        <div className="p-6 bg-white shadow-lg rounded-lg hover:shadow-2xl transition-shadow duration-300">
-          <h3 className="text-xl font-semibold text-center mb-6">
-            Users by Month
-          </h3>
-          <div className="flex justify-center w-full">
-            <Bar data={usersData} />
-          </div>
+        <div className="bg-white shadow rounded-lg p-4">
+          <h2 className="text-gray-500 text-xs font-bold">Completed Orders</h2>
+          <p className="text-2xl font-bold text-green-500">
+            {dashboardData.completedOrders}
+          </p>
         </div>
-        <div className="p-6 bg-white shadow-lg rounded-lg hover:shadow-2xl transition-shadow duration-300">
-          <h3 className="text-xl font-semibold text-center mb-6">
-            Orders by Month
-          </h3>
-          <div className="flex justify-center w-full">
-            <Bar data={ordersData} />
-          </div>
+        <div className="bg-white shadow rounded-lg p-4">
+          <h2 className="text-gray-500 text-xs font-bold">Cancelled Orders</h2>
+          <p className="text-2xl font-bold text-red-500">
+            {dashboardData.cancelledOrders}
+          </p>
         </div>
-        <div className="p-6 bg-white shadow-lg rounded-lg hover:shadow-2xl transition-shadow duration-300">
-          <h3 className="text-xl font-semibold text-center mb-6">
-            Revenue (10% Profit) by Month
-          </h3>
-          <div className="flex justify-center w-full">
-            <Line data={revenueData} />
-          </div>
+      </div>
+
+      {/* Charts Section */}
+      <div className="bg-white shadow rounded-lg p-6 mb-6">
+        <h2 className="text-xl font-bold text-gray-700 mb-4">Monthly Sales</h2>
+        <div className="w-full">
+          <Bar data={saleData} options={{ maintainAspectRatio: false }} />
+        </div>
+      </div>
+
+      <div className="bg-white shadow rounded-lg p-6 mb-6">
+        <h2 className="text-xl font-bold text-gray-700 mb-4">User Growth</h2>
+        <div className="w-full">
+          <Line data={usersData} options={{ maintainAspectRatio: false }} />
+        </div>
+      </div>
+
+      <div className="bg-white shadow rounded-lg p-6 mb-6">
+        <h2 className="text-xl font-bold text-gray-700 mb-4">
+          Orders Over Time
+        </h2>
+        <div className="w-full">
+          <Bar data={ordersData} options={{ maintainAspectRatio: false }} />
+        </div>
+      </div>
+      <div className="bg-white shadow rounded-lg p-6">
+        <h2 className="text-xl font-bold text-gray-700 mb-4">
+          Revenue Over Time
+        </h2>
+        <div className="w-full">
+          <Line data={revenueData} options={{ maintainAspectRatio: false }} />
         </div>
       </div>
     </div>
