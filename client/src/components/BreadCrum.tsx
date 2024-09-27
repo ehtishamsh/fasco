@@ -32,7 +32,7 @@ export function BreadCrum({
         <BreadcrumbSeparator />
         <BreadcrumbItem>
           <BreadcrumbLink>
-            <Link to={`/${cat?.toLowerCase()}`}>{camelCaseCat}</Link>
+            <Link to={`/shop/${cat?.toLowerCase()}`}>{camelCaseCat}</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
 
@@ -42,7 +42,7 @@ export function BreadCrum({
             <BreadcrumbItem>
               <BreadcrumbLink>
                 <Link
-                  to={`/${cat?.toLowerCase()}?brand=${brand.toLowerCase()}`}
+                  to={`/shop/${cat?.toLowerCase()}?brand=${brand.toLowerCase()}`}
                 >
                   {brand}
                 </Link>
