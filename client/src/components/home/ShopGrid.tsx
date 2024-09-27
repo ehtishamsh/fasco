@@ -8,7 +8,10 @@ function ShopGrid() {
       <div className="py-10 h-fit">
         <div className="grid grid-cols-2 max-md:grid-cols-1 h-fit">
           <div className=" grid grid-cols-1 grid-rows-2">
-            <Link to="/gaming?brand=sony" className="bg-white grid grid-cols-2">
+            <Link
+              to="/shop/gaming?brand=sony"
+              className="bg-white grid grid-cols-2"
+            >
               <div className="pr-10">
                 <img src="/ps.png" alt="" className="max-w-full " />
               </div>

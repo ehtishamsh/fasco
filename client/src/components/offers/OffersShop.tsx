@@ -36,7 +36,7 @@ function OffersShop() {
   return (
     <div className="max-w-6xl mx-auto px-3 mb-7">
       <Link
-        to="/smartphones/samsung/samsung-galaxy-s24"
+        to="/shop/smartphones/samsung/samsung-galaxy-s24"
         className="w-full mt-16 max-md:mt-8 mb-8 block"
       >
         <img src="/offers.png" alt="" className="w-full object-cover" />

@@ -5,7 +5,7 @@ function Hero() {
   return (
     <div className="grid grid-cols-3 max-sm:grid-cols-1  gap-8 max-sm:gap-3 h-[78vh] max-md:h-[100svh]">
       <Link
-        to={"/smartphones/samsung/samsung-galaxy-s23-ultra"}
+        to={"/shop/smartphones/samsung/samsung-galaxy-s23-ultra"}
         className="rounded-lg overflow-hidden max-sm:h-full transition-all duration-300 "
       >
         <Reveal height="100%" width="100%" delayTime={0.4}>
@@ -18,7 +18,7 @@ function Hero() {
       <div className="grid grid-cols-1 grid-rows-8 gap-4 max-sm:gap-3">
         <div className="row-span-2  rounded-lg">
           <Reveal height="100%" delayTime={0.6}>
-            <Link to={"/smartphones?brand=samsung"}>
+            <Link to={"/shop/smartphones?brand=samsung"}>
               <img
                 src="/top-img.png"
                 className="h-full w-full rounded-lg transition-all duration-300 max-md:object-cover"
@@ -47,7 +47,7 @@ function Hero() {
         </div>
         <div className="row-span-2 rounded-lg overflow-hidden transition-all duration-300">
           <Reveal height="100%" delayTime={0.6}>
-            <Link to={"/smartphones?brand=apple"}>
+            <Link to={"/shop/smartphones?brand=apple"}>
               <img
                 src="/bottom-img.png"
                 className="h-full w-full rounded-lg transition-all duration-300 max-md:object-cover"
@@ -57,7 +57,7 @@ function Hero() {
         </div>
       </div>
       <Link
-        to={"/smartphones/apple/apple-iphone-14-pro-max"}
+        to={"/shop/smartphones/apple/apple-iphone-14-pro-max"}
         className=" rounded-lg overflow-hidden transition-all duration-300  max-sm:h-full "
       >
         <Reveal height="100%" width="100%" delayTime={0.4}>
