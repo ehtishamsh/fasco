@@ -1,30 +1,24 @@
 import { useEffect, useState } from "react";
-import { Bar, Line } from "react-chartjs-2";
-import {
-  Chart,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  LineElement,
-  Title,
-  PointElement,
-  Tooltip,
-  Legend,
-} from "chart.js";
+
 import { User } from "@/lib/redux/types";
-
-// Register the scales and components needed
-Chart.register(
-  CategoryScale,
-  LineElement,
-  PointElement,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
-
+import { DynamicBarChart } from "../charts/MontlySales";
+import { LineChartUsers } from "../charts/LineChartUsers";
+import { RevenueChart } from "../charts/RevenueChart";
+interface ChartConfig {
+  [key: string]: {
+    label: string; // The label to display for the data key
+    color: string; // The color to use for the data key
+  };
+}
+//@ts-ignore
+interface ChartProps {
+  title: string;
+  dataKey: string; // The key used for the bar values
+  labelKey: string; // The key used for the x-axis labels
+  chartConfig: ChartConfig; // Configuration for the chart's appearance
+  chartData: { [key: string]: any }[]; // Generic data array
+  trend: number; // Trend data
+}
 interface SalesByMonth {
   createdAt: string; // date in string format
   _sum: { amount: number | null }; // nullable in case there's no sale in a month
@@ -53,6 +47,11 @@ interface DashboardData {
   salesByMonth: SalesByMonth[];
 }
 
+interface revenueByMonth {
+  month: string;
+  sales: number;
+  revenue: number;
+}
 function MainPage() {
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(
     null
@@ -75,18 +74,21 @@ function MainPage() {
       year: "numeric",
     })
   );
+
   const usersByMonth = dashboardData.totalUsers.monthly.map((item) =>
     new Date(item.createdAt).toLocaleString("default", {
       month: "short",
       year: "numeric",
     })
   );
+
   const ordersByMonth = dashboardData.totalOrders.monthly.map((item) =>
     new Date(item.createdAt).toLocaleString("default", {
       month: "short",
       year: "numeric",
     })
   );
+
   const salesByMonthData = dashboardData.salesByMonth.map(
     (item) => item._sum.amount
   );
@@ -97,51 +99,120 @@ function MainPage() {
     (item) => item._count.id
   );
   const revenueByMonthData = dashboardData.salesByMonth.map(
-    (item) => (item._sum.amount || 0) * 0.1
+    (item) => (item._sum.amount || 0) * 0.2
   );
 
-  const saleData = {
-    labels: salesByMonthLabels,
-    datasets: [
-      {
-        label: "Sales by Month",
-        data: salesByMonthData,
-        backgroundColor: "#FFBB33",
-      },
-    ],
+  // Function to aggregate data by month
+  const aggregateDataByMonth = (months: string[], data: any, key: any) => {
+    return months.reduce((acc: any, month: string, index: number) => {
+      if (!acc[month]) {
+        acc[month] = { month, [key]: 0 };
+      }
+      acc[month][key] += data[index];
+      return acc;
+    }, {});
   };
-  const usersData = {
-    labels: usersByMonth,
-    datasets: [
-      {
-        label: "Users by Month",
-        data: usersByMonthData,
-        backgroundColor: "#33B5E5",
-      },
-    ],
-  };
-  const ordersData = {
-    labels: ordersByMonth,
-    datasets: [
-      {
-        label: "Orders by Month",
-        data: ordersByMonthData,
-        backgroundColor: "#FF4444",
-      },
-    ],
-  };
-  const revenueData = {
-    labels: salesByMonthLabels,
-    datasets: [
-      {
-        label: "Revenue (10% Profit) by Month",
-        data: revenueByMonthData,
-        borderColor: "#4CAF50",
-        backgroundColor: "rgba(76, 175, 80, 0.2)",
-        fill: false,
-      },
-    ],
-  };
+
+  // Function to calculate trending percentage
+  const calculateTrending = (latest: number, previous: number) =>
+    ((latest - previous) / previous) * 100;
+
+  // Aggregate sales data by month
+  const salesData = aggregateDataByMonth(
+    ordersByMonth,
+    salesByMonthData,
+    "sales"
+  );
+  const salesChartData = Object.values(salesData) as {
+    month: string;
+    sales: number;
+  }[];
+
+  const latestMonthDataSales = salesChartData[salesChartData.length - 1].sales;
+  const previousMonthDataSales =
+    salesChartData[salesChartData.length - 2].sales;
+  const trendingSalesThisMonth = calculateTrending(
+    latestMonthDataSales,
+    previousMonthDataSales
+  );
+
+  // Aggregate orders data by month
+  const ordersData = aggregateDataByMonth(
+    ordersByMonth,
+    ordersByMonthData,
+    "orders"
+  );
+  const ordersChartData = Object.values(ordersData) as {
+    month: string;
+    orders: number;
+  }[];
+
+  const latestMonthDataOrders =
+    ordersChartData[ordersChartData.length - 1].orders;
+  const previousMonthDataOrders =
+    ordersChartData[ordersChartData.length - 2].orders;
+  const trendingOrdersThisMonth = calculateTrending(
+    latestMonthDataOrders,
+    previousMonthDataOrders
+  );
+
+  // Aggregate users data by month
+  const usersData = aggregateDataByMonth(
+    usersByMonth,
+    usersByMonthData,
+    "users"
+  );
+  const usersChartData = Object.values(usersData) as {
+    month: string;
+    users: number;
+  }[];
+
+  const latestMonthDataUsers = usersChartData[usersChartData.length - 1].users;
+  const previousMonthDataUsers =
+    usersChartData[usersChartData.length - 2].users;
+  const trendingUsersThisMonth = calculateTrending(
+    latestMonthDataUsers,
+    previousMonthDataUsers
+  );
+
+  // Aggregate revenue data by month
+  const revenueData = aggregateDataByMonth(
+    salesByMonthLabels,
+    revenueByMonthData,
+    "revenue"
+  );
+  const revenueChartData = Object.values(revenueData) as {
+    month: string;
+    revenue: number;
+  }[];
+
+  const latestMonthDataRevenue =
+    revenueChartData[revenueChartData.length - 1].revenue;
+  const previousMonthDataRevenue =
+    revenueChartData[revenueChartData.length - 2].revenue;
+  const trendingRevenueThisMonth = calculateTrending(
+    latestMonthDataRevenue,
+    previousMonthDataRevenue
+  );
+  const revenueandsales: revenueByMonth[] = revenueChartData
+    .map((item) => {
+      return salesChartData
+        .map((sales) => {
+          if (item.month === sales.month) {
+            return { ...item, sales: sales.sales };
+          }
+        })
+        .filter((i): i is revenueByMonth => i !== undefined);
+    })
+    .flat();
+  const formatedRevenue: revenueByMonth[] = revenueandsales.map((item) => {
+    return {
+      month: item.month,
+      revenue: parseInt(item.revenue.toFixed(2)),
+      sales: parseInt(item.sales.toFixed(2)),
+    };
+  });
+
   const user: User = JSON.parse(localStorage.getItem("user") || "{}");
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
@@ -202,34 +273,58 @@ function MainPage() {
       </div>
 
       {/* Charts Section */}
-      <div className="bg-white shadow rounded-lg p-6 mb-6">
-        <h2 className="text-xl font-bold text-gray-700 mb-4">Monthly Sales</h2>
-        <div className="w-full">
-          <Bar data={saleData} options={{ maintainAspectRatio: false }} />
+      <div className="grid grid-cols-2 gap-6">
+        <div className="bg-white shadow rounded-lg p-6 mb-6 ">
+          <div className="w-full">
+            <DynamicBarChart
+              chartData={salesChartData}
+              trend={trendingSalesThisMonth}
+              title="Monthly Sales"
+              labelKey="month"
+              dataKey="sales"
+              chartConfig={{
+                sales: {
+                  label: "Sales",
+                  color: "hsl(var(--chart-1))",
+                },
+              }}
+            />
+          </div>
         </div>
-      </div>
 
-      <div className="bg-white shadow rounded-lg p-6 mb-6">
-        <h2 className="text-xl font-bold text-gray-700 mb-4">User Growth</h2>
-        <div className="w-full">
-          <Line data={usersData} options={{ maintainAspectRatio: false }} />
+        <div className="bg-white shadow rounded-lg p-6 mb-6">
+          <div className="w-full">
+            <DynamicBarChart
+              chartData={ordersChartData}
+              trend={trendingOrdersThisMonth}
+              title="Monthly Orders"
+              labelKey="month"
+              dataKey="orders"
+              chartConfig={{
+                sales: {
+                  label: "Orders",
+                  color: "hsl(var(--chart-2))",
+                },
+              }}
+            />
+          </div>
         </div>
-      </div>
 
-      <div className="bg-white shadow rounded-lg p-6 mb-6">
-        <h2 className="text-xl font-bold text-gray-700 mb-4">
-          Orders Over Time
-        </h2>
-        <div className="w-full">
-          <Bar data={ordersData} options={{ maintainAspectRatio: false }} />
+        <div className="bg-white shadow rounded-lg p-6 mb-6">
+          <div className="w-full">
+            <LineChartUsers
+              chartData={usersChartData}
+              trend={trendingUsersThisMonth}
+            />
+          </div>
         </div>
-      </div>
-      <div className="bg-white shadow rounded-lg p-6">
-        <h2 className="text-xl font-bold text-gray-700 mb-4">
-          Revenue Over Time
-        </h2>
-        <div className="w-full">
-          <Line data={revenueData} options={{ maintainAspectRatio: false }} />
+        <div className="bg-white shadow rounded-lg p-6">
+          <div className="w-full">
+            <RevenueChart
+              chartData={formatedRevenue}
+              trend={trendingRevenueThisMonth}
+            />
+          </div>
         </div>
       </div>
     </div>
