@@ -2,6 +2,7 @@ import { Address, Product, User } from "@/lib/redux/types";
 import { useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { toast } from "../ui/use-toast";
+import { Button } from "../ui/button";
 
 function PaymentForm({
   cartData,
@@ -16,10 +17,11 @@ function PaymentForm({
     setTotal(() =>
       cartData.reduce(
         (acc, item) =>
-          acc + Number(item.discounted) > 0
+          acc +
+          (Number(item?.discounted) > 0
             ? Number(item.discounted)
-            : Number(item.price) * Number(item.quantity) +
-              Number(item.selectedVariant?.price || 0),
+            : Number(item.price)) +
+          Number(item.selectedVariant?.price || 0) * (item?.quantity || 1),
         0
       )
     );
@@ -62,10 +64,17 @@ function PaymentForm({
       });
     }
   };
-
+  console.log(cartData);
   return (
     <>
-      <button onClick={makePayment}>Pay</button>
+      <Button
+        onClick={makePayment}
+        className="w-full"
+        size={"lg"}
+        variant="default"
+      >
+        Pay ${total}
+      </Button>
     </>
   );
 }
