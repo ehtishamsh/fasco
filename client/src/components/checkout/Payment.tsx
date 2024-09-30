@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { CartState, Product, Address } from "@/lib/redux/types";
-import { Separator } from "../ui/separator";
-import { Link } from "react-router-dom";
-import AddressCard from "./AddressCard";
+import { CartState, Product, Address, User } from "@/lib/redux/types";
+
 import PaymentForm from "./PaymentForm";
+import { Link } from "react-router-dom";
+import { Separator } from "../ui/separator";
 
 interface Data {
   free: boolean;
@@ -21,7 +21,6 @@ function Payment({
   setChecked: React.Dispatch<React.SetStateAction<Data>>;
   selectedAddress: Address | undefined;
 }) {
-  const [ship, setShip] = useState<String>("free");
   const [total, setTotal] = useState(0);
 
   const products = useSelector<CartState, Product[]>(
@@ -47,126 +46,126 @@ function Payment({
       });
       return sum;
     });
-    if (checked?.free) {
-      setShip("free");
-    } else if (checked?.standard) {
-      setShip("standard");
-    } else if (checked?.express) {
-      setShip("express");
-    }
   }, [data, products]);
-  const prdItems = products?.map((item) => {
-    return (
-      <div className="grid grid-cols-7 gap-4  max-sm:gap-2  max-sm:p-2 items-center bg-gray-100/80 rounded-lg p-4">
-        <img
-          src={`http://localhost:4000${item?.cover}`}
-          alt={item.title}
-          className=" max-sm:col-span-7 object-contain w-full rounded-lg border border-border"
-        />
-        <Link
-          to={`/shop/${item.category.toString().toLowerCase()}/${
-            typeof item.brand === "string" && item.brand.toLowerCase()
-          }/${item.slug}`}
-          className="text-sm max-sm:text-xs flex flex-col col-span-4 max-sm:col-span-5"
-        >
-          <span className="text-xs text-gray-400">
-            {typeof item.brand === "string" && item.brand}
-          </span>
-          <p className=" font-semibold">{item?.title}</p>
-          <span className="text-gray-400">
-            {`${item.selectedVariant?.name} - $${item.selectedVariant?.price}`}
-          </span>
-          <span className="text-gray-400 flex items-center gap-2 ">
-            Color:
-            <span
-              style={{ backgroundColor: item.colors[0].name }}
-              className="w-4 h-4 rounded-full inline-block shadow"
-            >
-              &nbsp;
-            </span>
-          </span>
-        </Link>
-        <p className="text-sm max-sm:text-xs">Qty: {item?.quantity}</p>
-        <p className="text-sm max-sm:text-xs font-semibold">
-          $
-          {(Number(item?.discounted) > 0
-            ? Number(item.discounted)
-            : Number(item.price)) +
-            Number(item.selectedVariant?.price || 0) * (item?.quantity || 1)}
-        </p>
-      </div>
-    );
-  });
-  const date = new Date().toLocaleDateString("en-US");
+  const user: User = JSON.parse(localStorage.getItem("user") || "{}");
   return (
-    <div className="border border-border p-8 rounded-md max-sm:p-2">
-      <h1 className="text-xl font-semibold max-sm:text-base">Summary</h1>
-      <div className="grid grid-cols-1 gap-4 mt-10 max-sm:mt-5 max-sm:gap-2">
-        <div className="grid grid-cols-1 gap-4  max-sm:gap-2">{prdItems}</div>
+    <div className="h-[80svh]">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-32">
+        <div>
+          <h2 className="font-semibold text-sm text-gray-400 border-b pb-2  border-border mb-4">
+            SHIPPING & PAYMENT
+          </h2>
+          {/* Shipping Details */}
+          <div className="my-8">
+            <div className="mb-4 flex justify-between items-center">
+              <span className="text-sm">
+                {selectedAddress?.firstname} {selectedAddress?.lastname}
+              </span>
+              <span className="text-sm">{user?.email}</span>
+            </div>
+            <div className="flex flex-col text-sm gap-1">
+              <span className=" text-gray-400 text-xs">Home Address</span>
+              <span className="max-w-[300px]">
+                {selectedAddress?.addressLine1}
+              </span>
+              <span>{selectedAddress?.addressLine2}</span>
+              <span className=" text-gray-400 text-xs">State</span>
+              <span>{selectedAddress?.state}</span>
+              <span className=" text-gray-400 text-xs">City</span>
+              <span>{selectedAddress?.city}</span>
+              <span className=" text-gray-400 text-xs">Country</span>
+              <span>{selectedAddress?.country}</span>
+              <span className=" text-gray-400 text-xs">Postal Code</span>
+              <span>{selectedAddress?.postalCode}</span>
+            </div>
+          </div>
+          {/* Payment Details */}
+          <div>
+            <PaymentForm address={selectedAddress as Address} cartData={data} />
+          </div>
+        </div>
+        <div>
+          <div className="flex items-center justify-start gap-2 text-gray-400  border-b pb-2 border-border mb-4">
+            <h2 className="font-semibold  text-sm ">YOUR ORDER</h2>
+            <Link to="/cart" className="text-xs">
+              EDIT SHOPPING CART
+            </Link>
+          </div>
+          <div className="space-y-4">
+            {data.map((item, idx) => (
+              <div
+                key={idx}
+                className="grid grid-cols-5 items-center border-b pb-4"
+              >
+                <div className="col-span-1">
+                  <img
+                    src={`http://localhost:4000${item?.cover}`}
+                    alt={item?.title}
+                    className="w-16 h-16 object-contain"
+                  />
+                </div>
+                <Link
+                  to={`/shop/${item.category.toString().toLowerCase()}/${
+                    typeof item.brand === "string" && item.brand.toLowerCase()
+                  }/${item.slug}`}
+                  className="text-sm max-sm:text-xs flex flex-col col-span-2 max-sm:col-span-5"
+                >
+                  <span className="text-xs text-gray-400">
+                    {typeof item.brand === "string" && item.brand}
+                  </span>
+                  <p className=" font-semibold">{item?.title}</p>
+                  <span className="text-gray-400 text-xs">
+                    {`${item.selectedVariant?.name} - $${item.selectedVariant?.price}`}
+                  </span>
+                  <span className="text-gray-400 text-xs flex items-center gap-2 ">
+                    Color:
+                    <span
+                      style={{ backgroundColor: item.colors[0].name }}
+                      className="w-2 h-2 rounded-full inline-block shadow"
+                    >
+                      &nbsp;
+                    </span>
+                  </span>
+                </Link>
+                <div className="flex justify-center items-center">
+                  <p className="text-sm max-sm:text-xs  px-2 py-1 hover:bg-yellow-400 hover:text-white transition-all duration-300 border border-border rounded  w-fit">
+                    {item?.quantity}
+                  </p>
+                </div>
+                <p className="text-sm text-right max-sm:text-xs font-semibold">
+                  $
+                  {(Number(item?.discounted) > 0
+                    ? Number(item.discounted)
+                    : Number(item.price)) +
+                    Number(item.selectedVariant?.price || 0) *
+                      (item?.quantity || 1)}
+                </p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-6 space-y-3">
+            <div className="flex justify-between">
+              <p className=" mb-0 text-sm font-semibold ">Subtotal</p>
+              <p className="text-base">${total}</p>
+            </div>
+            <Separator />
+            <div className="flex justify-between">
+              <p className=" mb-0 text-sm font-semibold">Shipping</p>
+              <p>0</p>
+            </div>
+            <Separator />
+            <div className="flex justify-between font-semibold">
+              <p className=" mb-0 text-sm font-semibold">Total</p>
+              <p className="text-base">${total}</p>
+            </div>
+            <Separator />
+            <span className="text-xs text-gray-400 inline-block">
+              Note: A 5% platform fee, including taxes, is already included in
+              the product price.
+            </span>
+          </div>
+        </div>
       </div>
-      <div className="mt-14 max-sm:mt-6">
-        <h1 className="text-sm font-semibold mb-6">Address</h1>
-        <div className="flex gap-4 bg-gray-100/80 p-6 max-sm:p-4 max-sm:gap-2 rounded-lg">
-          <AddressCard address={selectedAddress as Address} />
-        </div>
-        <Separator className="my-4" />
-      </div>
-      <div className="mt-14  max-sm:mt-6">
-        <h1 className="text-sm font-semibold">Shipment Method</h1>
-        <p className="mt-4 max-sm:text-sm">
-          {ship === "free"
-            ? "Free"
-            : ship === "standard"
-            ? `Standard : $8.50`
-            : ship === "express"
-            ? "Express : $15.00" + date
-            : 0}
-        </p>
-        <Separator className="my-4" />
-      </div>
-      <div className="mt-14 max-sm:mt-6">
-        <div className="flex justify-between items-center">
-          <h1 className="text-sm max-sm:text-xs font-semibold">Subtotal</h1>
-          <h1 className="text-sm max-sm:text-xs font-semibold">${total}</h1>
-        </div>
-        <div className="flex justify-between items-center mt-4">
-          <h4 className="text-sm max-sm:text-xs text-muted-foreground">
-            Estimated Tax
-          </h4>
-          <span className="text-sm max-sm:text-xs font-semibold">$0</span>
-        </div>
-        <div className="flex justify-between items-center mt-2">
-          <h4 className="text-sm max-sm:text-xs text-muted-foreground">
-            Estimated Shipping & Handling
-          </h4>
-          <span className="text-sm max-sm:text-xs font-semibold">
-            {ship === "free"
-              ? "Free"
-              : ship === "standard"
-              ? `$8.50`
-              : ship === "express"
-              ? "$15.00"
-              : 0}
-          </span>
-        </div>
-        <div className="flex justify-between items-center mt-4">
-          <h4 className="text-lg font-semibold max-sm:text-sm">Total</h4>
-          <span className="text-lg font-semibold max-sm:text-sm">
-            $
-            {total +
-              (ship === "free"
-                ? 0
-                : ship === "standard"
-                ? 8.5
-                : ship === "express"
-                ? 15
-                : 0)}
-          </span>
-        </div>
-      </div>
-      {selectedAddress && (
-        <PaymentForm address={selectedAddress} cartData={products} />
-      )}
     </div>
   );
 }
