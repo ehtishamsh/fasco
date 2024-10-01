@@ -25,14 +25,15 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon --watch src --exec ts-node src/index.ts",
-    "build": "rimraf dist && tsc",
+    "build": "prisma generate && rimraf dist && tsc",
     "ts.check": "tsc --noEmit",
     "add-build": "git add dist",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --watch src --exec ts-node src/index.ts",
     "prisma:migrate": "npx prisma migrate dev",
     "prisma:generate": "npx prisma generate",
-    "prisma:studio": "npx prisma studio"
+    "prisma:studio": "npx prisma studio",
+    "postinstall": "prisma generate"
   },
   "pre-commit": [
     "ts.check",
