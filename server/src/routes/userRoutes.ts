@@ -1,7 +1,8 @@
 import { Router } from "express";
-import { register } from "../controllers/RegisterController";
+
 import { login } from "../controllers/loginController";
 import { updateUser } from "../controllers/userController";
+import { register } from "@controllers/registerController";
 const router = Router();
 
 router.post("/api/login", login);

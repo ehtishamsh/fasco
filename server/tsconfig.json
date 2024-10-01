@@ -1,17 +1,24 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "target": "es6",
-    "noImplicitAny": true,
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "outDir": "dist",
-    "baseUrl": ".",
+    "target": "ES2020", // Target ECMAScript version
+    "module": "commonjs", // Module system to use (Node.js default)
+    "rootDir": "./src", // Specifies the root directory of input files
+    "outDir": "./dist", // Output directory for compiled JavaScript files
+    "strict": true, // Enable all strict type-checking options
+    "moduleResolution": "node", // Resolve modules as Node.js does
+    "esModuleInterop": true, // Enables compatibility with CommonJS and ES Modules
+    "forceConsistentCasingInFileNames": true, // Disallow inconsistently-cased references to the same file
+    "skipLibCheck": true, // Skip type checking of all declaration files (faster builds)
+    "resolveJsonModule": true, // Allows importing JSON files
+    "allowJs": true, // Allow JavaScript files to be compiled
+    "baseUrl": ".", // Base directory to resolve non-relative module names
     "paths": {
-      "*": ["node_modules/*", "src/types/*"]
+      "@prisma/*": ["./prisma/*"], // Path alias for Prisma
+      "@controllers/*": ["./src/controllers/*"], // Path alias for Controllers
+      "@services/*": ["./src/services/*"], // Path alias for Services
+      "@uploads/*": ["./uploads/*"] // Path alias for Uploads
     }
   },
-  "include": ["./src/**/*"]
+  "include": ["src/**/*.ts", "prisma/**/*.ts"], // Include all .ts files in src and prisma directories
+  "exclude": ["node_modules", "dist"] // Exclude node_modules and build output directory
 }
