@@ -46,7 +46,7 @@ export async function register(req: Request, res: Response) {
       },
     });
 
-    const removedPassword = { ...user, password: undefined };
+    const removedPassword = { ...user, password: undefined as undefined };
     res.json({
       message: "user created successfully",
       user: removedPassword,

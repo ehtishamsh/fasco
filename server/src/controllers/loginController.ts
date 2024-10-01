@@ -28,7 +28,7 @@ export async function login(req: Request, res: Response) {
       res.status(400).send("Password is incorrect");
     }
     const token = generateToken(findUser);
-    const removePassword = { ...findUser, password: undefined };
+    const removePassword = { ...findUser, password: undefined as undefined };
     return res
       .status(200)
       .json({ token, user: removePassword, message: "Login successful" });

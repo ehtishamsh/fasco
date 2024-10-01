@@ -32,7 +32,7 @@ export const updateUser = async (req: Request, res: Response) => {
       res.status(404).send("User not found");
     }
     const token = await generateToken(user);
-    const removePassword = { ...user, password: undefined };
+    const removePassword = { ...user, password: undefined as undefined };
     res.json({
       status: 200,
       message: "User updated successfully",
