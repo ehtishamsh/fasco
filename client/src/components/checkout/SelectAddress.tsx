@@ -5,6 +5,7 @@ import ButtonNextBack from "./ButtonNextBack";
 import { Link } from "react-router-dom";
 import AddressCard from "./AddressCard";
 import { toast } from "../ui/use-toast";
+import { useNavigate } from "react-router-dom";
 
 function SelectAddress({
   setStep,
@@ -23,6 +24,7 @@ function SelectAddress({
   >;
   selectedAddress: AddressType | undefined;
 }) {
+  const navigate = useNavigate();
   const handleNext = () => {
     if (selectedAddress === undefined) {
       toast({
@@ -48,6 +50,11 @@ function SelectAddress({
     }
   };
 
+  const handleBack = () => {
+    if (currentStep === 1) {
+      navigate("/");
+    }
+  };
   return (
     <div>
       <h1 className="text-xl font-semibold max-sm:text-base">Select Address</h1>
@@ -91,7 +98,7 @@ function SelectAddress({
           </Link>
         </div>
       </div>
-      <ButtonNextBack handleNext={handleNext} />
+      <ButtonNextBack handleNext={handleNext} handleBack={handleBack} />
     </div>
   );
 }
