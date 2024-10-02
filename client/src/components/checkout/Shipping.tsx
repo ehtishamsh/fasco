@@ -64,6 +64,23 @@ function Shipping({
     }
   };
 
+  const handleBack = () => {
+    setCurrentStep(1);
+    if (currentStep === 2) {
+      setStep((prev) => {
+        return prev.map((item) => {
+          if (item.step === 3) {
+            return { ...item, active: false };
+          }
+          if (item.step === 2) {
+            return { ...item, active: true };
+          }
+          return item;
+        });
+      });
+    }
+  };
+
   return (
     <div>
       <h1 className="text-xl font-semibold max-sm:text-base">
@@ -95,7 +112,7 @@ function Shipping({
           </p>
         </div>
       </div>
-      <ButtonNextBack handleNext={handleNext} />
+      <ButtonNextBack handleNext={handleNext} handleBack={handleBack} />
     </div>
   );
 }
