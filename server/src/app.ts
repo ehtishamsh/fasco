@@ -23,6 +23,9 @@ app.use(cors());
 
 // MIDDLEWARE
 
+app.get("/", (req, res) => {
+  res.send("Hello World");
+});
 app.use("/uploads", express.static("uploads"));
 
 // Routes
