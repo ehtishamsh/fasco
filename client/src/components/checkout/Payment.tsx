@@ -49,8 +49,8 @@ function Payment({
   }, [data, products]);
   const user: User = JSON.parse(localStorage.getItem("user") || "{}");
   return (
-    <div className="h-[80svh]">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-32">
+    <div className="h-[80svh] max-sm:h-full mb-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-32 max-sm:gap-10">
         <div>
           <h2 className="font-semibold text-sm text-gray-400 border-b pb-2  border-border mb-4">
             SHIPPING & PAYMENT
@@ -84,9 +84,9 @@ function Payment({
             <PaymentForm address={selectedAddress as Address} cartData={data} />
           </div>
         </div>
-        <div>
+        <div className="max-sm:order-first">
           <div className="flex items-center justify-start gap-2 text-gray-400  border-b pb-2 border-border mb-4">
-            <h2 className="font-semibold  text-sm ">YOUR ORDER</h2>
+            <h2 className="font-semibold  text-sm">YOUR ORDER</h2>
             <Link to="/cart" className="text-xs">
               EDIT SHOPPING CART
             </Link>
@@ -97,7 +97,7 @@ function Payment({
                 key={idx}
                 className="grid grid-cols-5 items-center border-b pb-4"
               >
-                <div className="col-span-1">
+                <div className="col-span-1 max-sm:col-span-1">
                   <img
                     src={`http://localhost:4000${item?.cover}`}
                     alt={item?.title}
@@ -108,7 +108,7 @@ function Payment({
                   to={`/shop/${item.category.toString().toLowerCase()}/${
                     typeof item.brand === "string" && item.brand.toLowerCase()
                   }/${item.slug}`}
-                  className="text-sm max-sm:text-xs flex flex-col col-span-2 max-sm:col-span-5"
+                  className="text-sm max-sm:text-xs max-sm:col-span-2 flex flex-col col-span-2"
                 >
                   <span className="text-xs text-gray-400">
                     {typeof item.brand === "string" && item.brand}
