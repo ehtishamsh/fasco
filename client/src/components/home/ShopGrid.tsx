@@ -9,6 +9,7 @@ function ShopGrid() {
         <div className="grid grid-cols-2 max-md:grid-cols-1 h-fit">
           <div className=" grid grid-cols-1 grid-rows-2">
             <Link
+              reloadDocument
               to="/shop/gaming?brand=sony"
               className="bg-white grid grid-cols-2"
             >
@@ -30,7 +31,8 @@ function ShopGrid() {
 
             <div className=" grid grid-cols-2 bg-gray-200">
               <Link
-                to="/headphones/apple/apple-airpods-max"
+                reloadDocument
+                to="/shop/headphones/apple/apple-airpods-max"
                 className="grid grid-cols-6"
               >
                 <div className=" col-span-2 flex justify-center items-center">
@@ -53,7 +55,8 @@ function ShopGrid() {
               </Link>
 
               <Link
-                to="/headphones/apple/apple-airpods-pro"
+                reloadDocument
+                to="/shop/headphones/apple/apple-airpods-pro"
                 className="grid grid-cols-6 bg-gray-700"
               >
                 <div className=" col-span-2 flex justify-center items-center">
@@ -77,7 +80,8 @@ function ShopGrid() {
 
           <div className="grid grid-cols-3 bg-gray-200 ">
             <Link
-              to={"/laptops/apple/macbook-air-2023"}
+              reloadDocument
+              to={"/shop/laptops/apple/macbook-air-2023"}
               className="col-span-2 flex justify-center items-center flex-col"
             >
               <div className="text-6xl max-lg:text-5xl max-md:text-3xl max-sm:text-2xl mb-2 text-left px-2 max-sm:px-1 text-black">
