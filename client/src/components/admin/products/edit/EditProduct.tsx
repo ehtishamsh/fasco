@@ -98,8 +98,8 @@ function EditProduct() {
   const fetchData = async () => {
     try {
       const [categoriesRes, brandsRes] = await Promise.all([
-        fetch("http://localhost:4000/api/categories"),
-        fetch("http://localhost:4000/api/brands"),
+        fetch("https://fascobackend-production.up.railway.app/api/categories"),
+        fetch("https://fascobackend-production.up.railway.app/api/brands"),
       ]);
       const categoriesData = await categoriesRes.json();
       const brandsData = await brandsRes.json();
@@ -155,7 +155,7 @@ function EditProduct() {
     const fetchProduct = async () => {
       try {
         const res = await fetch(
-          `http://localhost:4000/api/products/single/${id}`
+          `https://fascobackend-production.up.railway.app/api/products/single/${id}`
         );
         const data = await res.json();
         form.setValue("ProductName", data.data.title);
@@ -253,13 +253,16 @@ function EditProduct() {
     };
 
     try {
-      const res = await fetch(`http://localhost:4000/api/products/edit`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newProduct),
-      });
+      const res = await fetch(
+        `https://fascobackend-production.up.railway.app/api/products/edit`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newProduct),
+        }
+      );
       const data = await res.json();
 
       if (data.status === 200) {

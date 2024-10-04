@@ -13,7 +13,8 @@ function Recommended() {
     const fetchData = async () => {
       try {
         const req = await fetch(
-          "http://localhost:4000/api/products/category/" + finalCategory
+          "https://fascobackend-production.up.railway.app/api/products/category/" +
+            finalCategory
         );
         const res = await req.json();
         const cut = res.data.slice(0, 4);

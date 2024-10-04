@@ -22,7 +22,8 @@ export function RecentOrderTable() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:4000/api/order/user/" + user.id
+          "https://fascobackend-production.up.railway.app/api/order/user/" +
+            user.id
         );
         const data = await response.json();
         setOrders(data.data);
@@ -70,7 +71,7 @@ export function RecentOrderTable() {
                     {item.items &&
                       item.items.map((orderItems) => (
                         <img
-                          src={`http://localhost:4000${orderItems.product.cover}`}
+                          src={`https://fascobackend-production.up.railway.app${orderItems.product.cover}`}
                           className="h-12 w-12 max-sm:h-8 max-sm:w-8 "
                         />
                       ))}

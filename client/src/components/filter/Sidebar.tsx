@@ -79,7 +79,8 @@ const Sidebar: React.FC<SidebarProps> = ({ setAllFilters, setOpen }) => {
     const fetchData = async () => {
       try {
         const res = await fetch(
-          "http://localhost:4000/api/products/filter/" + category,
+          "https://fascobackend-production.up.railway.app/api/products/filter/" +
+            category,
           {
             method: "GET",
           }

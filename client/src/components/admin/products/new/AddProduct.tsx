@@ -99,8 +99,8 @@ function AddProduct() {
   const fetchData = async () => {
     try {
       const [categoriesRes, brandsRes] = await Promise.all([
-        fetch("http://localhost:4000/api/categories"),
-        fetch("http://localhost:4000/api/brands"),
+        fetch("https://fascobackend-production.up.railway.app/api/categories"),
+        fetch("https://fascobackend-production.up.railway.app/api/brands"),
       ]);
       const categoriesData = await categoriesRes.json();
       const brandsData = await brandsRes.json();
@@ -198,13 +198,16 @@ function AddProduct() {
       colors,
     };
     try {
-      const res = await fetch("http://localhost:4000/api/products/new", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newProduct),
-      });
+      const res = await fetch(
+        "https://fascobackend-production.up.railway.app/api/products/new",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newProduct),
+        }
+      );
 
       const data = await res.json();
       if (data) {

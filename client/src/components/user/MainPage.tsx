@@ -18,7 +18,7 @@ function MainPage() {
       setLoading(true);
       try {
         const req = await fetch(
-          `http://localhost:4000/api/address/user/${user.id}`
+          `https://fascobackend-production.up.railway.app/api/address/user/${user.id}`
         );
         const res = await req.json();
 

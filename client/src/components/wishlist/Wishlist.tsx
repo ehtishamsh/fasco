@@ -27,7 +27,7 @@ function Wishlist() {
         } grid grid-cols-7 border border-border rounded-md`}
       >
         <img
-          src={`http://localhost:4000${item?.cover}`}
+          src={`https://fascobackend-production.up.railway.app${item?.cover}`}
           alt={item.title}
           className="h-24 w-24 object-cover"
         />

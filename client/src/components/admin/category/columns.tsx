@@ -64,21 +64,21 @@ export const columns: ColumnDef<Data>[] = [
         setOpen(false);
         try {
           const response = await fetch(
-            `http://localhost:4000/api/categories/${cate.id}`,
+            `https://fascobackend-production.up.railway.app/api/categories/${cate.id}`,
             {
               method: "DELETE",
             }
           );
           const data = await response.json();
           if (data.status === 200) {
-         window.setTimeout(() => {
-           window.location.reload();
-         }, 2000);
-         toast({
-           title: "Category Deleted",
-           description: "Category deleted successfully",
-           variant: "success",
-         })
+            window.setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+            toast({
+              title: "Category Deleted",
+              description: "Category deleted successfully",
+              variant: "success",
+            });
           }
         } catch (error) {
           console.log(error);

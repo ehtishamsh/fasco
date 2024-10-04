@@ -32,7 +32,9 @@ export default function ProductsTable() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const req = await fetch("http://localhost:4000/api/products");
+        const req = await fetch(
+          "https://fascobackend-production.up.railway.app/api/products"
+        );
         const res = await req.json();
         setData(res);
         setUnEditedData(res);
@@ -46,7 +48,9 @@ export default function ProductsTable() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const req = await fetch("http://localhost:4000/api/categories");
+        const req = await fetch(
+          "https://fascobackend-production.up.railway.app/api/categories"
+        );
         const res = await req.json();
         setCategories(res.categories);
       } catch (error) {

@@ -41,7 +41,7 @@ function Product() {
     const fetchData = async () => {
       try {
         const request = await fetch(
-          `http://localhost:4000/api/products/${title}`,
+          `https://fascobackend-production.up.railway.app/api/products/${title}`,
           {
             method: "GET",
           }
@@ -107,7 +107,7 @@ function Product() {
                 <div className="flex justify-center cursor-pointer border-2 items-center border-border p-20 max-md:p-4 max-sm:p-3">
                   <Zoom>
                     <img
-                      src={`http://localhost:4000${data?.cover}`}
+                      src={`https://fascobackend-production.up.railway.app${data?.cover}`}
                       alt={data?.title}
                       className=" object-cover max-h-[600px] max-md:max-h-[400px] max-sm:max-h-[300px]"
                     />

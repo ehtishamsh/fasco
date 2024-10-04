@@ -21,7 +21,8 @@ function ProductReview() {
     const fetchData = async () => {
       try {
         const req = await fetch(
-          "http://localhost:4000/api/reviews/product/" + slug,
+          "https://fascobackend-production.up.railway.app/api/reviews/product/" +
+            slug,
           {
             method: "GET",
           }

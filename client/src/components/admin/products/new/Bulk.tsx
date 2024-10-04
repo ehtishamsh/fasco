@@ -8,13 +8,16 @@ const Bulk = ({ ProductsInBulk }: any) => {
 
     try {
       for (const product of ProductsInBulk) {
-        const res = await fetch("http://localhost:4000/api/products/new", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(product),
-        });
+        const res = await fetch(
+          "https://fascobackend-production.up.railway.app/api/products/new",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(product),
+          }
+        );
 
         const data = await res.json();
         if (data) {

@@ -70,7 +70,7 @@ function ShowcaseProducts({ products }: { products: Data[] }) {
           </div>
           <div className="px-2 flex items-center justify-center  ">
             <img
-              src={`http://localhost:4000${item.cover}`}
+              src={`https://fascobackend-production.up.railway.app${item.cover}`}
               alt=""
               className=" hover:scale-110 object-cover max-h-[200px]  max-sm:max-h-[120px] transition-all duration-300"
             />

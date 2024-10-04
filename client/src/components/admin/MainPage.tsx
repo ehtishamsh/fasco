@@ -59,7 +59,9 @@ function MainPage() {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch("http://localhost:4000/api/dashboard");
+      const response = await fetch(
+        "https://fascobackend-production.up.railway.app/api/dashboard"
+      );
       const data = await response.json();
       setDashboardData(data.data);
     }

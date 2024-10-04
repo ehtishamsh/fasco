@@ -24,7 +24,7 @@ function ImageUpload({
     const formData = new FormData();
     formData.append("image", file);
     axios
-      .post("http://localhost:4000/upload", formData, {
+      .post("https://fascobackend-production.up.railway.app/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -45,7 +45,7 @@ function ImageUpload({
   };
   const deleteFile = async () => {
     const filename = filePath.slice(9);
-    const deleteReq = await fetch("http://localhost:4000/upload/delete", {
+    const deleteReq = await fetch("https://fascobackend-production.up.railway.app/upload/delete", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -102,7 +102,7 @@ function ImageUpload({
         <div className="mt-6">
           <div className="relative">
             <img
-              src={`http://localhost:4000${filePath}`}
+              src={`https://fascobackend-production.up.railway.app${filePath}`}
               alt="Uploaded"
               className="w-full max-h-96 object-cover border border-gray-300 rounded-lg"
             />

@@ -58,18 +58,21 @@ function Signup() {
       return;
     }
     try {
-      const response = await fetch("http://localhost:4000/api/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          firstname: data.firstname,
-          lastname: data.lastname,
-          email: data.email,
-          password: data.password,
-        }),
-      });
+      const response = await fetch(
+        "https://fascobackend-production.up.railway.app/api/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            firstname: data.firstname,
+            lastname: data.lastname,
+            email: data.email,
+            password: data.password,
+          }),
+        }
+      );
 
       if (response.ok) {
         toast({

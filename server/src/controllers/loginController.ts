@@ -16,19 +16,19 @@ const FormSchema = z.object({
 export async function login(req: Request, res: Response) {
   try {
     const { email, password } = FormSchema.parse(req.body);
-    const findUser = await findUniqueUserById(email);
+    const findUser = (await findUniqueUserById(email)) as any;
     if (!findUser) {
       res.status(404).send("User not found");
     }
     const isPasswordValid = await bcrypt.compare(
       password,
-      findUser?.password as string
+      findUser.password as string
     );
     if (!isPasswordValid) {
       res.status(400).send("Password is incorrect");
     }
     const token = generateToken(findUser);
-    const removePassword = { ...findUser, password: undefined as undefined };
+    const removePassword = { ...findUser, password: undefined };
     return res
       .status(200)
       .json({ token, user: removePassword, message: "Login successful" });

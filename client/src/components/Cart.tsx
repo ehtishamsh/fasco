@@ -61,7 +61,7 @@ function Cart({
         <div className="grid grid-cols-4 gap-4 p-2 rounded-md mb-5 bg-gray-100  transition-all duration-300">
           <div className="col-span-1 flex justify-center items-center">
             <img
-              src={`http://localhost:4000${item?.cover}`}
+              src={`https://fascobackend-production.up.railway.app${item?.cover}`}
               alt=""
               className="max-h-[120px]"
             />

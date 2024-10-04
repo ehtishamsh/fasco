@@ -14,7 +14,7 @@ export const columns: ColumnDef<Order>[] = [
       const images = order.items?.map((prev) => {
         return (
           <img
-            src={`http://localhost:4000${prev.product.cover}`}
+            src={`https://fascobackend-production.up.railway.app${prev.product.cover}`}
             className="max-w-14 max-sm:max-w-14 border border-border rounded-lg"
             alt="cover image"
           />

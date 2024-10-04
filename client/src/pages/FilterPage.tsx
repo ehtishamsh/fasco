@@ -9,7 +9,9 @@ function FilterPage() {
   useEffect(() => {
     const check = async () => {
       try {
-        const res = await fetch(`http://localhost:4000/api/categories`);
+        const res = await fetch(
+          `https://fascobackend-production.up.railway.app/api/categories`
+        );
         const data = await res.json();
         console.log(data);
         // Redirect to 404 if category not found

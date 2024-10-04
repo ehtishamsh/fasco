@@ -28,7 +28,9 @@ function ViewOrder() {
     setLoading(true);
     const fetchData = async () => {
       try {
-        const req = await fetch(`http://localhost:4000/api/order/${id}`);
+        const req = await fetch(
+          `https://fascobackend-production.up.railway.app/api/order/${id}`
+        );
         const res = await req.json();
         console.log(res.data);
         setOrder(res.data);
@@ -46,33 +48,38 @@ function ViewOrder() {
     if (orderStatus !== order?.orderStatus) {
       let status = [...(order?.status as string[])];
 
-      const req = await fetch(`http://localhost:4000/api/order/update`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          orderNumber: order?.orderNumber,
-          orderStatus:
-            e.currentTarget.name === "CANCELLED" ? "CANCELLED" : orderStatus,
-          payment_intent_id:
-            e.currentTarget.name === "CANCELLED" ? order?.paymentIntentId : "",
-          status: [
-            ...status,
-            e.currentTarget.name === "CANCELLED"
-              ? "Your order has been cancelled"
-              : orderStatus === "COMPLETED"
-              ? "Your order has been delivered"
-              : orderStatus === "SHIPPED"
-              ? "Your order has been shipped"
-              : orderStatus === "CONFIRMED"
-              ? "Your order has been confirmed"
-              : orderStatus === "PENDING"
-              ? "Your order is being processed"
-              : "Your order is being processed",
-          ],
-        }),
-      });
+      const req = await fetch(
+        `https://fascobackend-production.up.railway.app/api/order/update`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            orderNumber: order?.orderNumber,
+            orderStatus:
+              e.currentTarget.name === "CANCELLED" ? "CANCELLED" : orderStatus,
+            payment_intent_id:
+              e.currentTarget.name === "CANCELLED"
+                ? order?.paymentIntentId
+                : "",
+            status: [
+              ...status,
+              e.currentTarget.name === "CANCELLED"
+                ? "Your order has been cancelled"
+                : orderStatus === "COMPLETED"
+                ? "Your order has been delivered"
+                : orderStatus === "SHIPPED"
+                ? "Your order has been shipped"
+                : orderStatus === "CONFIRMED"
+                ? "Your order has been confirmed"
+                : orderStatus === "PENDING"
+                ? "Your order is being processed"
+                : "Your order is being processed",
+            ],
+          }),
+        }
+      );
 
       const res = await req.json();
       if (res.success) {
@@ -137,7 +144,7 @@ function ViewOrder() {
                             >
                               <td className="text-left p-3 flex items-center">
                                 <img
-                                  src={`http://localhost:4000${item.product.cover}`}
+                                  src={`https://fascobackend-production.up.railway.app${item.product.cover}`}
                                   className="w-10 mr-2 "
                                   alt=""
                                 />{" "}
