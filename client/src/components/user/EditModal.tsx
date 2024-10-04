@@ -99,16 +99,13 @@ export function EditModal({ address }: { address: Address }) {
       userId: user.id,
     };
     try {
-      const req = await fetch(
-        `https://fascobackend-production.up.railway.app/api/address/edit`,
-        {
-          method: "PUT",
-          body: JSON.stringify(newAddress),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const req = await fetch(`http://localhost:4000/api/address/edit`, {
+        method: "PUT",
+        body: JSON.stringify(newAddress),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       const res = await req.json();
 
       if (res) {

@@ -17,9 +17,7 @@ function Success() {
   const { toast } = useToast();
 
   useEffect(() => {
-    fetch(
-      `https://fascobackend-production.up.railway.app/api/check-session?session_id=${sessionId}`
-    )
+    fetch(`http://localhost:4000/api/check-session?session_id=${sessionId}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.session.payment_status === "paid") {
@@ -43,7 +41,7 @@ function Success() {
             addressId: data.session.metadata.addressId,
           };
           const response = await fetch(
-            "https://fascobackend-production.up.railway.app/api/order/create",
+            "http://localhost:4000/api/order/create",
             {
               method: "POST",
               headers: {

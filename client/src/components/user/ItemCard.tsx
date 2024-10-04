@@ -36,7 +36,7 @@ const ItemCard = ({
       <div className="mt-3 grid grid-cols-4 max-sm:grid-cols-5 max-sm:gap-5 gap-2 px-6 py-2 text-sm max-sm:px-2">
         <div className="text-left w-full flex gap-1 col-span-1 max-sm:col-span-2">
           <img
-            src={`https://fascobackend-production.up.railway.app${cover}`}
+            src={`http://localhost:4000${cover}`}
             alt=""
             className="w-20 h-20 max-sm:w-full max-sm:h-full max-sm:object-contain"
           />

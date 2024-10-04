@@ -38,6 +38,7 @@ function Hero() {
               <p className="text-sm  tracking-[2px] mb-5">NEW COLLECTION</p>
               <Link
                 to={"/discount"}
+                reloadDocument
                 className="py-3 px-4 bg-foreground hover:bg-slate-800 transition-all duration-300 text-white rounded-lg"
               >
                 Shop Now

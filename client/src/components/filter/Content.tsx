@@ -69,9 +69,7 @@ function Content({
     setLoading(true);
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          "https://fascobackend-production.up.railway.app/api/products"
-        );
+        const response = await fetch("http://localhost:4000/api/products");
         const data = await response.json();
         setAllProducts(data.products);
         setLoading(false);

@@ -35,16 +35,13 @@ function AddCate() {
     };
     const fetchData = async () => {
       try {
-        const req = await fetch(
-          "https://fascobackend-production.up.railway.app/api/categories/new",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newCategory),
-          }
-        );
+        const req = await fetch("http://localhost:4000/api/categories/new", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newCategory),
+        });
         const res = await req.json();
 
         if (res) {

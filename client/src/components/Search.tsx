@@ -20,7 +20,7 @@ const Search: React.FC = () => {
     try {
       setIsFetching(true); // Set loading state to true
       const response = await fetch(
-        `https://fascobackend-production.up.railway.app/api/products/search/${searchQuery}`,
+        `http://localhost:4000/api/products/search/${searchQuery}`,
         {
           method: "GET",
         }
@@ -117,10 +117,7 @@ const Search: React.FC = () => {
                 <span>
                   <img
                     className="col-span-1 w-10 h-10 object-contain"
-                    src={
-                      "https://fascobackend-production.up.railway.app" +
-                      product.cover
-                    }
+                    src={"http://localhost:4000" + product.cover}
                   />
                 </span>
                 <span className="col-span-3 text-sm font-semibold text-gray-600">

@@ -63,7 +63,7 @@ function MainCart() {
         <div className="grid grid-cols-7 gap-4 p-2 max-md:grid-rows-2 rounded-md mb-5   transition-all duration-300">
           <div className="flex justify-center items-center">
             <img
-              src={`https://fascobackend-production.up.railway.app${item?.cover}`}
+              src={`http://localhost:4000${item?.cover}`}
               alt=""
               className="max-h-[120px]"
             />

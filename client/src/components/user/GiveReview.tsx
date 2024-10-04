@@ -22,7 +22,7 @@ function GiveReview() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://fascobackend-production.up.railway.app/api/reviews/" + id,
+          "http://localhost:4000/api/reviews/" + id,
           {
             method: "GET",
             headers: {
@@ -47,20 +47,17 @@ function GiveReview() {
   const submitReview = async () => {
     try {
       if (ratings && comment) {
-        const req = await fetch(
-          "https://fascobackend-production.up.railway.app/api/reviews",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              userid: user.id,
-              ratings,
-              comment,
-            }),
-          }
-        );
+        const req = await fetch("http://localhost:4000/api/reviews", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userid: user.id,
+            ratings,
+            comment,
+          }),
+        });
         const res = await req.json();
 
         if (res.status === 200) {
@@ -115,7 +112,7 @@ function GiveReview() {
                                 <span>
                                   <img
                                     src={
-                                      "https://fascobackend-production.up.railway.app" +
+                                      "http://localhost:4000" +
                                       item.product.cover
                                     }
                                     alt=""
@@ -186,8 +183,7 @@ function GiveReview() {
                               <span>
                                 <img
                                   src={
-                                    "https://fascobackend-production.up.railway.app" +
-                                    item.product.cover
+                                    "http://localhost:4000" + item.product.cover
                                   }
                                   alt=""
                                   className="w-16 h-16 rounded-lg"

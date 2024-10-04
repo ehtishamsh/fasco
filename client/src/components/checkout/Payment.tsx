@@ -99,7 +99,7 @@ function Payment({
               >
                 <div className="col-span-1 max-sm:col-span-1">
                   <img
-                    src={`https://fascobackend-production.up.railway.app${item?.cover}`}
+                    src={`http://localhost:4000${item?.cover}`}
                     alt={item?.title}
                     className="w-16 h-16 object-contain"
                   />

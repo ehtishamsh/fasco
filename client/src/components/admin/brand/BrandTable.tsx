@@ -11,9 +11,7 @@ export default function BrandTable() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const req = await fetch(
-          "https://fascobackend-production.up.railway.app/api/brands"
-        );
+        const req = await fetch("http://localhost:4000/api/brands");
         const res = await req.json();
         setData(res.brands);
       } catch (error) {

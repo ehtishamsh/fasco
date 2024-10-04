@@ -45,7 +45,7 @@ export const columns: ColumnDef<Data>[] = [
       const product = row.original;
       return (
         <img
-          src={`https://fascobackend-production.up.railway.app${product?.cover}`}
+          src={`http://localhost:4000${product?.cover}`}
           className="max-w-20 max-sm:max-w-20 border border-border rounded-lg"
           alt="cover image"
         />
@@ -167,7 +167,7 @@ export const columns: ColumnDef<Data>[] = [
         setOpen(false);
         try {
           const response = await fetch(
-            `https://fascobackend-production.up.railway.app/api/products/${product.id}`,
+            `http://localhost:4000/api/products/${product.id}`,
             {
               method: "DELETE",
             }

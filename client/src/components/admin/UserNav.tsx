@@ -26,9 +26,9 @@ export default function UserNav() {
         <DropdownMenuTrigger asChild>
           <Button
             variant="outline"
-            className="relative h-10 w-10 bg-muted flex items-center justify-center text-lg rounded-full"
+            className="relative h-10 w-10 bg-yellowColor text-black flex items-center justify-center text-lg rounded-full"
           >
-            {session?.user?.username?.split("")[0]}
+            {session?.user?.firstname?.split("")[0]}
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56">

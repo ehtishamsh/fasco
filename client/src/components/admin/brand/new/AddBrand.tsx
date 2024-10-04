@@ -35,16 +35,13 @@ function AddBrand() {
     };
     const fetchData = async () => {
       try {
-        const req = await fetch(
-          "https://fascobackend-production.up.railway.app/api/brands/new",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newBrand),
-          }
-        );
+        const req = await fetch("http://localhost:4000/api/brands/new", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newBrand),
+        });
         const res = await req.json();
 
         if (res) {

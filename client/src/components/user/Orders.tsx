@@ -15,8 +15,7 @@ function Orders() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://fascobackend-production.up.railway.app/api/order/user/" +
-            user.id
+          "http://localhost:4000/api/order/user/" + user.id
         );
         const data = await response.json();
         setOrders(data.data);
@@ -61,7 +60,7 @@ function Orders() {
             {order.items?.map((item) => {
               return (
                 <img
-                  src={`https://fascobackend-production.up.railway.app${item.product.cover}`}
+                  src={`http://localhost:4000${item.product.cover}`}
                   alt=""
                   className="w-20 h-20 max-sm:w-full max-sm:h-full max-sm:object-contain"
                 />

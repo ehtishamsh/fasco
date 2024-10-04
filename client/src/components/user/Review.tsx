@@ -15,8 +15,7 @@ function Review() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://fascobackend-production.up.railway.app/api/reviews/user/" +
-            user.id
+          "http://localhost:4000/api/reviews/user/" + user.id
         );
         const data = await response.json();
         setOrders(data.orders);
@@ -72,7 +71,7 @@ function Review() {
               return (
                 <img
                   key={item.product.id}
-                  src={`https://fascobackend-production.up.railway.app${item.product.cover}`}
+                  src={`http://localhost:4000${item.product.cover}`}
                   alt=""
                   className="w-20 h-20 max-sm:max-w-28 max-sm:h-full max-sm:object-contain"
                 />
@@ -120,10 +119,10 @@ function Review() {
   });
   return (
     <div className="w-full">
-      <BreadCrumbAdmin paths={["Dashboard"]} end={"Orders"} />
+      <BreadCrumbAdmin paths={["Dashboard"]} end={"Reviews"} />
       <div className="bg-accent rounded-lg w-fit p-1 mt-6">
         <h1 className="text-base max-sm:text-xs rounded-lg font-semibold tracking-tight text-foreground bg-background py-1 px-3">
-          Orders
+          Reviews
         </h1>
       </div>
       <div className="mt-6 grid grid-cols-1 gap-4 max-sm:gap-2">

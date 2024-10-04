@@ -46,7 +46,7 @@ function PaymentForm({
     };
 
     const response = await fetch(
-      "https://fascobackend-production.up.railway.app/api/create-checkout-session",
+      "http://localhost:4000/api/create-checkout-session",
       {
         method: "POST",
         headers,

@@ -8,9 +8,7 @@ export default function OrdersTable() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const req = await fetch(
-          "https://fascobackend-production.up.railway.app/api/orders"
-        );
+        const req = await fetch("http://localhost:4000/api/orders");
         const res = await req.json();
         setData(res);
       } catch (error) {

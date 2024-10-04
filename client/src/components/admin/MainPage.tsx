@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-
-import { User } from "@/lib/redux/types";
 import { DynamicBarChart } from "../charts/MontlySales";
 import { LineChartUsers } from "../charts/LineChartUsers";
 import { RevenueChart } from "../charts/RevenueChart";
+import Loading from "../ui/Loading";
 interface ChartConfig {
   [key: string]: {
     label: string; // The label to display for the data key
@@ -59,16 +58,19 @@ function MainPage() {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch(
-        "https://fascobackend-production.up.railway.app/api/dashboard"
-      );
+      const response = await fetch("http://localhost:4000/api/dashboard");
       const data = await response.json();
       setDashboardData(data.data);
     }
     fetchData();
   }, []);
 
-  if (!dashboardData) return <div>Loading...</div>;
+  if (!dashboardData)
+    return (
+      <div className="flex justify-center h-[40svh] mt-20 max-sm:mt-8">
+        <Loading />
+      </div>
+    );
 
   const salesByMonthLabels = dashboardData.salesByMonth.map((item) =>
     new Date(item.createdAt).toLocaleString("default", {
@@ -215,36 +217,32 @@ function MainPage() {
     };
   });
 
-  const user: User = JSON.parse(localStorage.getItem("user") || "{}");
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-3xl font-bold text-gray-700 mb-8">
-        Welcome back, {user.firstname}
-      </h1>
+    <div className="p-6 min-h-screen">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
         {/* Total Users */}
-        <div className="bg-white shadow rounded-lg p-4">
+        <div className="bg-white border-2 border-border h-fit rounded-md p-4">
           <h2 className="text-gray-500 text-xs font-bold">Total Users</h2>
           <p className="text-2xl font-bold text-gray-700">
             {dashboardData.totalUsers.all}
           </p>
         </div>
         {/* Total Products */}
-        <div className="bg-white shadow rounded-lg p-4">
+        <div className="bg-white border-2 border-border h-fit rounded-md p-4">
           <h2 className="text-gray-500 text-xs font-bold">Total Products</h2>
           <p className="text-2xl font-bold text-gray-700">
             {dashboardData.totalProducts}
           </p>
         </div>
         {/* Total Orders */}
-        <div className="bg-white shadow rounded-lg p-4">
+        <div className="bg-white border-2 border-border h-fit rounded-md p-4">
           <h2 className="text-gray-500 text-xs font-bold">Total Orders</h2>
           <p className="text-2xl font-bold text-gray-700">
             {dashboardData.totalOrders.all}
           </p>
         </div>
         {/* Total Sales */}
-        <div className="bg-white shadow rounded-lg p-4">
+        <div className="bg-white border-2 border-border h-fit rounded-md p-4">
           <h2 className="text-gray-500 text-xs font-bold">Total Sales</h2>
           <p className="text-2xl font-bold text-gray-700">
             ${dashboardData.totalSales.toFixed(2)}
@@ -254,19 +252,19 @@ function MainPage() {
 
       {/* Order Status */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-        <div className="bg-white shadow rounded-lg p-4">
+        <div className="bg-white border-2 border-border h-fit rounded-md p-4">
           <h2 className="text-gray-500 text-xs font-bold">Pending Orders</h2>
           <p className="text-2xl font-bold text-yellow-500">
             {dashboardData.pendingOrders}
           </p>
         </div>
-        <div className="bg-white shadow rounded-lg p-4">
+        <div className="bg-white border-2 border-border h-fit rounded-md p-4">
           <h2 className="text-gray-500 text-xs font-bold">Completed Orders</h2>
           <p className="text-2xl font-bold text-green-500">
             {dashboardData.completedOrders}
           </p>
         </div>
-        <div className="bg-white shadow rounded-lg p-4">
+        <div className="bg-white border-2 border-border h-fit rounded-md p-4">
           <h2 className="text-gray-500 text-xs font-bold">Cancelled Orders</h2>
           <p className="text-2xl font-bold text-red-500">
             {dashboardData.cancelledOrders}
@@ -276,7 +274,7 @@ function MainPage() {
 
       {/* Charts Section */}
       <div className="grid grid-cols-2 gap-6">
-        <div className="bg-white shadow rounded-lg p-6 mb-6 ">
+        <div className="bg-white border border-border h-fit rounded-md p-6 mb-6 ">
           <div className="w-full">
             <DynamicBarChart
               chartData={salesChartData}
@@ -294,7 +292,7 @@ function MainPage() {
           </div>
         </div>
 
-        <div className="bg-white shadow rounded-lg p-6 mb-6">
+        <div className="bg-white border border-border h-fit rounded-md p-6 mb-6">
           <div className="w-full">
             <DynamicBarChart
               chartData={ordersChartData}
@@ -312,7 +310,7 @@ function MainPage() {
           </div>
         </div>
 
-        <div className="bg-white shadow rounded-lg p-6 mb-6">
+        <div className="bg-white border border-border h-fit rounded-md p-6 mb-6">
           <div className="w-full">
             <LineChartUsers
               chartData={usersChartData}
@@ -320,7 +318,7 @@ function MainPage() {
             />
           </div>
         </div>
-        <div className="bg-white shadow rounded-lg p-6">
+        <div className="bg-white border border-border h-fit rounded-md p-6">
           <div className="w-full">
             <RevenueChart
               chartData={formatedRevenue}

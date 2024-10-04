@@ -14,7 +14,7 @@ function ManageCategories() {
     window.location.href = "/signin";
   }
   return (
-    <div className="px-2 max-w-6xl">
+    <div className="px-8 max-sm:px-4 w-full">
       <div className="mt-8 px-5 max-sm:px-0 flex flex-col gap-5 w-full">
         <BreadCrumbAdmin paths={["Admin"]} end={"Categories"} />
         <div className="flex items-center justify-between">

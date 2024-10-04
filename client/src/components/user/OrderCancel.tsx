@@ -34,21 +34,18 @@ function OrderCancel({
         try {
           const status = "CANCELLED";
           const orderStatus = ["Your order has been cancelled."];
-          const req = await fetch(
-            `https://fascobackend-production.up.railway.app/api/order/update`,
-            {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                status,
-                orderNumber,
-                orderStatus,
-                payment_intent_id,
-              }),
-            }
-          );
+          const req = await fetch(`http://localhost:4000/api/order/update`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              status,
+              orderNumber,
+              orderStatus,
+              payment_intent_id,
+            }),
+          });
           const res = await req.json();
           console.log(res);
           if (res.status === 200) {
