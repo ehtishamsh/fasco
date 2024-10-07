@@ -20,8 +20,7 @@ import ProductVariants from "../../ProductVariants";
 import ProductColor from "../../Color";
 import { toast } from "@/components/ui/use-toast";
 import { BreadCrumbAdmin } from "../../BreadCrumAdmin";
-import Bulk from "./Bulk";
-import { ProductsInBulk } from "./ProductInBulk";
+
 import { renderCategoryFields } from "../RenderFields";
 
 const formSchema = z.object({
@@ -362,7 +361,6 @@ function AddProduct() {
             </Button>
           </form>
         </Form>
-        <Bulk ProductsInBulk={ProductsInBulk} />
       </div>
     </div>
   );
