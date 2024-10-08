@@ -74,7 +74,7 @@ function OrderDetail() {
   }, []);
   return (
     <div className="w-full">
-      <BreadCrumbAdmin paths={["Dashboard"]} end={"Address"} />
+      <BreadCrumbAdmin paths={["Dashboard"]} end={"Orders"} />
       {loading ? (
         <div className="mt-16 flex justify-center h-[50vh]">
           <Loading />
