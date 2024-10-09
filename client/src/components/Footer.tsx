@@ -24,10 +24,18 @@ function Footer() {
                 Quick Links
               </h1>
               <div className="text-base max-sm:text-sm text-gray-300 flex flex-col gap-4 max-sm:justify-center max-sm:items-center">
-                <Link to="/">Home</Link>
-                <Link to="/discount">Discount</Link>
-                <Link to="/cart">Cart</Link>
-                <Link to="/wishlist">Wishlist</Link>
+                <Link reloadDocument to="/">
+                  Home
+                </Link>
+                <Link reloadDocument to="/discount">
+                  Discount
+                </Link>
+                <Link reloadDocument to="/cart">
+                  Cart
+                </Link>
+                <Link reloadDocument to="/wishlist">
+                  Wishlist
+                </Link>
               </div>
             </div>
             <div className="flex flex-col  h-full justify-start items-start  max-sm:justify-center max-sm:items-center">
@@ -35,14 +43,24 @@ function Footer() {
                 Useful Links
               </h1>
               <div className="text-base max-sm:text-sm text-gray-300 flex flex-col gap-4 max-sm:justify-center max-sm:items-center">
-                <Link to="/contact">Contact</Link>
+                <Link reloadDocument to="/contact">
+                  Contact
+                </Link>
 
-                <Link to="/terms">Terms and Conditions</Link>
+                <Link reloadDocument to="/terms">
+                  Terms and Conditions
+                </Link>
 
-                <Link to="/privacy">Privacy Policy</Link>
-                <Link to="/about">About Us</Link>
+                <Link reloadDocument to="/privacy">
+                  Privacy Policy
+                </Link>
+                <Link reloadDocument to="/about">
+                  About Us
+                </Link>
 
-                <Link to="/help">Need Help?</Link>
+                <Link reloadDocument to="/help">
+                  Need Help?
+                </Link>
               </div>
             </div>
           </div>
