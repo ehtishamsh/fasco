@@ -12,9 +12,12 @@ function OffersShop() {
     setLoading(true);
     const fetehData = async () => {
       try {
-        const res = await fetch("http://localhost:4000/api/products", {
-          method: "GET",
-        });
+        const res = await fetch(
+          "https://fascobackend-production.up.railway.app/api/products",
+          {
+            method: "GET",
+          }
+        );
         const data = await res.json();
         // filter products by discount
         const filteredProducts = data.products.filter(

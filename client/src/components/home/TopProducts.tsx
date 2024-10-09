@@ -14,9 +14,12 @@ function TopProducts() {
     setLoading(true);
     const fetchData = async () => {
       try {
-        const getres = await fetch("http://localhost:4000/api/products", {
-          method: "GET",
-        });
+        const getres = await fetch(
+          "https://fascobackend-production.up.railway.app/api/products",
+          {
+            method: "GET",
+          }
+        );
         const res = await getres.json();
 
         const sortedProducts = [...res.products].sort(

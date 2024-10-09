@@ -77,7 +77,7 @@ export function AddModal() {
       const fetchData = async () => {
         try {
           const req = await fetch(
-            `http://localhost:4000/api/address/user/${user.id}`
+            `https://fascobackend-production.up.railway.app/api/address/user/${user.id}`
           );
           const res = await req.json();
           if (res) {
@@ -121,13 +121,16 @@ export function AddModal() {
       userId: user.id,
     };
     try {
-      const req = await fetch(`http://localhost:4000/api/address/new`, {
-        method: "POST",
-        body: JSON.stringify(newAddress),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const req = await fetch(
+        `https://fascobackend-production.up.railway.app/api/address/new`,
+        {
+          method: "POST",
+          body: JSON.stringify(newAddress),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       const res = await req.json();
       if (res) {
         toast({

@@ -60,7 +60,9 @@ function OrderDetail() {
     setLoading(true);
     const fetchData = async () => {
       try {
-        const req = await fetch(`http://localhost:4000/api/order/${id}`);
+        const req = await fetch(
+          `https://fascobackend-production.up.railway.app/api/order/${id}`
+        );
         const res = await req.json();
         setOrders(res.data);
         setLoading(false);

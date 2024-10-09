@@ -64,7 +64,7 @@ export const columns: ColumnDef<Data>[] = [
         setOpen(false);
         try {
           const response = await fetch(
-            `http://localhost:4000/api/categories/${cate.id}`,
+            `https://fascobackend-production.up.railway.app/api/categories/${cate.id}`,
             {
               method: "DELETE",
             }

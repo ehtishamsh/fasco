@@ -15,7 +15,8 @@ function Review() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:4000/api/reviews/user/" + user.id
+          "https://fascobackend-production.up.railway.app/api/reviews/user/" +
+            user.id
         );
         const data = await response.json();
         setOrders(data.orders);
@@ -71,7 +72,7 @@ function Review() {
               return (
                 <img
                   key={item.product.id}
-                  src={`http://localhost:4000${item.product.cover}`}
+                  src={`https://fascobackend-production.up.railway.app${item.product.cover}`}
                   alt=""
                   className="w-20 h-20 max-sm:max-w-28 max-sm:h-full max-sm:object-contain"
                 />

@@ -34,13 +34,16 @@ function Profile() {
       gender: gender,
       date: convertDate,
     };
-    const req = await fetch(`http://localhost:4000/api/user/update`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updateUser),
-    });
+    const req = await fetch(
+      `https://fascobackend-production.up.railway.app/api/user/update`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updateUser),
+      }
+    );
     const res = await req.json();
     if (res) {
       toast({
